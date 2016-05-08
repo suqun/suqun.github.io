@@ -1,0 +1,793 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="入耳箸心" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="java 反射机制学习,参考Java Reflection
+Class对象获取class对象Java中的所有类型包括基本类型(int, long, float等等)，即使是数组都有与之关联的Class类的对象。如果你在编译期知道一个类的名字的话，那么你可以使用如下的方式获取一个类的Class对象
+1Class orderClass = Order.class;
+如果你在编译期不知道类的名字，但是你">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java Relection">
+<meta property="og:url" content="http://suqun.github.io/2016/05/09/Java-Relection/index.html">
+<meta property="og:site_name" content="入耳箸心">
+<meta property="og:description" content="java 反射机制学习,参考Java Reflection
+Class对象获取class对象Java中的所有类型包括基本类型(int, long, float等等)，即使是数组都有与之关联的Class类的对象。如果你在编译期知道一个类的名字的话，那么你可以使用如下的方式获取一个类的Class对象
+1Class orderClass = Order.class;
+如果你在编译期不知道类的名字，但是你">
+<meta property="og:updated_time" content="2016-05-08T16:54:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java Relection">
+<meta name="twitter:description" content="java 反射机制学习,参考Java Reflection
+Class对象获取class对象Java中的所有类型包括基本类型(int, long, float等等)，即使是数组都有与之关联的Class类的对象。如果你在编译期知道一个类的名字的话，那么你可以使用如下的方式获取一个类的Class对象
+1Class orderClass = Order.class;
+如果你在编译期不知道类的名字，但是你">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> Java Relection | 入耳箸心 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6d9237319769cb2bd5c922f64d95b5f2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">入耳箸心</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">成长路上的点滴记录</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java Relection
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-05-09T00:52:55+08:00" content="2016-05-09">
+              2016-05-09
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/09/Java-Relection/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/09/Java-Relection/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>java 反射机制学习,参考<a href="http://tutorials.jenkov.com/java-reflection/classes.html" target="_blank" rel="external">Java Reflection</a></p>
+<h4 id="Class_u5BF9_u8C61"><a href="#Class_u5BF9_u8C61" class="headerlink" title="Class对象"></a>Class对象</h4><h5 id="u83B7_u53D6class_u5BF9_u8C61"><a href="#u83B7_u53D6class_u5BF9_u8C61" class="headerlink" title="获取class对象"></a>获取class对象</h5><p>Java中的所有类型包括基本类型(int, long, float等等)，即使是数组都有与之关联的Class类的对象。<br>如果你在编译期知道一个类的名字的话，那么你可以使用如下的方式获取一个类的Class对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class orderClass = Order.class;</span><br></pre></td></tr></table></figure>
+<p>如果你在编译期不知道类的名字，但是你可以在运行期获得到类名的字符串,那么你则可以这么做来获取Class对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String className = ... ;<span class="comment">//在运行期获取的类名字符串</span></span><br><span class="line">Class <span class="class"><span class="keyword">class</span> </span>= Class.forName(className);</span><br></pre></td></tr></table></figure>
+<p>在使用Class.forName()方法时，你必须提供一个类的全名，这个全名包括类所在的包的名字</p>
+<h5 id="Class_Name__u7C7B_u540D"><a href="#Class_Name__u7C7B_u540D" class="headerlink" title="Class Name 类名"></a>Class Name 类名</h5><p>通过<code>getName()</code> 方法返回类的全限定类名,不包含包名使用<code>getSimpleName()</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">orderClass.getName();<span class="comment">//com.larry.bean.Order</span></span><br><span class="line">orderClass.getSimpleName();</span><br></pre></td></tr></table></figure>
+<h5 id="Modifiers__u4FEE_u9970_u7B26"><a href="#Modifiers__u4FEE_u9970_u7B26" class="headerlink" title="Modifiers 修饰符"></a>Modifiers 修饰符</h5><p>通过Class对象来访问一个类的修饰符，即public,private,static等的关键字;</p>
+<p>修饰符都被包装成一个int类型的数字，这样每个修饰符都是一个位标识(flag bit)，这个位标识可以设置和清除修饰符的类型;</p>
+<p>使用java.lang.reflect.Modifier类中的方法来检查修饰符的类型。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> modifiers = orderClass.getModifiers();</span><br><span class="line"></span><br><span class="line">Modifier.isAbstract(modifiers);</span><br><span class="line">Modifier.isFinal(modifiers);</span><br><span class="line">Modifier.isInterface(modifiers);</span><br><span class="line">Modifier.isNative(modifiers);</span><br><span class="line">Modifier.isPrivate(modifiers);</span><br><span class="line">Modifier.isProtected(modifiers);</span><br><span class="line">Modifier.isPublic(modifiers);<span class="comment">//true</span></span><br><span class="line">Modifier.isStatic(modifiers);</span><br><span class="line">Modifier.isStrict(modifiers);</span><br><span class="line">Modifier.isSynchronized(modifiers);</span><br><span class="line">Modifier.isTransient(modifiers);</span><br><span class="line">Modifier.isVolatile(modifiers);</span><br></pre></td></tr></table></figure>
+<h5 id="Package_Info__u5305"><a href="#Package_Info__u5305" class="headerlink" title="Package Info 包"></a>Package Info 包</h5><p>Package对象你可以获取包的相关信息，比如包名</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Package packages = orderClass.getPackage();</span><br><span class="line">packages.getName();<span class="comment">//com.larry.bean</span></span><br></pre></td></tr></table></figure>
+<h5 id="Superclass__u7236_u7C7B"><a href="#Superclass__u7236_u7C7B" class="headerlink" title="Superclass 父类"></a>Superclass 父类</h5><p>superclass对象其实就是一个Class类的实例，所以你可以继续在这个对象上进行反射操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class superClass = orderClass.getSuperclass();</span><br><span class="line">superClass.getName();<span class="comment">//java.lang.Object</span></span><br></pre></td></tr></table></figure>
+<h5 id="Implemented_Interfaces__u5B9E_u73B0_u7684_u63A5_u53E3"><a href="#Implemented_Interfaces__u5B9E_u73B0_u7684_u63A5_u53E3" class="headerlink" title="Implemented Interfaces 实现的接口"></a>Implemented Interfaces 实现的接口</h5><p>获取指定类所实现的接口集合</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class[] interfaces = orderClass.getInterfaces();</span><br></pre></td></tr></table></figure>
+<p>getInterfaces()方法仅仅只返回当前类所实现的接口。当前类的父类如果实现了接口，这些接口是不会在返回的Class集合中的，尽管实际上当前类其实已经实现了父类接口</p>
+<h5 id="Constructors__u6784_u9020_u51FD_u6570"><a href="#Constructors__u6784_u9020_u51FD_u6570" class="headerlink" title="Constructors 构造函数"></a>Constructors 构造函数</h5><h6 id="u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61"><a href="#u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61" class="headerlink" title="获取构造函数的对象"></a>获取构造函数的对象</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Constructor[] constructors = orderClass.getConstructors();</span><br></pre></td></tr></table></figure>
+<p>可以通过构造函数的具体参数类型直接获取单独的构造函数，而不用获取全部的Constructors</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Constructor constructor = orderClass.getConstructor(<span class="keyword">new</span> Class[]&#123;String.class&#125;);</span><br><span class="line">    System.out.println(constructor.getName());<span class="comment">//com.larry.bean.Order</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;<span class="comment">//没有找到匹配的构造函数会抛出NoSuchMethodException</span></span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="u6784_u9020_u51FD_u6570_u7684_u53C2_u6570_u7C7B_u578B"><a href="#u6784_u9020_u51FD_u6570_u7684_u53C2_u6570_u7C7B_u578B" class="headerlink" title="构造函数的参数类型"></a>构造函数的参数类型</h6><p>可以像下面这样获取构造函数的参数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class[] parameterTypes = constructor.getParameterTypes();</span><br><span class="line">parameterTypes[<span class="number">0</span>].getName();<span class="comment">//java.lang.String</span></span><br></pre></td></tr></table></figure>
+<h6 id="u7528_u6784_u9020_u51FD_u6570_u5BF9_u8C61_u5B9E_u4F8B_u5316_u4E00_u4E2A_u7C7B"><a href="#u7528_u6784_u9020_u51FD_u6570_u5BF9_u8C61_u5B9E_u4F8B_u5316_u4E00_u4E2A_u7C7B" class="headerlink" title="用构造函数对象实例化一个类"></a>用构造函数对象实例化一个类</h6><p>constructor.newInstance()方法的方法参数是一个可变参数列表，但是当你调用构造方法的时候你必须提供精确的参数，即形参与实参必须一一对应。在这个例子中构造方法需要一个String类型的参数，那我们在调用newInstance方法的时候就必须传入一个String类型的参数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Constructor constructor = Order.class.getConstructor(String.class);</span><br><span class="line">    Order order = (Order) constructor.newInstance(<span class="string">"2016050901"</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (InstantiationException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Method__u65B9_u6CD5"><a href="#Method__u65B9_u6CD5" class="headerlink" title="Method 方法"></a>Method 方法</h5><p>获取类的方法，Method[]数组里面只包含类中public修饰的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Method[] methods = orderClass.getMethods();</span><br></pre></td></tr></table></figure>
+<p>也可以使用具体的方法名及参数类型直接获取,以Order类中的getState()，setState()方法为例:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Method methodHaveNoParameter = orderClass.getMethod(<span class="string">"getState"</span>,<span class="keyword">null</span>);<span class="comment">//该方法没有参数,null省略也可以</span></span><br><span class="line">    System.out.println(methodHaveNoParameter.getName());<span class="comment">//getState</span></span><br><span class="line">    </span><br><span class="line">    Method methodHaveParameter = orderClass.getMethod(<span class="string">"setState"</span>,<span class="keyword">new</span> Class[]&#123;String.class&#125;);<span class="comment">//该方有String类型参数</span></span><br><span class="line">    System.out.println(methodHaveParameter.getName());<span class="comment">//setState</span></span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>获取方法的参数类型及返回类型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Class[] parameters = methodHaveParameter.getParameterTypes();</span><br><span class="line">System.out.println(parameters[<span class="number">0</span>].getName());<span class="comment">//class java.lang.String</span></span><br><span class="line"></span><br><span class="line">Class returnType = methodHaveParameter.getReturnType();</span><br><span class="line">System.out.println(returnType);<span class="comment">//void</span></span><br></pre></td></tr></table></figure>
+<p>使用<code>invoke</code>调用方法,以Order类中的pay()方法为例，该方法直接返回一个字符串</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Method methodPay = orderClass.getMethod(<span class="string">"pay"</span>,<span class="keyword">new</span> Class[]&#123;String.class&#125;);</span><br><span class="line">    Order order = <span class="keyword">new</span> Order();</span><br><span class="line">    Object returnValue = methodPay.invoke(order,<span class="string">"2016050902"</span>);</span><br><span class="line">    System.out.println(returnValue);<span class="comment">//2016050902 pay success</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果方法是static的，那么在调用invoke时，第一个参数（类的实例）可以传null(传入类的实例也是可以的)。</p>
+<h5 id="Field__u53D8_u91CF"><a href="#Field__u53D8_u91CF" class="headerlink" title="Field 变量"></a>Field 变量</h5><p>获取成员变量</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Field[] fields = orderClass.getFields();</span><br></pre></td></tr></table></figure>
+<p>Field[]数组里面只包含类中public修饰的成员变量</p>
+<p>如果知道类的成员变量名称，可以直接通过getField()方法获取到，成员变量的访问权限同样需要是public的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Field field = orderClass.getField(<span class="string">"description"</span>);</span><br><span class="line">    System.out.println(field.getName());<span class="comment">//成员变量名称description</span></span><br><span class="line">    System.out.println(field.getType());<span class="comment">//成员变量类型class java.lang.String</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;<span class="comment">//如果不存在description的变量，会抛出NoSuchFieldException</span></span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>获得了field的引用，就可以通过get()，set()方法，获取和设置成员变量的值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Field field = orderClass.getField(<span class="string">"description"</span>);</span><br><span class="line">    Order order = <span class="keyword">new</span> Order();</span><br><span class="line">    Object value = field.get(order);</span><br><span class="line">    field.set(order, value);</span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>传入Field.get()/Field.set()方法的参数order是Order类的实例。<br>如果变量是静态变量的话(public static)那么在调用Field.get()/Field.set()方法的时候传入null做为参数而不用传递拥有该变量的类的实例(传入类的实例也是可以的)。</p>
+<h5 id="Annotations__u6CE8_u89E3"><a href="#Annotations__u6CE8_u89E3" class="headerlink" title="Annotations 注解"></a>Annotations 注解</h5><p>获取类的注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Annotation[] annotations = orderClass.getAnnotations();</span><br></pre></td></tr></table></figure>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag">#Java</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/03/使用Spring-Boot-Jquery-Datatables实现管理平台的表格/" rel="next" title="使用Spring Boot Jquery Datatables实现管理平台的表格">
+                <i class="fa fa-chevron-left"></i> 使用Spring Boot Jquery Datatables实现管理平台的表格
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/09/Java-Relection/"
+           data-title="Java Relection" data-url="http://suqun.github.io/2016/05/09/Java-Relection/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/uploads/avatar.jpg" alt="Larry" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Larry</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">吾生也有涯而知也无涯，以有涯随无涯，殆已。</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/suqun" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">友情链接</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://ifeve.com/" target="_blank">并发编程网</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://uridb.com/" target="_blank">技术流</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://colobu.com/" target="_blank">鸟窝</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jikexueyuan.com/" target="_blank">极客学院</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.imooc.com/" target="_blank">慕课网</a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Class_u5BF9_u8C61"><span class="nav-number">1.</span> <span class="nav-text">Class对象</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#u83B7_u53D6class_u5BF9_u8C61"><span class="nav-number">1.1.</span> <span class="nav-text">获取class对象</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Class_Name__u7C7B_u540D"><span class="nav-number">1.2.</span> <span class="nav-text">Class Name 类名</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Modifiers__u4FEE_u9970_u7B26"><span class="nav-number">1.3.</span> <span class="nav-text">Modifiers 修饰符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Package_Info__u5305"><span class="nav-number">1.4.</span> <span class="nav-text">Package Info 包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Superclass__u7236_u7C7B"><span class="nav-number">1.5.</span> <span class="nav-text">Superclass 父类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Implemented_Interfaces__u5B9E_u73B0_u7684_u63A5_u53E3"><span class="nav-number">1.6.</span> <span class="nav-text">Implemented Interfaces 实现的接口</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Constructors__u6784_u9020_u51FD_u6570"><span class="nav-number">1.7.</span> <span class="nav-text">Constructors 构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61"><span class="nav-number">1.7.1.</span> <span class="nav-text">获取构造函数的对象</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#u6784_u9020_u51FD_u6570_u7684_u53C2_u6570_u7C7B_u578B"><span class="nav-number">1.7.2.</span> <span class="nav-text">构造函数的参数类型</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#u7528_u6784_u9020_u51FD_u6570_u5BF9_u8C61_u5B9E_u4F8B_u5316_u4E00_u4E2A_u7C7B"><span class="nav-number">1.7.3.</span> <span class="nav-text">用构造函数对象实例化一个类</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Method__u65B9_u6CD5"><span class="nav-number">1.8.</span> <span class="nav-text">Method 方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Field__u53D8_u91CF"><span class="nav-number">1.9.</span> <span class="nav-text">Field 变量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Annotations__u6CE8_u89E3"><span class="nav-number">1.10.</span> <span class="nav-text">Annotations 注解</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Larry</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"suqun"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>

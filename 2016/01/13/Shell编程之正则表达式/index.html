@@ -1,0 +1,779 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="linux,shell," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="入耳箸心" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="正则表达式与通配符Linux中的正则表达式和通配符有些区别，正则表达式用来在文件中匹配符合条件的字符串，正则是包含匹配。grep，awk，sed等命令可以支持正则表达式。通配符用来匹配符合条件的文件名，通配符是完全匹配。ls，find，cp这些命令不支持正则所有只能用shell自己的通配符进行匹配。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shell编程之正则表达式">
+<meta property="og:url" content="http://suqun.github.io/2016/01/13/Shell编程之正则表达式/index.html">
+<meta property="og:site_name" content="入耳箸心">
+<meta property="og:description" content="正则表达式与通配符Linux中的正则表达式和通配符有些区别，正则表达式用来在文件中匹配符合条件的字符串，正则是包含匹配。grep，awk，sed等命令可以支持正则表达式。通配符用来匹配符合条件的文件名，通配符是完全匹配。ls，find，cp这些命令不支持正则所有只能用shell自己的通配符进行匹配。">
+<meta property="og:updated_time" content="2016-01-18T15:39:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Shell编程之正则表达式">
+<meta name="twitter:description" content="正则表达式与通配符Linux中的正则表达式和通配符有些区别，正则表达式用来在文件中匹配符合条件的字符串，正则是包含匹配。grep，awk，sed等命令可以支持正则表达式。通配符用来匹配符合条件的文件名，通配符是完全匹配。ls，find，cp这些命令不支持正则所有只能用shell自己的通配符进行匹配。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> Shell编程之正则表达式 | 入耳箸心 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6d9237319769cb2bd5c922f64d95b5f2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">入耳箸心</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">成长路上的点滴记录</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Shell编程之正则表达式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-01-13T21:38:39+08:00" content="2016-01-13">
+              2016-01-13
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/13/Shell编程之正则表达式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/13/Shell编程之正则表达式/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h3 id="u6B63_u5219_u8868_u8FBE_u5F0F_u4E0E_u901A_u914D_u7B26"><a href="#u6B63_u5219_u8868_u8FBE_u5F0F_u4E0E_u901A_u914D_u7B26" class="headerlink" title="正则表达式与通配符"></a>正则表达式与通配符</h3><p>Linux中的正则表达式和通配符有些区别，正则表达式用来在文件中匹配符合条件的<code>字符串</code>，正则是<code>包含匹配</code>。grep，awk，sed等命令可以支持正则表达式。通配符用来匹配符合条件的<code>文件名</code>，通配符是<code>完全匹配</code>。ls，find，cp这些命令不支持正则所有只能用shell自己的通配符进行匹配。</p>
+<a id="more"></a>
+<p>通配符：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">*   匹配任意内容</span><br><span class="line">？   匹配任意一个内容</span><br><span class="line">[]  匹配中括号中的一个字符</span><br></pre></td></tr></table></figure>
+<h3 id="u57FA_u7840_u6B63_u5219_u8868_u8FBE_u5F0F"><a href="#u57FA_u7840_u6B63_u5219_u8868_u8FBE_u5F0F" class="headerlink" title="基础正则表达式"></a>基础正则表达式</h3><p>Linux下基础正则表达式有：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">*   前一个字符匹配<span class="number">0</span>次或任意多次</span><br><span class="line">.   匹配除了换行符外任意一个字符</span><br><span class="line">^   匹配行首。例如：^hello会匹配以hello开头的行</span><br><span class="line">$   匹配行尾。例如：hello$会匹配以hello结尾的行</span><br><span class="line">[]  匹配括号中指定的任意一个字符，只匹配一个字符。例如：[aoeiu]匹配任意一个元音字母，[<span class="number">0</span>-<span class="number">9</span>]匹配任意一个数字，[a-z][<span class="number">0</span>-<span class="number">9</span>]匹配任意一个字母和一位数字组成的<span class="number">2</span>位字符</span><br><span class="line">[^] 匹配除括号中的字符以外的任意一个字符。例如：[^<span class="number">0</span>-<span class="number">9</span>]匹配任意一个非数字的字符，[^a-z]匹配任意一个非小写字母的字符</span><br><span class="line">\   转义字符</span><br><span class="line">\&#123;n\&#125;   表示其前面的字符恰好出现n次。例如：a[<span class="number">0</span>-<span class="number">9</span>]\&#123;<span class="number">4</span>\&#125;b 匹配ab之间为<span class="number">4</span>位数字的字符，注意前后加定界符</span><br><span class="line">\&#123;n,\&#125;  表示其前面的字符出现不小于n次。例如：[<span class="number">0</span>-<span class="number">9</span>]\&#123;<span class="number">2</span>\&#125;表示<span class="number">2</span>位及以上的数字，注意前后加定界符</span><br><span class="line">\&#123;n,m\&#125; 表示其前面的字符至少出现n次，至多出现m次。例如：[a-z]\&#123;<span class="number">6</span>,<span class="number">8</span>\&#125;匹配<span class="number">6</span>到<span class="number">8</span>位的小写字母</span><br></pre></td></tr></table></figure>
+<h3 id="u5B57_u7B26_u64CD_u4F5C_u547D_u4EE4"><a href="#u5B57_u7B26_u64CD_u4F5C_u547D_u4EE4" class="headerlink" title="字符操作命令"></a>字符操作命令</h3><h4 id="cut"><a href="#cut" class="headerlink" title="cut"></a>cut</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">名称</span><br><span class="line"> cut -- 截取文件中每行的选定部分</span><br><span class="line"> cut  [-bn] [file] 或 cut [-c] [file]  或  cut [-df] [file]</span><br><span class="line">说明</span><br><span class="line">    -b ：以字节为单位进行分割。这些字节位置将忽略多字节字符边界，除非也指定了 -n 标志。</span><br><span class="line">    -c ：以字符为单位进行分割。</span><br><span class="line">    <span class="operator">-d</span> ：自定义分隔符，默认为制表符。</span><br><span class="line">    <span class="operator">-f</span> ：与<span class="operator">-d</span>一起使用，指定显示哪个区域。</span><br><span class="line">    -n ：取消分割多字节字符。仅和 -b 标志一起使用。如果字符的最后一个字节落在由 -b 标志的 List 参数指示的&lt;br /&gt;范围之内，该字符将被写出；否则，该字符将被排除</span><br></pre></td></tr></table></figure>
+<p>我们将系统磁盘信息导出到文本/notes/linux/df中，来练习cut的使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">➜  linux  touch df</span><br><span class="line">➜  linux  df -h &gt; df</span><br><span class="line">➜  linux  cat df</span><br><span class="line">Filesystem      Size   Used  Avail Capacity  iused    ifree %iused  Mounted on</span><br><span class="line">/dev/disk1     <span class="number">233</span>Gi   <span class="number">50</span>Gi  <span class="number">182</span>Gi    <span class="number">22</span>% <span class="number">13178033</span> <span class="number">47803213</span>   <span class="number">22</span>%   /</span><br><span class="line">devfs          <span class="number">180</span>Ki  <span class="number">180</span>Ki    <span class="number">0</span>Bi   <span class="number">100</span>%      <span class="number">624</span>        <span class="number">0</span>  <span class="number">100</span>%   /dev</span><br><span class="line">map -hosts       <span class="number">0</span>Bi    <span class="number">0</span>Bi    <span class="number">0</span>Bi   <span class="number">100</span>%        <span class="number">0</span>        <span class="number">0</span>  <span class="number">100</span>%   /net</span><br><span class="line">map auto_home    <span class="number">0</span>Bi    <span class="number">0</span>Bi    <span class="number">0</span>Bi   <span class="number">100</span>%        <span class="number">0</span>        <span class="number">0</span>  <span class="number">100</span>%   /home</span><br></pre></td></tr></table></figure>
+<p>我们首先截取df的第一列Filesystem和第五列Capacity</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜  linux  cut <span class="operator">-f</span> <span class="number">1</span>,<span class="number">5</span> df     &lt;== <span class="operator">-f</span> 按列截取 <span class="number">1</span>,<span class="number">5</span>截取第一列和第<span class="number">5</span>列</span><br><span class="line">Filesystem       Size   Used  Avail Capacity  iused    ifree %iused  Mounted on</span><br><span class="line">/dev/disk1     <span class="number">233</span>Gi   <span class="number">50</span>Gi  <span class="number">182</span>Gi    <span class="number">22</span>% <span class="number">13178033</span> <span class="number">47803213</span>   <span class="number">22</span>%   /</span><br><span class="line">devfs          <span class="number">180</span>Ki  <span class="number">180</span>Ki    <span class="number">0</span>Bi   <span class="number">100</span>%      <span class="number">624</span>        <span class="number">0</span>  <span class="number">100</span>%   /dev</span><br><span class="line">map -hosts       <span class="number">0</span>Bi    <span class="number">0</span>Bi    <span class="number">0</span>Bi   <span class="number">100</span>%        <span class="number">0</span>        <span class="number">0</span>  <span class="number">100</span>%   /net</span><br><span class="line">map auto_home    <span class="number">0</span>Bi    <span class="number">0</span>Bi    <span class="number">0</span>Bi   <span class="number">100</span>%        <span class="number">0</span>        <span class="number">0</span>  <span class="number">100</span>%   /home</span><br></pre></td></tr></table></figure>
+<p>结果显示，输出的和原来的一样，并没有将第一五两列截取出来。原因是<code>cut截取默认使用的分隔符是制表符</code>，而df文本中间的分隔符为空格，我们重新修改下命令，指定分隔符为空格</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">➜  linux  cut <span class="operator">-f</span> <span class="number">1</span>，<span class="number">5</span> <span class="operator">-d</span> <span class="string">" "</span> df  &lt;== <span class="operator">-d</span> 指定截取的分隔符，只能设置一个空格不能多个</span><br><span class="line">Filesystem</span><br><span class="line">/dev/disk1</span><br><span class="line">devfs</span><br><span class="line">map</span><br><span class="line">map</span><br><span class="line">➜  linux  cut <span class="operator">-f</span> <span class="number">1</span>-<span class="number">8</span> <span class="operator">-d</span> <span class="string">" "</span> df  &lt;==截取第一列到第八列的</span><br><span class="line">Filesystem      Size</span><br><span class="line">/dev/disk1     <span class="number">233</span>Gi</span><br><span class="line">devfs</span><br><span class="line">map -hosts</span><br><span class="line">map auto_home    <span class="number">0</span>Bi</span><br></pre></td></tr></table></figure>
+<p>截取1，5两列时好像只截取了1列。原来cut指定的分隔符为空格，它就把一个空格作为分隔符，而df文本第一列后面是很多空格的，按照空格分隔的话，第五列是空格。cut截取命令比较简单，复杂的截取命令可以使用awk。</p>
+<h4 id="printf"><a href="#printf" class="headerlink" title="printf"></a>printf</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">名称</span><br><span class="line"> <span class="built_in">printf</span> -- 格式化并输出结果到标准输出</span><br><span class="line"> <span class="built_in">printf</span> 格式替代符转义序列 内容 </span><br><span class="line">说明</span><br><span class="line">    格式替代符 </span><br><span class="line">    %b 相对应的参数被视为含有要被处理的转义序列之字符串。 </span><br><span class="line">    %c ASCII字符。显示相对应参数的第一个字符 </span><br><span class="line">    %d, %i 十进制整数 </span><br><span class="line">    %e, %E, %f 浮点格式 </span><br><span class="line">    %g %e或%f转换，看哪一个较短，则删除结尾的零 </span><br><span class="line">    %G %E或%f转换，看哪一个较短，则删除结尾的零 </span><br><span class="line">    %o 不带正负号的八进制值 </span><br><span class="line">    %s 字符串 </span><br><span class="line">    %u 不带正负号的十进制值 </span><br><span class="line">    %x 不带正负号的十六进制值，使用a至f表示<span class="number">10</span>至<span class="number">15</span> </span><br><span class="line">    %X 不带正负号的十六进制值，使用A至F表示<span class="number">10</span>至<span class="number">15</span> </span><br><span class="line">    %% 字面意义的% </span><br><span class="line"></span><br><span class="line">    转义序列 </span><br><span class="line">    \a 警告字符，通常为ASCII的BEL字符 </span><br><span class="line">    \b 后退 </span><br><span class="line">    \c 抑制（不显示）输出结果中任何结尾的换行字符（只在%b格式指示符控制下的参数字符串中有效），而且，任何留在参数里的字符、任何接下来的参数以及任何留在格式字符串中的字符，都被忽略 </span><br><span class="line">    \f 换页（formfeed） </span><br><span class="line">    \n 换行 </span><br><span class="line">    \r 回车（Carriage <span class="built_in">return</span>） </span><br><span class="line">    \t 水平制表符 </span><br><span class="line">    \v 垂直制表符 </span><br><span class="line">    \\ 一个字面上的反斜杠字符 </span><br><span class="line">    \ddd 表示<span class="number">1</span>到<span class="number">3</span>位数八进制值的字符，仅在格式字符串中有效 </span><br><span class="line">    \<span class="number">0</span>ddd 表示<span class="number">1</span>到<span class="number">3</span>位的八进制值字符</span><br></pre></td></tr></table></figure>
+<p>我们使用printf输出/notes/linux/df的内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  linux  <span class="built_in">printf</span> %s $(cat df)   &lt;== <span class="built_in">printf</span>不支持管道符`|`，使用$()的方式调用系统命令</span><br><span class="line">FilesystemSizeUsedAvailCapacityiusedifree%iusedMountedon/dev/disk1233Gi50Gi182Gi22%<span class="number">131780334780321322</span>%/devfs180Ki180Ki0Bi100%<span class="number">6240100</span>%/devmap-hosts0Bi0Bi0Bi100%<span class="number">00100</span>%/netmapauto_home0Bi0Bi0Bi100%<span class="number">00100</span>%/home</span><br></pre></td></tr></table></figure>
+<p>可以看到，printf将df内容以字符串的形式直接输出,下面看下根据输出格式输出简单文本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># %-5s 格式为左对齐且宽度为5的字符串代替（-表示左对齐），不使用则是又对齐</span></span><br><span class="line"><span class="comment"># %-4.2f 格式为左对齐宽度为4，保留两位小数</span></span><br><span class="line">➜  linux  <span class="built_in">printf</span> <span class="string">"%-5s %-10s %-4s\n"</span> NO Name Mark</span><br><span class="line">   NO       Name Mark</span><br><span class="line">➜  linux  <span class="built_in">printf</span> <span class="string">"%-5s %-10s %-4.2f\n"</span> <span class="number">01</span> Tom <span class="number">90.3456</span></span><br><span class="line">   <span class="number">01</span>        Tom <span class="number">90.35</span></span><br><span class="line">➜  linux  <span class="built_in">printf</span> <span class="string">"%-5s %-10s %-4.2f\n"</span> <span class="number">02</span> Jack <span class="number">89.2345</span></span><br><span class="line">   <span class="number">02</span>       Jack <span class="number">89.23</span></span><br></pre></td></tr></table></figure>
+<h4 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">NAME</span><br><span class="line">       awk - pattern-directed scanning and processing language</span><br><span class="line"></span><br><span class="line">SYNOPSIS</span><br><span class="line">       awk [ -F fs ] [ -v var=value ] [ <span class="string">'prog'</span> | <span class="operator">-f</span> progfile ] [ file ...  ]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">DESCRIPTION</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Awk  scans  each input file for lines that match any of a set of patterns specified literally in prog or in one or more files specified as -f progfile.  With each pattern there&#10;can be an associated action that will be performed when a line of a file matches the pattern.  Each line is matched against the pattern portion of every  pattern-action  state-&#10;ment; the associated action is performed for each matched pattern.  The file name - means the standard input.  Any file of the form var=value is treated as an assignment, not a&#10;filename, and is executed at the time it would have been opened if it were a filename.  The option -v followed by var=value is an assignment to be done before prog is executed;&#10;any number of -v options may be present.  The -F fs option defines the input field separator to be the regular expression fs.&#10;&#10;An  input line is normally made up of fields separated by white space, or by regular expression FS.  The fields are denoted $1, $2, ..., while $0 refers to the entire line.  If&#10;FS is null, the input line is split into one field per character.&#10; &#10;&#10;A pattern-action statement has the form&#10;&#10;       pattern &#123; action &#125;&#10;&#10;A missing &#123; action &#125; means print the line; a missing pattern always matches.  Pattern-action statements are separated by newlines or semicolons.&#10;&#10;An action is a sequence of statements.  A statement can be one of the following:&#10;&#10;       if( expression ) statement [ else statement ]&#10;       while( expression ) statement&#10;       for( expression ; expression ; expression ) statement&#10;       for( var in array ) statement&#10;       do statement while( expression )&#10;       break&#10;       continue&#10;       &#123; [ statement ... ] &#125;&#10;       expression              # commonly var = expression&#10;       print [ expression-list ] [ &#62; expression ]&#10;       printf format [ , expression-list ] [ &#62; expression ]&#10;       return [ expression ]&#10;       next                    # skip remaining patterns on this input line&#10;       nextfile                # skip rest of this file, open next, start at top&#10;       delete array[ expression ] # delete an array element&#10;       delete array            # delete all elements of array&#10;       exit [ expression ]     # exit immediately; status is expression</span><br></pre></td></tr></table></figure>
+<h4 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h4><h4 id="sort"><a href="#sort" class="headerlink" title="sort"></a>sort</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">NAME</span><br><span class="line">       sort - 对文件行进行排序</span><br><span class="line">SYNOPSIS</span><br><span class="line">       sort [OPTION]... [FILE]...</span><br><span class="line">DESCRIPTION</span><br><span class="line">       <span class="operator">-f</span> 忽略大小写</span><br><span class="line">       -n 以数值型进行排序，默认字符串类型排序</span><br><span class="line">       -r 反向排序</span><br><span class="line">       -t 指定分隔符，默认分隔符为制表符</span><br><span class="line">       -k POS1[,POS2] 按照指定的字段范围排序，从Pos1开始到Pos2结尾（默认到行尾）</span><br></pre></td></tr></table></figure>
+<p>做些练习，首先查看用户信息文件/etc/passwd,排序</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜  linux  sort /etc/passwd</span><br><span class="line">...</span><br><span class="line">_amavisd:*:<span class="number">83</span>:<span class="number">83</span>:AMaViS Daemon:/var/virusmails:/usr/bin/<span class="literal">false</span></span><br><span class="line">_appleevents:*:<span class="number">55</span>:<span class="number">55</span>:AppleEvents Daemon:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">_appowner:*:<span class="number">87</span>:<span class="number">87</span>:Application Owner:/var/empty:/usr/bin/<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p>反向排序</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">➜  linux  sort -r /etc/passwd</span><br><span class="line">root:*:<span class="number">0</span>:<span class="number">0</span>:System Administrator:/var/root:/bin/sh</span><br><span class="line">nobody:*:-<span class="number">2</span>:-<span class="number">2</span>:Unprivileged User:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">daemon:*:<span class="number">1</span>:<span class="number">1</span>:System Services:/var/root:/usr/bin/<span class="literal">false</span></span><br><span class="line">_xserverdocs:*:<span class="number">251</span>:<span class="number">251</span>:OS X Server Documents Service:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">_wwwproxy:*:<span class="number">252</span>:<span class="number">252</span>:WWW Proxy:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">_www:*:<span class="number">70</span>:<span class="number">70</span>:World Wide Web Server:/Library/WebServer:/usr/bin/<span class="literal">false</span></span><br><span class="line">_windowserver:*:<span class="number">88</span>:<span class="number">88</span>:WindowServer:/var/empty:/usr/bin/<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p>指定分隔符”:”,用第三个字段开头，第三个字段结尾排序，就是只使用第三个字段排序，主要下面的第三个字段，-2，0，1，13，249…26，27，31，32，4，54 按字符排序，若使用数值排序加 <code>-n</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">➜  linux  sort -t <span class="string">":"</span> -k <span class="number">3</span>,<span class="number">3</span> /etc/passwd</span><br><span class="line">nobody:*:-<span class="number">2</span>:-<span class="number">2</span>:Unprivileged User:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">root:*:<span class="number">0</span>:<span class="number">0</span>:System Administrator:/var/root:/bin/sh</span><br><span class="line">daemon:*:<span class="number">1</span>:<span class="number">1</span>:System Services:/var/root:/usr/bin/<span class="literal">false</span></span><br><span class="line">_taskgated:*:<span class="number">13</span>:<span class="number">13</span>:Task Gate Daemon:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">_ondemand:*:<span class="number">249</span>:<span class="number">249</span>:On Demand Resource Daemon:/var/db/ondemand:/usr/bin/<span class="literal">false</span></span><br><span class="line">_installassistant:*:<span class="number">25</span>:<span class="number">25</span>:Install Assistant:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">_xserverdocs:*:<span class="number">251</span>:<span class="number">251</span>:OS X Server Documents Service:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">_wwwproxy:*:<span class="number">252</span>:<span class="number">252</span>:WWW Proxy:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">_lp:*:<span class="number">26</span>:<span class="number">26</span>:Printing Services:/var/spool/cups:/usr/bin/<span class="literal">false</span></span><br><span class="line">_postfix:*:<span class="number">27</span>:<span class="number">27</span>:Postfix Mail Server:/var/spool/postfix:/usr/bin/<span class="literal">false</span></span><br><span class="line">_scsd:*:<span class="number">31</span>:<span class="number">31</span>:Service Configuration Service:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">_ces:*:<span class="number">32</span>:<span class="number">32</span>:Certificate Enrollment Service:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">_uucp:*:<span class="number">4</span>:<span class="number">4</span>:Unix to Unix Copy Protocol:/var/spool/uucp:/usr/sbin/uucico</span><br><span class="line">_mcxalr:*:<span class="number">54</span>:<span class="number">54</span>:MCX AppLaunch:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#第三个字段按数值排序 -2,0,1,4,13,24...</span></span><br><span class="line">➜  linux  sort -n -t <span class="string">":"</span> -k <span class="number">3</span>,<span class="number">3</span> /etc/passwd</span><br><span class="line">nobody:*:-<span class="number">2</span>:-<span class="number">2</span>:Unprivileged User:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">root:*:<span class="number">0</span>:<span class="number">0</span>:System Administrator:/var/root:/bin/sh</span><br><span class="line">daemon:*:<span class="number">1</span>:<span class="number">1</span>:System Services:/var/root:/usr/bin/<span class="literal">false</span></span><br><span class="line">_uucp:*:<span class="number">4</span>:<span class="number">4</span>:Unix to Unix Copy Protocol:/var/spool/uucp:/usr/sbin/uucico</span><br><span class="line">_taskgated:*:<span class="number">13</span>:<span class="number">13</span>:Task Gate Daemon:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">_networkd:*:<span class="number">24</span>:<span class="number">24</span>:Network Services:/var/networkd:/usr/bin/<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<h4 id="wc"><a href="#wc" class="headerlink" title="wc"></a>wc</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">NAME</span><br><span class="line">     wc -- 统计字数，行数，字符数，字节数</span><br><span class="line"></span><br><span class="line">SYNOPSIS</span><br><span class="line">     wc [-clmw] [file ...]</span><br><span class="line"></span><br><span class="line">DESCRIPTION</span><br><span class="line">     -c      The number of bytes <span class="keyword">in</span> each input file is written to the standard output.  This will cancel out any prior usage of the -m option.</span><br><span class="line">     <span class="operator">-l</span>      The number of lines <span class="keyword">in</span> each input file is written to the standard output.</span><br><span class="line">     -m      The number of characters <span class="keyword">in</span> each input file is written to the standard output.  If the current locale does not support multibyte characters, this is equivalent to the -c</span><br><span class="line">             option.  This will cancel out any prior usage of the -c option.</span><br><span class="line">     -w      The number of words <span class="keyword">in</span> each input file is written to the standard output.</span><br></pre></td></tr></table></figure>
+<p>查看用户信息的行数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  linux  wc <span class="operator">-l</span> /etc/passwd</span><br><span class="line">      <span class="number">96</span> /etc/passwd</span><br></pre></td></tr></table></figure>
+<p>参考资料: </p>
+<p><a href="http://www.imooc.com/learn/378" target="_blank" rel="external">http://www.imooc.com/learn/378</a></p>
+<p><a href="http://man.linuxde.net/printf" target="_blank" rel="external">http://man.linuxde.net/printf</a></p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag">#linux</a>
+          
+            <a href="/tags/shell/" rel="tag">#shell</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/09/shell编程之运算符/" rel="next" title="shell编程之运算符">
+                <i class="fa fa-chevron-left"></i> shell编程之运算符
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/30/docker容器的操作/" rel="prev" title="docker容器的操作">
+                docker容器的操作 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/01/13/Shell编程之正则表达式/"
+           data-title="Shell编程之正则表达式" data-url="http://suqun.github.io/2016/01/13/Shell编程之正则表达式/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/uploads/avatar.jpg" alt="Larry" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Larry</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">吾生也有涯而知也无涯，以有涯随无涯，殆已。</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/suqun" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">友情链接</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://ifeve.com/" target="_blank">并发编程网</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://uridb.com/" target="_blank">技术流</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://colobu.com/" target="_blank">鸟窝</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jikexueyuan.com/" target="_blank">极客学院</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.imooc.com/" target="_blank">慕课网</a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u6B63_u5219_u8868_u8FBE_u5F0F_u4E0E_u901A_u914D_u7B26"><span class="nav-number">1.</span> <span class="nav-text">正则表达式与通配符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u57FA_u7840_u6B63_u5219_u8868_u8FBE_u5F0F"><span class="nav-number">2.</span> <span class="nav-text">基础正则表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5B57_u7B26_u64CD_u4F5C_u547D_u4EE4"><span class="nav-number">3.</span> <span class="nav-text">字符操作命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#cut"><span class="nav-number">3.1.</span> <span class="nav-text">cut</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#printf"><span class="nav-number">3.2.</span> <span class="nav-text">printf</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#awk"><span class="nav-number">3.3.</span> <span class="nav-text">awk</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sed"><span class="nav-number">3.4.</span> <span class="nav-text">sed</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sort"><span class="nav-number">3.5.</span> <span class="nav-text">sort</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wc"><span class="nav-number">3.6.</span> <span class="nav-text">wc</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Larry</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"suqun"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>

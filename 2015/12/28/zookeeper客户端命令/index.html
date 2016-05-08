@@ -1,0 +1,1011 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="zookeeper," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="入耳箸心" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="zkCli.sh连接zookeeper：./zkCli.sh -server ip:port
+
+bin目录下输入命令`./zkCli.sh -server 192.168.1.101:2181`
+客户端命令helpZooKeeper -server host:port cmd args
+stat path [watch]
+set path data [version]
+ls path [watch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zookeeper客户端命令">
+<meta property="og:url" content="http://suqun.github.io/2015/12/28/zookeeper客户端命令/index.html">
+<meta property="og:site_name" content="入耳箸心">
+<meta property="og:description" content="zkCli.sh连接zookeeper：./zkCli.sh -server ip:port
+
+bin目录下输入命令`./zkCli.sh -server 192.168.1.101:2181`
+客户端命令helpZooKeeper -server host:port cmd args
+stat path [watch]
+set path data [version]
+ls path [watch">
+<meta property="og:updated_time" content="2016-01-05T14:36:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="zookeeper客户端命令">
+<meta name="twitter:description" content="zkCli.sh连接zookeeper：./zkCli.sh -server ip:port
+
+bin目录下输入命令`./zkCli.sh -server 192.168.1.101:2181`
+客户端命令helpZooKeeper -server host:port cmd args
+stat path [watch]
+set path data [version]
+ls path [watch">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> zookeeper客户端命令 | 入耳箸心 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6d9237319769cb2bd5c922f64d95b5f2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">入耳箸心</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">成长路上的点滴记录</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                zookeeper客户端命令
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-28T23:24:14+08:00" content="2015-12-28">
+              2015-12-28
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/28/zookeeper客户端命令/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/28/zookeeper客户端命令/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h3 id="zkCli-sh"><a href="#zkCli-sh" class="headerlink" title="zkCli.sh"></a>zkCli.sh</h3><pre><code>连接zookeeper：./zkCli.sh -server ip:port
+
+bin目录下输入命令`./zkCli.sh -server 192.168.1.101:2181`
+</code></pre><h3 id="u5BA2_u6237_u7AEF_u547D_u4EE4"><a href="#u5BA2_u6237_u7AEF_u547D_u4EE4" class="headerlink" title="客户端命令"></a>客户端命令</h3><h4 id="help"><a href="#help" class="headerlink" title="help"></a><strong>help</strong></h4><pre><code>ZooKeeper -server host:port cmd args
+stat path [watch]
+set path data [version]
+ls path [watch]
+delquota [-n|-b] path
+ls2 path [watch]
+setAcl path acl
+setquota -n|-b val path
+history 
+redo cmdno
+printwatches on|off
+delete path [version]
+sync path
+listquota path
+rmr path
+get path [watch]
+create [-s] [-e] path data acl
+addauth scheme auth
+quit 
+getAcl path
+close 
+connect host:port
+</code></pre><a id="more"></a>
+<h4 id="ls_path__5Bwatch_5D__u5217_u51FA_u5F53_u524D_u8282_u70B9_u7684_u5B50_u8282_u70B9"><a href="#ls_path__5Bwatch_5D__u5217_u51FA_u5F53_u524D_u8282_u70B9_u7684_u5B50_u8282_u70B9" class="headerlink" title="ls path [watch] 列出当前节点的子节点"></a><strong>ls path [watch]</strong> 列出当前节点的子节点</h4><pre><code>[zk: 192.168.1.101:2181(CONNECTED) 5] ls /zookeeper
+[quota]
+</code></pre><h4 id="stat_path__5Bwatch_5D__u83B7_u53D6_u8282_u70B9_u72B6_u6001_u4FE1_u606F"><a href="#stat_path__5Bwatch_5D__u83B7_u53D6_u8282_u70B9_u72B6_u6001_u4FE1_u606F" class="headerlink" title="stat path [watch] 获取节点状态信息"></a><strong>stat path [watch]</strong> 获取节点状态信息</h4><pre><code>[zk: 192.168.1.101:2181(CONNECTED) 6] stat /zookeeper
+cZxid = 0x0                             //该节点被创建时的事务ID
+ctime = Thu Jan 01 08:00:00 CST 1970    //创建时间
+mZxid = 0x0                             //最后一次更新的事务ID   
+mtime = Thu Jan 01 08:00:00 CST 1970    //最后一次更新时间
+pZxid = 0x0                             //该节点的子节点列表最后一次被更新（创建或删除节点）的事务ID
+cversion = -1                           //子节点的版本号
+dataVersion = 0                         //子节点的数据版本号
+aclVersion = 0                          //权限版本号
+ephemeralOwner = 0x0                    //创建该临时节点的事务Id
+dataLength = 0                          //当前节点存放的数据长度
+numChildren = 1                         //当前节点所拥有的子节点的个数
+</code></pre><h4 id="get_path__5Bwatch_5D__u83B7_u53D6_u8282_u70B9_u5B58_u50A8_u7684_u5185_u5BB9"><a href="#get_path__5Bwatch_5D__u83B7_u53D6_u8282_u70B9_u5B58_u50A8_u7684_u5185_u5BB9" class="headerlink" title="get path [watch] 获取节点存储的内容"></a><strong>get path [watch]</strong> 获取节点存储的内容</h4><pre><code>[zk: 192.168.1.101:2181(CONNECTED) 14] get /node_test
+larry                             //节点存储的内容
+cZxid = 0x400000002
+ctime = Tue Dec 15 22:04:44 CST 2015
+mZxid = 0x400000002
+mtime = Tue Dec 15 22:04:44 CST 2015
+pZxid = 0x400000002
+cversion = 0
+dataVersion = 0
+aclVersion = 0
+ephemeralOwner = 0x0
+dataLength = 5
+numChildren = 0
+</code></pre><h4 id="ls2_path__5Bwatch_5D__u5217_u51FA_u5F53_u524D_u8282_u70B9_u7684_u5B50_u8282_u70B9_u5E76_u67E5_u770B_u5B50_u8282_u70B9_u7684_u72B6_u6001_u4FE1_u606F_uFF0C_u76F8_u5F53_u4E8Els_u548Cstat"><a href="#ls2_path__5Bwatch_5D__u5217_u51FA_u5F53_u524D_u8282_u70B9_u7684_u5B50_u8282_u70B9_u5E76_u67E5_u770B_u5B50_u8282_u70B9_u7684_u72B6_u6001_u4FE1_u606F_uFF0C_u76F8_u5F53_u4E8Els_u548Cstat" class="headerlink" title="ls2 path [watch] 列出当前节点的子节点并查看子节点的状态信息，相当于ls和stat"></a><strong>ls2 path [watch]</strong> 列出当前节点的子节点并查看子节点的状态信息，相当于ls和stat</h4><pre><code>[zk: 192.168.1.101:2181(CONNECTED) 9] ls /zookeeper
+[quota]
+[zk: 192.168.1.101:2181(CONNECTED) 10] ls2 /zookeeper
+[quota]
+cZxid = 0x0
+ctime = Thu Jan 01 08:00:00 CST 1970
+mZxid = 0x0
+mtime = Thu Jan 01 08:00:00 CST 1970
+pZxid = 0x0
+cversion = -1
+dataVersion = 0
+aclVersion = 0
+ephemeralOwner = 0x0
+dataLength = 0
+numChildren = 1
+</code></pre><h4 id="create__5B-s_5D__5B-e_5D_path_data_acl__u521B_u5EFA_u6307_u4EE4"><a href="#create__5B-s_5D__5B-e_5D_path_data_acl__u521B_u5EFA_u6307_u4EE4" class="headerlink" title="create [-s] [-e] path data acl 创建指令"></a><strong>create [-s] [-e] path data acl</strong> 创建指令</h4><pre><code>- -s 表示创建的是顺序节点
+- -e 表示创建的是临时节点
+- path 创建节点的路径
+- data 创建节点的内容
+- acl 创建节点的acl权限
+
+    //创建普通节点
+    [zk: 192.168.1.101:2181(CONNECTED) 13] create /node_test larry 
+    Created /node_test
+    [zk: 192.168.1.101:2181(CONNECTED) 14] get /node_test
+    larry
+    cZxid = 0x400000002
+    ctime = Tue Dec 15 22:04:44 CST 2015
+    mZxid = 0x400000002
+    mtime = Tue Dec 15 22:04:44 CST 2015
+    pZxid = 0x400000002
+    cversion = 0
+    dataVersion = 0
+    aclVersion = 0
+    ephemeralOwner = 0x0
+    dataLength = 5
+    numChildren = 0
+
+    //创建临时节点,退出重新登录
+    [zk: 192.168.1.101:2181(CONNECTED) 1] ls /node_test
+    []
+    [zk: 192.168.1.101:2181(CONNECTED) 2] create -e /node_test/node_test_1 123456
+    Created /node_test/node_test_1
+    [zk: 192.168.1.101:2181(CONNECTED) 3] ls /node_test
+    [node_test_1]
+    [zk: 192.168.1.101:2181(CONNECTED) 4] quit
+    Quitting...
+    2015-12-15 22:13:13,291 [myid:] - INFO  [main:ZooKeeper@684] - Session: 0x151a5bedd2c0001 closed
+    2015-12-15 22:13:13,293 [myid:] - INFO  [main-EventThread:ClientCnxn$EventThread@519] - EventThread shut down for session: 0x151a5bedd2c0001
+    ➜  bin  sudo ./zkCli.sh -server 192.168.1.101:2181  //重新登录
+    [zk: 192.168.1.101:2181(CONNECTED) 2] ls /node_test
+    []
+
+    //创建顺序节点
+    [zk: 192.168.1.101:2181(CONNECTED) 3] create -s /node_test/note_test_1 123456 
+    Created /node_test/note_test_10000000001
+    [zk: 192.168.1.101:2181(CONNECTED) 4] create -s /node_test/note_test_1 123456 
+    Created /node_test/note_test_10000000002
+</code></pre><h4 id="set_path_data__5Bversion_5D__u4FEE_u6539_u6307_u4EE4"><a href="#set_path_data__5Bversion_5D__u4FEE_u6539_u6307_u4EE4" class="headerlink" title="set path data [version] 修改指令"></a><strong>set path data [version]</strong> 修改指令</h4><pre><code>- path 修改节点路径为path
+- data 修改节点的值为data
+- [version] 为节点内容设置版本号
+
+    [zk: 192.168.1.101:2181(CONNECTED) 4] get /node_test
+    larry
+    cZxid = 0x400000002
+    ctime = Tue Dec 15 22:04:44 CST 2015
+    mZxid = 0x400000002
+    mtime = Tue Dec 15 22:04:44 CST 2015
+    pZxid = 0x40000000d
+    cversion = 6
+    dataVersion = 0
+    aclVersion = 0
+    ephemeralOwner = 0x0
+    dataLength = 5
+    numChildren = 2
+    [zk: 192.168.1.101:2181(CONNECTED) 5] set /node_test 999999
+    cZxid = 0x400000002
+    ctime = Tue Dec 15 22:04:44 CST 2015
+    mZxid = 0x40000000f
+    mtime = Tue Dec 15 22:24:57 CST 2015
+    pZxid = 0x40000000d
+    cversion = 6
+    dataVersion = 1
+    aclVersion = 0
+    ephemeralOwner = 0x0
+    dataLength = 6
+    numChildren = 2
+    [zk: 192.168.1.101:2181(CONNECTED) 6] get /node_test 
+    999999
+    cZxid = 0x400000002
+    ctime = Tue Dec 15 22:04:44 CST 2015
+    mZxid = 0x40000000f
+    mtime = Tue Dec 15 22:24:57 CST 2015
+    pZxid = 0x40000000d
+    cversion = 6
+    dataVersion = 1
+    aclVersion = 0
+    ephemeralOwner = 0x0
+    dataLength = 6
+    numChildren = 2
+    [zk: 192.168.1.101:2181(CONNECTED) 7] set /node_test 999999
+    cZxid = 0x400000002
+    ctime = Tue Dec 15 22:04:44 CST 2015
+    mZxid = 0x400000010
+    mtime = Tue Dec 15 22:31:27 CST 2015
+    pZxid = 0x40000000d
+    cversion = 6
+    dataVersion = 2  //此处增加
+    aclVersion = 0
+    ephemeralOwner = 0x0
+    dataLength = 6
+    numChildren = 2
+    [zk: 192.168.1.101:2181(CONNECTED) 8] set /node_test 999999 2
+    cZxid = 0x400000002
+    ctime = Tue Dec 15 22:04:44 CST 2015
+    mZxid = 0x400000011
+    mtime = Tue Dec 15 22:31:31 CST 2015
+    pZxid = 0x40000000d
+    cversion = 6
+    dataVersion = 3  //修改的值相同，此处扔增加
+    aclVersion = 0
+    ephemeralOwner = 0x0
+    dataLength = 6
+    numChildren = 2
+    [zk: 192.168.1.101:2181(CONNECTED) 9] set /node_test 999999 4    //版本号必须同上一个的版本号相同才不会报错，即上面为3，填写版本号为3才行
+    version No is not valid : /node_test
+    [zk: 192.168.1.101:2181(CONNECTED) 10] set /node_test 999999 3
+    cZxid = 0x400000002
+    ctime = Tue Dec 15 22:04:44 CST 2015
+    mZxid = 0x400000013
+    mtime = Tue Dec 15 22:31:42 CST 2015
+    pZxid = 0x40000000d
+    cversion = 6
+    dataVersion = 4 // 版本号增加
+    aclVersion = 0
+    ephemeralOwner = 0x0
+    dataLength = 6
+    numChildren = 2
+</code></pre><h4 id="delete_path__5Bversion_5D__u5220_u9664_u6307_u5B9A_u8DEF_u5F84_u7684_u8282_u70B9"><a href="#delete_path__5Bversion_5D__u5220_u9664_u6307_u5B9A_u8DEF_u5F84_u7684_u8282_u70B9" class="headerlink" title="delete path [version] 删除指定路径的节点"></a><strong>delete path [version]</strong> 删除指定路径的节点</h4><pre><code>[zk: 192.168.1.101:2181(CONNECTED) 12] ls /node_test
+[note_test_10000000002, note_test_10000000001]
+[zk: 192.168.1.101:2181(CONNECTED) 13] delete /node_test
+Node not empty: /node_test //只能删除没有子节点的节点
+[zk: 192.168.1.101:2181(CONNECTED) 14] delete /node_test/note_test_10000000001
+[zk: 192.168.1.101:2181(CONNECTED) 15] 
+</code></pre><h4 id="rmr_path__u5FAA_u73AF_u5220_u9664_u8DEF_u5F84_u4E0B_u7684_u8282_u70B9"><a href="#rmr_path__u5FAA_u73AF_u5220_u9664_u8DEF_u5F84_u4E0B_u7684_u8282_u70B9" class="headerlink" title="rmr path 循环删除路径下的节点"></a><strong>rmr path</strong> 循环删除路径下的节点</h4><pre><code>[zk: 192.168.1.101:2181(CONNECTED) 16] rmr /node_test
+[zk: 192.168.1.101:2181(CONNECTED) 17] ls /
+[zookeeper]
+[zk: 192.168.1.101:2181(CONNECTED) 18] 
+</code></pre><h4 id="setquota_-n_7C-b_val_path__u9650_u5236_u8282_u70B9_u7684_u503C_u7684_u957F_u5EA6_u6216_u5176_u5B50_u8282_u70B9_u7684_u4E2A_u6570"><a href="#setquota_-n_7C-b_val_path__u9650_u5236_u8282_u70B9_u7684_u503C_u7684_u957F_u5EA6_u6216_u5176_u5B50_u8282_u70B9_u7684_u4E2A_u6570" class="headerlink" title="setquota -n|-b val path 限制节点的值的长度或其子节点的个数"></a><strong>setquota -n|-b val path</strong> 限制节点的值的长度或其子节点的个数</h4><pre><code>- -n 限制节点(包含当前节点)的个数为val
+- -b 限制节点值的长度为val
+- path 要限制的节点路径
+
+[zk: 192.168.1.101:2181(CONNECTED) 18] create node_test 123
+Command failed: java.lang.IllegalArgumentException: Path must start with / character
+[zk: 192.168.1.101:2181(CONNECTED) 19] create /node_test 123
+Created /node_test
+[zk: 192.168.1.101:2181(CONNECTED) 20] setquota -n 2 /node_test
+Comment: the parts are option -n val 2 path /node_test
+[zk: 192.168.1.101:2181(CONNECTED) 21] create /node_test/node_test_1 234
+Created /node_test/node_test_1
+[zk: 192.168.1.101:2181(CONNECTED) 22] create /node_test/node_test_2 345
+Created /node_test/node_test_2
+[zk: 192.168.1.101:2181(CONNECTED) 23] create /node_test/node_test_3 456
+Created /node_test/node_test_3 //超额，不会抛出异常，只是在日志/opt/zookeeper/bin/zookeeper.out中记录信息
+[zk: 192.168.1.101:2181(CONNECTED) 24] ls /node_test
+[node_test_2, node_test_3, node_test_1]
+
+zookeeper.out
+2015-12-15 22:49:01,139 [myid:1] - WARN  [CommitProcessor:1:DataTree@389] - Quota exceeded: /node_test count=3 limit=2
+2015-12-15 22:49:06,021 [myid:1] - WARN  [CommitProcessor:1:DataTree@389] - Quota exceeded: /node_test count=4 limit=2
+</code></pre><h4 id="listquota_path__u67E5_u770B_u8282_u70B9_u914D_u989D_u60C5_u51B5"><a href="#listquota_path__u67E5_u770B_u8282_u70B9_u914D_u989D_u60C5_u51B5" class="headerlink" title="listquota path 查看节点配额情况"></a><strong>listquota path</strong> 查看节点配额情况</h4><pre><code>[zk: 192.168.1.101:2181(CONNECTED) 27] listquota /node_test
+absolute path is /zookeeper/quota/node_test/zookeeper_limits
+Output quota for /node_test count=2,bytes=-1   //配额信息 -1没有限制
+Output stat for /node_test count=4,bytes=12    //当前节点状态信息，当前节点4个，限额2个，字节总长度12
+[zk: 192.168.1.101:2181(CONNECTED) 28]
+</code></pre><h4 id="delquota__5B-n_7C-b_5D_path__u5220_u9664_u914D_u989D_u4FE1_u606F"><a href="#delquota__5B-n_7C-b_5D_path__u5220_u9664_u914D_u989D_u4FE1_u606F" class="headerlink" title="delquota [-n|-b] path 删除配额信息"></a><strong>delquota [-n|-b] path</strong> 删除配额信息</h4><pre><code>[zk: 192.168.1.101:2181(CONNECTED) 28] delquota -n /node_test
+[zk: 192.168.1.101:2181(CONNECTED) 29] listquota /node_test
+absolute path is /zookeeper/quota/node_test/zookeeper_limits
+Output quota for /node_test count=-1,bytes=-1
+Output stat for /node_test count=4,bytes=12
+[zk: 192.168.1.101:2181(CONNECTED) 30] 
+</code></pre><h4 id="history__u5217_u51FA_u5DF2_u64CD_u4F5C_u7684_u6307_u4EE4_u8BB0_u5F55"><a href="#history__u5217_u51FA_u5DF2_u64CD_u4F5C_u7684_u6307_u4EE4_u8BB0_u5F55" class="headerlink" title="history 列出已操作的指令记录"></a><strong>history</strong> 列出已操作的指令记录</h4><pre><code>[zk: 192.168.1.101:2181(CONNECTED) 30] history
+20 - setquota -n 2 /node_test
+21 - create /node_test/node_test_1 234
+22 - create /node_test/node_test_2 345
+23 - create /node_test/node_test_3 456
+24 - ls /node_test
+25 - ls
+26 - h
+27 - listquota /node_test
+28 - delquota -n /node_test
+29 - listquota /node_test
+30 - history
+[zk: 192.168.1.101:2181(CONNECTED) 31] 
+</code></pre><h4 id="redo_cmdno__u91CD_u65B0_u6267_u884Chistory_u4E2D_u7684_u547D_u4EE4"><a href="#redo_cmdno__u91CD_u65B0_u6267_u884Chistory_u4E2D_u7684_u547D_u4EE4" class="headerlink" title="redo cmdno 重新执行history中的命令"></a><strong>redo cmdno</strong> 重新执行history中的命令</h4><pre><code>[zk: 192.168.1.101:2181(CONNECTED) 31] redo 24
+[node_test_2, node_test_3, node_test_1]
+[zk: 192.168.1.101:2181(CONNECTED) 32] 
+</code></pre><h4 id="connect_host_3Aport__u8FDE_u63A5_u5176_u4ED6_u670D_u52A1_u5668"><a href="#connect_host_3Aport__u8FDE_u63A5_u5176_u4ED6_u670D_u52A1_u5668" class="headerlink" title="connect host:port 连接其他服务器"></a><strong>connect host:port</strong> 连接其他服务器</h4><h4 id="close__u5173_u95EDconnect_u8FDE_u63A5_u7684_u670D_u52A1_u5668"><a href="#close__u5173_u95EDconnect_u8FDE_u63A5_u7684_u670D_u52A1_u5668" class="headerlink" title="close 关闭connect连接的服务器"></a><strong>close</strong> 关闭connect连接的服务器</h4><h4 id="quit__u9000_u51FAzookeeper_u5BA2_u6237_u7AEF_u8FDE_u63A5"><a href="#quit__u9000_u51FAzookeeper_u5BA2_u6237_u7AEF_u8FDE_u63A5" class="headerlink" title="quit 退出zookeeper客户端连接"></a><strong>quit</strong> 退出zookeeper客户端连接</h4></span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/zookeeper/" rel="tag">#zookeeper</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/28/zookeeper环境搭建/" rel="next" title="zookeeper环境搭建">
+                <i class="fa fa-chevron-left"></i> zookeeper环境搭建
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/30/Why-Docker/" rel="prev" title="Why Docker?">
+                Why Docker? <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/12/28/zookeeper客户端命令/"
+           data-title="zookeeper客户端命令" data-url="http://suqun.github.io/2015/12/28/zookeeper客户端命令/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/uploads/avatar.jpg" alt="Larry" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Larry</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">吾生也有涯而知也无涯，以有涯随无涯，殆已。</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/suqun" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">友情链接</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://ifeve.com/" target="_blank">并发编程网</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://uridb.com/" target="_blank">技术流</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://colobu.com/" target="_blank">鸟窝</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jikexueyuan.com/" target="_blank">极客学院</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.imooc.com/" target="_blank">慕课网</a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#zkCli-sh"><span class="nav-number">1.</span> <span class="nav-text">zkCli.sh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5BA2_u6237_u7AEF_u547D_u4EE4"><span class="nav-number">2.</span> <span class="nav-text">客户端命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#help"><span class="nav-number">2.1.</span> <span class="nav-text">help</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ls_path__5Bwatch_5D__u5217_u51FA_u5F53_u524D_u8282_u70B9_u7684_u5B50_u8282_u70B9"><span class="nav-number">2.2.</span> <span class="nav-text">ls path [watch] 列出当前节点的子节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#stat_path__5Bwatch_5D__u83B7_u53D6_u8282_u70B9_u72B6_u6001_u4FE1_u606F"><span class="nav-number">2.3.</span> <span class="nav-text">stat path [watch] 获取节点状态信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#get_path__5Bwatch_5D__u83B7_u53D6_u8282_u70B9_u5B58_u50A8_u7684_u5185_u5BB9"><span class="nav-number">2.4.</span> <span class="nav-text">get path [watch] 获取节点存储的内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ls2_path__5Bwatch_5D__u5217_u51FA_u5F53_u524D_u8282_u70B9_u7684_u5B50_u8282_u70B9_u5E76_u67E5_u770B_u5B50_u8282_u70B9_u7684_u72B6_u6001_u4FE1_u606F_uFF0C_u76F8_u5F53_u4E8Els_u548Cstat"><span class="nav-number">2.5.</span> <span class="nav-text">ls2 path [watch] 列出当前节点的子节点并查看子节点的状态信息，相当于ls和stat</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#create__5B-s_5D__5B-e_5D_path_data_acl__u521B_u5EFA_u6307_u4EE4"><span class="nav-number">2.6.</span> <span class="nav-text">create [-s] [-e] path data acl 创建指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set_path_data__5Bversion_5D__u4FEE_u6539_u6307_u4EE4"><span class="nav-number">2.7.</span> <span class="nav-text">set path data [version] 修改指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#delete_path__5Bversion_5D__u5220_u9664_u6307_u5B9A_u8DEF_u5F84_u7684_u8282_u70B9"><span class="nav-number">2.8.</span> <span class="nav-text">delete path [version] 删除指定路径的节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rmr_path__u5FAA_u73AF_u5220_u9664_u8DEF_u5F84_u4E0B_u7684_u8282_u70B9"><span class="nav-number">2.9.</span> <span class="nav-text">rmr path 循环删除路径下的节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#setquota_-n_7C-b_val_path__u9650_u5236_u8282_u70B9_u7684_u503C_u7684_u957F_u5EA6_u6216_u5176_u5B50_u8282_u70B9_u7684_u4E2A_u6570"><span class="nav-number">2.10.</span> <span class="nav-text">setquota -n|-b val path 限制节点的值的长度或其子节点的个数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#listquota_path__u67E5_u770B_u8282_u70B9_u914D_u989D_u60C5_u51B5"><span class="nav-number">2.11.</span> <span class="nav-text">listquota path 查看节点配额情况</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#delquota__5B-n_7C-b_5D_path__u5220_u9664_u914D_u989D_u4FE1_u606F"><span class="nav-number">2.12.</span> <span class="nav-text">delquota [-n|-b] path 删除配额信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#history__u5217_u51FA_u5DF2_u64CD_u4F5C_u7684_u6307_u4EE4_u8BB0_u5F55"><span class="nav-number">2.13.</span> <span class="nav-text">history 列出已操作的指令记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#redo_cmdno__u91CD_u65B0_u6267_u884Chistory_u4E2D_u7684_u547D_u4EE4"><span class="nav-number">2.14.</span> <span class="nav-text">redo cmdno 重新执行history中的命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#connect_host_3Aport__u8FDE_u63A5_u5176_u4ED6_u670D_u52A1_u5668"><span class="nav-number">2.15.</span> <span class="nav-text">connect host:port 连接其他服务器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#close__u5173_u95EDconnect_u8FDE_u63A5_u7684_u670D_u52A1_u5668"><span class="nav-number">2.16.</span> <span class="nav-text">close 关闭connect连接的服务器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#quit__u9000_u51FAzookeeper_u5BA2_u6237_u7AEF_u8FDE_u63A5"><span class="nav-number">2.17.</span> <span class="nav-text">quit 退出zookeeper客户端连接</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Larry</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"suqun"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>
