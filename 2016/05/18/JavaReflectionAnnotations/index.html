@@ -56,7 +56,7 @@
 <meta name="description" content="原文地址Java Reflection Annotations
 在运行时状态下，你可以通过反射获取java对象上的注解。
 What are Java Annotations?注解是Java5增加的功能。注解是一种注释或者是元数据可以直接插入到Java代码中。在编译时，通过预编译工具处理；或者在运行时，通过java反射处理。下面是个注解的例子：
-1@MyAnnotation(name=&amp;#34;so">
+1234@MyAnnotation(name=&quot;som">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java反射之注解">
 <meta property="og:url" content="http://suqun.github.io/2016/05/18/JavaReflectionAnnotations/index.html">
@@ -64,14 +64,14 @@ What are Java Annotations?注解是Java5增加的功能。注解是一种注释�
 <meta property="og:description" content="原文地址Java Reflection Annotations
 在运行时状态下，你可以通过反射获取java对象上的注解。
 What are Java Annotations?注解是Java5增加的功能。注解是一种注释或者是元数据可以直接插入到Java代码中。在编译时，通过预编译工具处理；或者在运行时，通过java反射处理。下面是个注解的例子：
-1@MyAnnotation(name=&amp;#34;so">
-<meta property="og:updated_time" content="2016-05-28T07:32:00.000Z">
+1234@MyAnnotation(name=&quot;som">
+<meta property="og:updated_time" content="2016-05-28T07:34:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java反射之注解">
 <meta name="twitter:description" content="原文地址Java Reflection Annotations
 在运行时状态下，你可以通过反射获取java对象上的注解。
 What are Java Annotations?注解是Java5增加的功能。注解是一种注释或者是元数据可以直接插入到Java代码中。在编译时，通过预编译工具处理；或者在运行时，通过java反射处理。下面是个注解的例子：
-1@MyAnnotation(name=&amp;#34;so">
+1234@MyAnnotation(name=&quot;som">
 
 
 
@@ -276,9 +276,9 @@ What are Java Annotations?注解是Java5增加的功能。注解是一种注释�
         <span itemprop="articleBody"><p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/annotations.html" target="_blank" rel="external">Java Reflection Annotations</a></p>
 <p>在运行时状态下，你可以通过反射获取java对象上的注解。</p>
 <h5 id="What_are_Java_Annotations_3F"><a href="#What_are_Java_Annotations_3F" class="headerlink" title="What are Java Annotations?"></a>What are Java Annotations?</h5><p>注解是Java5增加的功能。注解是一种注释或者是元数据可以直接插入到Java代码中。在编译时，通过预编译工具处理；或者在运行时，通过java反射处理。下面是个注解的例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@MyAnnotation(name=&#34;someName&#34;,  value = &#34;Hello World&#34;)&#10;public class TheClass &#123;&#10;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@MyAnnotation</span>(name=<span class="string">"someName"</span>,  value = <span class="string">"Hello World"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TheClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>类TheClass的上面有个<code>@MyAnnotation</code>的注解。注解的定义类似接口定义，下面是注解定义的例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Retention(RetentionPolicy.RUNTIME)&#10;@Target(ElementType.TYPE)&#10;&#10;public @interface MyAnnotation &#123;&#10;    public String name();&#10;    public String value();&#10;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="annotation">@Target</span>(ElementType.TYPE)</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="annotation">@interface</span> MyAnnotation &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">name</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">value</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>创建注解是，在interface前面使用<code>@</code>即可。创建之后就可以在代码里使用了，例如上面的例子。</p>
 <p><code>@Retention(RetentionPolicy.RUNTIME)</code> 和 <code>@Target(ElementType.TYPE)</code>这两个指令，指明了这个注解如何被使用。</p>
 <p><code>@Retention(RetentionPolicy.RUNTIME)</code> 意味着在运行时状态可以使用java反射获取注解，如果不设置这个指令，在运行时状态，注解不会被保存，同样的也就不能通过反射获取。 </p>
