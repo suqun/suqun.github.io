@@ -35,7 +35,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="zookeeper,分布式," />
+  <meta name="keywords" content="Java," />
 
 
 
@@ -53,21 +53,25 @@
 
 
 
-<meta name="description" content="zookeeper是什么zookeeper是源代码开放的分布式协调服务 ，由雅虎创建，是GoogleChubby的开源实现。zookeeper是一个高性能的分布式数据一致性解决方案 ，它将那些复杂的、容易出错的分布式一致性服务封装起来，构成一个高效可靠的原语集，并提供一系列简单易用的接口给用户使用
-zookeeper 从设计模式角度来看，是一个基于观察者模式设计的分布式服务管理框架，它负责存储和管">
+<meta name="description" content="原文地址Java Reflection Constructors
+获取构造函数的对象1Constructor[] constructors = orderClass.getConstructors();
+可以通过构造函数的具体参数类型直接获取单独的构造函数，而不用获取全部的Constructors
+123456try &amp;#123;    Constructor constructor = orde">
 <meta property="og:type" content="article">
-<meta property="og:title" content="zookeeper概述">
-<meta property="og:url" content="http://suqun.github.io/2015/12/27/zookeeper概述/index.html">
+<meta property="og:title" content="Java反射之构造函数">
+<meta property="og:url" content="http://suqun.github.io/2016/05/11/JavaReflectionConstructors/index.html">
 <meta property="og:site_name" content="入耳箸心">
-<meta property="og:description" content="zookeeper是什么zookeeper是源代码开放的分布式协调服务 ，由雅虎创建，是GoogleChubby的开源实现。zookeeper是一个高性能的分布式数据一致性解决方案 ，它将那些复杂的、容易出错的分布式一致性服务封装起来，构成一个高效可靠的原语集，并提供一系列简单易用的接口给用户使用
-zookeeper 从设计模式角度来看，是一个基于观察者模式设计的分布式服务管理框架，它负责存储和管">
-<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/configuration.gif">
-<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/znode.gif">
-<meta property="og:updated_time" content="2016-01-09T12:11:57.000Z">
+<meta property="og:description" content="原文地址Java Reflection Constructors
+获取构造函数的对象1Constructor[] constructors = orderClass.getConstructors();
+可以通过构造函数的具体参数类型直接获取单独的构造函数，而不用获取全部的Constructors
+123456try &amp;#123;    Constructor constructor = orde">
+<meta property="og:updated_time" content="2016-05-28T07:29:02.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="zookeeper概述">
-<meta name="twitter:description" content="zookeeper是什么zookeeper是源代码开放的分布式协调服务 ，由雅虎创建，是GoogleChubby的开源实现。zookeeper是一个高性能的分布式数据一致性解决方案 ，它将那些复杂的、容易出错的分布式一致性服务封装起来，构成一个高效可靠的原语集，并提供一系列简单易用的接口给用户使用
-zookeeper 从设计模式角度来看，是一个基于观察者模式设计的分布式服务管理框架，它负责存储和管">
+<meta name="twitter:title" content="Java反射之构造函数">
+<meta name="twitter:description" content="原文地址Java Reflection Constructors
+获取构造函数的对象1Constructor[] constructors = orderClass.getConstructors();
+可以通过构造函数的具体参数类型直接获取单独的构造函数，而不用获取全部的Constructors
+123456try &amp;#123;    Constructor constructor = orde">
 
 
 
@@ -79,7 +83,7 @@ zookeeper 从设计模式角度来看，是一个基于观察者模式设计的�
   };
 </script>
 
-  <title> zookeeper概述 | 入耳箸心 </title>
+  <title> Java反射之构造函数 | 入耳箸心 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -229,7 +233,7 @@ zookeeper 从设计模式角度来看，是一个基于观察者模式设计的�
             
             
               
-                zookeeper概述
+                Java反射之构造函数
               
             
           </h1>
@@ -238,8 +242,8 @@ zookeeper 从设计模式角度来看，是一个基于观察者模式设计的�
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2015-12-27T21:22:49+08:00" content="2015-12-27">
-              2015-12-27
+            <time itemprop="dateCreated" datetime="2016-05-11T00:52:55+08:00" content="2016-05-11">
+              2016-05-11
             </time>
           </span>
 
@@ -249,8 +253,8 @@ zookeeper 从设计模式角度来看，是一个基于观察者模式设计的�
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/12/27/zookeeper概述/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/27/zookeeper概述/" itemprop="commentsCount"></span>
+                <a href="/2016/05/11/JavaReflectionConstructors/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/11/JavaReflectionConstructors/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -269,85 +273,14 @@ zookeeper 从设计模式角度来看，是一个基于观察者模式设计的�
       
 
       
-        <span itemprop="articleBody"><h4 id="zookeeper_u662F_u4EC0_u4E48"><a href="#zookeeper_u662F_u4EC0_u4E48" class="headerlink" title="zookeeper是什么"></a>zookeeper是什么</h4><p>zookeeper是源代码开放的<strong>分布式协调服务</strong> ，由雅虎创建，是Google<br>Chubby的开源实现。zookeeper是一个高性能的<strong>分布式数据一致性解决方案</strong> ，它将那些复杂的、容易出错的分布式一致性服务封装起来，构成一个高效可靠的原语集，并提供一系列简单易用的接口给用户使用</p>
-<p>zookeeper 从设计模式角度来看，是一个<strong>基于观察者模式设计的分布式服务管理框架</strong>，它负责存储和管理大家都关心的数据，然后接受观察者的注册，一旦这些数据的状态发生变化，zookeeper 就将负责通知已经在 zookeeper 上注册的那些观察者做出相应的反应，从而实现集群中类似 Master/Slave 管理模式</p>
-<a id="more"></a>
-<h6 id="u77E5_u8BC6_u8981_u70B9"><a href="#u77E5_u8BC6_u8981_u70B9" class="headerlink" title="知识要点"></a>知识要点</h6><ul>
-<li>源代码开放</li>
-<li>分布式协调服务，解决分布式数据一致性问题<ul>
-<li>顺序一致性</li>
-<li>原子性</li>
-<li>单一视图</li>
-<li>可靠性</li>
-<li>实时性</li>
-</ul>
-</li>
-<li>高性能</li>
-<li>通过调用zookeeper提供的接口来解决一些分布式应用中的实际问题</li>
-</ul>
-<h4 id="zookeeper_u7684_u5178_u578B_u5E94_u7528_u573A_u666F"><a href="#zookeeper_u7684_u5178_u578B_u5E94_u7528_u573A_u666F" class="headerlink" title="zookeeper的典型应用场景"></a>zookeeper的典型应用场景</h4><ul>
-<li><p>数据发布/订阅</p>
-<p>  <em>数据发布/订阅</em> 顾名思义就是一方把数据发布出来，另一方通过某种手段可以得到这些数据。通常数据订阅有两种方式：推模式和拉模式；<em>推模式</em>一般是服务器主动向客户端推送信息，<em>拉模式</em>是客户端主动去服务器获取数据（通常是采用定时轮询的方式）</p>
-<p>  ZK采用两种方式相结合</p>
-<p>  发布者将数据发布到ZK集群节点上，订阅者通过一定的方法告诉服务器，我对哪个节点的数据感兴趣，那服务器在这些节点的数据发生变化时，就通知客户端，客户端得到通知后可以去服务器获取数据信息</p>
-</li>
-<li><p>分布式协调/通知</p>
-<ul>
-<li><p>心跳检测</p>
-<p>  在分布式系统中，我们常常需要知道某个机器是否可用，传统的开发中，可以通过Ping某个主机来实现，Ping得通说明对方是可用的，相反是不可用的，ZK 中我们让所有的机其都注册一个临时节点，我们判断一个机器是否可用，我们只需要判断这个节点在ZK中是否存在就可以了，不需要直接去连接需要检查的机器 ，降低系统的复杂度 </p>
-</li>
-</ul>
-</li>
-<li><p>统一命名服务（Name Service）</p>
-<p>  分布式应用中，通常需要有一套完整的命名规则，既能够产生唯一的名称又便于人识别和记住，通常情况下用树形的名称结构是一个理想的选择，树形的名称结构是一个有层次的目录结构，既对人友好又不会重复。说到这里你可能想到了 JNDI，没错 zookeeper 的 Name Service 与 JNDI 能够完成的功能是差不多的，它们都是将有层次的目录结构关联到一定资源上，但是 zookeeper 的 Name Service 更加是广泛意义上的关联，也许你并不需要将名称关联到特定资源上，你可能只需要一个不会重复名称，就像数据库中产生一个唯一的数字主键一样。</p>
-<p>  例如数据库表格ID，一般用得比较多的有两种ID，一种是自动增长的ID，一种是UUID(9291d71a-0354-4d8e-acd8-64f7393c64ae)，两种ID各自都有缺陷，自动增长的ID局限在单库单表中使用，不能在分布式中使用，UUID可以在分布式中使用但是由于ID没有规律难于理解，我们可以借用ZK来生成一个顺序增长的，可以在集群环境下使用的，命名易于理解的ID</p>
-<p>  Name Service 已经是 zookeeper 内置的功能，你只要调用 zookeeper 的 API 就能实现。如调用 create 接口就可以很容易创建一个目录节点。</p>
-</li>
-<li><p>配置管理（Configuration Management）</p>
-<p>  配置的管理在分布式应用环境中很常见，例如同一个应用系统需要多台 PC Server 运行，但是它们运行的应用系统的某些配置项是相同的，如果要修改这些相同的配置项，那么就必须同时修改每台运行这个应用系统的 PC Server，这样非常麻烦而且容易出错。<br>  像这样的配置信息完全可以交给 zookeeper 来管理，将配置信息保存在 zookeeper 的某个目录节点中，然后将所有需要修改的应用机器监控配置信息的状态，一旦配置信息发生变化，每台应用机器就会收到 zookeeper 的通知，然后从 zookeeper 获取新的配置信息应用到系统中。</p>
-<p>  <img src="http://7xpk5e.com1.z0.glb.clouddn.com/configuration.gif" alt="配置管理结构图" title="配置管理结构图"></p>
-</li>
-<li><p>集群管理（Group Membership）</p>
-<p>  zookeeper 能够很容易的实现集群管理的功能，如有多台 Server 组成一个服务集群，那么必须要一个“总管”知道当前集群中每台机器的服务状态，一旦有机器不能提供服务，集群中其它集群必须知道，从而做出调整重新分配服务策略。同样当增加集群的服务能力时，就会增加一台或多台 Server，同样也必须让“总管”知道。</p>
-<p>  zookeeper 不仅能够帮你维护当前的集群中机器的服务状态，而且能够帮你选出一个“总管”，让这个总管来管理集群，这就是 zookeeper 的另一个功能 Leader Election。</p>
-</li>
-<li><p>分布式锁</p>
-<p>  共享锁在同一个进程中很容易实现，但是在跨进程或者在不同 Server之间就不好实现了。zookeeper 却很容易实现这个功能</p>
-</li>
-<li><p>队列管理</p>
-<p>  zookeeper 可以处理两种类型的队列：</p>
-<ol>
-<li>当一个队列的成员都聚齐时，这个队列才可用，否则一直等待所有成员到达，这种是同步队列。</li>
-<li>队列按照 FIFO 方式进行入队和出队操作，例如实现生产者和消费者模型。</li>
-</ol>
-</li>
-</ul>
-<h2 id="u57FA_u672C_u6982_u5FF5"><a href="#u57FA_u672C_u6982_u5FF5" class="headerlink" title="基本概念"></a>基本概念</h2><h4 id="u96C6_u7FA4_u89D2_u8272"><a href="#u96C6_u7FA4_u89D2_u8272" class="headerlink" title="集群角色"></a>集群角色</h4><p>Leader，Follower，Observer</p>
-<p>Leader服务器是整个zookeeper集群工作机制中的核心 </p>
-<p>Follower服务器是zookeeper集群状态的跟随者</p>
-<p>Observer服务器充当一个观察者的角色</p>
-<h4 id="u4F1A_u8BDD"><a href="#u4F1A_u8BDD" class="headerlink" title="会话"></a>会话</h4><p>会话是指客户端和zookeeper服务器的连接，zookeeper中的会话叫Session，客户端靠与服务器建立一个TCP的长连接</p>
-<p>来维持一个Session,客户端在启动的时候首先会与服务器建立一个TCP连接，通过这个连接，客户端能够通过心跳检测与服务器保持有效的会话，也能向ZK服务器发送请求并获得响应</p>
-<h4 id="u6570_u636E_u6A21_u578B"><a href="#u6570_u636E_u6A21_u578B" class="headerlink" title="数据模型"></a>数据模型</h4><p>zookeeper 会维护一个具有层次关系的数据结构，它非常类似于一个标准的文件系统</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/znode.gif" alt="数据模型" title="数据模型"></p>
-<p>zookeeper 这种数据结构有如下这些特点：</p>
-<ol>
-<li>每个子目录项如 NameService 都被称作为 znode，这个 znode 是被它所在的路径唯一标识，如 Server1 这个 znode 的标识为 /NameService/Server1</li>
-<li>znode 可以有子节点目录，并且每个 znode 可以存储数据，注意 EPHEMERAL 类型的目录节点不能有子节点目录</li>
-<li>znode 是有版本的，每个 znode 中存储的数据可以有多个版本，也就是一个访问路径中可以存储多份数据</li>
-<li>znode 可以是临时节点，一旦创建这个 znode 的客户端与服务器失去联系，这个 znode 也将自动删除，zookeeper 的客户端和服务器通信采用长连接方式，每个客户端和服务器通过心跳来保持连接，这个连接状态称为 session，如果 znode 是临时节点，这个 session 失效，znode 也就删除了</li>
-<li>znode 的目录名可以自动编号，如 App1 已经存在，再创建的话，将会自动命名为 App2</li>
-<li>znode 可以被监控，包括这个目录节点中存储的数据的修改，子节点目录的变化等，一旦变化可以通知设置监控的客户端，这个是 zookeeper 的核心特性，zookeeper 的很多功能都是基于这个特性实现的，后面在典型的应用场景中会有实例介绍</li>
-</ol>
-<h4 id="u7248_u672C"><a href="#u7248_u672C" class="headerlink" title="版本"></a>版本</h4><p>version 当前数据节点数据内容的版本号</p>
-<p>cversion 当前数据节点子节点的版本号</p>
-<p>aversion 当前数据节点ACL变更版本号</p>
-<h4 id="ACL_u6743_u9650_u63A7_u5236"><a href="#ACL_u6743_u9650_u63A7_u5236" class="headerlink" title="ACL权限控制"></a>ACL权限控制</h4><p>ACL是Access Control Lists 的简写， zookeeper采用ACL策略来进行权限控制，有以下权限：</p>
-<p>CREATE:创建子节点的权限</p>
-<p>READ:获取节点数据和子节点列表的权限</p>
-<p>WRITE:更新节点数据的权限</p>
-<p>DELETE:删除子节点的权限</p>
-<p>ADMIN:设置节点ACL的权限</p>
+        <span itemprop="articleBody"><p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/constructors.html" target="_blank" rel="external">Java Reflection Constructors</a></p>
+<h4 id="u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61"><a href="#u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61" class="headerlink" title="获取构造函数的对象"></a>获取构造函数的对象</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Constructor[] constructors = orderClass.getConstructors();</span><br></pre></td></tr></table></figure>
+<p>可以通过构造函数的具体参数类型直接获取单独的构造函数，而不用获取全部的Constructors</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Constructor constructor = orderClass.getConstructor(<span class="keyword">new</span> Class[]&#123;String.class&#125;);</span><br><span class="line">    System.out.println(constructor.getName());<span class="comment">//com.larry.bean.Order</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;<span class="comment">//没有找到匹配的构造函数会抛出NoSuchMethodException</span></span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="u6784_u9020_u51FD_u6570_u7684_u53C2_u6570_u7C7B_u578B"><a href="#u6784_u9020_u51FD_u6570_u7684_u53C2_u6570_u7C7B_u578B" class="headerlink" title="构造函数的参数类型"></a>构造函数的参数类型</h4><p>可以像下面这样获取构造函数的参数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class[] parameterTypes = constructor.getParameterTypes();</span><br><span class="line">parameterTypes[<span class="number">0</span>].getName();<span class="comment">//java.lang.String</span></span><br></pre></td></tr></table></figure>
+<h4 id="u7528_u6784_u9020_u51FD_u6570_u5BF9_u8C61_u5B9E_u4F8B_u5316_u4E00_u4E2A_u7C7B"><a href="#u7528_u6784_u9020_u51FD_u6570_u5BF9_u8C61_u5B9E_u4F8B_u5316_u4E00_u4E2A_u7C7B" class="headerlink" title="用构造函数对象实例化一个类"></a>用构造函数对象实例化一个类</h4><p>constructor.newInstance()方法的方法参数是一个可变参数列表，但是当你调用构造方法的时候你必须提供精确的参数，即形参与实参必须一一对应。在这个例子中构造方法需要一个String类型的参数，那我们在调用newInstance方法的时候就必须传入一个String类型的参数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Constructor constructor = Order.class.getConstructor(String.class);</span><br><span class="line">    Order order = (Order) constructor.newInstance(<span class="string">"2016050901"</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (InstantiationException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </span>
       
     </div>
@@ -356,9 +289,7 @@ zookeeper 从设计模式角度来看，是一个基于观察者模式设计的�
       
         <div class="post-tags">
           
-            <a href="/tags/zookeeper/" rel="tag">#zookeeper</a>
-          
-            <a href="/tags/分布式/" rel="tag">#分布式</a>
+            <a href="/tags/Java/" rel="tag">#Java</a>
           
         </div>
       
@@ -367,12 +298,16 @@ zookeeper 从设计模式角度来看，是一个基于观察者模式设计的�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/05/09/JavaReflectionClasses/" rel="next" title="Java反射之对象">
+                <i class="fa fa-chevron-left"></i> Java反射之对象
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/12/28/zookeeper环境搭建/" rel="prev" title="zookeeper环境搭建">
-                zookeeper环境搭建 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/05/12/JavaReflectionFields/" rel="prev" title="Java反射之变量">
+                Java反射之变量 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -426,8 +361,8 @@ zookeeper 从设计模式角度来看，是一个基于观察者模式设计的�
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2015/12/27/zookeeper概述/"
-           data-title="zookeeper概述" data-url="http://suqun.github.io/2015/12/27/zookeeper概述/">
+      <div class="ds-thread" data-thread-key="2016/05/11/JavaReflectionConstructors/"
+           data-title="Java反射之构造函数" data-url="http://suqun.github.io/2016/05/11/JavaReflectionConstructors/">
       </div>
     
   </div>
@@ -557,7 +492,7 @@ zookeeper 从设计模式角度来看，是一个基于观察者模式设计的�
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#zookeeper_u662F_u4EC0_u4E48"><span class="nav-number">1.</span> <span class="nav-text">zookeeper是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#u77E5_u8BC6_u8981_u70B9"><span class="nav-number">1.0.1.</span> <span class="nav-text">知识要点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#zookeeper_u7684_u5178_u578B_u5E94_u7528_u573A_u666F"><span class="nav-number">2.</span> <span class="nav-text">zookeeper的典型应用场景</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u57FA_u672C_u6982_u5FF5"><span class="nav-number"></span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#u96C6_u7FA4_u89D2_u8272"><span class="nav-number">1.</span> <span class="nav-text">集群角色</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u4F1A_u8BDD"><span class="nav-number">2.</span> <span class="nav-text">会话</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u6570_u636E_u6A21_u578B"><span class="nav-number">3.</span> <span class="nav-text">数据模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u7248_u672C"><span class="nav-number">4.</span> <span class="nav-text">版本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ACL_u6743_u9650_u63A7_u5236"><span class="nav-number">5.</span> <span class="nav-text">ACL权限控制</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61"><span class="nav-number">1.</span> <span class="nav-text">获取构造函数的对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u6784_u9020_u51FD_u6570_u7684_u53C2_u6570_u7C7B_u578B"><span class="nav-number">2.</span> <span class="nav-text">构造函数的参数类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u7528_u6784_u9020_u51FD_u6570_u5BF9_u8C61_u5B9E_u4F8B_u5316_u4E00_u4E2A_u7C7B"><span class="nav-number">3.</span> <span class="nav-text">用构造函数对象实例化一个类</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

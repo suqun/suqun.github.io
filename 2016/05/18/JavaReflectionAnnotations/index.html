@@ -1,0 +1,779 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="入耳箸心" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="原文地址Java Reflection Annotations
+在运行时状态下，你可以通过反射获取java对象上的注解。
+What are Java Annotations?注解是Java5增加的功能。注解是一种注释或者是元数据可以直接插入到Java代码中。在编译时，通过预编译工具处理；或者在运行时，通过java反射处理。下面是个注解的例子：
+1@MyAnnotation(name=&amp;#34;so">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java反射之注解">
+<meta property="og:url" content="http://suqun.github.io/2016/05/18/JavaReflectionAnnotations/index.html">
+<meta property="og:site_name" content="入耳箸心">
+<meta property="og:description" content="原文地址Java Reflection Annotations
+在运行时状态下，你可以通过反射获取java对象上的注解。
+What are Java Annotations?注解是Java5增加的功能。注解是一种注释或者是元数据可以直接插入到Java代码中。在编译时，通过预编译工具处理；或者在运行时，通过java反射处理。下面是个注解的例子：
+1@MyAnnotation(name=&amp;#34;so">
+<meta property="og:updated_time" content="2016-05-28T07:32:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java反射之注解">
+<meta name="twitter:description" content="原文地址Java Reflection Annotations
+在运行时状态下，你可以通过反射获取java对象上的注解。
+What are Java Annotations?注解是Java5增加的功能。注解是一种注释或者是元数据可以直接插入到Java代码中。在编译时，通过预编译工具处理；或者在运行时，通过java反射处理。下面是个注解的例子：
+1@MyAnnotation(name=&amp;#34;so">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> Java反射之注解 | 入耳箸心 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6d9237319769cb2bd5c922f64d95b5f2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">入耳箸心</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">成长路上的点滴记录</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java反射之注解
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-05-18T00:52:55+08:00" content="2016-05-18">
+              2016-05-18
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/18/JavaReflectionAnnotations/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/18/JavaReflectionAnnotations/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/annotations.html" target="_blank" rel="external">Java Reflection Annotations</a></p>
+<p>在运行时状态下，你可以通过反射获取java对象上的注解。</p>
+<h5 id="What_are_Java_Annotations_3F"><a href="#What_are_Java_Annotations_3F" class="headerlink" title="What are Java Annotations?"></a>What are Java Annotations?</h5><p>注解是Java5增加的功能。注解是一种注释或者是元数据可以直接插入到Java代码中。在编译时，通过预编译工具处理；或者在运行时，通过java反射处理。下面是个注解的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@MyAnnotation(name=&#34;someName&#34;,  value = &#34;Hello World&#34;)&#10;public class TheClass &#123;&#10;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>类TheClass的上面有个<code>@MyAnnotation</code>的注解。注解的定义类似接口定义，下面是注解定义的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Retention(RetentionPolicy.RUNTIME)&#10;@Target(ElementType.TYPE)&#10;&#10;public @interface MyAnnotation &#123;&#10;    public String name();&#10;    public String value();&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>创建注解是，在interface前面使用<code>@</code>即可。创建之后就可以在代码里使用了，例如上面的例子。</p>
+<p><code>@Retention(RetentionPolicy.RUNTIME)</code> 和 <code>@Target(ElementType.TYPE)</code>这两个指令，指明了这个注解如何被使用。</p>
+<p><code>@Retention(RetentionPolicy.RUNTIME)</code> 意味着在运行时状态可以使用java反射获取注解，如果不设置这个指令，在运行时状态，注解不会被保存，同样的也就不能通过反射获取。 </p>
+<p><code>@Target(ElementType.TYPE)</code>意味着注解只能用在Types上（比如类和接口）。你也可以指定为<code>METHOD</code>或者是<code>FIELD</code>，或者是不使用Target这个指令，这样你就可以在类，方法，变量上使用了。</p>
+<h5 id="Class_Annotations"><a href="#Class_Annotations" class="headerlink" title="Class Annotations"></a>Class Annotations</h5><p>你可以在运行期访问类，方法，变量的注解。下面是类注解的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Class aClass = TheClass.class;</span><br><span class="line">Annotation[] annotations = aClass.getAnnotations();</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(Annotation annotation : annotations)&#123;</span><br><span class="line">    <span class="keyword">if</span>(annotation <span class="keyword">instanceof</span> MyAnnotation)&#123;</span><br><span class="line">        MyAnnotation myAnnotation = (MyAnnotation) annotation;</span><br><span class="line">        System.out.println(<span class="string">"name: "</span> + myAnnotation.name());</span><br><span class="line">        System.out.println(<span class="string">"value: "</span> + myAnnotation.value());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也可以指定类进行访问，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Class aClass = TheClass.class;</span><br><span class="line">Annotation annotation = aClass.getAnnotation(MyAnnotation.class);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(annotation <span class="keyword">instanceof</span> MyAnnotation)&#123;</span><br><span class="line">    MyAnnotation myAnnotation = (MyAnnotation) annotation;</span><br><span class="line">    System.out.println(<span class="string">"name: "</span> + myAnnotation.name());</span><br><span class="line">    System.out.println(<span class="string">"value: "</span> + myAnnotation.value());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Method_Annotations"><a href="#Method_Annotations" class="headerlink" title="Method Annotations"></a>Method Annotations</h4><p>下面是注解在方法上的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TheClass2</span> </span>&#123;</span><br><span class="line">  <span class="annotation">@MyAnnotation</span>(name=<span class="string">"someName"</span>,  value = <span class="string">"Hello World"</span>)</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以像下面这样访问方法注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Method method = TheClass2.class.getMethod(<span class="string">"doSomething"</span>);</span><br><span class="line">Annotation[] annotations = method.getDeclaredAnnotations();</span><br><span class="line"><span class="keyword">for</span>(Annotation annotation : annotations)&#123;</span><br><span class="line">    <span class="keyword">if</span>(annotation <span class="keyword">instanceof</span> MyAnnotation)&#123;</span><br><span class="line">        MyAnnotation myAnnotation = (MyAnnotation) annotation;</span><br><span class="line">        System.out.println(<span class="string">"name: "</span> + myAnnotation.name());</span><br><span class="line">        System.out.println(<span class="string">"value: "</span> + myAnnotation.value());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>或者是指定方法注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Method method = TheClass2.class.getMethod(<span class="string">"doSomething"</span>);</span><br><span class="line">Annotation annotation = method.getAnnotation(MyAnnotation.class);</span><br><span class="line"><span class="keyword">if</span> (annotation <span class="keyword">instanceof</span> MyAnnotation) &#123;</span><br><span class="line">    MyAnnotation myAnnotation = (MyAnnotation) annotation;</span><br><span class="line">    System.out.println(<span class="string">"name:"</span>+myAnnotation.name());</span><br><span class="line">    System.out.println(<span class="string">"value:"</span>+myAnnotation.value());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Parameter_Annotations"><a href="#Parameter_Annotations" class="headerlink" title="Parameter Annotations"></a>Parameter Annotations</h4><p>在方法的参数上使用注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TheClass3</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">doSomethingElse</span><span class="params">(</span><br><span class="line">        @MyAnnotation(name=<span class="string">"aName"</span>, value=<span class="string">"aValue"</span>)</span> String parameter)</span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>访问方法参数上的注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Method method = TheClass3.class.getMethod(<span class="string">"doSomethingElse"</span>);</span><br><span class="line">Annotation[][] parameterAnnotations = method.getParameterAnnotations();</span><br><span class="line">Class[] parameterTypes = method.getParameterTypes();</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span>(Annotation[] annotations : parameterAnnotations)&#123;</span><br><span class="line">  Class parameterType = parameterTypes[i++];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span>(Annotation annotation : annotations)&#123;</span><br><span class="line">    <span class="keyword">if</span>(annotation <span class="keyword">instanceof</span> MyAnnotation)&#123;</span><br><span class="line">        MyAnnotation myAnnotation = (MyAnnotation) annotation;</span><br><span class="line">        System.out.println(<span class="string">"param: "</span> + parameterType.getName());</span><br><span class="line">        System.out.println(<span class="string">"name : "</span> + myAnnotation.name());</span><br><span class="line">        System.out.println(<span class="string">"value: "</span> + myAnnotation.value());</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意Method.getParameterAnnotations()返回的是二维数组，包含每个参数的注解数组。</p>
+<h4 id="Field_Annotations"><a href="#Field_Annotations" class="headerlink" title="Field Annotations"></a>Field Annotations</h4><p>变量上的注解使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TheClass4</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="annotation">@MyAnnotation</span>(name=<span class="string">"someName"</span>,  value = <span class="string">"Hello World"</span>)</span><br><span class="line">  <span class="keyword">public</span> String myField = <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>访问变量上的注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Field field = TheClass4.class.getField(<span class="string">"myField"</span>);</span><br><span class="line">Annotation[] annotations = field.getDeclaredAnnotations();</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(Annotation annotation : annotations)&#123;</span><br><span class="line">    <span class="keyword">if</span>(annotation <span class="keyword">instanceof</span> MyAnnotation)&#123;</span><br><span class="line">        MyAnnotation myAnnotation = (MyAnnotation) annotation;</span><br><span class="line">        System.out.println(<span class="string">"name: "</span> + myAnnotation.name());</span><br><span class="line">        System.out.println(<span class="string">"value: "</span> + myAnnotation.value());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Field field = TheClass4.class.getField(<span class="string">"myField"</span>);</span><br><span class="line">Annotation annotation = field.getAnnotation(MyAnnotation.class);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(annotation <span class="keyword">instanceof</span> MyAnnotation)&#123;</span><br><span class="line">    MyAnnotation myAnnotation = (MyAnnotation) annotation;</span><br><span class="line">    System.out.println(<span class="string">"name: "</span> + myAnnotation.name());</span><br><span class="line">    System.out.println(<span class="string">"value: "</span> + myAnnotation.value());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag">#Java</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/14/JavaReflectionPrivateFieldsAndMethods/" rel="next" title="Java反射之私有变量和私有方法">
+                <i class="fa fa-chevron-left"></i> Java反射之私有变量和私有方法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/18/JavaReflectionAnnotations/"
+           data-title="Java反射之注解" data-url="http://suqun.github.io/2016/05/18/JavaReflectionAnnotations/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/uploads/avatar.jpg" alt="Larry" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Larry</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">吾生也有涯而知也无涯，以有涯随无涯，殆已。</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/suqun" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">友情链接</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://ifeve.com/" target="_blank">并发编程网</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://uridb.com/" target="_blank">技术流</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://colobu.com/" target="_blank">鸟窝</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jikexueyuan.com/" target="_blank">极客学院</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.imooc.com/" target="_blank">慕课网</a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#What_are_Java_Annotations_3F"><span class="nav-number">1.</span> <span class="nav-text">What are Java Annotations?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Class_Annotations"><span class="nav-number">2.</span> <span class="nav-text">Class Annotations</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Method_Annotations"><span class="nav-number"></span> <span class="nav-text">Method Annotations</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Parameter_Annotations"><span class="nav-number"></span> <span class="nav-text">Parameter Annotations</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Field_Annotations"><span class="nav-number"></span> <span class="nav-text">Field Annotations</span></a></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Larry</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"suqun"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>
