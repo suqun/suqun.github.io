@@ -35,7 +35,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="linux,shell," />
+  <meta name="keywords" content="Java," />
 
 
 
@@ -53,21 +53,19 @@
 
 
 
-<meta name="description" content="声明变量类型declaredeclare语法：
-12345678910111213141516171819202122232425262728293031323334declare [-afiprx] 变量名参数说明： -   ：设置属性+   ：取消属性-a  ：定义为数组 array -f  ：定义为函数 function  -i  ：定义为整数 integer -p  ：显示变量被声明的类型">
+<meta name="description" content="原文地址Java Reflection Generics
+Generic Method Return Types如果你已经获取一个java.lang.reflect.Method的对象，就可以获取到该对象上的泛型返回类型信息。如果方法是在一个被参数化类型之中（如T fun()）那么你无法获取他的具体类型，但是如果方法返回一个泛型类（如List fun()）那么你就可以获得这个泛型类的具体参数化类型">
 <meta property="og:type" content="article">
-<meta property="og:title" content="shell编程之运算符">
-<meta property="og:url" content="http://suqun.github.io/2016/01/09/shell编程之运算符/index.html">
+<meta property="og:title" content="Java反射之泛型">
+<meta property="og:url" content="http://suqun.github.io/2016/05/21/JavaReflectionGenerics/index.html">
 <meta property="og:site_name" content="入耳箸心">
-<meta property="og:description" content="声明变量类型declaredeclare语法：
-12345678910111213141516171819202122232425262728293031323334declare [-afiprx] 变量名参数说明： -   ：设置属性+   ：取消属性-a  ：定义为数组 array -f  ：定义为函数 function  -i  ：定义为整数 integer -p  ：显示变量被声明的类型">
-<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/shell-ysf.png">
-<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/shell-test-ysf.png">
-<meta property="og:updated_time" content="2016-01-09T12:10:57.000Z">
+<meta property="og:description" content="原文地址Java Reflection Generics
+Generic Method Return Types如果你已经获取一个java.lang.reflect.Method的对象，就可以获取到该对象上的泛型返回类型信息。如果方法是在一个被参数化类型之中（如T fun()）那么你无法获取他的具体类型，但是如果方法返回一个泛型类（如List fun()）那么你就可以获得这个泛型类的具体参数化类型">
+<meta property="og:updated_time" content="2016-05-29T14:51:32.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="shell编程之运算符">
-<meta name="twitter:description" content="声明变量类型declaredeclare语法：
-12345678910111213141516171819202122232425262728293031323334declare [-afiprx] 变量名参数说明： -   ：设置属性+   ：取消属性-a  ：定义为数组 array -f  ：定义为函数 function  -i  ：定义为整数 integer -p  ：显示变量被声明的类型">
+<meta name="twitter:title" content="Java反射之泛型">
+<meta name="twitter:description" content="原文地址Java Reflection Generics
+Generic Method Return Types如果你已经获取一个java.lang.reflect.Method的对象，就可以获取到该对象上的泛型返回类型信息。如果方法是在一个被参数化类型之中（如T fun()）那么你无法获取他的具体类型，但是如果方法返回一个泛型类（如List fun()）那么你就可以获得这个泛型类的具体参数化类型">
 
 
 
@@ -79,7 +77,7 @@
   };
 </script>
 
-  <title> shell编程之运算符 | 入耳箸心 </title>
+  <title> Java反射之泛型 | 入耳箸心 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -229,7 +227,7 @@
             
             
               
-                shell编程之运算符
+                Java反射之泛型
               
             
           </h1>
@@ -238,8 +236,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-01-09T12:14:05+08:00" content="2016-01-09">
-              2016-01-09
+            <time itemprop="dateCreated" datetime="2016-05-21T00:52:55+08:00" content="2016-05-21">
+              2016-05-21
             </time>
           </span>
 
@@ -249,8 +247,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/01/09/shell编程之运算符/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/09/shell编程之运算符/" itemprop="commentsCount"></span>
+                <a href="/2016/05/21/JavaReflectionGenerics/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/21/JavaReflectionGenerics/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -269,16 +267,21 @@
       
 
       
-        <span itemprop="articleBody"><h3 id="u58F0_u660E_u53D8_u91CF_u7C7B_u578Bdeclare"><a href="#u58F0_u660E_u53D8_u91CF_u7C7B_u578Bdeclare" class="headerlink" title="声明变量类型declare"></a>声明变量类型declare</h3><p>declare语法：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">declare</span> [-afiprx] 变量名</span><br><span class="line">参数说明： </span><br><span class="line">-   ：设置属性</span><br><span class="line">+   ：取消属性</span><br><span class="line"><span class="operator">-a</span>  ：定义为数组 array </span><br><span class="line"><span class="operator">-f</span>  ：定义为函数 <span class="keyword">function</span>  </span><br><span class="line">-i  ：定义为整数 <span class="built_in">integer</span> </span><br><span class="line">-p  ：显示变量被声明的类型</span><br><span class="line">-r  ：定义为『只读』 </span><br><span class="line">-x  ：定义为环境变量 </span><br><span class="line"></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -i a=<span class="number">47</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -i b=<span class="number">53</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -i c=<span class="variable">$a</span>+<span class="variable">$b</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$c</span></span><br><span class="line"><span class="number">100</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -p c</span><br><span class="line"><span class="built_in">declare</span> -i c=<span class="string">"100"</span></span><br><span class="line"></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> <span class="operator">-a</span> arr[<span class="number">0</span>]=<span class="number">11</span>  &lt;==定义数组</span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -p arr</span><br><span class="line"><span class="built_in">declare</span> <span class="operator">-a</span> arr=<span class="string">'([0]="11")'</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> <span class="operator">-a</span> arr[<span class="number">1</span>]=<span class="number">22</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -p arr</span><br><span class="line"><span class="built_in">declare</span> <span class="operator">-a</span> arr=<span class="string">'([0]="11" [1]="22")'</span></span><br><span class="line">bash-<span class="number">3.2</span>$</span><br><span class="line"></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$&#123;arr&#125;</span>       &lt;==查看数组方法</span><br><span class="line"><span class="number">11</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$&#123;arr[1]&#125;</span></span><br><span class="line"><span class="number">22</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$&#123;arr[*]&#125;</span></span><br><span class="line"><span class="number">11</span> <span class="number">22</span></span><br><span class="line">bash-<span class="number">3.2</span>$</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<h3 id="u6570_u503C_u8FD0_u7B97"><a href="#u6570_u503C_u8FD0_u7B97" class="headerlink" title="数值运算"></a>数值运算</h3><p>数值运算可以通过<code>declare -i c=$a+$b</code>进行，也可以用<code>expr</code>/<code>$((运算式))</code>/<code>$[运算式]</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">bash-<span class="number">3.2</span>$ dd=$((<span class="variable">$a</span>+<span class="variable">$b</span>))</span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$dd</span></span><br><span class="line"><span class="number">100</span></span><br><span class="line">bash-<span class="number">3.2</span>$ ee=$(expr <span class="variable">$a</span> + <span class="variable">$b</span>)    &lt;==『+』两边必须有空格</span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$ee</span></span><br><span class="line"><span class="number">100</span></span><br><span class="line">bash-<span class="number">3.2</span>$ ff=$((<span class="variable">$a</span>+<span class="variable">$b</span>))</span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$ff</span></span><br><span class="line"><span class="number">100</span></span><br><span class="line">bash-<span class="number">3.2</span>$ gg=$[<span class="variable">$a</span>+<span class="variable">$b</span>]</span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$gg</span></span><br><span class="line"><span class="number">100</span></span><br></pre></td></tr></table></figure>
-<p>shell支持的运算符有</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/shell-ysf.png" alt="shell运算符"></p>
-<h3 id="u53D8_u91CF_u6D4B_u8BD5"><a href="#u53D8_u91CF_u6D4B_u8BD5" class="headerlink" title="变量测试"></a>变量测试</h3><p>下面的运算符我的理解类似于java的<code>？：</code>三目运算符，比如第一行的<code>x=${y-新值}</code>，意思是，如果y没有设置则x=新值，如果y为空值则x=空，如果y有值则x=$y。其他的类推</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/shell-test-ysf.png" alt="shell变量测试运算符"></p>
-<p>shell编程视频地址：<a href="http://www.imooc.com/learn/355" target="_blank" rel="external">http://www.imooc.com/learn/355</a></p>
+        <span itemprop="articleBody"><p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/generics.html" target="_blank" rel="external">Java Reflection Generics</a></p>
+<h4 id="Generic_Method_Return_Types"><a href="#Generic_Method_Return_Types" class="headerlink" title="Generic Method Return Types"></a>Generic Method Return Types</h4><p>如果你已经获取一个<code>java.lang.reflect.Method</code>的对象，就可以获取到该对象上的泛型返回类型信息。如果方法是在一个被参数化类型之中（如T fun()）那么你无法获取他的具体类型，但是如果方法返回一个泛型类（如List fun()）那么你就可以获得这个泛型类的具体参数化类型。下面这个例子定义了一个类这个类中的方法返回类型是一个泛型类型：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> List&lt;String&gt; stringList = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">getStringList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> stringList;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个例子是可以获取到<code>getStringList()</code>方法的泛型返回类型。可以检测到<code>getStringList()</code>方法返回的List并不仅仅是一个List。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">       Method method = MyClass.class.getMethod(<span class="string">"getStringList"</span>);</span><br><span class="line">       Type returnType = method.getGenericReturnType();</span><br><span class="line">       <span class="keyword">if</span> (returnType <span class="keyword">instanceof</span> ParameterizedType) &#123;</span><br><span class="line">           ParameterizedType type = (ParameterizedType) returnType;</span><br><span class="line">           Type[] typeArguments = type.getActualTypeArguments();</span><br><span class="line">           <span class="keyword">for</span> (Type typeArgument : typeArguments) &#123;</span><br><span class="line">               Class typeArgClass = (Class) typeArgument;</span><br><span class="line">               System.out.println(<span class="string">"typeArgClass:"</span> + typeArgClass);<span class="comment">//typeArgClass:class java.lang.String</span></span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">       e.printStackTrace();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>Type[]数组typeArguments只有一个结果 – 一个代表java.lang.String的Class类的实例。Class类实现了Type接口。</p>
+<h4 id="Generic_Method_Parameter_Types"><a href="#Generic_Method_Parameter_Types" class="headerlink" title="Generic Method Parameter Types"></a>Generic Method Parameter Types</h4><p>You can also access the generic types of parameter types at runtime via Java Reflection. Here is an example class with a method taking a parameterized List as parameter:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> List&lt;String&gt; stringList = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setStringList</span><span class="params">(List&lt;String&gt; stringList)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.stringList = stringList;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>You can access the generic parameter types of the method parameters like this:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Method method2 = MyClass.class.getMethod(<span class="string">"setStringList"</span>, List.class);</span><br><span class="line">Type[] genericParameterTypes = method2.getGenericParameterTypes();</span><br><span class="line"><span class="keyword">for</span> (Type genericParameterType : genericParameterTypes) &#123;</span><br><span class="line">    <span class="keyword">if</span>(genericParameterType <span class="keyword">instanceof</span> ParameterizedType)&#123;</span><br><span class="line">        ParameterizedType aType = (ParameterizedType) genericParameterType;</span><br><span class="line">        Type[] parameterArgTypes = aType.getActualTypeArguments();</span><br><span class="line">        <span class="keyword">for</span>(Type parameterArgType : parameterArgTypes)&#123;</span><br><span class="line">            Class parameterArgClass = (Class) parameterArgType;</span><br><span class="line">            System.out.println(<span class="string">"parameterArgClass = "</span> + parameterArgClass);<span class="comment">//parameterArgClass = class java.lang.String</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>This code will print out the text “parameterArgType = java.lang.String”. The Type[] array parameterArgTypes array will contain one item - a Class instance representing the class java.lang.String. Class implements the Type interface.</p>
+<h4 id="Generic_Field_Types"><a href="#Generic_Field_Types" class="headerlink" title="Generic Field Types"></a>Generic Field Types</h4><p>It is also possible to access the generic types of <code>public</code> fields. Fields are class member variables - either static or instance variables. </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> List&lt;String&gt; stringList = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Field field = MyClass.class.getField(<span class="string">"stringList"</span>);</span><br><span class="line"></span><br><span class="line">Type genericFieldType = field.getGenericType();</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(genericFieldType <span class="keyword">instanceof</span> ParameterizedType)&#123;</span><br><span class="line">    ParameterizedType aType = (ParameterizedType) genericFieldType;</span><br><span class="line">    Type[] fieldArgTypes = aType.getActualTypeArguments();</span><br><span class="line">    <span class="keyword">for</span>(Type fieldArgType : fieldArgTypes)&#123;</span><br><span class="line">        Class fieldArgClass = (Class) fieldArgType;</span><br><span class="line">        System.out.println(<span class="string">"fieldArgClass = "</span> + fieldArgClass);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>This code will print out the text “fieldArgClass = java.lang.String”. The Type[] array fieldArgTypes array will contain one item - a Class instance representing the class java.lang.String. Class implements the Type interface.</p>
 </span>
       
     </div>
@@ -287,9 +290,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/linux/" rel="tag">#linux</a>
-          
-            <a href="/tags/shell/" rel="tag">#shell</a>
+            <a href="/tags/Java/" rel="tag">#Java</a>
           
         </div>
       
@@ -298,17 +299,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/01/04/Shell编程之变量/" rel="next" title="Shell编程之变量">
-                <i class="fa fa-chevron-left"></i> Shell编程之变量
+              <a href="/2016/05/18/JavaReflectionAnnotations/" rel="next" title="Java反射之注解">
+                <i class="fa fa-chevron-left"></i> Java反射之注解
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/01/13/Shell编程之正则表达式/" rel="prev" title="Shell编程之正则表达式">
-                Shell编程之正则表达式 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -361,8 +358,8 @@
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/01/09/shell编程之运算符/"
-           data-title="shell编程之运算符" data-url="http://suqun.github.io/2016/01/09/shell编程之运算符/">
+      <div class="ds-thread" data-thread-key="2016/05/21/JavaReflectionGenerics/"
+           data-title="Java反射之泛型" data-url="http://suqun.github.io/2016/05/21/JavaReflectionGenerics/">
       </div>
     
   </div>
@@ -492,7 +489,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u58F0_u660E_u53D8_u91CF_u7C7B_u578Bdeclare"><span class="nav-number">1.</span> <span class="nav-text">声明变量类型declare</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u6570_u503C_u8FD0_u7B97"><span class="nav-number">2.</span> <span class="nav-text">数值运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u53D8_u91CF_u6D4B_u8BD5"><span class="nav-number">3.</span> <span class="nav-text">变量测试</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Generic_Method_Return_Types"><span class="nav-number">1.</span> <span class="nav-text">Generic Method Return Types</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Generic_Method_Parameter_Types"><span class="nav-number">2.</span> <span class="nav-text">Generic Method Parameter Types</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Generic_Field_Types"><span class="nav-number">3.</span> <span class="nav-text">Generic Field Types</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

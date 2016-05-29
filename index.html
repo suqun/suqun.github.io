@@ -232,6 +232,108 @@
             
               
                 
+                <a class="post-title-link" href="/2016/05/21/JavaReflectionGenerics/" itemprop="url">
+                  Java反射之泛型
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-05-21T00:52:55+08:00" content="2016-05-21">
+              2016-05-21
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/21/JavaReflectionGenerics/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/21/JavaReflectionGenerics/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/generics.html" target="_blank" rel="external">Java Reflection Generics</a></p>
+<h4 id="Generic_Method_Return_Types"><a href="#Generic_Method_Return_Types" class="headerlink" title="Generic Method Return Types"></a>Generic Method Return Types</h4><p>如果你已经获取一个<code>java.lang.reflect.Method</code>的对象，就可以获取到该对象上的泛型返回类型信息。如果方法是在一个被参数化类型之中（如T fun()）那么你无法获取他的具体类型，但是如果方法返回一个泛型类（如List fun()）那么你就可以获得这个泛型类的具体参数化类型。下面这个例子定义了一个类这个类中的方法返回类型是一个泛型类型：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> List&lt;String&gt; stringList = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">getStringList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> stringList;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个例子是可以获取到<code>getStringList()</code>方法的泛型返回类型。可以检测到<code>getStringList()</code>方法返回的List并不仅仅是一个List。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">       Method method = MyClass.class.getMethod(<span class="string">"getStringList"</span>);</span><br><span class="line">       Type returnType = method.getGenericReturnType();</span><br><span class="line">       <span class="keyword">if</span> (returnType <span class="keyword">instanceof</span> ParameterizedType) &#123;</span><br><span class="line">           ParameterizedType type = (ParameterizedType) returnType;</span><br><span class="line">           Type[] typeArguments = type.getActualTypeArguments();</span><br><span class="line">           <span class="keyword">for</span> (Type typeArgument : typeArguments) &#123;</span><br><span class="line">               Class typeArgClass = (Class) typeArgument;</span><br><span class="line">               System.out.println(<span class="string">"typeArgClass:"</span> + typeArgClass);<span class="comment">//typeArgClass:class java.lang.String</span></span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">       e.printStackTrace();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>Type[]数组typeArguments只有一个结果 – 一个代表java.lang.String的Class类的实例。Class类实现了Type接口。</p>
+<h4 id="Generic_Method_Parameter_Types"><a href="#Generic_Method_Parameter_Types" class="headerlink" title="Generic Method Parameter Types"></a>Generic Method Parameter Types</h4><p>You can also access the generic types of parameter types at runtime via Java Reflection. Here is an example class with a method taking a parameterized List as parameter:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> List&lt;String&gt; stringList = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setStringList</span><span class="params">(List&lt;String&gt; stringList)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.stringList = stringList;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>You can access the generic parameter types of the method parameters like this:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Method method2 = MyClass.class.getMethod(<span class="string">"setStringList"</span>, List.class);</span><br><span class="line">Type[] genericParameterTypes = method2.getGenericParameterTypes();</span><br><span class="line"><span class="keyword">for</span> (Type genericParameterType : genericParameterTypes) &#123;</span><br><span class="line">    <span class="keyword">if</span>(genericParameterType <span class="keyword">instanceof</span> ParameterizedType)&#123;</span><br><span class="line">        ParameterizedType aType = (ParameterizedType) genericParameterType;</span><br><span class="line">        Type[] parameterArgTypes = aType.getActualTypeArguments();</span><br><span class="line">        <span class="keyword">for</span>(Type parameterArgType : parameterArgTypes)&#123;</span><br><span class="line">            Class parameterArgClass = (Class) parameterArgType;</span><br><span class="line">            System.out.println(<span class="string">"parameterArgClass = "</span> + parameterArgClass);<span class="comment">//parameterArgClass = class java.lang.String</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>This code will print out the text “parameterArgType = java.lang.String”. The Type[] array parameterArgTypes array will contain one item - a Class instance representing the class java.lang.String. Class implements the Type interface.</p>
+<h4 id="Generic_Field_Types"><a href="#Generic_Field_Types" class="headerlink" title="Generic Field Types"></a>Generic Field Types</h4><p>It is also possible to access the generic types of <code>public</code> fields. Fields are class member variables - either static or instance variables. </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> List&lt;String&gt; stringList = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Field field = MyClass.class.getField(<span class="string">"stringList"</span>);</span><br><span class="line"></span><br><span class="line">Type genericFieldType = field.getGenericType();</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(genericFieldType <span class="keyword">instanceof</span> ParameterizedType)&#123;</span><br><span class="line">    ParameterizedType aType = (ParameterizedType) genericFieldType;</span><br><span class="line">    Type[] fieldArgTypes = aType.getActualTypeArguments();</span><br><span class="line">    <span class="keyword">for</span>(Type fieldArgType : fieldArgTypes)&#123;</span><br><span class="line">        Class fieldArgClass = (Class) fieldArgType;</span><br><span class="line">        System.out.println(<span class="string">"fieldArgClass = "</span> + fieldArgClass);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>This code will print out the text “fieldArgClass = java.lang.String”. The Type[] array fieldArgTypes array will contain one item - a Class instance representing the class java.lang.String. Class implements the Type interface.</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/05/18/JavaReflectionAnnotations/" itemprop="url">
                   Java反射之注解
                 </a>
@@ -1137,101 +1239,12 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/30/docker容器的操作/" itemprop="url">
-                  docker容器的操作
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-01-30T00:06:23+08:00" content="2016-01-30">
-              2016-01-30
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/01/30/docker容器的操作/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/30/docker容器的操作/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="u8FD0_u884C_u5BB9_u5668"><a href="#u8FD0_u884C_u5BB9_u5668" class="headerlink" title="运行容器"></a>运行容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker run 运行容器</span><br><span class="line">-i -t  创建交互式容器</span><br><span class="line"><span class="operator">-d</span> 创建守护式容器</span><br><span class="line">--name 为容器指定一个名称</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -it ubuntu /bin/bash</span><br><span class="line">root@<span class="number">8</span>abb3326b08f:/<span class="comment"># cat /etc/issue.net</span></span><br><span class="line">Ubuntu <span class="number">14.04</span>.<span class="number">3</span> LTS</span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/01/30/docker容器的操作/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1272,7 +1285,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-count">21</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
