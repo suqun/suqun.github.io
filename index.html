@@ -232,6 +232,120 @@
             
               
                 
+                <a class="post-title-link" href="/2016/06/24/JavaReflectionArray/" itemprop="url">
+                  Java反射之数组
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-06-24T20:52:55+08:00" content="2016-06-24">
+              2016-06-24
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/24/JavaReflectionArray/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/24/JavaReflectionArray/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/arrays.html" target="_blank" rel="external">Java Reflection Arrays</a></p>
+<p>在Java反射里面处理数组有时是比较棘手的.特别是你需要获得数组对象的实际类型.例如 int[]等待.这篇文字就来讨论通过反射如何创建数组如何获取数组中的对象.</p>
+<h4 id="java-lang-reflect-Array"><a href="#java-lang-reflect-Array" class="headerlink" title="java.lang.reflect.Array"></a>java.lang.reflect.Array</h4><p>通过Java反射使用数组用到的是类java.lang.reflect.Array,不要和Java集合中的java.util.Arrays混淆.</p>
+<h4 id="Creating_Arrays"><a href="#Creating_Arrays" class="headerlink" title="Creating Arrays"></a>Creating Arrays</h4><p>通过Java反射创建数组使用类java.lang.reflect.Array,下面给出了创建数组的例子:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[] intArray = (<span class="keyword">int</span>[]) Array.newInstance(<span class="keyword">int</span>.class,<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<p>这是创建int类型数组的例子. Array.newInstance()方法的第一个参数<code>int.class</code>给出了数组元素类型,第二个参数<code>3</code>是数组需要分配的空间</p>
+<h4 id="Accessing_Arrays"><a href="#Accessing_Arrays" class="headerlink" title="Accessing Arrays"></a>Accessing Arrays</h4><p>通过反射访问数组元素可以使用<code>Array.get()</code>和<code>Array.set()</code>方法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[] intArray = (<span class="keyword">int</span>[]) Array.newInstance(<span class="keyword">int</span>.class,<span class="number">3</span>);</span><br><span class="line">Array.set(intArray,<span class="number">0</span>,<span class="number">123</span>)</span><br><span class="line">Array.set(intArray,<span class="number">1</span>,<span class="number">456</span>)</span><br><span class="line">Array.set(intArray,<span class="number">1</span>,<span class="number">789</span>)</span><br><span class="line">   </span><br><span class="line">System.out.println(<span class="string">"intArray[0] = "</span> + Array.get(intArray, <span class="number">0</span>));</span><br><span class="line">System.out.println(<span class="string">"intArray[1] = "</span> + Array.get(intArray, <span class="number">1</span>));</span><br><span class="line">System.out.println(<span class="string">"intArray[2] = "</span> + Array.get(intArray, <span class="number">2</span>));</span><br></pre></td></tr></table></figure>
+<p>打印出来的结果为:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">intArray[<span class="number">0</span>] = <span class="number">123</span></span><br><span class="line">intArray[<span class="number">1</span>] = <span class="number">456</span></span><br><span class="line">intArray[<span class="number">2</span>] = <span class="number">789</span></span><br></pre></td></tr></table></figure>
+<h4 id="u83B7_u53D6_u6570_u7EC4_u7684Class_u5BF9_u8C61"><a href="#u83B7_u53D6_u6570_u7EC4_u7684Class_u5BF9_u8C61" class="headerlink" title="获取数组的Class对象"></a>获取数组的Class对象</h4><p>在我编写<a href="http://butterfly.jenkov.com/" target="_blank" rel="external">Butterfly DI Container</a>的脚本语言时，当我想通过反射获取数组的Class对象时遇到了一点麻烦。如果不通过反射的话你可以这样来获取数组的Class对象：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class stringArrayClass = String[].class;</span><br></pre></td></tr></table></figure>
+<p>如果使用Class.forName()方法来获取Class对象则不是那么简单。比如你可以像这样来获得一个原生数据类型（primitive）int数组的Class对象：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class intArray = Class.forName(<span class="string">"[I"</span>);</span><br></pre></td></tr></table></figure>
+<p>在JVM中字母I代表int类型，左边的‘[’代表我想要的是一个int类型的数组，这个规则同样适用于其他的原生数据类型。对于普通对象类型的数组有一点细微的不同：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class stringArrayClass = Class.forName(<span class="string">"[Ljava.lang.String;"</span>);</span><br></pre></td></tr></table></figure>
+<p>注意‘[L’的右边是类名，类名的右边是一个‘;’符号。这个的含义是一个指定类型的数组。需要注意的是，你不能通过Class.forName()方法获取一个原生数据类型的Class对象。下面这两个例子都会报ClassNotFoundException：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class intClass1 = Class.forName(<span class="string">"I"</span>);</span><br><span class="line">Class intClass2 = Class.forName(<span class="string">"int"</span>);</span><br></pre></td></tr></table></figure>
+<p>我通常会用下面这个方法来获取普通对象以及原生对象的Class对象：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Class <span class="title">getClass</span><span class="params">(String className)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(<span class="string">"int"</span> .equals(className)) <span class="keyword">return</span> <span class="keyword">int</span> .class;</span><br><span class="line">  <span class="keyword">if</span>(<span class="string">"long"</span>.equals(className)) <span class="keyword">return</span> <span class="keyword">long</span>.class;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">return</span> Class.forName(className);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一旦你获取了类型的Class对象，你就有办法轻松的获取到它的数组的Class对象，你可以通过指定的类型创建一个空的数组，然后通过这个空的数组来获取数组的Class对象。这样做有点讨巧，不过很有效。如下例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class theClass = getClass(theClassName);</span><br><span class="line">Class stringArrayClass = Array.newInstance(theClass, <span class="number">0</span>).getClass();</span><br></pre></td></tr></table></figure>
+<p>这是一个特别的方式来获取指定类型的指定数组的Class对象。无需使用类名或其他方式来获取这个Class对象。<br>为了确保Class对象是不是代表一个数组，你可以使用Class.isArray()方法来进行校验：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class stringArrayClass = Array.newInstance(String.class, <span class="number">0</span>).getClass();</span><br><span class="line">System.out.println(<span class="string">"is array: "</span> + stringArrayClass.isArray());</span><br></pre></td></tr></table></figure>
+<h4 id="u83B7_u53D6_u6570_u7EC4_u7684_u6210_u5458_u7C7B_u578B"><a href="#u83B7_u53D6_u6570_u7EC4_u7684_u6210_u5458_u7C7B_u578B" class="headerlink" title="获取数组的成员类型"></a>获取数组的成员类型</h4><p>一旦你获取了一个数组的Class对象，你就可以通过Class.getComponentType()方法获取这个数组的成员类型。成员类型就是数组存储的数据类型。例如，数组int[]的成员类型就是一个Class对象int.class。String[]的成员类型就是java.lang.String类的Class对象。<br>下面是一个访问数组成员类型的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String[] strings = <span class="keyword">new</span> String[<span class="number">3</span>];</span><br><span class="line">Class stringArrayClass = strings.getClass();</span><br><span class="line">Class stringArrayComponentType = stringArrayClass.getComponentType();</span><br><span class="line">System.out.println(stringArrayComponentType);</span><br></pre></td></tr></table></figure>
+<p>下面这个例子会打印<code>java.lang.String</code>代表这个数组的成员类型是字符串。</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/05/21/JavaReflectionGenerics/" itemprop="url">
                   Java反射之泛型
                 </a>
@@ -1147,98 +1261,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/02/16/Spring-Boot安装/" itemprop="url">
-                  Spring Boot安装
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-02-16T22:54:54+08:00" content="2016-02-16">
-              2016-02-16
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/02/16/Spring-Boot安装/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/02/16/Spring-Boot安装/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="JDK"><a href="#JDK" class="headerlink" title="JDK"></a>JDK</h3><p>Spring Boot可以跟典型的Java开发工具一块使用或安装为一个命令行工具。不管怎样，你将需要安装Java SDK v1.6 或更高版本。在开始之前，你需要检查下当前安装的Java版本：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -version</span><br></pre></td></tr></table></figure>
-<p>注：尽管Spring Boot兼容Java 1.6，如果可能的话，你应该考虑使用Java最新版本。</p>
-<h3 id="maven"><a href="#maven" class="headerlink" title="maven"></a>maven</h3><p>Spring Boot兼容Apache Maven 3.2或更高版本,OSX系统下使用brew安装</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install maven</span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/02/16/Spring-Boot安装/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -1285,7 +1307,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-count">22</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
