@@ -35,7 +35,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Java," />
+  <meta name="keywords" content="Java NIO," />
 
 
 
@@ -53,28 +53,38 @@
 
 
 
-<meta name="description" content="原文地址Java Reflection Methods
-Obtaining Method Objects获取类的方法，Method[]数组里面只包含类中public修饰的方法
-1Method[] methods = orderClass.getMethods();
-也可以使用具体的方法名及参数类型直接获取,以Order类中的getState()，setState()方法为例:
-1234567891">
+<meta name="description" content="Java NIO 的Channels有些像流，但是也有一些区别：
+
+可以向一个Channel即读又写。流是典型的单向的（写或者读）
+Channels的读写是异步的
+Channels总是读数据到Buffer中，或者将Buffer中的数据写入Channel
+
+上面提到的，从channel中读取数据至buffer中，将buffer中的数据写入channel中：
+Java NIO: Channels re">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java反射之方法">
-<meta property="og:url" content="http://suqun.github.io/2016/05/13/JavaReflectionMethods/index.html">
+<meta property="og:title" content="Java NIO Channel">
+<meta property="og:url" content="http://suqun.github.io/2016/06/26/Java-NIO-Channel/index.html">
 <meta property="og:site_name" content="入耳箸心">
-<meta property="og:description" content="原文地址Java Reflection Methods
-Obtaining Method Objects获取类的方法，Method[]数组里面只包含类中public修饰的方法
-1Method[] methods = orderClass.getMethods();
-也可以使用具体的方法名及参数类型直接获取,以Order类中的getState()，setState()方法为例:
-1234567891">
-<meta property="og:updated_time" content="2016-05-28T07:31:48.000Z">
+<meta property="og:description" content="Java NIO 的Channels有些像流，但是也有一些区别：
+
+可以向一个Channel即读又写。流是典型的单向的（写或者读）
+Channels的读写是异步的
+Channels总是读数据到Buffer中，或者将Buffer中的数据写入Channel
+
+上面提到的，从channel中读取数据至buffer中，将buffer中的数据写入channel中：
+Java NIO: Channels re">
+<meta property="og:image" content="http://tutorials.jenkov.com/images/java-nio/overview-channels-buffers.png">
+<meta property="og:updated_time" content="2016-06-26T13:56:19.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java反射之方法">
-<meta name="twitter:description" content="原文地址Java Reflection Methods
-Obtaining Method Objects获取类的方法，Method[]数组里面只包含类中public修饰的方法
-1Method[] methods = orderClass.getMethods();
-也可以使用具体的方法名及参数类型直接获取,以Order类中的getState()，setState()方法为例:
-1234567891">
+<meta name="twitter:title" content="Java NIO Channel">
+<meta name="twitter:description" content="Java NIO 的Channels有些像流，但是也有一些区别：
+
+可以向一个Channel即读又写。流是典型的单向的（写或者读）
+Channels的读写是异步的
+Channels总是读数据到Buffer中，或者将Buffer中的数据写入Channel
+
+上面提到的，从channel中读取数据至buffer中，将buffer中的数据写入channel中：
+Java NIO: Channels re">
 
 
 
@@ -86,7 +96,7 @@ Obtaining Method Objects获取类的方法，Method[]数组里面只包含类中
   };
 </script>
 
-  <title> Java反射之方法 | 入耳箸心 </title>
+  <title> Java NIO Channel | 入耳箸心 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -236,7 +246,7 @@ Obtaining Method Objects获取类的方法，Method[]数组里面只包含类中
             
             
               
-                Java反射之方法
+                Java NIO Channel
               
             
           </h1>
@@ -245,8 +255,8 @@ Obtaining Method Objects获取类的方法，Method[]数组里面只包含类中
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-05-13T00:52:55+08:00" content="2016-05-13">
-              2016-05-13
+            <time itemprop="dateCreated" datetime="2016-06-26T21:04:43+08:00" content="2016-06-26">
+              2016-06-26
             </time>
           </span>
 
@@ -256,8 +266,8 @@ Obtaining Method Objects获取类的方法，Method[]数组里面只包含类中
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/05/13/JavaReflectionMethods/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/13/JavaReflectionMethods/" itemprop="commentsCount"></span>
+                <a href="/2016/06/26/Java-NIO-Channel/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/26/Java-NIO-Channel/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -276,23 +286,28 @@ Obtaining Method Objects获取类的方法，Method[]数组里面只包含类中
       
 
       
-        <span itemprop="articleBody"><p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/methods.html" target="_blank" rel="external">Java Reflection Methods</a></p>
-<h5 id="Obtaining_Method_Objects"><a href="#Obtaining_Method_Objects" class="headerlink" title="Obtaining Method Objects"></a>Obtaining Method Objects</h5><p>获取类的方法，Method[]数组里面只包含类中public修饰的方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Method[] methods = orderClass.getMethods();</span><br></pre></td></tr></table></figure>
-<p>也可以使用具体的方法名及参数类型直接获取,以Order类中的getState()，setState()方法为例:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Method methodHaveNoParameter = orderClass.getMethod(<span class="string">"getState"</span>,<span class="keyword">null</span>);<span class="comment">//该方法没有参数,null省略也可以</span></span><br><span class="line">    System.out.println(methodHaveNoParameter.getName());<span class="comment">//getState</span></span><br><span class="line">    </span><br><span class="line">    Method methodHaveParameter = orderClass.getMethod(<span class="string">"setState"</span>,<span class="keyword">new</span> Class[]&#123;String.class&#125;);<span class="comment">//该方有String类型参数</span></span><br><span class="line">    System.out.println(methodHaveParameter.getName());<span class="comment">//setState</span></span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="Method_Parameters_and_Return_Types"><a href="#Method_Parameters_and_Return_Types" class="headerlink" title="Method Parameters and Return Types"></a>Method Parameters and Return Types</h4><p>获取方法的参数类型及返回类型</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Class[] parameters = methodHaveParameter.getParameterTypes();</span><br><span class="line">System.out.println(parameters[<span class="number">0</span>].getName());<span class="comment">//class java.lang.String</span></span><br><span class="line"></span><br><span class="line">Class returnType = methodHaveParameter.getReturnType();</span><br><span class="line">System.out.println(returnType);<span class="comment">//void</span></span><br></pre></td></tr></table></figure>
-<h4 id="Invoking_Methods_using_Method_Object"><a href="#Invoking_Methods_using_Method_Object" class="headerlink" title="Invoking Methods using Method Object"></a>Invoking Methods using Method Object</h4><p>使用<code>invoke</code>调用方法,以Order类中的pay()方法为例，该方法直接返回一个字符串</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Method methodPay = orderClass.getMethod(<span class="string">"pay"</span>,<span class="keyword">new</span> Class[]&#123;String.class&#125;);</span><br><span class="line">    Order order = <span class="keyword">new</span> Order();</span><br><span class="line">    Object returnValue = methodPay.invoke(order,<span class="string">"2016050902"</span>);</span><br><span class="line">    System.out.println(returnValue);<span class="comment">//2016050902 pay success</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如果方法是static的，那么在调用invoke时，第一个参数（类的实例）可以传null(传入类的实例也是可以的)。</p>
-<h5 id="u83B7_u53D6getter/setter_u65B9_u6CD5"><a href="#u83B7_u53D6getter/setter_u65B9_u6CD5" class="headerlink" title="获取getter/setter方法"></a>获取getter/setter方法</h5><p>使用反射时，如果需要获取类的getter和setter方法，需要获取所有methods，并根据getter/setter的特点找到他们。</p>
+        <span itemprop="articleBody"><p>Java NIO 的Channels有些像流，但是也有一些区别：</p>
 <ul>
-<li>Getter<br>  getter方法以「get」开头，没有参数，有返回值</li>
-<li>Setter<br>  setter方法以「set」开头，有一个参数，返回值可能有可能没有</li>
+<li>可以向一个Channel即读又写。流是典型的单向的（写或者读）</li>
+<li>Channels的读写是异步的</li>
+<li>Channels总是读数据到Buffer中，或者将Buffer中的数据写入Channel</li>
 </ul>
-<p>下面是从类中找到get/set方法的例子</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printGettersSetters</span><span class="params">(Class aClass)</span></span>&#123;</span><br><span class="line">  Method[] methods = aClass.getMethods();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span>(Method method : methods)&#123;</span><br><span class="line">    <span class="keyword">if</span>(isGetter(method)) System.out.println(<span class="string">"getter: "</span> + method);</span><br><span class="line">    <span class="keyword">if</span>(isSetter(method)) System.out.println(<span class="string">"setter: "</span> + method);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isGetter</span><span class="params">(Method method)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!method.getName().startsWith(<span class="string">"get"</span>))      <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">if</span>(method.getParameterTypes().length != <span class="number">0</span>)   <span class="keyword">return</span> <span class="keyword">false</span>;  </span><br><span class="line">  <span class="keyword">if</span>(<span class="keyword">void</span>.class.equals(method.getReturnType()) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isSetter</span><span class="params">(Method method)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!method.getName().startsWith(<span class="string">"set"</span>)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">if</span>(method.getParameterTypes().length != <span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面提到的，从channel中读取数据至buffer中，将buffer中的数据写入channel中：</p>
+<p><img src="http://tutorials.jenkov.com/images/java-nio/overview-channels-buffers.png" alt="Java NIO: Channels read data into Buffers, and Buffers write data into Channels"><br><strong>Java NIO: Channels read data into Buffers, and Buffers write data into Channels</strong></p>
+<h4 id="Channel_Implementations"><a href="#Channel_Implementations" class="headerlink" title="Channel Implementations"></a>Channel Implementations</h4><p>在Java NIO中有一些比较重要的channel实现类：</p>
+<ul>
+<li>FileChannel</li>
+<li>DatagramChannel</li>
+<li>SocketChannel</li>
+<li>ServerSocketChannel</li>
+</ul>
+<p><code>FileChannel</code>从文件中读取数据。</p>
+<p><code>DatagramChannel</code>通过UDP读写网络中的数据。</p>
+<p><code>SocketChannel</code>通过TCP读写网络中的数据。</p>
+<p><code>ServerSocketChannel</code>可以监听新进来的TCP连接，像Web服务器那样，对每一个新进来的连接都会创建一个SocketChannel。</p>
+<h4 id="Basic_Channel_Example"><a href="#Basic_Channel_Example" class="headerlink" title="Basic Channel Example"></a>Basic Channel Example</h4><p>下面是一个使用<code>FileChannel</code>读数据到Buffer中的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChannelExample</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        RandomAccessFile accessFile = <span class="keyword">new</span> RandomAccessFile(<span class="string">"nio-data.txt"</span>,<span class="string">"rw"</span>);</span><br><span class="line">        FileChannel fileChannel = accessFile.getChannel();</span><br><span class="line"></span><br><span class="line">        ByteBuffer buffer = ByteBuffer.allocate(<span class="number">48</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> bytesRead = fileChannel.read(buffer);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (bytesRead != -<span class="number">1</span>) &#123;</span><br><span class="line">            System.out.println(<span class="string">"Read "</span> + bytesRead);</span><br><span class="line">            buffer.flip();</span><br><span class="line">            <span class="keyword">if</span> (buffer.hasRemaining()) &#123;</span><br><span class="line">                System.out.print((<span class="keyword">char</span>) buffer.get());</span><br><span class="line">            &#125;</span><br><span class="line">            buffer.clear();</span><br><span class="line">            bytesRead = fileChannel.read(buffer);</span><br><span class="line">        &#125;</span><br><span class="line">        accessFile.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意 buf.flip() 的调用，首先读取数据到Buffer，然后反转Buffer，接着再从Buffer中读取数据。下一节会深入讲解Buffer的更多细节。</p>
 </span>
       
     </div>
@@ -301,7 +316,7 @@ Obtaining Method Objects获取类的方法，Method[]数组里面只包含类中
       
         <div class="post-tags">
           
-            <a href="/tags/Java/" rel="tag">#Java</a>
+            <a href="/tags/Java-NIO/" rel="tag">#Java NIO</a>
           
         </div>
       
@@ -310,17 +325,13 @@ Obtaining Method Objects获取类的方法，Method[]数组里面只包含类中
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/05/12/JavaReflectionFields/" rel="next" title="Java反射之变量">
-                <i class="fa fa-chevron-left"></i> Java反射之变量
+              <a href="/2016/06/25/Java-NIO-Overview/" rel="next" title="Java NIO 概述">
+                <i class="fa fa-chevron-left"></i> Java NIO 概述
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/05/14/JavaReflectionPrivateFieldsAndMethods/" rel="prev" title="Java反射之私有变量和私有方法">
-                Java反射之私有变量和私有方法 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -373,8 +384,8 @@ Obtaining Method Objects获取类的方法，Method[]数组里面只包含类中
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/05/13/JavaReflectionMethods/"
-           data-title="Java反射之方法" data-url="http://suqun.github.io/2016/05/13/JavaReflectionMethods/">
+      <div class="ds-thread" data-thread-key="2016/06/26/Java-NIO-Channel/"
+           data-title="Java NIO Channel" data-url="http://suqun.github.io/2016/06/26/Java-NIO-Channel/">
       </div>
     
   </div>
@@ -504,7 +515,7 @@ Obtaining Method Objects获取类的方法，Method[]数组里面只包含类中
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#Obtaining_Method_Objects"><span class="nav-number">1.</span> <span class="nav-text">Obtaining Method Objects</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Method_Parameters_and_Return_Types"><span class="nav-number"></span> <span class="nav-text">Method Parameters and Return Types</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Invoking_Methods_using_Method_Object"><span class="nav-number"></span> <span class="nav-text">Invoking Methods using Method Object</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#u83B7_u53D6getter/setter_u65B9_u6CD5"><span class="nav-number">1.</span> <span class="nav-text">获取getter/setter方法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Channel_Implementations"><span class="nav-number">1.</span> <span class="nav-text">Channel Implementations</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Basic_Channel_Example"><span class="nav-number">2.</span> <span class="nav-text">Basic Channel Example</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

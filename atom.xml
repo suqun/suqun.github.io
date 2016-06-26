@@ -4,7 +4,7 @@
   <subtitle><![CDATA[成长路上的点滴记录]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://suqun.github.io/"/>
-  <updated>2016-06-26T12:58:50.000Z</updated>
+  <updated>2016-06-26T13:56:19.000Z</updated>
   <id>http://suqun.github.io/</id>
   
   <author>
@@ -13,6 +13,47 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Java NIO Channel]]></title>
+    <link href="http://suqun.github.io/2016/06/26/Java-NIO-Channel/"/>
+    <id>http://suqun.github.io/2016/06/26/Java-NIO-Channel/</id>
+    <published>2016-06-26T13:04:43.000Z</published>
+    <updated>2016-06-26T13:56:19.000Z</updated>
+    <content type="html"><![CDATA[<p>Java NIO 的Channels有些像流，但是也有一些区别：</p>
+<ul>
+<li>可以向一个Channel即读又写。流是典型的单向的（写或者读）</li>
+<li>Channels的读写是异步的</li>
+<li>Channels总是读数据到Buffer中，或者将Buffer中的数据写入Channel</li>
+</ul>
+<p>上面提到的，从channel中读取数据至buffer中，将buffer中的数据写入channel中：</p>
+<p><img src="http://tutorials.jenkov.com/images/java-nio/overview-channels-buffers.png" alt="Java NIO: Channels read data into Buffers, and Buffers write data into Channels"><br><strong>Java NIO: Channels read data into Buffers, and Buffers write data into Channels</strong></p>
+<h4 id="Channel_Implementations"><a href="#Channel_Implementations" class="headerlink" title="Channel Implementations"></a>Channel Implementations</h4><p>在Java NIO中有一些比较重要的channel实现类：</p>
+<ul>
+<li>FileChannel</li>
+<li>DatagramChannel</li>
+<li>SocketChannel</li>
+<li>ServerSocketChannel</li>
+</ul>
+<p><code>FileChannel</code>从文件中读取数据。</p>
+<p><code>DatagramChannel</code>通过UDP读写网络中的数据。</p>
+<p><code>SocketChannel</code>通过TCP读写网络中的数据。</p>
+<p><code>ServerSocketChannel</code>可以监听新进来的TCP连接，像Web服务器那样，对每一个新进来的连接都会创建一个SocketChannel。</p>
+<h4 id="Basic_Channel_Example"><a href="#Basic_Channel_Example" class="headerlink" title="Basic Channel Example"></a>Basic Channel Example</h4><p>下面是一个使用<code>FileChannel</code>读数据到Buffer中的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChannelExample</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        RandomAccessFile accessFile = <span class="keyword">new</span> RandomAccessFile(<span class="string">"nio-data.txt"</span>,<span class="string">"rw"</span>);</span><br><span class="line">        FileChannel fileChannel = accessFile.getChannel();</span><br><span class="line"></span><br><span class="line">        ByteBuffer buffer = ByteBuffer.allocate(<span class="number">48</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> bytesRead = fileChannel.read(buffer);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (bytesRead != -<span class="number">1</span>) &#123;</span><br><span class="line">            System.out.println(<span class="string">"Read "</span> + bytesRead);</span><br><span class="line">            buffer.flip();</span><br><span class="line">            <span class="keyword">if</span> (buffer.hasRemaining()) &#123;</span><br><span class="line">                System.out.print((<span class="keyword">char</span>) buffer.get());</span><br><span class="line">            &#125;</span><br><span class="line">            buffer.clear();</span><br><span class="line">            bytesRead = fileChannel.read(buffer);</span><br><span class="line">        &#125;</span><br><span class="line">        accessFile.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意 buf.flip() 的调用，首先读取数据到Buffer，然后反转Buffer，接着再从Buffer中读取数据。下一节会深入讲解Buffer的更多细节。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Java NIO 的Channels有些像流，但是也有一些区别：</p>
+<ul>
+<li>可以向一个Channel即读又写。流是典型的单向的（写或者读）</li>
+<li>Channels的读写是异步的</li>
+<li>Channels总是读数据到Buffer中，或者将]]>
+    </summary>
+    
+      <category term="Java NIO" scheme="http://suqun.github.io/tags/Java-NIO/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Java NIO 概述]]></title>
@@ -1207,31 +1248,6 @@ arod:x: 1002 :1003::/home/arod:/bin/bash
     </summary>
     
       <category term="Docker" scheme="http://suqun.github.io/tags/Docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[2015]]></title>
-    <link href="http://suqun.github.io/2015/12/31/2015/"/>
-    <id>http://suqun.github.io/2015/12/31/2015/</id>
-    <published>2015-12-31T14:19:57.000Z</published>
-    <updated>2015-12-31T14:46:02.000Z</updated>
-    <content type="html"><![CDATA[<p>2015还有一会就结束了.这一年我身上发生了好多大事,一点点想起来,有些苦涩,也有些甜蜜.</p>
-<p>2015年年初就开始筹划买房的事情,2月份开始从苏州到上海,新房,二手房,看了不下100套,跑了3个月,看着房价一直涨涨涨,总感觉再不买就真的买不起了.一咬牙,5月底同双方父母朋友借钱加上自己和女友的积蓄勉强凑齐首付,在松江买下.买房的同时也和女友领证,正式结为夫妇,结束了7年多得恋爱之路.</p>
-<p>房子有了,证领了,就开始筹划10月份的婚礼.拍婚纱照,买婚戒,买衣服,一点点的直到把老婆娶回家.</p>
-<a id="more"></a>
-<p>其实,2015也没发生几件事,过的很快…这一年年初工作上大幅涨薪,同同事关系融洽,处了几个好友.这一年年尾,朋友离职,工作不顺心,身体不适,过的又实在烦闷.无奈四处面试打算为2016做好铺垫,找份顺心的工作.</p>
-<p>2016年,也会有很多大事要发生,入住新房,有钱再买个车,看看时机再要个孩子.</p>
-<p>人生的路仿佛才刚刚开始,预祝自己2016身体健康,技术上有所深入.</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>2015还有一会就结束了.这一年我身上发生了好多大事,一点点想起来,有些苦涩,也有些甜蜜.</p>
-<p>2015年年初就开始筹划买房的事情,2月份开始从苏州到上海,新房,二手房,看了不下100套,跑了3个月,看着房价一直涨涨涨,总感觉再不买就真的买不起了.一咬牙,5月底同双方父母朋友借钱加上自己和女友的积蓄勉强凑齐首付,在松江买下.买房的同时也和女友领证,正式结为夫妇,结束了7年多得恋爱之路.</p>
-<p>房子有了,证领了,就开始筹划10月份的婚礼.拍婚纱照,买婚戒,买衣服,一点点的直到把老婆娶回家.</p>]]>
-    
-    </summary>
-    
-      <category term="随笔" scheme="http://suqun.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
     
   </entry>
   

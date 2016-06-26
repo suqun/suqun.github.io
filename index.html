@@ -209,15 +209,115 @@
 
     
     
+
+    
       
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/26/Java-NIO-Channel/" itemprop="url">
+                  Java NIO Channel
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-06-26T21:04:43+08:00" content="2016-06-26">
+              2016-06-26
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/26/Java-NIO-Channel/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/26/Java-NIO-Channel/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
-        
-        
-        
       
 
       
-    
+        
+          <span itemprop="articleBody">
+            
+              <p>Java NIO 的Channels有些像流，但是也有一些区别：</p>
+<ul>
+<li>可以向一个Channel即读又写。流是典型的单向的（写或者读）</li>
+<li>Channels的读写是异步的</li>
+<li>Channels总是读数据到Buffer中，或者将Buffer中的数据写入Channel</li>
+</ul>
+<p>上面提到的，从channel中读取数据至buffer中，将buffer中的数据写入channel中：</p>
+<p><img src="http://tutorials.jenkov.com/images/java-nio/overview-channels-buffers.png" alt="Java NIO: Channels read data into Buffers, and Buffers write data into Channels"><br><strong>Java NIO: Channels read data into Buffers, and Buffers write data into Channels</strong></p>
+<h4 id="Channel_Implementations"><a href="#Channel_Implementations" class="headerlink" title="Channel Implementations"></a>Channel Implementations</h4><p>在Java NIO中有一些比较重要的channel实现类：</p>
+<ul>
+<li>FileChannel</li>
+<li>DatagramChannel</li>
+<li>SocketChannel</li>
+<li>ServerSocketChannel</li>
+</ul>
+<p><code>FileChannel</code>从文件中读取数据。</p>
+<p><code>DatagramChannel</code>通过UDP读写网络中的数据。</p>
+<p><code>SocketChannel</code>通过TCP读写网络中的数据。</p>
+<p><code>ServerSocketChannel</code>可以监听新进来的TCP连接，像Web服务器那样，对每一个新进来的连接都会创建一个SocketChannel。</p>
+<h4 id="Basic_Channel_Example"><a href="#Basic_Channel_Example" class="headerlink" title="Basic Channel Example"></a>Basic Channel Example</h4><p>下面是一个使用<code>FileChannel</code>读数据到Buffer中的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChannelExample</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        RandomAccessFile accessFile = <span class="keyword">new</span> RandomAccessFile(<span class="string">"nio-data.txt"</span>,<span class="string">"rw"</span>);</span><br><span class="line">        FileChannel fileChannel = accessFile.getChannel();</span><br><span class="line"></span><br><span class="line">        ByteBuffer buffer = ByteBuffer.allocate(<span class="number">48</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> bytesRead = fileChannel.read(buffer);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (bytesRead != -<span class="number">1</span>) &#123;</span><br><span class="line">            System.out.println(<span class="string">"Read "</span> + bytesRead);</span><br><span class="line">            buffer.flip();</span><br><span class="line">            <span class="keyword">if</span> (buffer.hasRemaining()) &#123;</span><br><span class="line">                System.out.print((<span class="keyword">char</span>) buffer.get());</span><br><span class="line">            &#125;</span><br><span class="line">            buffer.clear();</span><br><span class="line">            bytesRead = fileChannel.read(buffer);</span><br><span class="line">        &#125;</span><br><span class="line">        accessFile.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意 buf.flip() 的调用，首先读取数据到Buffer，然后反转Buffer，接着再从Buffer中读取数据。下一节会深入讲解Buffer的更多细节。</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -1160,119 +1260,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/09/JavaReflectionClasses/" itemprop="url">
-                  Java反射之对象
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-05-09T00:52:55+08:00" content="2016-05-09">
-              2016-05-09
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/09/JavaReflectionClasses/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/09/JavaReflectionClasses/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/classes.html" target="_blank" rel="external">Java Reflection Classes</a></p>
-<h5 id="u83B7_u53D6class_u5BF9_u8C61"><a href="#u83B7_u53D6class_u5BF9_u8C61" class="headerlink" title="获取class对象"></a>获取class对象</h5><p>Java中的所有类型包括基本类型(int, long, float等等)，即使是数组都有与之关联的Class类的对象。<br>如果你在编译期知道一个类的名字的话，那么你可以使用如下的方式获取一个类的Class对象</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class orderClass = Order.class;</span><br></pre></td></tr></table></figure>
-<p>如果你在编译期不知道类的名字，但是你可以在运行期获得到类名的字符串,那么你则可以这么做来获取Class对象</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String className = ... ;<span class="comment">//在运行期获取的类名字符串</span></span><br><span class="line">Class <span class="class"><span class="keyword">class</span> </span>= Class.forName(className);</span><br></pre></td></tr></table></figure>
-<p>在使用Class.forName()方法时，你必须提供一个类的全名，这个全名包括类所在的包的名字</p>
-<h5 id="Class_Name__u7C7B_u540D"><a href="#Class_Name__u7C7B_u540D" class="headerlink" title="Class Name 类名"></a>Class Name 类名</h5><p>通过<code>getName()</code> 方法返回类的全限定类名,不包含包名使用<code>getSimpleName()</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">orderClass.getName();<span class="comment">//com.larry.bean.Order</span></span><br><span class="line">orderClass.getSimpleName();</span><br></pre></td></tr></table></figure>
-<h5 id="Modifiers__u4FEE_u9970_u7B26"><a href="#Modifiers__u4FEE_u9970_u7B26" class="headerlink" title="Modifiers 修饰符"></a>Modifiers 修饰符</h5><p>通过Class对象来访问一个类的修饰符，即public,private,static等的关键字;</p>
-<p>修饰符都被包装成一个int类型的数字，这样每个修饰符都是一个位标识(flag bit)，这个位标识可以设置和清除修饰符的类型;</p>
-<p>使用java.lang.reflect.Modifier类中的方法来检查修饰符的类型。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> modifiers = orderClass.getModifiers();</span><br><span class="line"></span><br><span class="line">Modifier.isAbstract(modifiers);</span><br><span class="line">Modifier.isFinal(modifiers);</span><br><span class="line">Modifier.isInterface(modifiers);</span><br><span class="line">Modifier.isNative(modifiers);</span><br><span class="line">Modifier.isPrivate(modifiers);</span><br><span class="line">Modifier.isProtected(modifiers);</span><br><span class="line">Modifier.isPublic(modifiers);<span class="comment">//true</span></span><br><span class="line">Modifier.isStatic(modifiers);</span><br><span class="line">Modifier.isStrict(modifiers);</span><br><span class="line">Modifier.isSynchronized(modifiers);</span><br><span class="line">Modifier.isTransient(modifiers);</span><br><span class="line">Modifier.isVolatile(modifiers);</span><br></pre></td></tr></table></figure>
-<h5 id="Package_Info__u5305"><a href="#Package_Info__u5305" class="headerlink" title="Package Info 包"></a>Package Info 包</h5><p>Package对象你可以获取包的相关信息，比如包名</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Package packages = orderClass.getPackage();</span><br><span class="line">packages.getName();<span class="comment">//com.larry.bean</span></span><br></pre></td></tr></table></figure>
-<h5 id="Superclass__u7236_u7C7B"><a href="#Superclass__u7236_u7C7B" class="headerlink" title="Superclass 父类"></a>Superclass 父类</h5><p>superclass对象其实就是一个Class类的实例，所以你可以继续在这个对象上进行反射操作</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class superClass = orderClass.getSuperclass();</span><br><span class="line">superClass.getName();<span class="comment">//java.lang.Object</span></span><br></pre></td></tr></table></figure>
-<h5 id="Implemented_Interfaces__u5B9E_u73B0_u7684_u63A5_u53E3"><a href="#Implemented_Interfaces__u5B9E_u73B0_u7684_u63A5_u53E3" class="headerlink" title="Implemented Interfaces 实现的接口"></a>Implemented Interfaces 实现的接口</h5><p>获取指定类所实现的接口集合</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class[] interfaces = orderClass.getInterfaces();</span><br></pre></td></tr></table></figure>
-<p>getInterfaces()方法仅仅只返回当前类所实现的接口。当前类的父类如果实现了接口，这些接口是不会在返回的Class集合中的，尽管实际上当前类其实已经实现了父类接口</p>
-<h5 id="Constructors__u6784_u9020_u51FD_u6570"><a href="#Constructors__u6784_u9020_u51FD_u6570" class="headerlink" title="Constructors 构造函数"></a>Constructors 构造函数</h5><h6 id="u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61"><a href="#u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61" class="headerlink" title="获取构造函数的对象"></a>获取构造函数的对象</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Constructor[] constructors = orderClass.getConstructors();</span><br></pre></td></tr></table></figure>
-<h5 id="Method__u65B9_u6CD5"><a href="#Method__u65B9_u6CD5" class="headerlink" title="Method 方法"></a>Method 方法</h5><p>获取类的方法，Method[]数组里面只包含类中public修饰的方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Method[] methods = orderClass.getMethods();</span><br></pre></td></tr></table></figure>
-<h5 id="Field__u53D8_u91CF"><a href="#Field__u53D8_u91CF" class="headerlink" title="Field 变量"></a>Field 变量</h5><p>获取成员变量</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Field[] fields = orderClass.getFields();</span><br></pre></td></tr></table></figure>
-<h5 id="Annotations__u6CE8_u89E3"><a href="#Annotations__u6CE8_u89E3" class="headerlink" title="Annotations 注解"></a>Annotations 注解</h5><p>获取类的注解</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Annotation[] annotations = orderClass.getAnnotations();</span><br></pre></td></tr></table></figure>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -1319,7 +1306,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
