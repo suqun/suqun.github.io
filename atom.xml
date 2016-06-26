@@ -4,7 +4,7 @@
   <subtitle><![CDATA[成长路上的点滴记录]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://suqun.github.io/"/>
-  <updated>2016-06-24T13:10:33.000Z</updated>
+  <updated>2016-06-26T12:58:50.000Z</updated>
   <id>http://suqun.github.io/</id>
   
   <author>
@@ -13,6 +13,82 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Java NIO 概述]]></title>
+    <link href="http://suqun.github.io/2016/06/25/Java-NIO-Overview/"/>
+    <id>http://suqun.github.io/2016/06/25/Java-NIO-Overview/</id>
+    <published>2016-06-25T05:27:34.000Z</published>
+    <updated>2016-06-26T12:58:50.000Z</updated>
+    <content type="html"><![CDATA[<p>Java NIO 包含下面三个核心组件:</p>
+<ul>
+<li>Channels</li>
+<li>Buffers</li>
+<li>Selectors</li>
+</ul>
+<p>Java NIO 还有很多其他的类和组件,Channel,Buffer,Selector是核心的API。其他的组件,诸如Pipe、FileLock仅仅只是这3个核心组组件的实际应用。</p>
+<h4 id="Channels_and_Buffers"><a href="#Channels_and_Buffers" class="headerlink" title="Channels  and Buffers"></a>Channels  and Buffers</h4><p>典型的,NIO中的所有IO都是起始于Channel。Channel有点像流。可以将Channel中数据读到Buffer里,也可以将Buffer里的数据写入Channel中。说明如下:</p>
+<p><img src="http://tutorials.jenkov.com/images/java-nio/overview-channels-buffers.png" alt="Java NIO: Channels read data into Buffers, and Buffers write data into Channels"><br><strong>Java NIO: Channels read data into Buffers, and Buffers write data into Channels</strong></p>
+<p>Java NIO中主要的Channel实现类有：</p>
+<ul>
+<li>FileChannel</li>
+<li>DatagramChannel</li>
+<li>SocketChannel</li>
+<li>ServerSocketChannel</li>
+</ul>
+<p>可以看出,这些channels覆盖了UDP+TCP的网络IO,以及文件IO。</p>
+<p>Java NIO中主要的Buffer实现类有:</p>
+<ul>
+<li>ByteBuffer</li>
+<li>CharBuffer</li>
+<li>DoubleBuffer</li>
+<li>FloatBuffer</li>
+<li>IntBuffer</li>
+<li>LongBuffer</li>
+<li>ShortBuffer</li>
+</ul>
+<p>这些实现类也包含了通过IO发送数据所需要的基本的数据类型：byte、short、int、long、float、double、Char型。</p>
+<p>Java NIO也有 MappedByteBuffer类型，用于表示内存映射文件。</p>
+<h4 id="Selectors"><a href="#Selectors" class="headerlink" title="Selectors"></a>Selectors</h4><p>一个Selectors允许一个单线程同时处理多个Channel。如果应用中有很多打开的连接（Channels）这么做是很方便的，但是每个连接的流量都很低。比如，聊天服务器。</p>
+<p>下面是一个Selector处理3个Channel的说明：</p>
+<p><img src="http://tutorials.jenkov.com/images/java-nio/overview-selectors.png" alt="Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"><br><strong>Java NIO: A Thread uses a Selector to handle 3 Channel’s</strong></p>
+<p>先将Channels注册到Selector中，然后调用他的select()方法。这个方法会阻塞直到有注册的channel相应的事件触发。一旦这个方法返回，线程就可以处理这个事件。比如正在打开的连接，获取到数据的事件等等。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Java NIO 包含下面三个核心组件:</p>
+<ul>
+<li>Channels</li>
+<li>Buffers</li>
+<li>Selectors</li>
+</ul>
+<p>Java NIO 还有很多其他的类和组件,Channel,Buffer,Selector]]>
+    </summary>
+    
+      <category term="Java NIO" scheme="http://suqun.github.io/tags/Java-NIO/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Java NIO 教程]]></title>
+    <link href="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/"/>
+    <id>http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/</id>
+    <published>2016-06-25T05:24:25.000Z</published>
+    <updated>2016-06-26T12:40:24.000Z</updated>
+    <content type="html"><![CDATA[<p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/classes.html" target="_blank" rel="external">Java Reflection</a></p>
+<p>Java NIO(New IO) 是java(从java1.4开始) IO API的一个选择,可以代替Java标准IO和Java网络编程API。对于标准的IO来说,Java NIO提供了不同的处理IO的方式。</p>
+<h4 id="Channels_and_Buffers"><a href="#Channels_and_Buffers" class="headerlink" title="Channels and Buffers"></a>Channels and Buffers</h4><p>在标准的IO API中,使用字节流和字符流。在NIO中需要用到channels和buffers。数据总是从channel获取读到buffer中,从buffer中获取写入channel。</p>
+<h4 id="Non-blocking_IO"><a href="#Non-blocking_IO" class="headerlink" title="Non-blocking IO"></a>Non-blocking IO</h4><p>Java NIO 可以非阻塞式的处理IO。比如,一个线程将channel的数据读到buffer。在读的过程中,线程可以做其他事情。一旦数据读取完毕放到buffer中,线程在继续处理。写数据也是一样的操作。</p>
+<h4 id="Selectors"><a href="#Selectors" class="headerlink" title="Selectors"></a>Selectors</h4><p>Java NIO 有个 『selectors』的概念,一个selector就是一个对象,通过事件(比如:连接打开,数据到达等等)监控多个channels。这样,一个单独的线程就可以监控多个channel的数据。</p>
+<p>这些都是如何工作的,本系列的下一章 <a href="/">the Java NIO overview</a>会详细描述。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/classes.html" target="_blank" rel="external">Java Reflection</a></p>
+<p>Java NIO]]>
+    </summary>
+    
+      <category term="Java NIO" scheme="http://suqun.github.io/tags/Java-NIO/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Java反射之数组]]></title>
@@ -1156,323 +1232,6 @@ arod:x: 1002 :1003::/home/arod:/bin/bash
     </summary>
     
       <category term="随笔" scheme="http://suqun.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Why Docker?]]></title>
-    <link href="http://suqun.github.io/2015/12/30/Why-Docker/"/>
-    <id>http://suqun.github.io/2015/12/30/Why-Docker/</id>
-    <published>2015-12-30T15:42:52.000Z</published>
-    <updated>2015-12-31T16:06:31.000Z</updated>
-    <content type="html"><![CDATA[<p>一直听说Docker怎么怎么厉害,不明所以,网上查了下,也只是简单了解.学技术还得去官网,尽管<a href="http://www.docker.com/" target="_blank" rel="external">Docker官网</a>都是英文,看的比较辛苦,不过一方面学技术,一方面学英语也是妙事.这一系列的Docker笔记,就边抄英文边翻译,边学技术吧.</p>
-<h4 id="Why_Docker_3F"><a href="#Why_Docker_3F" class="headerlink" title="Why Docker?"></a>Why Docker?</h4><p>Docker provides an integrated technology suite that enables development and IT operations teams to build,ship,and run distributed applications anywhere.</p>
-<p>Docker 提供了一个集成的技术组件,它使得开发或IT运营团队可以在任何地方构建,ship,以及运行分布式应用.(ship到底该怎么翻译呢?)</p>
-<h4 id="Docker_Containers_as_a_Service_28CaaS_29"><a href="#Docker_Containers_as_a_Service_28CaaS_29" class="headerlink" title="Docker Containers as a Service(CaaS)"></a>Docker Containers as a Service(CaaS)</h4><p>Achieve agility and control for Development and IT operations teams to build,ship,and run any app,anywhere </p>
-<p>开发或者IT运营部门在任何地方对应用进行构建,ship都实现了灵活性和控制性</p>
-<h6 id="Agility__u7075_u6D3B_u6027"><a href="#Agility__u7075_u6D3B_u6027" class="headerlink" title="Agility 灵活性"></a>Agility 灵活性</h6><p>Docker gives developers the freedom to define environments, and create and deploy apps faster and easier,and flexibility for IT ops to quickly response to change.</p>
-<p>Docker使开发人员能够自由的定义环境,以及简单快速的创建和部署应用,同时提供了灵活性,IT运维也可以快速应对变化.</p>
-<h6 id="Control__u63A7_u5236_u6027"><a href="#Control__u63A7_u5236_u6027" class="headerlink" title="Control 控制性"></a>Control 控制性</h6><p>Docker enables developers to own all the code from infrastructure to app , and the manageability for IT ops to standardize ,secure and scale the operating environment.</p>
-<p>Docker能够让开发人员从基础设施到应用程序上获取所有的代码 , 能让IT运维对于操作环境的规范,安全,规模都易于管理.</p>
-<h6 id="Portability__u53EF_u79FB_u690D_u6027"><a href="#Portability__u53EF_u79FB_u690D_u6027" class="headerlink" title="Portability 可移植性"></a>Portability 可移植性</h6><p>Docker gives you choice without complexity , from a laptop to team , to private infrastructure and public cloud provides.</p>
-<p>Docker给你简单的选择,从个人电脑到团队,从私有基础设施到公有云服务提供商.</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>一直听说Docker怎么怎么厉害,不明所以,网上查了下,也只是简单了解.学技术还得去官网,尽管<a href="http://www.docker.com/" target="_blank" rel="external">Docker官网</a>都是英文,看的比较辛苦,不过]]>
-    </summary>
-    
-      <category term="Docker" scheme="http://suqun.github.io/tags/Docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[zookeeper客户端命令]]></title>
-    <link href="http://suqun.github.io/2015/12/28/zookeeper%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%91%BD%E4%BB%A4/"/>
-    <id>http://suqun.github.io/2015/12/28/zookeeper客户端命令/</id>
-    <published>2015-12-28T15:24:14.000Z</published>
-    <updated>2016-01-05T14:36:39.000Z</updated>
-    <content type="html"><![CDATA[<h3 id="zkCli-sh"><a href="#zkCli-sh" class="headerlink" title="zkCli.sh"></a>zkCli.sh</h3><pre><code>连接zookeeper：./zkCli.sh -server ip:port
-
-bin目录下输入命令`./zkCli.sh -server 192.168.1.101:2181`
-</code></pre><h3 id="u5BA2_u6237_u7AEF_u547D_u4EE4"><a href="#u5BA2_u6237_u7AEF_u547D_u4EE4" class="headerlink" title="客户端命令"></a>客户端命令</h3><h4 id="help"><a href="#help" class="headerlink" title="help"></a><strong>help</strong></h4><pre><code>ZooKeeper -server host:port cmd args
-stat path [watch]
-set path data [version]
-ls path [watch]
-delquota [-n|-b] path
-ls2 path [watch]
-setAcl path acl
-setquota -n|-b val path
-history 
-redo cmdno
-printwatches on|off
-delete path [version]
-sync path
-listquota path
-rmr path
-get path [watch]
-create [-s] [-e] path data acl
-addauth scheme auth
-quit 
-getAcl path
-close 
-connect host:port
-</code></pre><a id="more"></a>
-<h4 id="ls_path__5Bwatch_5D__u5217_u51FA_u5F53_u524D_u8282_u70B9_u7684_u5B50_u8282_u70B9"><a href="#ls_path__5Bwatch_5D__u5217_u51FA_u5F53_u524D_u8282_u70B9_u7684_u5B50_u8282_u70B9" class="headerlink" title="ls path [watch] 列出当前节点的子节点"></a><strong>ls path [watch]</strong> 列出当前节点的子节点</h4><pre><code>[zk: 192.168.1.101:2181(CONNECTED) 5] ls /zookeeper
-[quota]
-</code></pre><h4 id="stat_path__5Bwatch_5D__u83B7_u53D6_u8282_u70B9_u72B6_u6001_u4FE1_u606F"><a href="#stat_path__5Bwatch_5D__u83B7_u53D6_u8282_u70B9_u72B6_u6001_u4FE1_u606F" class="headerlink" title="stat path [watch] 获取节点状态信息"></a><strong>stat path [watch]</strong> 获取节点状态信息</h4><pre><code>[zk: 192.168.1.101:2181(CONNECTED) 6] stat /zookeeper
-cZxid = 0x0                             //该节点被创建时的事务ID
-ctime = Thu Jan 01 08:00:00 CST 1970    //创建时间
-mZxid = 0x0                             //最后一次更新的事务ID   
-mtime = Thu Jan 01 08:00:00 CST 1970    //最后一次更新时间
-pZxid = 0x0                             //该节点的子节点列表最后一次被更新（创建或删除节点）的事务ID
-cversion = -1                           //子节点的版本号
-dataVersion = 0                         //子节点的数据版本号
-aclVersion = 0                          //权限版本号
-ephemeralOwner = 0x0                    //创建该临时节点的事务Id
-dataLength = 0                          //当前节点存放的数据长度
-numChildren = 1                         //当前节点所拥有的子节点的个数
-</code></pre><h4 id="get_path__5Bwatch_5D__u83B7_u53D6_u8282_u70B9_u5B58_u50A8_u7684_u5185_u5BB9"><a href="#get_path__5Bwatch_5D__u83B7_u53D6_u8282_u70B9_u5B58_u50A8_u7684_u5185_u5BB9" class="headerlink" title="get path [watch] 获取节点存储的内容"></a><strong>get path [watch]</strong> 获取节点存储的内容</h4><pre><code>[zk: 192.168.1.101:2181(CONNECTED) 14] get /node_test
-larry                             //节点存储的内容
-cZxid = 0x400000002
-ctime = Tue Dec 15 22:04:44 CST 2015
-mZxid = 0x400000002
-mtime = Tue Dec 15 22:04:44 CST 2015
-pZxid = 0x400000002
-cversion = 0
-dataVersion = 0
-aclVersion = 0
-ephemeralOwner = 0x0
-dataLength = 5
-numChildren = 0
-</code></pre><h4 id="ls2_path__5Bwatch_5D__u5217_u51FA_u5F53_u524D_u8282_u70B9_u7684_u5B50_u8282_u70B9_u5E76_u67E5_u770B_u5B50_u8282_u70B9_u7684_u72B6_u6001_u4FE1_u606F_uFF0C_u76F8_u5F53_u4E8Els_u548Cstat"><a href="#ls2_path__5Bwatch_5D__u5217_u51FA_u5F53_u524D_u8282_u70B9_u7684_u5B50_u8282_u70B9_u5E76_u67E5_u770B_u5B50_u8282_u70B9_u7684_u72B6_u6001_u4FE1_u606F_uFF0C_u76F8_u5F53_u4E8Els_u548Cstat" class="headerlink" title="ls2 path [watch] 列出当前节点的子节点并查看子节点的状态信息，相当于ls和stat"></a><strong>ls2 path [watch]</strong> 列出当前节点的子节点并查看子节点的状态信息，相当于ls和stat</h4><pre><code>[zk: 192.168.1.101:2181(CONNECTED) 9] ls /zookeeper
-[quota]
-[zk: 192.168.1.101:2181(CONNECTED) 10] ls2 /zookeeper
-[quota]
-cZxid = 0x0
-ctime = Thu Jan 01 08:00:00 CST 1970
-mZxid = 0x0
-mtime = Thu Jan 01 08:00:00 CST 1970
-pZxid = 0x0
-cversion = -1
-dataVersion = 0
-aclVersion = 0
-ephemeralOwner = 0x0
-dataLength = 0
-numChildren = 1
-</code></pre><h4 id="create__5B-s_5D__5B-e_5D_path_data_acl__u521B_u5EFA_u6307_u4EE4"><a href="#create__5B-s_5D__5B-e_5D_path_data_acl__u521B_u5EFA_u6307_u4EE4" class="headerlink" title="create [-s] [-e] path data acl 创建指令"></a><strong>create [-s] [-e] path data acl</strong> 创建指令</h4><pre><code>- -s 表示创建的是顺序节点
-- -e 表示创建的是临时节点
-- path 创建节点的路径
-- data 创建节点的内容
-- acl 创建节点的acl权限
-
-    //创建普通节点
-    [zk: 192.168.1.101:2181(CONNECTED) 13] create /node_test larry 
-    Created /node_test
-    [zk: 192.168.1.101:2181(CONNECTED) 14] get /node_test
-    larry
-    cZxid = 0x400000002
-    ctime = Tue Dec 15 22:04:44 CST 2015
-    mZxid = 0x400000002
-    mtime = Tue Dec 15 22:04:44 CST 2015
-    pZxid = 0x400000002
-    cversion = 0
-    dataVersion = 0
-    aclVersion = 0
-    ephemeralOwner = 0x0
-    dataLength = 5
-    numChildren = 0
-
-    //创建临时节点,退出重新登录
-    [zk: 192.168.1.101:2181(CONNECTED) 1] ls /node_test
-    []
-    [zk: 192.168.1.101:2181(CONNECTED) 2] create -e /node_test/node_test_1 123456
-    Created /node_test/node_test_1
-    [zk: 192.168.1.101:2181(CONNECTED) 3] ls /node_test
-    [node_test_1]
-    [zk: 192.168.1.101:2181(CONNECTED) 4] quit
-    Quitting...
-    2015-12-15 22:13:13,291 [myid:] - INFO  [main:ZooKeeper@684] - Session: 0x151a5bedd2c0001 closed
-    2015-12-15 22:13:13,293 [myid:] - INFO  [main-EventThread:ClientCnxn$EventThread@519] - EventThread shut down for session: 0x151a5bedd2c0001
-    ➜  bin  sudo ./zkCli.sh -server 192.168.1.101:2181  //重新登录
-    [zk: 192.168.1.101:2181(CONNECTED) 2] ls /node_test
-    []
-
-    //创建顺序节点
-    [zk: 192.168.1.101:2181(CONNECTED) 3] create -s /node_test/note_test_1 123456 
-    Created /node_test/note_test_10000000001
-    [zk: 192.168.1.101:2181(CONNECTED) 4] create -s /node_test/note_test_1 123456 
-    Created /node_test/note_test_10000000002
-</code></pre><h4 id="set_path_data__5Bversion_5D__u4FEE_u6539_u6307_u4EE4"><a href="#set_path_data__5Bversion_5D__u4FEE_u6539_u6307_u4EE4" class="headerlink" title="set path data [version] 修改指令"></a><strong>set path data [version]</strong> 修改指令</h4><pre><code>- path 修改节点路径为path
-- data 修改节点的值为data
-- [version] 为节点内容设置版本号
-
-    [zk: 192.168.1.101:2181(CONNECTED) 4] get /node_test
-    larry
-    cZxid = 0x400000002
-    ctime = Tue Dec 15 22:04:44 CST 2015
-    mZxid = 0x400000002
-    mtime = Tue Dec 15 22:04:44 CST 2015
-    pZxid = 0x40000000d
-    cversion = 6
-    dataVersion = 0
-    aclVersion = 0
-    ephemeralOwner = 0x0
-    dataLength = 5
-    numChildren = 2
-    [zk: 192.168.1.101:2181(CONNECTED) 5] set /node_test 999999
-    cZxid = 0x400000002
-    ctime = Tue Dec 15 22:04:44 CST 2015
-    mZxid = 0x40000000f
-    mtime = Tue Dec 15 22:24:57 CST 2015
-    pZxid = 0x40000000d
-    cversion = 6
-    dataVersion = 1
-    aclVersion = 0
-    ephemeralOwner = 0x0
-    dataLength = 6
-    numChildren = 2
-    [zk: 192.168.1.101:2181(CONNECTED) 6] get /node_test 
-    999999
-    cZxid = 0x400000002
-    ctime = Tue Dec 15 22:04:44 CST 2015
-    mZxid = 0x40000000f
-    mtime = Tue Dec 15 22:24:57 CST 2015
-    pZxid = 0x40000000d
-    cversion = 6
-    dataVersion = 1
-    aclVersion = 0
-    ephemeralOwner = 0x0
-    dataLength = 6
-    numChildren = 2
-    [zk: 192.168.1.101:2181(CONNECTED) 7] set /node_test 999999
-    cZxid = 0x400000002
-    ctime = Tue Dec 15 22:04:44 CST 2015
-    mZxid = 0x400000010
-    mtime = Tue Dec 15 22:31:27 CST 2015
-    pZxid = 0x40000000d
-    cversion = 6
-    dataVersion = 2  //此处增加
-    aclVersion = 0
-    ephemeralOwner = 0x0
-    dataLength = 6
-    numChildren = 2
-    [zk: 192.168.1.101:2181(CONNECTED) 8] set /node_test 999999 2
-    cZxid = 0x400000002
-    ctime = Tue Dec 15 22:04:44 CST 2015
-    mZxid = 0x400000011
-    mtime = Tue Dec 15 22:31:31 CST 2015
-    pZxid = 0x40000000d
-    cversion = 6
-    dataVersion = 3  //修改的值相同，此处扔增加
-    aclVersion = 0
-    ephemeralOwner = 0x0
-    dataLength = 6
-    numChildren = 2
-    [zk: 192.168.1.101:2181(CONNECTED) 9] set /node_test 999999 4    //版本号必须同上一个的版本号相同才不会报错，即上面为3，填写版本号为3才行
-    version No is not valid : /node_test
-    [zk: 192.168.1.101:2181(CONNECTED) 10] set /node_test 999999 3
-    cZxid = 0x400000002
-    ctime = Tue Dec 15 22:04:44 CST 2015
-    mZxid = 0x400000013
-    mtime = Tue Dec 15 22:31:42 CST 2015
-    pZxid = 0x40000000d
-    cversion = 6
-    dataVersion = 4 // 版本号增加
-    aclVersion = 0
-    ephemeralOwner = 0x0
-    dataLength = 6
-    numChildren = 2
-</code></pre><h4 id="delete_path__5Bversion_5D__u5220_u9664_u6307_u5B9A_u8DEF_u5F84_u7684_u8282_u70B9"><a href="#delete_path__5Bversion_5D__u5220_u9664_u6307_u5B9A_u8DEF_u5F84_u7684_u8282_u70B9" class="headerlink" title="delete path [version] 删除指定路径的节点"></a><strong>delete path [version]</strong> 删除指定路径的节点</h4><pre><code>[zk: 192.168.1.101:2181(CONNECTED) 12] ls /node_test
-[note_test_10000000002, note_test_10000000001]
-[zk: 192.168.1.101:2181(CONNECTED) 13] delete /node_test
-Node not empty: /node_test //只能删除没有子节点的节点
-[zk: 192.168.1.101:2181(CONNECTED) 14] delete /node_test/note_test_10000000001
-[zk: 192.168.1.101:2181(CONNECTED) 15] 
-</code></pre><h4 id="rmr_path__u5FAA_u73AF_u5220_u9664_u8DEF_u5F84_u4E0B_u7684_u8282_u70B9"><a href="#rmr_path__u5FAA_u73AF_u5220_u9664_u8DEF_u5F84_u4E0B_u7684_u8282_u70B9" class="headerlink" title="rmr path 循环删除路径下的节点"></a><strong>rmr path</strong> 循环删除路径下的节点</h4><pre><code>[zk: 192.168.1.101:2181(CONNECTED) 16] rmr /node_test
-[zk: 192.168.1.101:2181(CONNECTED) 17] ls /
-[zookeeper]
-[zk: 192.168.1.101:2181(CONNECTED) 18] 
-</code></pre><h4 id="setquota_-n_7C-b_val_path__u9650_u5236_u8282_u70B9_u7684_u503C_u7684_u957F_u5EA6_u6216_u5176_u5B50_u8282_u70B9_u7684_u4E2A_u6570"><a href="#setquota_-n_7C-b_val_path__u9650_u5236_u8282_u70B9_u7684_u503C_u7684_u957F_u5EA6_u6216_u5176_u5B50_u8282_u70B9_u7684_u4E2A_u6570" class="headerlink" title="setquota -n|-b val path 限制节点的值的长度或其子节点的个数"></a><strong>setquota -n|-b val path</strong> 限制节点的值的长度或其子节点的个数</h4><pre><code>- -n 限制节点(包含当前节点)的个数为val
-- -b 限制节点值的长度为val
-- path 要限制的节点路径
-
-[zk: 192.168.1.101:2181(CONNECTED) 18] create node_test 123
-Command failed: java.lang.IllegalArgumentException: Path must start with / character
-[zk: 192.168.1.101:2181(CONNECTED) 19] create /node_test 123
-Created /node_test
-[zk: 192.168.1.101:2181(CONNECTED) 20] setquota -n 2 /node_test
-Comment: the parts are option -n val 2 path /node_test
-[zk: 192.168.1.101:2181(CONNECTED) 21] create /node_test/node_test_1 234
-Created /node_test/node_test_1
-[zk: 192.168.1.101:2181(CONNECTED) 22] create /node_test/node_test_2 345
-Created /node_test/node_test_2
-[zk: 192.168.1.101:2181(CONNECTED) 23] create /node_test/node_test_3 456
-Created /node_test/node_test_3 //超额，不会抛出异常，只是在日志/opt/zookeeper/bin/zookeeper.out中记录信息
-[zk: 192.168.1.101:2181(CONNECTED) 24] ls /node_test
-[node_test_2, node_test_3, node_test_1]
-
-zookeeper.out
-2015-12-15 22:49:01,139 [myid:1] - WARN  [CommitProcessor:1:DataTree@389] - Quota exceeded: /node_test count=3 limit=2
-2015-12-15 22:49:06,021 [myid:1] - WARN  [CommitProcessor:1:DataTree@389] - Quota exceeded: /node_test count=4 limit=2
-</code></pre><h4 id="listquota_path__u67E5_u770B_u8282_u70B9_u914D_u989D_u60C5_u51B5"><a href="#listquota_path__u67E5_u770B_u8282_u70B9_u914D_u989D_u60C5_u51B5" class="headerlink" title="listquota path 查看节点配额情况"></a><strong>listquota path</strong> 查看节点配额情况</h4><pre><code>[zk: 192.168.1.101:2181(CONNECTED) 27] listquota /node_test
-absolute path is /zookeeper/quota/node_test/zookeeper_limits
-Output quota for /node_test count=2,bytes=-1   //配额信息 -1没有限制
-Output stat for /node_test count=4,bytes=12    //当前节点状态信息，当前节点4个，限额2个，字节总长度12
-[zk: 192.168.1.101:2181(CONNECTED) 28]
-</code></pre><h4 id="delquota__5B-n_7C-b_5D_path__u5220_u9664_u914D_u989D_u4FE1_u606F"><a href="#delquota__5B-n_7C-b_5D_path__u5220_u9664_u914D_u989D_u4FE1_u606F" class="headerlink" title="delquota [-n|-b] path 删除配额信息"></a><strong>delquota [-n|-b] path</strong> 删除配额信息</h4><pre><code>[zk: 192.168.1.101:2181(CONNECTED) 28] delquota -n /node_test
-[zk: 192.168.1.101:2181(CONNECTED) 29] listquota /node_test
-absolute path is /zookeeper/quota/node_test/zookeeper_limits
-Output quota for /node_test count=-1,bytes=-1
-Output stat for /node_test count=4,bytes=12
-[zk: 192.168.1.101:2181(CONNECTED) 30] 
-</code></pre><h4 id="history__u5217_u51FA_u5DF2_u64CD_u4F5C_u7684_u6307_u4EE4_u8BB0_u5F55"><a href="#history__u5217_u51FA_u5DF2_u64CD_u4F5C_u7684_u6307_u4EE4_u8BB0_u5F55" class="headerlink" title="history 列出已操作的指令记录"></a><strong>history</strong> 列出已操作的指令记录</h4><pre><code>[zk: 192.168.1.101:2181(CONNECTED) 30] history
-20 - setquota -n 2 /node_test
-21 - create /node_test/node_test_1 234
-22 - create /node_test/node_test_2 345
-23 - create /node_test/node_test_3 456
-24 - ls /node_test
-25 - ls
-26 - h
-27 - listquota /node_test
-28 - delquota -n /node_test
-29 - listquota /node_test
-30 - history
-[zk: 192.168.1.101:2181(CONNECTED) 31] 
-</code></pre><h4 id="redo_cmdno__u91CD_u65B0_u6267_u884Chistory_u4E2D_u7684_u547D_u4EE4"><a href="#redo_cmdno__u91CD_u65B0_u6267_u884Chistory_u4E2D_u7684_u547D_u4EE4" class="headerlink" title="redo cmdno 重新执行history中的命令"></a><strong>redo cmdno</strong> 重新执行history中的命令</h4><pre><code>[zk: 192.168.1.101:2181(CONNECTED) 31] redo 24
-[node_test_2, node_test_3, node_test_1]
-[zk: 192.168.1.101:2181(CONNECTED) 32] 
-</code></pre><h4 id="connect_host_3Aport__u8FDE_u63A5_u5176_u4ED6_u670D_u52A1_u5668"><a href="#connect_host_3Aport__u8FDE_u63A5_u5176_u4ED6_u670D_u52A1_u5668" class="headerlink" title="connect host:port 连接其他服务器"></a><strong>connect host:port</strong> 连接其他服务器</h4><h4 id="close__u5173_u95EDconnect_u8FDE_u63A5_u7684_u670D_u52A1_u5668"><a href="#close__u5173_u95EDconnect_u8FDE_u63A5_u7684_u670D_u52A1_u5668" class="headerlink" title="close 关闭connect连接的服务器"></a><strong>close</strong> 关闭connect连接的服务器</h4><h4 id="quit__u9000_u51FAzookeeper_u5BA2_u6237_u7AEF_u8FDE_u63A5"><a href="#quit__u9000_u51FAzookeeper_u5BA2_u6237_u7AEF_u8FDE_u63A5" class="headerlink" title="quit 退出zookeeper客户端连接"></a><strong>quit</strong> 退出zookeeper客户端连接</h4>]]></content>
-    <summary type="html">
-    <![CDATA[<h3 id="zkCli-sh"><a href="#zkCli-sh" class="headerlink" title="zkCli.sh"></a>zkCli.sh</h3><pre><code>连接zookeeper：./zkCli.sh -server ip:port
-
-bin目录下输入命令`./zkCli.sh -server 192.168.1.101:2181`
-</code></pre><h3 id="u5BA2_u6237_u7AEF_u547D_u4EE4"><a href="#u5BA2_u6237_u7AEF_u547D_u4EE4" class="headerlink" title="客户端命令"></a>客户端命令</h3><h4 id="help"><a href="#help" class="headerlink" title="help"></a><strong>help</strong></h4><pre><code>ZooKeeper -server host:port cmd args
-stat path [watch]
-set path data [version]
-ls path [watch]
-delquota [-n|-b] path
-ls2 path [watch]
-setAcl path acl
-setquota -n|-b val path
-history 
-redo cmdno
-printwatches on|off
-delete path [version]
-sync path
-listquota path
-rmr path
-get path [watch]
-create [-s] [-e] path data acl
-addauth scheme auth
-quit 
-getAcl path
-close 
-connect host:port
-</code></pre>]]>
-    
-    </summary>
-    
-      <category term="zookeeper" scheme="http://suqun.github.io/tags/zookeeper/"/>
     
   </entry>
   
