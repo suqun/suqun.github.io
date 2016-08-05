@@ -209,11 +209,517 @@
 
     
     
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/18/JavaReflectionAnnotations/" itemprop="url">
+                  Java反射之注解
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-05-18T00:52:55+08:00" content="2016-05-18">
+              2016-05-18
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/18/JavaReflectionAnnotations/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/18/JavaReflectionAnnotations/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
       
 
       
+        
+          <span itemprop="articleBody">
+            
+              <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/annotations.html" target="_blank" rel="external">Java Reflection Annotations</a></p>
+<p>在运行时状态下，你可以通过反射获取java对象上的注解。</p>
+<h4 id="What_are_Java_Annotations_3F"><a href="#What_are_Java_Annotations_3F" class="headerlink" title="What are Java Annotations?"></a>What are Java Annotations?</h4><p>注解是Java5增加的功能。注解是一种注释或者是元数据可以直接插入到Java代码中。在编译时，通过预编译工具处理；或者在运行时，通过java反射处理。下面是个注解的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@MyAnnotation</span>(name=<span class="string">"someName"</span>,  value = <span class="string">"Hello World"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TheClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>类TheClass的上面有个<code>@MyAnnotation</code>的注解。注解的定义类似接口定义，下面是注解定义的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="annotation">@Target</span>(ElementType.TYPE)</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="annotation">@interface</span> MyAnnotation &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">name</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">value</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>创建注解是，在interface前面使用<code>@</code>即可。创建之后就可以在代码里使用了，例如上面的例子。</p>
+<p><code>@Retention(RetentionPolicy.RUNTIME)</code> 和 <code>@Target(ElementType.TYPE)</code>这两个指令，指明了这个注解如何被使用。</p>
+<p><code>@Retention(RetentionPolicy.RUNTIME)</code> 意味着在运行时状态可以使用java反射获取注解，如果不设置这个指令，在运行时状态，注解不会被保存，同样的也就不能通过反射获取。 </p>
+<p><code>@Target(ElementType.TYPE)</code>意味着注解只能用在Types上（比如类和接口）。你也可以指定为<code>METHOD</code>或者是<code>FIELD</code>，或者是不使用Target这个指令，这样你就可以在类，方法，变量上使用了。</p>
+<h4 id="Class_Annotations"><a href="#Class_Annotations" class="headerlink" title="Class Annotations"></a>Class Annotations</h4><p>你可以在运行期访问类，方法，变量的注解。下面是类注解的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Class aClass = TheClass.class;</span><br><span class="line">Annotation[] annotations = aClass.getAnnotations();</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(Annotation annotation : annotations)&#123;</span><br><span class="line">    <span class="keyword">if</span>(annotation <span class="keyword">instanceof</span> MyAnnotation)&#123;</span><br><span class="line">        MyAnnotation myAnnotation = (MyAnnotation) annotation;</span><br><span class="line">        System.out.println(<span class="string">"name: "</span> + myAnnotation.name());</span><br><span class="line">        System.out.println(<span class="string">"value: "</span> + myAnnotation.value());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也可以指定类进行访问，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Class aClass = TheClass.class;</span><br><span class="line">Annotation annotation = aClass.getAnnotation(MyAnnotation.class);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(annotation <span class="keyword">instanceof</span> MyAnnotation)&#123;</span><br><span class="line">    MyAnnotation myAnnotation = (MyAnnotation) annotation;</span><br><span class="line">    System.out.println(<span class="string">"name: "</span> + myAnnotation.name());</span><br><span class="line">    System.out.println(<span class="string">"value: "</span> + myAnnotation.value());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Method_Annotations"><a href="#Method_Annotations" class="headerlink" title="Method Annotations"></a>Method Annotations</h4><p>下面是注解在方法上的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TheClass2</span> </span>&#123;</span><br><span class="line">  <span class="annotation">@MyAnnotation</span>(name=<span class="string">"someName"</span>,  value = <span class="string">"Hello World"</span>)</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以像下面这样访问方法注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Method method = TheClass2.class.getMethod(<span class="string">"doSomething"</span>);</span><br><span class="line">Annotation[] annotations = method.getDeclaredAnnotations();</span><br><span class="line"><span class="keyword">for</span>(Annotation annotation : annotations)&#123;</span><br><span class="line">    <span class="keyword">if</span>(annotation <span class="keyword">instanceof</span> MyAnnotation)&#123;</span><br><span class="line">        MyAnnotation myAnnotation = (MyAnnotation) annotation;</span><br><span class="line">        System.out.println(<span class="string">"name: "</span> + myAnnotation.name());</span><br><span class="line">        System.out.println(<span class="string">"value: "</span> + myAnnotation.value());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>或者是指定方法注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Method method = TheClass2.class.getMethod(<span class="string">"doSomething"</span>);</span><br><span class="line">Annotation annotation = method.getAnnotation(MyAnnotation.class);</span><br><span class="line"><span class="keyword">if</span> (annotation <span class="keyword">instanceof</span> MyAnnotation) &#123;</span><br><span class="line">    MyAnnotation myAnnotation = (MyAnnotation) annotation;</span><br><span class="line">    System.out.println(<span class="string">"name:"</span>+myAnnotation.name());</span><br><span class="line">    System.out.println(<span class="string">"value:"</span>+myAnnotation.value());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Parameter_Annotations"><a href="#Parameter_Annotations" class="headerlink" title="Parameter Annotations"></a>Parameter Annotations</h4><p>在方法的参数上使用注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TheClass3</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">doSomethingElse</span><span class="params">(</span><br><span class="line">        @MyAnnotation(name=<span class="string">"aName"</span>, value=<span class="string">"aValue"</span>)</span> String parameter)</span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>访问方法参数上的注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Method method = TheClass3.class.getMethod(<span class="string">"doSomethingElse"</span>);</span><br><span class="line">Annotation[][] parameterAnnotations = method.getParameterAnnotations();</span><br><span class="line">Class[] parameterTypes = method.getParameterTypes();</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span>(Annotation[] annotations : parameterAnnotations)&#123;</span><br><span class="line">  Class parameterType = parameterTypes[i++];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span>(Annotation annotation : annotations)&#123;</span><br><span class="line">    <span class="keyword">if</span>(annotation <span class="keyword">instanceof</span> MyAnnotation)&#123;</span><br><span class="line">        MyAnnotation myAnnotation = (MyAnnotation) annotation;</span><br><span class="line">        System.out.println(<span class="string">"param: "</span> + parameterType.getName());</span><br><span class="line">        System.out.println(<span class="string">"name : "</span> + myAnnotation.name());</span><br><span class="line">        System.out.println(<span class="string">"value: "</span> + myAnnotation.value());</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意Method.getParameterAnnotations()返回的是二维数组，包含每个参数的注解数组。</p>
+<h4 id="Field_Annotations"><a href="#Field_Annotations" class="headerlink" title="Field Annotations"></a>Field Annotations</h4><p>变量上的注解使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TheClass4</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="annotation">@MyAnnotation</span>(name=<span class="string">"someName"</span>,  value = <span class="string">"Hello World"</span>)</span><br><span class="line">  <span class="keyword">public</span> String myField = <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>访问变量上的注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Field field = TheClass4.class.getField(<span class="string">"myField"</span>);</span><br><span class="line">Annotation[] annotations = field.getDeclaredAnnotations();</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(Annotation annotation : annotations)&#123;</span><br><span class="line">    <span class="keyword">if</span>(annotation <span class="keyword">instanceof</span> MyAnnotation)&#123;</span><br><span class="line">        MyAnnotation myAnnotation = (MyAnnotation) annotation;</span><br><span class="line">        System.out.println(<span class="string">"name: "</span> + myAnnotation.name());</span><br><span class="line">        System.out.println(<span class="string">"value: "</span> + myAnnotation.value());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Field field = TheClass4.class.getField(<span class="string">"myField"</span>);</span><br><span class="line">Annotation annotation = field.getAnnotation(MyAnnotation.class);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(annotation <span class="keyword">instanceof</span> MyAnnotation)&#123;</span><br><span class="line">    MyAnnotation myAnnotation = (MyAnnotation) annotation;</span><br><span class="line">    System.out.println(<span class="string">"name: "</span> + myAnnotation.name());</span><br><span class="line">    System.out.println(<span class="string">"value: "</span> + myAnnotation.value());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/14/JavaReflectionPrivateFieldsAndMethods/" itemprop="url">
+                  Java反射之私有变量和私有方法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-05-14T00:52:55+08:00" content="2016-05-14">
+              2016-05-14
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/14/JavaReflectionPrivateFieldsAndMethods/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/14/JavaReflectionPrivateFieldsAndMethods/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/private-fields-and-methods.html" target="_blank" rel="external">Java Reflection Methods</a></p>
+<p>通常情况下，从对象外部访问私有变量和私有方法是不被允许的，但是通过反射可以很容易获取私有变量和私有方法，在单元测试的时候很有用。</p>
+<h6 id="Accessing_Private_Fields"><a href="#Accessing_Private_Fields" class="headerlink" title="Accessing Private Fields"></a>Accessing Private Fields</h6><p>获取私有变量你需要用到<code>Class.getDeclaredField(String name)</code>或者<code>Class.getDeclaredFields(String name)</code>方法。<code>Class.getField(String name)</code>和<code>Class.getFields(String name)</code>方法只能返回公有变量。下面是通过java的反射获取私有变量代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Order privateObject = <span class="keyword">new</span> Order(<span class="string">"2016051901"</span>);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Field privateField = Order.class.getDeclaredField(<span class="string">"orderId"</span>);</span><br><span class="line">    privateField.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">    String orderId = (String) privateField.get(privateObject);</span><br><span class="line">    System.out.println(<span class="string">"orderId:"</span> + orderId);</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码会打印出『orderId:2016051901』，值为Order实例私有变量orderId的值。</p>
+<p><code>Order.class.getDeclaredField(&quot;orderId&quot;)</code>这个方法返回一个私有变量，这个私有变量是Order类中自己定义的变量，而不是继承自其父类的变量。</p>
+<p><code>privateField.setAccessible(true);</code>这个方法会关闭实例类的反射访问检查。现在你可以访问私有的，受保护的和包级访问的变量。</p>
+<h6 id="Accessing_Private_Methods"><a href="#Accessing_Private_Methods" class="headerlink" title="Accessing Private Methods"></a>Accessing Private Methods</h6><p>要获取私有方法你需要使用方法<code>Class.getDeclaredMethod(String name, Class[] parameterTypes)</code>或者<code>Class.getDeclaredMethods()</code>。<code>Class.getMethod()</code>和<code>Class.getMethods()</code>方法只是返回的公有方法。下面是使用java反射访问私有方法的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Order privateObject = <span class="keyword">new</span> Order(<span class="string">"2016051901"</span>);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Method privateMethod = Order.class.getDeclaredMethod(<span class="string">"getOrderId"</span>);</span><br><span class="line">    privateMethod.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">    String returnValue = (String) privateMethod.invoke(privateObject);</span><br><span class="line">    System.out.println(<span class="string">"returnValue = "</span> + returnValue);</span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码会打印出『returnValue=2016051901』，其值是通过反射调用Order实例的私有方法『getOrderId()』获取到的。</p>
+<p><code>Order.class.getDeclaredMethod(&quot;getOrderId&quot;)</code>,这个方法也之后返回Order类自己的私有方法，而非其继承自父类的私有方法。</p>
+<p><code>privateMethod.setAcessible(true)</code>，这个方法会关闭实例类的私有方法反射访问检查，现在你可以通过反射获取的实例的私有，受保护和包级访问权限的方法。 </p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/13/JavaReflectionMethods/" itemprop="url">
+                  Java反射之方法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-05-13T00:52:55+08:00" content="2016-05-13">
+              2016-05-13
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/13/JavaReflectionMethods/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/13/JavaReflectionMethods/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/methods.html" target="_blank" rel="external">Java Reflection Methods</a></p>
+<h5 id="Obtaining_Method_Objects"><a href="#Obtaining_Method_Objects" class="headerlink" title="Obtaining Method Objects"></a>Obtaining Method Objects</h5><p>获取类的方法，Method[]数组里面只包含类中public修饰的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Method[] methods = orderClass.getMethods();</span><br></pre></td></tr></table></figure>
+<p>也可以使用具体的方法名及参数类型直接获取,以Order类中的getState()，setState()方法为例:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Method methodHaveNoParameter = orderClass.getMethod(<span class="string">"getState"</span>,<span class="keyword">null</span>);<span class="comment">//该方法没有参数,null省略也可以</span></span><br><span class="line">    System.out.println(methodHaveNoParameter.getName());<span class="comment">//getState</span></span><br><span class="line">    </span><br><span class="line">    Method methodHaveParameter = orderClass.getMethod(<span class="string">"setState"</span>,<span class="keyword">new</span> Class[]&#123;String.class&#125;);<span class="comment">//该方有String类型参数</span></span><br><span class="line">    System.out.println(methodHaveParameter.getName());<span class="comment">//setState</span></span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Method_Parameters_and_Return_Types"><a href="#Method_Parameters_and_Return_Types" class="headerlink" title="Method Parameters and Return Types"></a>Method Parameters and Return Types</h4><p>获取方法的参数类型及返回类型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Class[] parameters = methodHaveParameter.getParameterTypes();</span><br><span class="line">System.out.println(parameters[<span class="number">0</span>].getName());<span class="comment">//class java.lang.String</span></span><br><span class="line"></span><br><span class="line">Class returnType = methodHaveParameter.getReturnType();</span><br><span class="line">System.out.println(returnType);<span class="comment">//void</span></span><br></pre></td></tr></table></figure>
+<h4 id="Invoking_Methods_using_Method_Object"><a href="#Invoking_Methods_using_Method_Object" class="headerlink" title="Invoking Methods using Method Object"></a>Invoking Methods using Method Object</h4><p>使用<code>invoke</code>调用方法,以Order类中的pay()方法为例，该方法直接返回一个字符串</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Method methodPay = orderClass.getMethod(<span class="string">"pay"</span>,<span class="keyword">new</span> Class[]&#123;String.class&#125;);</span><br><span class="line">    Order order = <span class="keyword">new</span> Order();</span><br><span class="line">    Object returnValue = methodPay.invoke(order,<span class="string">"2016050902"</span>);</span><br><span class="line">    System.out.println(returnValue);<span class="comment">//2016050902 pay success</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果方法是static的，那么在调用invoke时，第一个参数（类的实例）可以传null(传入类的实例也是可以的)。</p>
+<h5 id="u83B7_u53D6getter/setter_u65B9_u6CD5"><a href="#u83B7_u53D6getter/setter_u65B9_u6CD5" class="headerlink" title="获取getter/setter方法"></a>获取getter/setter方法</h5><p>使用反射时，如果需要获取类的getter和setter方法，需要获取所有methods，并根据getter/setter的特点找到他们。</p>
+<ul>
+<li>Getter<br>  getter方法以「get」开头，没有参数，有返回值</li>
+<li>Setter<br>  setter方法以「set」开头，有一个参数，返回值可能有可能没有</li>
+</ul>
+<p>下面是从类中找到get/set方法的例子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printGettersSetters</span><span class="params">(Class aClass)</span></span>&#123;</span><br><span class="line">  Method[] methods = aClass.getMethods();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span>(Method method : methods)&#123;</span><br><span class="line">    <span class="keyword">if</span>(isGetter(method)) System.out.println(<span class="string">"getter: "</span> + method);</span><br><span class="line">    <span class="keyword">if</span>(isSetter(method)) System.out.println(<span class="string">"setter: "</span> + method);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isGetter</span><span class="params">(Method method)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!method.getName().startsWith(<span class="string">"get"</span>))      <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">if</span>(method.getParameterTypes().length != <span class="number">0</span>)   <span class="keyword">return</span> <span class="keyword">false</span>;  </span><br><span class="line">  <span class="keyword">if</span>(<span class="keyword">void</span>.class.equals(method.getReturnType()) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isSetter</span><span class="params">(Method method)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!method.getName().startsWith(<span class="string">"set"</span>)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">if</span>(method.getParameterTypes().length != <span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/12/JavaReflectionFields/" itemprop="url">
+                  Java反射之变量
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-05-12T00:52:55+08:00" content="2016-05-12">
+              2016-05-12
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/12/JavaReflectionFields/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/12/JavaReflectionFields/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h3 id="Java_Reflection_Fields"><a href="#Java_Reflection_Fields" class="headerlink" title="Java Reflection Fields"></a>Java Reflection Fields</h3><p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/fields.html" target="_blank" rel="external">Java Reflection Fields</a></p>
+<h4 id="Obtaining_Field_Objects"><a href="#Obtaining_Field_Objects" class="headerlink" title="Obtaining Field Objects"></a>Obtaining Field Objects</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Field[] fields = orderClass.getFields();</span><br></pre></td></tr></table></figure>
+<p>Field[]数组里面只包含类中public修饰的成员变量</p>
+<p>如果知道类的成员变量名称，可以直接通过getField()方法获取到，成员变量的访问权限同样需要是public的</p>
+<h4 id="Field_Name_and_Type"><a href="#Field_Name_and_Type" class="headerlink" title="Field Name and Type"></a>Field Name and Type</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Field field = orderClass.getField(<span class="string">"description"</span>);</span><br><span class="line">    System.out.println(field.getName());<span class="comment">//成员变量名称description</span></span><br><span class="line">    System.out.println(field.getType());<span class="comment">//成员变量类型class java.lang.String</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;<span class="comment">//如果不存在description的变量，会抛出NoSuchFieldException</span></span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Getting_and_Setting_Field_Values"><a href="#Getting_and_Setting_Field_Values" class="headerlink" title="Getting and Setting Field Values"></a>Getting and Setting Field Values</h4><p>获得了field的引用，就可以通过get()，set()方法，获取和设置成员变量的值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Field field = orderClass.getField(<span class="string">"description"</span>);</span><br><span class="line">    Order order = <span class="keyword">new</span> Order();</span><br><span class="line">    Object value = field.get(order);</span><br><span class="line">    field.set(order, value);</span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>传入Field.get()/Field.set()方法的参数order是Order类的实例。<br>如果变量是静态变量的话(public static)那么在调用Field.get()/Field.set()方法的时候传入null做为参数而不用传递拥有该变量的类的实例(传入类的实例也是可以的)。</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/11/JavaReflectionConstructors/" itemprop="url">
+                  Java反射之构造函数
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-05-11T00:52:55+08:00" content="2016-05-11">
+              2016-05-11
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/11/JavaReflectionConstructors/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/11/JavaReflectionConstructors/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/constructors.html" target="_blank" rel="external">Java Reflection Constructors</a></p>
+<h4 id="u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61"><a href="#u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61" class="headerlink" title="获取构造函数的对象"></a>获取构造函数的对象</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Constructor[] constructors = orderClass.getConstructors();</span><br></pre></td></tr></table></figure>
+<p>可以通过构造函数的具体参数类型直接获取单独的构造函数，而不用获取全部的Constructors</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Constructor constructor = orderClass.getConstructor(<span class="keyword">new</span> Class[]&#123;String.class&#125;);</span><br><span class="line">    System.out.println(constructor.getName());<span class="comment">//com.larry.bean.Order</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;<span class="comment">//没有找到匹配的构造函数会抛出NoSuchMethodException</span></span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="u6784_u9020_u51FD_u6570_u7684_u53C2_u6570_u7C7B_u578B"><a href="#u6784_u9020_u51FD_u6570_u7684_u53C2_u6570_u7C7B_u578B" class="headerlink" title="构造函数的参数类型"></a>构造函数的参数类型</h4><p>可以像下面这样获取构造函数的参数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class[] parameterTypes = constructor.getParameterTypes();</span><br><span class="line">parameterTypes[<span class="number">0</span>].getName();<span class="comment">//java.lang.String</span></span><br></pre></td></tr></table></figure>
+<h4 id="u7528_u6784_u9020_u51FD_u6570_u5BF9_u8C61_u5B9E_u4F8B_u5316_u4E00_u4E2A_u7C7B"><a href="#u7528_u6784_u9020_u51FD_u6570_u5BF9_u8C61_u5B9E_u4F8B_u5316_u4E00_u4E2A_u7C7B" class="headerlink" title="用构造函数对象实例化一个类"></a>用构造函数对象实例化一个类</h4><p>constructor.newInstance()方法的方法参数是一个可变参数列表，但是当你调用构造方法的时候你必须提供精确的参数，即形参与实参必须一一对应。在这个例子中构造方法需要一个String类型的参数，那我们在调用newInstance方法的时候就必须传入一个String类型的参数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Constructor constructor = Order.class.getConstructor(String.class);</span><br><span class="line">    Order order = (Order) constructor.newInstance(<span class="string">"2016050901"</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (InstantiationException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -720,470 +1226,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/13/Shell编程之正则表达式/" itemprop="url">
-                  Shell编程之正则表达式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-01-13T21:38:39+08:00" content="2016-01-13">
-              2016-01-13
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/01/13/Shell编程之正则表达式/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/13/Shell编程之正则表达式/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="u6B63_u5219_u8868_u8FBE_u5F0F_u4E0E_u901A_u914D_u7B26"><a href="#u6B63_u5219_u8868_u8FBE_u5F0F_u4E0E_u901A_u914D_u7B26" class="headerlink" title="正则表达式与通配符"></a>正则表达式与通配符</h3><p>Linux中的正则表达式和通配符有些区别，正则表达式用来在文件中匹配符合条件的<code>字符串</code>，正则是<code>包含匹配</code>。grep，awk，sed等命令可以支持正则表达式。通配符用来匹配符合条件的<code>文件名</code>，通配符是<code>完全匹配</code>。ls，find，cp这些命令不支持正则所有只能用shell自己的通配符进行匹配。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/01/13/Shell编程之正则表达式/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/09/shell编程之运算符/" itemprop="url">
-                  shell编程之运算符
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-01-09T12:14:05+08:00" content="2016-01-09">
-              2016-01-09
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/01/09/shell编程之运算符/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/09/shell编程之运算符/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="u58F0_u660E_u53D8_u91CF_u7C7B_u578Bdeclare"><a href="#u58F0_u660E_u53D8_u91CF_u7C7B_u578Bdeclare" class="headerlink" title="声明变量类型declare"></a>声明变量类型declare</h3><p>declare语法：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">declare</span> [-afiprx] 变量名</span><br><span class="line">参数说明： </span><br><span class="line">-   ：设置属性</span><br><span class="line">+   ：取消属性</span><br><span class="line"><span class="operator">-a</span>  ：定义为数组 array </span><br><span class="line"><span class="operator">-f</span>  ：定义为函数 <span class="keyword">function</span>  </span><br><span class="line">-i  ：定义为整数 <span class="built_in">integer</span> </span><br><span class="line">-p  ：显示变量被声明的类型</span><br><span class="line">-r  ：定义为『只读』 </span><br><span class="line">-x  ：定义为环境变量 </span><br><span class="line"></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -i a=<span class="number">47</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -i b=<span class="number">53</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -i c=<span class="variable">$a</span>+<span class="variable">$b</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$c</span></span><br><span class="line"><span class="number">100</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -p c</span><br><span class="line"><span class="built_in">declare</span> -i c=<span class="string">"100"</span></span><br><span class="line"></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> <span class="operator">-a</span> arr[<span class="number">0</span>]=<span class="number">11</span>  &lt;==定义数组</span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -p arr</span><br><span class="line"><span class="built_in">declare</span> <span class="operator">-a</span> arr=<span class="string">'([0]="11")'</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> <span class="operator">-a</span> arr[<span class="number">1</span>]=<span class="number">22</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -p arr</span><br><span class="line"><span class="built_in">declare</span> <span class="operator">-a</span> arr=<span class="string">'([0]="11" [1]="22")'</span></span><br><span class="line">bash-<span class="number">3.2</span>$</span><br><span class="line"></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$&#123;arr&#125;</span>       &lt;==查看数组方法</span><br><span class="line"><span class="number">11</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$&#123;arr[1]&#125;</span></span><br><span class="line"><span class="number">22</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$&#123;arr[*]&#125;</span></span><br><span class="line"><span class="number">11</span> <span class="number">22</span></span><br><span class="line">bash-<span class="number">3.2</span>$</span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/01/09/shell编程之运算符/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/04/Shell编程之变量/" itemprop="url">
-                  Shell编程之变量
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-01-04T22:34:27+08:00" content="2016-01-04">
-              2016-01-04
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/01/04/Shell编程之变量/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/04/Shell编程之变量/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="u53D8_u91CF"><a href="#u53D8_u91CF" class="headerlink" title="变量"></a>变量</h3><p>变量的配置守则</p>
-<ol>
-<li><code>变量与变量内容以一个等号『=』来连结</code>，如下所示：<br> 『myname=VBird』</li>
-<li><code>等号两边不能直接接空格符</code>，如下所示为错误：<br> 『myname = VBird』或『myname=VBird Tsai』</li>
-<li>变量名称只能是英文字母与数字，但是<code>开头字符不能是数字</code>，如下为错误：<br> 『2myname=VBird』</li>
-<li>变量内容若有空格符可使用双引号『\”』或单引号『\’』将变量内容结合起来，但<ul>
-<li><code>双引号内的特殊字符如 $ 等，可以保有原本的特性</code>，如下所示：<br>  『var=”lang is $LANG”』则『echo $var』可得『lang is en_US』</li>
-<li><code>单引号内的特殊字符则仅为一般字符 (纯文本)</code>，如下所示：<br>  『var=’lang is $LANG’』则『echo $var』可得『lang is $LANG』</li>
-</ul>
-</li>
-<li>可用<code>转义字符『 \ 』</code>将特殊符号(如 [Enter], $, \, 空格符, `等)变成一般字符；</li>
-<li>在一串命令中，还需要藉由其他的命令提供的信息，可以<code>使用反单引号『</code>命令<code>』或 『$(命令)』</code>。特别注意，那个 ` 是键盘上方的数字键 1 左边那个按键，而不是单引号！ 例如想要取得核心版本的配置：<br> 『version=$(uname -r)』再『echo $version』可得『2.6.18-128.el5』</li>
-<li>若该变量为扩增变量内容时，则可用 “$变量名称” 或 ${变量} 累加内容，如下所示：<br> 『PATH=”$PATH”:/home/bin』</li>
-<li>若该变量需要在其他子程序运行，则<code>需要以 export 来使变量变成环境变量</code>：<br> 『export PATH』</li>
-<li>通常大写字符为系统默认变量，自行配置变量可以使用小写字符，方便判断 (纯粹依照使用者兴趣与嗜好) ；</li>
-<li><code>取消变量的方法为使用 unset</code> ：『unset 变量名称』例如取消 myname 的配置：<br>『unset myname』</li>
-<li><code>在Bash中，变量的默认类型是字符串型</code></li>
-</ol>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/01/04/Shell编程之变量/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/02/Shell基础/" itemprop="url">
-                  Shell基础
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-01-02T20:40:52+08:00" content="2016-01-02">
-              2016-01-02
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/01/02/Shell基础/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/02/Shell基础/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="Shell__u6982_u8FF0"><a href="#Shell__u6982_u8FF0" class="headerlink" title="Shell 概述"></a>Shell 概述</h2><p><a href="http://www.imooc.com/learn/175">imooc shell课程</a></p>
-<p>Shell是一个命令行解释器，它为用户提供了一个向Linux内核发送请求以便运行程序的界面系统级程序，用可以用Shell来启动，挂起，停止甚至是编写一些程序。</p>
-<p>Shell还是一个功能强大的编程语言，易编写易调试，灵活性较强。Shell是解释执行的脚本语言，在Shell中可以直接调用Linux系统命令。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/01/02/Shell基础/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/01/What-is-Docker/" itemprop="url">
-                  What is Docker?
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-01-01T19:43:48+08:00" content="2016-01-01">
-              2016-01-01
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/01/01/What-is-Docker/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/01/What-is-Docker/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="What_is_Docker"><a href="#What_is_Docker" class="headerlink" title="What is Docker"></a>What is Docker</h2><p>Docker allows you to package an applications with all of its dependencies into a standardized unit for development.</p>
-<p>对于软件开发,Docker允许你用其所有相关的依赖打包应用程序到一个标准化单元中.</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/docker-what_is_layered_filesystems_sm.png" alt="layered_filesystems_sm"></p>
-<p>Docker containers wrap up a piece of software in a complete filesystem that contains everything it needs to run : code,runtime,system tools,system libraries - anything you can install on a sever. This guarantees that it will always run the same,regardless of the environment it is running in.</p>
-<p>Docker容器在一个完整的文件系统中包裹一个软件,这个文件系统包含软件运行所需要的code,runtime,系统工具,系统库等任何你所能在服务器上安装的.这保证了软件总是运行在相同的环境.(这句翻译的烂,欢迎指正)</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/01/01/What-is-Docker/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -1230,7 +1272,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">30</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1244,7 +1286,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -1282,11 +1324,11 @@
             <p class="site-author-name">友情链接</p>
             
               <span class="links-of-author-item">
-                <a href="http://ifeve.com/" target="_blank">并发编程网</a>
+                <a href="http://blog.didispace.com/" target="_blank">程序猿DD</a>
               </span>
             
               <span class="links-of-author-item">
-                <a href="http://uridb.com/" target="_blank">技术流</a>
+                <a href="http://ifeve.com/" target="_blank">并发编程网</a>
               </span>
             
               <span class="links-of-author-item">

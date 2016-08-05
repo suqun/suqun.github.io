@@ -4,7 +4,7 @@
   <subtitle><![CDATA[成长路上的点滴记录]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://suqun.github.io/"/>
-  <updated>2016-06-26T13:56:19.000Z</updated>
+  <updated>2016-08-05T03:23:46.000Z</updated>
   <id>http://suqun.github.io/</id>
   
   <author>
@@ -15,11 +15,153 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Spring Cloud构建微服务架构（四) 集群]]></title>
+    <link href="http://suqun.github.io/2016/08/05/Spring-Cloud%E6%9E%84%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%EF%BC%88%E5%9B%9B)%20%20%E9%9B%86%E7%BE%A4/"/>
+    <id>http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/</id>
+    <published>2016-08-05T02:07:59.000Z</published>
+    <updated>2016-08-05T03:23:46.000Z</updated>
+    <content type="html"><![CDATA[<p>前面三篇都分享自<a href="http://blog.didispace.com/" target="_blank" rel="external">程序猿DD</a>的博客,暂时(2016年08月05日)还没有更新关于Eureka集群的博客。<br>这里参考了<a href="https://segmentfault.com/blog/mumubin" target="_blank" rel="external">木木彬</a>的<a href="https://segmentfault.com/a/1190000006149891" target="_blank" rel="external">Spring Cloud实战(二)-Spring Cloud Eureka</a>博客内容。<br>对集群配置简单记录下,方便以后查阅。同时也期待<code>程序猿DD</code>更新更多更精彩的博客。</p>
+<p>本文代码基于<a href="https://git.oschina.net/didispace/SpringBoot-Learning/tree/master/Chapter9-1-3?dir=1&amp;filepath=Chapter9-1-3&amp;oid=cc93af44af30b42320041332790d071ed72a2450&amp;sha=4329c564d673b6cf7a53893ad9770abb7a67b328" target="_blank" rel="external">程序猿DD / SpringBoot-Learning / Chapter9-1-3</a>进行集群配置。</p>
+<p>Spring Cloud 官方文档上对集群配置介绍的非常简单，对Eureka Server进行<a href="http://cloud.spring.io/spring-cloud-static/docs/1.0.x/spring-cloud.html#_peer_awareness" target="_blank" rel="external">Peer Awareness</a>配置，这样多个服务端就可以关联到一起。好了，下面看看具体的配置。</p>
+<h4 id="hosts_u4FEE_u6539"><a href="#hosts_u4FEE_u6539" class="headerlink" title="hosts修改"></a>hosts修改</h4><p>在hosts（路径：/etc/hosts）文件中添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1       eureka-primary&#10;127.0.0.1       eureka-secondary&#10;127.0.0.1       eureka-tertiary</span><br></pre></td></tr></table></figure>
+<h4 id="u670D_u52A1_u7AEF_u914D_u7F6E"><a href="#u670D_u52A1_u7AEF_u914D_u7F6E" class="headerlink" title="服务端配置"></a>服务端配置</h4><p>先注释掉application.properties中的配置，添加application.yml，在yml添加多个profiles,和instanceId，此时Eureka Server 同时也是个Eureka Client,需要设置eureka.client.serviceUrl.defaultZone,值是另外两个（这就是官网所说的<code>Peer Awareness</code>）:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">---&#10;spring:&#10;  application:&#10;    name: eureka-server-clustered&#10;  profiles: primary&#10;server:&#10;  port: 1111&#10;eureka:&#10;  instance:&#10;    hostname: eureka-primary&#10;  client:&#10;    registerWithEureka: true&#10;    fetchRegistry: true&#10;    serviceUrl:&#10;      defaultZone: http://eureka-secondary:1112/eureka/,http://eureka-tertiary:1113/eureka/&#10;---&#10;spring:&#10;  application:&#10;    name: eureka-server-clustered&#10;  profiles: secondary&#10;server:&#10;  port: 1112&#10;eureka:&#10;  instance:&#10;    hostname: eureka-secondary&#10;  client:&#10;    registerWithEureka: true&#10;    fetchRegistry: true&#10;    serviceUrl:&#10;      defaultZone: http://eureka-secondary:1111/eureka/,http://eureka-tertiary:1113/eureka/&#10;---&#10;spring:&#10;  application:&#10;    name: eureka-server-clustered&#10;  profiles: tertiary&#10;server:&#10;  port: 1113&#10;eureka:&#10;  instance:&#10;    hostname: eureka-tertiary&#10;  client:&#10;    registerWithEureka: true&#10;    fetchRegistry: true&#10;    serviceUrl:&#10;      defaultZone: http://eureka-secondary:1111/eureka/,http://eureka-tertiary:1112/eureka/</span><br></pre></td></tr></table></figure>
+<h4 id="u670D_u52A1_u7AEF_u542F_u52A8"><a href="#u670D_u52A1_u7AEF_u542F_u52A8" class="headerlink" title="服务端启动"></a>服务端启动</h4><p>配置完成，要分别启动3个Server，分别执行下面的命令即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  eureka-server git:(master) ✗ mvn clean &amp;&amp; mvn install</span><br><span class="line">➜  eureka-server git:(master) ✗ <span class="built_in">cd</span> target</span><br><span class="line">➜  target git:(master) ✗ java -Dspring.profiles.active=primary -jar eureka-server-<span class="number">0.0</span>.<span class="number">1</span>-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  target git:(master) ✗ java -Dspring.profiles.active=secondary -jar eureka-server-<span class="number">0.0</span>.<span class="number">1</span>-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  target git:(master) ✗ java -Dspring.profiles.active=tertiary -jar eureka-server-<span class="number">0.0</span>.<span class="number">1</span>-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
+<p>我们访问其中一个服务地址<a href="http://localhost:1111/" target="_blank" rel="external">http://localhost:1111/</a> 可以看到如下内容，说明服务启动成功：</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/eureka-server-1.png" alt="Eureka Server"></p>
+<h4 id="u5BA2_u6237_u7AEF_u914D_u7F6E"><a href="#u5BA2_u6237_u7AEF_u914D_u7F6E" class="headerlink" title="客户端配置"></a>客户端配置</h4><p>服务端已准备就绪，客户端如何注册到多个服务地址呢？其实在服务端配置defaultZone时，指定多个地址，就告诉我们客户端也这么指定就可以啦。</p>
+<p>修改compute-service的application.properties中的defaultZone值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#25351;&#23450;&#24494;&#26381;&#21153;&#30340;&#21517;&#31216;&#21518;&#32493;&#22312;&#35843;&#29992;&#30340;&#26102;&#20505;&#21482;&#38656;&#35201;&#20351;&#29992;&#35813;&#21517;&#31216;&#23601;&#21487;&#20197;&#36827;&#34892;&#26381;&#21153;&#30340;&#35775;&#38382;&#10;spring.application.name=compute-service&#10;#&#24212;&#29992;&#31471;&#21475;&#10;server.port=2222&#10;#&#25351;&#23450;&#26381;&#21153;&#27880;&#20876;&#20013;&#24515;&#30340;&#20301;&#32622;&#10;#eureka.client.serviceUrl.defaultZone=http://localhost:1111/eureka/&#10;eureka.client.serviceUrl.defaultZone=http://eureka-primary:1111/eureka/,http://eureka-secondary:1112/eureka/,http://eureka-tertiary:1113/eureka/</span><br></pre></td></tr></table></figure>
+<h4 id="u542F_u52A8_u5BA2_u6237_u7AEF"><a href="#u542F_u52A8_u5BA2_u6237_u7AEF" class="headerlink" title="启动客户端"></a>启动客户端</h4><p>客户端默认端口是2222，我们启动2个客户端，另一个端口用2223好了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  compute-service git:(master) ✗ mvn clean &amp;&amp; mvn insatll</span><br><span class="line">➜  compute-service git:(master) ✗ <span class="built_in">cd</span> target</span><br><span class="line">➜  target git:(master) ✗ java -jar compute-service-<span class="number">0.0</span>.<span class="number">1</span>-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  target git:(master) ✗ java -DServer.port=<span class="number">2223</span> -jar compute-service-<span class="number">0.0</span>.<span class="number">1</span>-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
+<p>重新查看下<a href="http://localhost:1111/" target="_blank" rel="external">http://localhost:1111/</a></p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/eureka-server-2.png" alt="client starting"></p>
+<p>2个客户端启动成功了。</p>
+<h4 id="u6D4B_u8BD5"><a href="#u6D4B_u8BD5" class="headerlink" title="测试"></a>测试</h4><p>启动消费者eureka-ribbon成功后，简单测试下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ curl localhost:<span class="number">3333</span>/add</span><br><span class="line"><span class="number">30</span>%</span><br></pre></td></tr></table></figure>
+<p>一个客户端也打出了日志</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2016</span>-<span class="number">08</span>-<span class="number">05</span> <span class="number">11</span>:<span class="number">18</span>:<span class="number">23.554</span>  INFO <span class="number">5127</span> --- [nio-<span class="number">2223</span>-exec-<span class="number">1</span>] com.ow.wises.web.ComputeController       : /add, host:<span class="number">192.168</span>.<span class="number">1.145</span>, service_id:compute-service, result:<span class="number">30</span></span><br></pre></td></tr></table></figure>
+<p>好了，就先这样了。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>前面三篇都分享自<a href="http://blog.didispace.com/" target="_blank" rel="external">程序猿DD</a>的博客,暂时(2016年08月05日)还没有更新关于Eureka集群的博客。<br>这里参考了<a hr]]>
+    </summary>
+    
+      <category term="EUREKA" scheme="http://suqun.github.io/tags/EUREKA/"/>
+    
+      <category term="NETFLIX" scheme="http://suqun.github.io/tags/NETFLIX/"/>
+    
+      <category term="SPRING BOOT" scheme="http://suqun.github.io/tags/SPRING-BOOT/"/>
+    
+      <category term="SPRING CLOUD" scheme="http://suqun.github.io/tags/SPRING-CLOUD/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Spring Cloud构建微服务架构（三）断路器]]></title>
+    <link href="http://suqun.github.io/2016/08/05/Spring-Cloud%E6%9E%84%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%EF%BC%88%E4%B8%89%EF%BC%89%E6%96%AD%E8%B7%AF%E5%99%A8/"/>
+    <id>http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/</id>
+    <published>2016-08-05T02:02:21.000Z</published>
+    <updated>2016-08-05T02:02:46.000Z</updated>
+    <content type="html"><![CDATA[<p>原文 : <a href="http://blog.didispace.com/springcloud3/" target="_blank" rel="external">Spring Cloud构建微服务架构（三）断路器</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>原文 : <a href="http://blog.didispace.com/springcloud3/" target="_blank" rel="external">Spring Cloud构建微服务架构（三）断路器</a></p>
+]]>
+    </summary>
+    
+      <category term="EUREKA" scheme="http://suqun.github.io/tags/EUREKA/"/>
+    
+      <category term="NETFLIX" scheme="http://suqun.github.io/tags/NETFLIX/"/>
+    
+      <category term="SPRING BOOT" scheme="http://suqun.github.io/tags/SPRING-BOOT/"/>
+    
+      <category term="SPRING CLOUD" scheme="http://suqun.github.io/tags/SPRING-CLOUD/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Spring Cloud构建微服务架构（二）服务消费者]]></title>
+    <link href="http://suqun.github.io/2016/08/05/Spring-Cloud%E6%9E%84%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%EF%BC%88%E4%BA%8C%EF%BC%89%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/"/>
+    <id>http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（二）服务消费者/</id>
+    <published>2016-08-05T02:00:33.000Z</published>
+    <updated>2016-08-05T02:01:26.000Z</updated>
+    <content type="html"><![CDATA[<p>原文 : <a href="http://blog.didispace.com/springcloud2/" target="_blank" rel="external">Spring Cloud构建微服务架构（二）服务消费者</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>原文 : <a href="http://blog.didispace.com/springcloud2/" target="_blank" rel="external">Spring Cloud构建微服务架构（二）服务消费者</a></p>
+]]>
+    </summary>
+    
+      <category term="EUREKA" scheme="http://suqun.github.io/tags/EUREKA/"/>
+    
+      <category term="NETFLIX" scheme="http://suqun.github.io/tags/NETFLIX/"/>
+    
+      <category term="SPRING BOOT" scheme="http://suqun.github.io/tags/SPRING-BOOT/"/>
+    
+      <category term="SPRING CLOUD" scheme="http://suqun.github.io/tags/SPRING-CLOUD/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Spring Cloud构建微服务架构（一）服务注册与发现]]></title>
+    <link href="http://suqun.github.io/2016/08/05/Spring-Cloud%E6%9E%84%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%EF%BC%88%E4%B8%80%EF%BC%89%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%8E%E5%8F%91%E7%8E%B0/"/>
+    <id>http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（一）服务注册与发现/</id>
+    <published>2016-08-05T01:55:21.000Z</published>
+    <updated>2016-08-05T01:59:10.000Z</updated>
+    <content type="html"><![CDATA[<p>原文 : <a href="http://blog.didispace.com/springcloud1/" target="_blank" rel="external">Spring Cloud构建微服务架构（一）服务注册与发现</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>原文 : <a href="http://blog.didispace.com/springcloud1/" target="_blank" rel="external">Spring Cloud构建微服务架构（一）服务注册与发现</a></p>
+]]>
+    </summary>
+    
+      <category term="EUREKA" scheme="http://suqun.github.io/tags/EUREKA/"/>
+    
+      <category term="NETFLIX" scheme="http://suqun.github.io/tags/NETFLIX/"/>
+    
+      <category term="SPRING BOOT" scheme="http://suqun.github.io/tags/SPRING-BOOT/"/>
+    
+      <category term="SPRING CLOUD" scheme="http://suqun.github.io/tags/SPRING-CLOUD/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Java NIO Buffer]]></title>
+    <link href="http://suqun.github.io/2016/06/28/Java-NIO-Buffer/"/>
+    <id>http://suqun.github.io/2016/06/28/Java-NIO-Buffer/</id>
+    <published>2016-06-28T14:10:31.000Z</published>
+    <updated>2016-06-30T02:15:19.000Z</updated>
+    <content type="html"><![CDATA[<p>Java NIO Buffers是和NIO的Channels交互使用的。你知道的，数据是从Channel中读到Buffer里，数据从Buffer里写入到Channel中。 </p>
+<p>Buffer本质上是可以读写数据的内存块。这个内存块被NIO的Buffer对象包裹，然后提供很多方法以便能够简单的操作这个内存块。</p>
+<h4 id="Basic_Buffer_Usage"><a href="#Basic_Buffer_Usage" class="headerlink" title="Basic Buffer Usage"></a>Basic Buffer Usage</h4><p>使用Buffer读写数据基本上就4步：</p>
+<ol>
+<li>数据写入Buffer</li>
+<li>调用 buffer.flip()</li>
+<li>Read data out of the Buffer</li>
+<li>Call buffer.clear() or buffer.compact()</li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Java NIO Buffers是和NIO的Channels交互使用的。你知道的，数据是从Channel中读到Buffer里，数据从Buffer里写入到Channel中。 </p>
+<p>Buffer本质上是可以读写数据的内存块。这个内存块被NIO的Buffer对象包裹，然]]>
+    </summary>
+    
+      <category term="Java NIO" scheme="http://suqun.github.io/tags/Java-NIO/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Java NIO Channel]]></title>
     <link href="http://suqun.github.io/2016/06/26/Java-NIO-Channel/"/>
     <id>http://suqun.github.io/2016/06/26/Java-NIO-Channel/</id>
     <published>2016-06-26T13:04:43.000Z</published>
-    <updated>2016-06-26T13:56:19.000Z</updated>
+    <updated>2016-06-30T02:15:21.000Z</updated>
     <content type="html"><![CDATA[<p>Java NIO 的Channels有些像流，但是也有一些区别：</p>
 <ul>
 <li>可以向一个Channel即读又写。流是典型的单向的（写或者读）</li>
@@ -35,10 +177,7 @@
 <li>SocketChannel</li>
 <li>ServerSocketChannel</li>
 </ul>
-<p><code>FileChannel</code>从文件中读取数据。</p>
-<p><code>DatagramChannel</code>通过UDP读写网络中的数据。</p>
-<p><code>SocketChannel</code>通过TCP读写网络中的数据。</p>
-<p><code>ServerSocketChannel</code>可以监听新进来的TCP连接，像Web服务器那样，对每一个新进来的连接都会创建一个SocketChannel。</p>
+<p><code>FileChannel</code>从文件中读取数据。<br><code>DatagramChannel</code>通过UDP读写网络中的数据。<br><code>SocketChannel</code>通过TCP读写网络中的数据。<br><code>ServerSocketChannel</code>可以监听新进来的TCP连接，像Web服务器那样，对每一个新进来的连接都会创建一个SocketChannel。</p>
 <h4 id="Basic_Channel_Example"><a href="#Basic_Channel_Example" class="headerlink" title="Basic Channel Example"></a>Basic Channel Example</h4><p>下面是一个使用<code>FileChannel</code>读数据到Buffer中的例子：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChannelExample</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        RandomAccessFile accessFile = <span class="keyword">new</span> RandomAccessFile(<span class="string">"nio-data.txt"</span>,<span class="string">"rw"</span>);</span><br><span class="line">        FileChannel fileChannel = accessFile.getChannel();</span><br><span class="line"></span><br><span class="line">        ByteBuffer buffer = ByteBuffer.allocate(<span class="number">48</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> bytesRead = fileChannel.read(buffer);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (bytesRead != -<span class="number">1</span>) &#123;</span><br><span class="line">            System.out.println(<span class="string">"Read "</span> + bytesRead);</span><br><span class="line">            buffer.flip();</span><br><span class="line">            <span class="keyword">if</span> (buffer.hasRemaining()) &#123;</span><br><span class="line">                System.out.print((<span class="keyword">char</span>) buffer.get());</span><br><span class="line">            &#125;</span><br><span class="line">            buffer.clear();</span><br><span class="line">            bytesRead = fileChannel.read(buffer);</span><br><span class="line">        &#125;</span><br><span class="line">        accessFile.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>注意 buf.flip() 的调用，首先读取数据到Buffer，然后反转Buffer，接着再从Buffer中读取数据。下一节会深入讲解Buffer的更多细节。</p>
@@ -562,688 +701,6 @@
     <summary type="html">
     <![CDATA[<h3 id="u8FD0_u884C_u5BB9_u5668"><a href="#u8FD0_u884C_u5BB9_u5668" class="headerlink" title="运行容器"></a>运行容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker run 运行容器</span><br><span class="line">-i -t  创建交互式容器</span><br><span class="line"><span class="operator">-d</span> 创建守护式容器</span><br><span class="line">--name 为容器指定一个名称</span><br></pre></td></tr></table></figure>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -it ubuntu /bin/bash</span><br><span class="line">root@<span class="number">8</span>abb3326b08f:/<span class="comment"># cat /etc/issue.net</span></span><br><span class="line">Ubuntu <span class="number">14.04</span>.<span class="number">3</span> LTS</span><br></pre></td></tr></table></figure>]]>
-    
-    </summary>
-    
-      <category term="Docker" scheme="http://suqun.github.io/tags/Docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Shell编程之正则表达式]]></title>
-    <link href="http://suqun.github.io/2016/01/13/Shell%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
-    <id>http://suqun.github.io/2016/01/13/Shell编程之正则表达式/</id>
-    <published>2016-01-13T13:38:39.000Z</published>
-    <updated>2016-01-18T15:39:35.000Z</updated>
-    <content type="html"><![CDATA[<h3 id="u6B63_u5219_u8868_u8FBE_u5F0F_u4E0E_u901A_u914D_u7B26"><a href="#u6B63_u5219_u8868_u8FBE_u5F0F_u4E0E_u901A_u914D_u7B26" class="headerlink" title="正则表达式与通配符"></a>正则表达式与通配符</h3><p>Linux中的正则表达式和通配符有些区别，正则表达式用来在文件中匹配符合条件的<code>字符串</code>，正则是<code>包含匹配</code>。grep，awk，sed等命令可以支持正则表达式。通配符用来匹配符合条件的<code>文件名</code>，通配符是<code>完全匹配</code>。ls，find，cp这些命令不支持正则所有只能用shell自己的通配符进行匹配。</p>
-<a id="more"></a>
-<p>通配符：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">*   匹配任意内容</span><br><span class="line">？   匹配任意一个内容</span><br><span class="line">[]  匹配中括号中的一个字符</span><br></pre></td></tr></table></figure>
-<h3 id="u57FA_u7840_u6B63_u5219_u8868_u8FBE_u5F0F"><a href="#u57FA_u7840_u6B63_u5219_u8868_u8FBE_u5F0F" class="headerlink" title="基础正则表达式"></a>基础正则表达式</h3><p>Linux下基础正则表达式有：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">*   前一个字符匹配<span class="number">0</span>次或任意多次</span><br><span class="line">.   匹配除了换行符外任意一个字符</span><br><span class="line">^   匹配行首。例如：^hello会匹配以hello开头的行</span><br><span class="line">$   匹配行尾。例如：hello$会匹配以hello结尾的行</span><br><span class="line">[]  匹配括号中指定的任意一个字符，只匹配一个字符。例如：[aoeiu]匹配任意一个元音字母，[<span class="number">0</span>-<span class="number">9</span>]匹配任意一个数字，[a-z][<span class="number">0</span>-<span class="number">9</span>]匹配任意一个字母和一位数字组成的<span class="number">2</span>位字符</span><br><span class="line">[^] 匹配除括号中的字符以外的任意一个字符。例如：[^<span class="number">0</span>-<span class="number">9</span>]匹配任意一个非数字的字符，[^a-z]匹配任意一个非小写字母的字符</span><br><span class="line">\   转义字符</span><br><span class="line">\&#123;n\&#125;   表示其前面的字符恰好出现n次。例如：a[<span class="number">0</span>-<span class="number">9</span>]\&#123;<span class="number">4</span>\&#125;b 匹配ab之间为<span class="number">4</span>位数字的字符，注意前后加定界符</span><br><span class="line">\&#123;n,\&#125;  表示其前面的字符出现不小于n次。例如：[<span class="number">0</span>-<span class="number">9</span>]\&#123;<span class="number">2</span>\&#125;表示<span class="number">2</span>位及以上的数字，注意前后加定界符</span><br><span class="line">\&#123;n,m\&#125; 表示其前面的字符至少出现n次，至多出现m次。例如：[a-z]\&#123;<span class="number">6</span>,<span class="number">8</span>\&#125;匹配<span class="number">6</span>到<span class="number">8</span>位的小写字母</span><br></pre></td></tr></table></figure>
-<h3 id="u5B57_u7B26_u64CD_u4F5C_u547D_u4EE4"><a href="#u5B57_u7B26_u64CD_u4F5C_u547D_u4EE4" class="headerlink" title="字符操作命令"></a>字符操作命令</h3><h4 id="cut"><a href="#cut" class="headerlink" title="cut"></a>cut</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">名称</span><br><span class="line"> cut -- 截取文件中每行的选定部分</span><br><span class="line"> cut  [-bn] [file] 或 cut [-c] [file]  或  cut [-df] [file]</span><br><span class="line">说明</span><br><span class="line">    -b ：以字节为单位进行分割。这些字节位置将忽略多字节字符边界，除非也指定了 -n 标志。</span><br><span class="line">    -c ：以字符为单位进行分割。</span><br><span class="line">    <span class="operator">-d</span> ：自定义分隔符，默认为制表符。</span><br><span class="line">    <span class="operator">-f</span> ：与<span class="operator">-d</span>一起使用，指定显示哪个区域。</span><br><span class="line">    -n ：取消分割多字节字符。仅和 -b 标志一起使用。如果字符的最后一个字节落在由 -b 标志的 List 参数指示的&lt;br /&gt;范围之内，该字符将被写出；否则，该字符将被排除</span><br></pre></td></tr></table></figure>
-<p>我们将系统磁盘信息导出到文本/notes/linux/df中，来练习cut的使用</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">➜  linux  touch df</span><br><span class="line">➜  linux  df -h &gt; df</span><br><span class="line">➜  linux  cat df</span><br><span class="line">Filesystem      Size   Used  Avail Capacity  iused    ifree %iused  Mounted on</span><br><span class="line">/dev/disk1     <span class="number">233</span>Gi   <span class="number">50</span>Gi  <span class="number">182</span>Gi    <span class="number">22</span>% <span class="number">13178033</span> <span class="number">47803213</span>   <span class="number">22</span>%   /</span><br><span class="line">devfs          <span class="number">180</span>Ki  <span class="number">180</span>Ki    <span class="number">0</span>Bi   <span class="number">100</span>%      <span class="number">624</span>        <span class="number">0</span>  <span class="number">100</span>%   /dev</span><br><span class="line">map -hosts       <span class="number">0</span>Bi    <span class="number">0</span>Bi    <span class="number">0</span>Bi   <span class="number">100</span>%        <span class="number">0</span>        <span class="number">0</span>  <span class="number">100</span>%   /net</span><br><span class="line">map auto_home    <span class="number">0</span>Bi    <span class="number">0</span>Bi    <span class="number">0</span>Bi   <span class="number">100</span>%        <span class="number">0</span>        <span class="number">0</span>  <span class="number">100</span>%   /home</span><br></pre></td></tr></table></figure>
-<p>我们首先截取df的第一列Filesystem和第五列Capacity</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜  linux  cut <span class="operator">-f</span> <span class="number">1</span>,<span class="number">5</span> df     &lt;== <span class="operator">-f</span> 按列截取 <span class="number">1</span>,<span class="number">5</span>截取第一列和第<span class="number">5</span>列</span><br><span class="line">Filesystem       Size   Used  Avail Capacity  iused    ifree %iused  Mounted on</span><br><span class="line">/dev/disk1     <span class="number">233</span>Gi   <span class="number">50</span>Gi  <span class="number">182</span>Gi    <span class="number">22</span>% <span class="number">13178033</span> <span class="number">47803213</span>   <span class="number">22</span>%   /</span><br><span class="line">devfs          <span class="number">180</span>Ki  <span class="number">180</span>Ki    <span class="number">0</span>Bi   <span class="number">100</span>%      <span class="number">624</span>        <span class="number">0</span>  <span class="number">100</span>%   /dev</span><br><span class="line">map -hosts       <span class="number">0</span>Bi    <span class="number">0</span>Bi    <span class="number">0</span>Bi   <span class="number">100</span>%        <span class="number">0</span>        <span class="number">0</span>  <span class="number">100</span>%   /net</span><br><span class="line">map auto_home    <span class="number">0</span>Bi    <span class="number">0</span>Bi    <span class="number">0</span>Bi   <span class="number">100</span>%        <span class="number">0</span>        <span class="number">0</span>  <span class="number">100</span>%   /home</span><br></pre></td></tr></table></figure>
-<p>结果显示，输出的和原来的一样，并没有将第一五两列截取出来。原因是<code>cut截取默认使用的分隔符是制表符</code>，而df文本中间的分隔符为空格，我们重新修改下命令，指定分隔符为空格</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">➜  linux  cut <span class="operator">-f</span> <span class="number">1</span>，<span class="number">5</span> <span class="operator">-d</span> <span class="string">" "</span> df  &lt;== <span class="operator">-d</span> 指定截取的分隔符，只能设置一个空格不能多个</span><br><span class="line">Filesystem</span><br><span class="line">/dev/disk1</span><br><span class="line">devfs</span><br><span class="line">map</span><br><span class="line">map</span><br><span class="line">➜  linux  cut <span class="operator">-f</span> <span class="number">1</span>-<span class="number">8</span> <span class="operator">-d</span> <span class="string">" "</span> df  &lt;==截取第一列到第八列的</span><br><span class="line">Filesystem      Size</span><br><span class="line">/dev/disk1     <span class="number">233</span>Gi</span><br><span class="line">devfs</span><br><span class="line">map -hosts</span><br><span class="line">map auto_home    <span class="number">0</span>Bi</span><br></pre></td></tr></table></figure>
-<p>截取1，5两列时好像只截取了1列。原来cut指定的分隔符为空格，它就把一个空格作为分隔符，而df文本第一列后面是很多空格的，按照空格分隔的话，第五列是空格。cut截取命令比较简单，复杂的截取命令可以使用awk。</p>
-<h4 id="printf"><a href="#printf" class="headerlink" title="printf"></a>printf</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">名称</span><br><span class="line"> <span class="built_in">printf</span> -- 格式化并输出结果到标准输出</span><br><span class="line"> <span class="built_in">printf</span> 格式替代符转义序列 内容 </span><br><span class="line">说明</span><br><span class="line">    格式替代符 </span><br><span class="line">    %b 相对应的参数被视为含有要被处理的转义序列之字符串。 </span><br><span class="line">    %c ASCII字符。显示相对应参数的第一个字符 </span><br><span class="line">    %d, %i 十进制整数 </span><br><span class="line">    %e, %E, %f 浮点格式 </span><br><span class="line">    %g %e或%f转换，看哪一个较短，则删除结尾的零 </span><br><span class="line">    %G %E或%f转换，看哪一个较短，则删除结尾的零 </span><br><span class="line">    %o 不带正负号的八进制值 </span><br><span class="line">    %s 字符串 </span><br><span class="line">    %u 不带正负号的十进制值 </span><br><span class="line">    %x 不带正负号的十六进制值，使用a至f表示<span class="number">10</span>至<span class="number">15</span> </span><br><span class="line">    %X 不带正负号的十六进制值，使用A至F表示<span class="number">10</span>至<span class="number">15</span> </span><br><span class="line">    %% 字面意义的% </span><br><span class="line"></span><br><span class="line">    转义序列 </span><br><span class="line">    \a 警告字符，通常为ASCII的BEL字符 </span><br><span class="line">    \b 后退 </span><br><span class="line">    \c 抑制（不显示）输出结果中任何结尾的换行字符（只在%b格式指示符控制下的参数字符串中有效），而且，任何留在参数里的字符、任何接下来的参数以及任何留在格式字符串中的字符，都被忽略 </span><br><span class="line">    \f 换页（formfeed） </span><br><span class="line">    \n 换行 </span><br><span class="line">    \r 回车（Carriage <span class="built_in">return</span>） </span><br><span class="line">    \t 水平制表符 </span><br><span class="line">    \v 垂直制表符 </span><br><span class="line">    \\ 一个字面上的反斜杠字符 </span><br><span class="line">    \ddd 表示<span class="number">1</span>到<span class="number">3</span>位数八进制值的字符，仅在格式字符串中有效 </span><br><span class="line">    \<span class="number">0</span>ddd 表示<span class="number">1</span>到<span class="number">3</span>位的八进制值字符</span><br></pre></td></tr></table></figure>
-<p>我们使用printf输出/notes/linux/df的内容</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  linux  <span class="built_in">printf</span> %s $(cat df)   &lt;== <span class="built_in">printf</span>不支持管道符`|`，使用$()的方式调用系统命令</span><br><span class="line">FilesystemSizeUsedAvailCapacityiusedifree%iusedMountedon/dev/disk1233Gi50Gi182Gi22%<span class="number">131780334780321322</span>%/devfs180Ki180Ki0Bi100%<span class="number">6240100</span>%/devmap-hosts0Bi0Bi0Bi100%<span class="number">00100</span>%/netmapauto_home0Bi0Bi0Bi100%<span class="number">00100</span>%/home</span><br></pre></td></tr></table></figure>
-<p>可以看到，printf将df内容以字符串的形式直接输出,下面看下根据输出格式输出简单文本</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># %-5s 格式为左对齐且宽度为5的字符串代替（-表示左对齐），不使用则是又对齐</span></span><br><span class="line"><span class="comment"># %-4.2f 格式为左对齐宽度为4，保留两位小数</span></span><br><span class="line">➜  linux  <span class="built_in">printf</span> <span class="string">"%-5s %-10s %-4s\n"</span> NO Name Mark</span><br><span class="line">   NO       Name Mark</span><br><span class="line">➜  linux  <span class="built_in">printf</span> <span class="string">"%-5s %-10s %-4.2f\n"</span> <span class="number">01</span> Tom <span class="number">90.3456</span></span><br><span class="line">   <span class="number">01</span>        Tom <span class="number">90.35</span></span><br><span class="line">➜  linux  <span class="built_in">printf</span> <span class="string">"%-5s %-10s %-4.2f\n"</span> <span class="number">02</span> Jack <span class="number">89.2345</span></span><br><span class="line">   <span class="number">02</span>       Jack <span class="number">89.23</span></span><br></pre></td></tr></table></figure>
-<h4 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">NAME</span><br><span class="line">       awk - pattern-directed scanning and processing language</span><br><span class="line"></span><br><span class="line">SYNOPSIS</span><br><span class="line">       awk [ -F fs ] [ -v var=value ] [ <span class="string">'prog'</span> | <span class="operator">-f</span> progfile ] [ file ...  ]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">DESCRIPTION</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Awk  scans  each input file for lines that match any of a set of patterns specified literally in prog or in one or more files specified as -f progfile.  With each pattern there&#10;can be an associated action that will be performed when a line of a file matches the pattern.  Each line is matched against the pattern portion of every  pattern-action  state-&#10;ment; the associated action is performed for each matched pattern.  The file name - means the standard input.  Any file of the form var=value is treated as an assignment, not a&#10;filename, and is executed at the time it would have been opened if it were a filename.  The option -v followed by var=value is an assignment to be done before prog is executed;&#10;any number of -v options may be present.  The -F fs option defines the input field separator to be the regular expression fs.&#10;&#10;An  input line is normally made up of fields separated by white space, or by regular expression FS.  The fields are denoted $1, $2, ..., while $0 refers to the entire line.  If&#10;FS is null, the input line is split into one field per character.&#10; &#10;&#10;A pattern-action statement has the form&#10;&#10;       pattern &#123; action &#125;&#10;&#10;A missing &#123; action &#125; means print the line; a missing pattern always matches.  Pattern-action statements are separated by newlines or semicolons.&#10;&#10;An action is a sequence of statements.  A statement can be one of the following:&#10;&#10;       if( expression ) statement [ else statement ]&#10;       while( expression ) statement&#10;       for( expression ; expression ; expression ) statement&#10;       for( var in array ) statement&#10;       do statement while( expression )&#10;       break&#10;       continue&#10;       &#123; [ statement ... ] &#125;&#10;       expression              # commonly var = expression&#10;       print [ expression-list ] [ &#62; expression ]&#10;       printf format [ , expression-list ] [ &#62; expression ]&#10;       return [ expression ]&#10;       next                    # skip remaining patterns on this input line&#10;       nextfile                # skip rest of this file, open next, start at top&#10;       delete array[ expression ] # delete an array element&#10;       delete array            # delete all elements of array&#10;       exit [ expression ]     # exit immediately; status is expression</span><br></pre></td></tr></table></figure>
-<h4 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h4><h4 id="sort"><a href="#sort" class="headerlink" title="sort"></a>sort</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">NAME</span><br><span class="line">       sort - 对文件行进行排序</span><br><span class="line">SYNOPSIS</span><br><span class="line">       sort [OPTION]... [FILE]...</span><br><span class="line">DESCRIPTION</span><br><span class="line">       <span class="operator">-f</span> 忽略大小写</span><br><span class="line">       -n 以数值型进行排序，默认字符串类型排序</span><br><span class="line">       -r 反向排序</span><br><span class="line">       -t 指定分隔符，默认分隔符为制表符</span><br><span class="line">       -k POS1[,POS2] 按照指定的字段范围排序，从Pos1开始到Pos2结尾（默认到行尾）</span><br></pre></td></tr></table></figure>
-<p>做些练习，首先查看用户信息文件/etc/passwd,排序</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜  linux  sort /etc/passwd</span><br><span class="line">...</span><br><span class="line">_amavisd:*:<span class="number">83</span>:<span class="number">83</span>:AMaViS Daemon:/var/virusmails:/usr/bin/<span class="literal">false</span></span><br><span class="line">_appleevents:*:<span class="number">55</span>:<span class="number">55</span>:AppleEvents Daemon:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">_appowner:*:<span class="number">87</span>:<span class="number">87</span>:Application Owner:/var/empty:/usr/bin/<span class="literal">false</span></span><br></pre></td></tr></table></figure>
-<p>反向排序</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">➜  linux  sort -r /etc/passwd</span><br><span class="line">root:*:<span class="number">0</span>:<span class="number">0</span>:System Administrator:/var/root:/bin/sh</span><br><span class="line">nobody:*:-<span class="number">2</span>:-<span class="number">2</span>:Unprivileged User:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">daemon:*:<span class="number">1</span>:<span class="number">1</span>:System Services:/var/root:/usr/bin/<span class="literal">false</span></span><br><span class="line">_xserverdocs:*:<span class="number">251</span>:<span class="number">251</span>:OS X Server Documents Service:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">_wwwproxy:*:<span class="number">252</span>:<span class="number">252</span>:WWW Proxy:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">_www:*:<span class="number">70</span>:<span class="number">70</span>:World Wide Web Server:/Library/WebServer:/usr/bin/<span class="literal">false</span></span><br><span class="line">_windowserver:*:<span class="number">88</span>:<span class="number">88</span>:WindowServer:/var/empty:/usr/bin/<span class="literal">false</span></span><br></pre></td></tr></table></figure>
-<p>指定分隔符”:”,用第三个字段开头，第三个字段结尾排序，就是只使用第三个字段排序，主要下面的第三个字段，-2，0，1，13，249…26，27，31，32，4，54 按字符排序，若使用数值排序加 <code>-n</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">➜  linux  sort -t <span class="string">":"</span> -k <span class="number">3</span>,<span class="number">3</span> /etc/passwd</span><br><span class="line">nobody:*:-<span class="number">2</span>:-<span class="number">2</span>:Unprivileged User:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">root:*:<span class="number">0</span>:<span class="number">0</span>:System Administrator:/var/root:/bin/sh</span><br><span class="line">daemon:*:<span class="number">1</span>:<span class="number">1</span>:System Services:/var/root:/usr/bin/<span class="literal">false</span></span><br><span class="line">_taskgated:*:<span class="number">13</span>:<span class="number">13</span>:Task Gate Daemon:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">_ondemand:*:<span class="number">249</span>:<span class="number">249</span>:On Demand Resource Daemon:/var/db/ondemand:/usr/bin/<span class="literal">false</span></span><br><span class="line">_installassistant:*:<span class="number">25</span>:<span class="number">25</span>:Install Assistant:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">_xserverdocs:*:<span class="number">251</span>:<span class="number">251</span>:OS X Server Documents Service:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">_wwwproxy:*:<span class="number">252</span>:<span class="number">252</span>:WWW Proxy:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">_lp:*:<span class="number">26</span>:<span class="number">26</span>:Printing Services:/var/spool/cups:/usr/bin/<span class="literal">false</span></span><br><span class="line">_postfix:*:<span class="number">27</span>:<span class="number">27</span>:Postfix Mail Server:/var/spool/postfix:/usr/bin/<span class="literal">false</span></span><br><span class="line">_scsd:*:<span class="number">31</span>:<span class="number">31</span>:Service Configuration Service:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">_ces:*:<span class="number">32</span>:<span class="number">32</span>:Certificate Enrollment Service:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">_uucp:*:<span class="number">4</span>:<span class="number">4</span>:Unix to Unix Copy Protocol:/var/spool/uucp:/usr/sbin/uucico</span><br><span class="line">_mcxalr:*:<span class="number">54</span>:<span class="number">54</span>:MCX AppLaunch:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#第三个字段按数值排序 -2,0,1,4,13,24...</span></span><br><span class="line">➜  linux  sort -n -t <span class="string">":"</span> -k <span class="number">3</span>,<span class="number">3</span> /etc/passwd</span><br><span class="line">nobody:*:-<span class="number">2</span>:-<span class="number">2</span>:Unprivileged User:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">root:*:<span class="number">0</span>:<span class="number">0</span>:System Administrator:/var/root:/bin/sh</span><br><span class="line">daemon:*:<span class="number">1</span>:<span class="number">1</span>:System Services:/var/root:/usr/bin/<span class="literal">false</span></span><br><span class="line">_uucp:*:<span class="number">4</span>:<span class="number">4</span>:Unix to Unix Copy Protocol:/var/spool/uucp:/usr/sbin/uucico</span><br><span class="line">_taskgated:*:<span class="number">13</span>:<span class="number">13</span>:Task Gate Daemon:/var/empty:/usr/bin/<span class="literal">false</span></span><br><span class="line">_networkd:*:<span class="number">24</span>:<span class="number">24</span>:Network Services:/var/networkd:/usr/bin/<span class="literal">false</span></span><br></pre></td></tr></table></figure>
-<h4 id="wc"><a href="#wc" class="headerlink" title="wc"></a>wc</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">NAME</span><br><span class="line">     wc -- 统计字数，行数，字符数，字节数</span><br><span class="line"></span><br><span class="line">SYNOPSIS</span><br><span class="line">     wc [-clmw] [file ...]</span><br><span class="line"></span><br><span class="line">DESCRIPTION</span><br><span class="line">     -c      The number of bytes <span class="keyword">in</span> each input file is written to the standard output.  This will cancel out any prior usage of the -m option.</span><br><span class="line">     <span class="operator">-l</span>      The number of lines <span class="keyword">in</span> each input file is written to the standard output.</span><br><span class="line">     -m      The number of characters <span class="keyword">in</span> each input file is written to the standard output.  If the current locale does not support multibyte characters, this is equivalent to the -c</span><br><span class="line">             option.  This will cancel out any prior usage of the -c option.</span><br><span class="line">     -w      The number of words <span class="keyword">in</span> each input file is written to the standard output.</span><br></pre></td></tr></table></figure>
-<p>查看用户信息的行数</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  linux  wc <span class="operator">-l</span> /etc/passwd</span><br><span class="line">      <span class="number">96</span> /etc/passwd</span><br></pre></td></tr></table></figure>
-<p>参考资料: </p>
-<p><a href="http://www.imooc.com/learn/378" target="_blank" rel="external">http://www.imooc.com/learn/378</a></p>
-<p><a href="http://man.linuxde.net/printf" target="_blank" rel="external">http://man.linuxde.net/printf</a></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h3 id="u6B63_u5219_u8868_u8FBE_u5F0F_u4E0E_u901A_u914D_u7B26"><a href="#u6B63_u5219_u8868_u8FBE_u5F0F_u4E0E_u901A_u914D_u7B26" class="headerlink" title="正则表达式与通配符"></a>正则表达式与通配符</h3><p>Linux中的正则表达式和通配符有些区别，正则表达式用来在文件中匹配符合条件的<code>字符串</code>，正则是<code>包含匹配</code>。grep，awk，sed等命令可以支持正则表达式。通配符用来匹配符合条件的<code>文件名</code>，通配符是<code>完全匹配</code>。ls，find，cp这些命令不支持正则所有只能用shell自己的通配符进行匹配。</p>]]>
-    
-    </summary>
-    
-      <category term="linux" scheme="http://suqun.github.io/tags/linux/"/>
-    
-      <category term="shell" scheme="http://suqun.github.io/tags/shell/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[shell编程之运算符]]></title>
-    <link href="http://suqun.github.io/2016/01/09/shell%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%BF%90%E7%AE%97%E7%AC%A6/"/>
-    <id>http://suqun.github.io/2016/01/09/shell编程之运算符/</id>
-    <published>2016-01-09T04:14:05.000Z</published>
-    <updated>2016-01-09T12:10:57.000Z</updated>
-    <content type="html"><![CDATA[<h3 id="u58F0_u660E_u53D8_u91CF_u7C7B_u578Bdeclare"><a href="#u58F0_u660E_u53D8_u91CF_u7C7B_u578Bdeclare" class="headerlink" title="声明变量类型declare"></a>声明变量类型declare</h3><p>declare语法：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">declare</span> [-afiprx] 变量名</span><br><span class="line">参数说明： </span><br><span class="line">-   ：设置属性</span><br><span class="line">+   ：取消属性</span><br><span class="line"><span class="operator">-a</span>  ：定义为数组 array </span><br><span class="line"><span class="operator">-f</span>  ：定义为函数 <span class="keyword">function</span>  </span><br><span class="line">-i  ：定义为整数 <span class="built_in">integer</span> </span><br><span class="line">-p  ：显示变量被声明的类型</span><br><span class="line">-r  ：定义为『只读』 </span><br><span class="line">-x  ：定义为环境变量 </span><br><span class="line"></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -i a=<span class="number">47</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -i b=<span class="number">53</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -i c=<span class="variable">$a</span>+<span class="variable">$b</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$c</span></span><br><span class="line"><span class="number">100</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -p c</span><br><span class="line"><span class="built_in">declare</span> -i c=<span class="string">"100"</span></span><br><span class="line"></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> <span class="operator">-a</span> arr[<span class="number">0</span>]=<span class="number">11</span>  &lt;==定义数组</span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -p arr</span><br><span class="line"><span class="built_in">declare</span> <span class="operator">-a</span> arr=<span class="string">'([0]="11")'</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> <span class="operator">-a</span> arr[<span class="number">1</span>]=<span class="number">22</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -p arr</span><br><span class="line"><span class="built_in">declare</span> <span class="operator">-a</span> arr=<span class="string">'([0]="11" [1]="22")'</span></span><br><span class="line">bash-<span class="number">3.2</span>$</span><br><span class="line"></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$&#123;arr&#125;</span>       &lt;==查看数组方法</span><br><span class="line"><span class="number">11</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$&#123;arr[1]&#125;</span></span><br><span class="line"><span class="number">22</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$&#123;arr[*]&#125;</span></span><br><span class="line"><span class="number">11</span> <span class="number">22</span></span><br><span class="line">bash-<span class="number">3.2</span>$</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<h3 id="u6570_u503C_u8FD0_u7B97"><a href="#u6570_u503C_u8FD0_u7B97" class="headerlink" title="数值运算"></a>数值运算</h3><p>数值运算可以通过<code>declare -i c=$a+$b</code>进行，也可以用<code>expr</code>/<code>$((运算式))</code>/<code>$[运算式]</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">bash-<span class="number">3.2</span>$ dd=$((<span class="variable">$a</span>+<span class="variable">$b</span>))</span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$dd</span></span><br><span class="line"><span class="number">100</span></span><br><span class="line">bash-<span class="number">3.2</span>$ ee=$(expr <span class="variable">$a</span> + <span class="variable">$b</span>)    &lt;==『+』两边必须有空格</span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$ee</span></span><br><span class="line"><span class="number">100</span></span><br><span class="line">bash-<span class="number">3.2</span>$ ff=$((<span class="variable">$a</span>+<span class="variable">$b</span>))</span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$ff</span></span><br><span class="line"><span class="number">100</span></span><br><span class="line">bash-<span class="number">3.2</span>$ gg=$[<span class="variable">$a</span>+<span class="variable">$b</span>]</span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$gg</span></span><br><span class="line"><span class="number">100</span></span><br></pre></td></tr></table></figure>
-<p>shell支持的运算符有</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/shell-ysf.png" alt="shell运算符"></p>
-<h3 id="u53D8_u91CF_u6D4B_u8BD5"><a href="#u53D8_u91CF_u6D4B_u8BD5" class="headerlink" title="变量测试"></a>变量测试</h3><p>下面的运算符我的理解类似于java的<code>？：</code>三目运算符，比如第一行的<code>x=${y-新值}</code>，意思是，如果y没有设置则x=新值，如果y为空值则x=空，如果y有值则x=$y。其他的类推</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/shell-test-ysf.png" alt="shell变量测试运算符"></p>
-<p>shell编程视频地址：<a href="http://www.imooc.com/learn/355" target="_blank" rel="external">http://www.imooc.com/learn/355</a></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h3 id="u58F0_u660E_u53D8_u91CF_u7C7B_u578Bdeclare"><a href="#u58F0_u660E_u53D8_u91CF_u7C7B_u578Bdeclare" class="headerlink" title="声明变量类型declare"></a>声明变量类型declare</h3><p>declare语法：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">declare</span> [-afiprx] 变量名</span><br><span class="line">参数说明： </span><br><span class="line">-   ：设置属性</span><br><span class="line">+   ：取消属性</span><br><span class="line"><span class="operator">-a</span>  ：定义为数组 array </span><br><span class="line"><span class="operator">-f</span>  ：定义为函数 <span class="keyword">function</span>  </span><br><span class="line">-i  ：定义为整数 <span class="built_in">integer</span> </span><br><span class="line">-p  ：显示变量被声明的类型</span><br><span class="line">-r  ：定义为『只读』 </span><br><span class="line">-x  ：定义为环境变量 </span><br><span class="line"></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -i a=<span class="number">47</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -i b=<span class="number">53</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -i c=<span class="variable">$a</span>+<span class="variable">$b</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$c</span></span><br><span class="line"><span class="number">100</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -p c</span><br><span class="line"><span class="built_in">declare</span> -i c=<span class="string">"100"</span></span><br><span class="line"></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> <span class="operator">-a</span> arr[<span class="number">0</span>]=<span class="number">11</span>  &lt;==定义数组</span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -p arr</span><br><span class="line"><span class="built_in">declare</span> <span class="operator">-a</span> arr=<span class="string">'([0]="11")'</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> <span class="operator">-a</span> arr[<span class="number">1</span>]=<span class="number">22</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -p arr</span><br><span class="line"><span class="built_in">declare</span> <span class="operator">-a</span> arr=<span class="string">'([0]="11" [1]="22")'</span></span><br><span class="line">bash-<span class="number">3.2</span>$</span><br><span class="line"></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$&#123;arr&#125;</span>       &lt;==查看数组方法</span><br><span class="line"><span class="number">11</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$&#123;arr[1]&#125;</span></span><br><span class="line"><span class="number">22</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$&#123;arr[*]&#125;</span></span><br><span class="line"><span class="number">11</span> <span class="number">22</span></span><br><span class="line">bash-<span class="number">3.2</span>$</span><br></pre></td></tr></table></figure>]]>
-    
-    </summary>
-    
-      <category term="linux" scheme="http://suqun.github.io/tags/linux/"/>
-    
-      <category term="shell" scheme="http://suqun.github.io/tags/shell/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Shell编程之变量]]></title>
-    <link href="http://suqun.github.io/2016/01/04/Shell%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%8F%98%E9%87%8F/"/>
-    <id>http://suqun.github.io/2016/01/04/Shell编程之变量/</id>
-    <published>2016-01-04T14:34:27.000Z</published>
-    <updated>2016-01-09T12:08:58.000Z</updated>
-    <content type="html"><![CDATA[<h3 id="u53D8_u91CF"><a href="#u53D8_u91CF" class="headerlink" title="变量"></a>变量</h3><p>变量的配置守则</p>
-<ol>
-<li><code>变量与变量内容以一个等号『=』来连结</code>，如下所示：<br> 『myname=VBird』</li>
-<li><code>等号两边不能直接接空格符</code>，如下所示为错误：<br> 『myname = VBird』或『myname=VBird Tsai』</li>
-<li>变量名称只能是英文字母与数字，但是<code>开头字符不能是数字</code>，如下为错误：<br> 『2myname=VBird』</li>
-<li>变量内容若有空格符可使用双引号『\”』或单引号『\’』将变量内容结合起来，但<ul>
-<li><code>双引号内的特殊字符如 $ 等，可以保有原本的特性</code>，如下所示：<br>  『var=”lang is $LANG”』则『echo $var』可得『lang is en_US』</li>
-<li><code>单引号内的特殊字符则仅为一般字符 (纯文本)</code>，如下所示：<br>  『var=’lang is $LANG’』则『echo $var』可得『lang is $LANG』</li>
-</ul>
-</li>
-<li>可用<code>转义字符『 \ 』</code>将特殊符号(如 [Enter], $, \, 空格符, `等)变成一般字符；</li>
-<li>在一串命令中，还需要藉由其他的命令提供的信息，可以<code>使用反单引号『</code>命令<code>』或 『$(命令)』</code>。特别注意，那个 ` 是键盘上方的数字键 1 左边那个按键，而不是单引号！ 例如想要取得核心版本的配置：<br> 『version=$(uname -r)』再『echo $version』可得『2.6.18-128.el5』</li>
-<li>若该变量为扩增变量内容时，则可用 “$变量名称” 或 ${变量} 累加内容，如下所示：<br> 『PATH=”$PATH”:/home/bin』</li>
-<li>若该变量需要在其他子程序运行，则<code>需要以 export 来使变量变成环境变量</code>：<br> 『export PATH』</li>
-<li>通常大写字符为系统默认变量，自行配置变量可以使用小写字符，方便判断 (纯粹依照使用者兴趣与嗜好) ；</li>
-<li><code>取消变量的方法为使用 unset</code> ：『unset 变量名称』例如取消 myname 的配置：<br>『unset myname』</li>
-<li><code>在Bash中，变量的默认类型是字符串型</code></li>
-</ol>
-<a id="more"></a>
-<h3 id="u53D8_u91CF_u5206_u7C7B"><a href="#u53D8_u91CF_u5206_u7C7B" class="headerlink" title="变量分类"></a>变量分类</h3><ol>
-<li>用户自定义变量</li>
-<li>环境变量：保存和系统操作环境相关的数据。变量可以自定义，但是对系统生效的环境变量名和变量作用是固定的。</li>
-<li>位置参数变量：主要用来向脚本当中传递参数或数据，变量名不能自定义，变量的作用是固定的</li>
-<li>预定义变量：Bash中已经定义好的变量，变量名不能自定义，变量的作用是固定的</li>
-</ol>
-<h3 id="u7528_u6237_u81EA_u5B9A_u4E49_u53D8_u91CF"><a href="#u7528_u6237_u81EA_u5B9A_u4E49_u53D8_u91CF" class="headerlink" title="用户自定义变量"></a>用户自定义变量</h3><h4 id="u53D8_u91CF_u8D4B_u503C_uFF1A_u53D8_u91CF_u540D_3D_u53D8_u91CF_u503C"><a href="#u53D8_u91CF_u8D4B_u503C_uFF1A_u53D8_u91CF_u540D_3D_u53D8_u91CF_u503C" class="headerlink" title="变量赋值：变量名=变量值"></a>变量赋值：<strong>变量名=变量值</strong></h4><pre><code>➜  ~ x=5                &lt;== 正确
-➜  ~ y= &quot;happy&quot;         &lt;== 「=」两边不能存在空格，否则报错
-zsh: command not found: happy
-➜  ~  name=&quot;larry s&quot;    &lt;== 变量内容中有空格用双引号括起来
-</code></pre><h4 id="u53D8_u91CF_u8C03_u7528_uFF1A__24_u53D8_u91CF_u540D"><a href="#u53D8_u91CF_u8C03_u7528_uFF1A__24_u53D8_u91CF_u540D" class="headerlink" title="变量调用： $变量名"></a>变量调用： <strong>$变量名</strong></h4><pre><code>➜  ~  echo $x
-5                       &lt;== 5为字符串
-➜  ~  echo $y
-6
-➜  ~  z=$x+$y
-➜  ~  echo $z
-5+6                     &lt;== 不能直接进行整型计算
-➜  ~  echo $name
-larry s
-</code></pre><h4 id="u53D8_u91CF_u53E0_u52A0_uFF1A_u201C_24_u53D8_u91CF_u540D_u201D_u53E0_u52A0_u5185_u5BB9/_24_7B_u53D8_u91CF_u540D_7D_u53E0_u52A0_u5185_u5BB9"><a href="#u53D8_u91CF_u53E0_u52A0_uFF1A_u201C_24_u53D8_u91CF_u540D_u201D_u53E0_u52A0_u5185_u5BB9/_24_7B_u53D8_u91CF_u540D_7D_u53E0_u52A0_u5185_u5BB9" class="headerlink" title="变量叠加：“$变量名”叠加内容/${变量名}叠加内容"></a>变量叠加：<strong>“$变量名”叠加内容/${变量名}叠加内容</strong></h4><pre><code>➜  ~  x=123             &lt;== 覆盖原值5
-➜  ~  echo $x
-123
-➜  ~  x=&quot;$x&quot;456         &lt;== 变量叠加方式一
-➜  ~  echo $x
-123456
-➜  ~  x=${x}789         &lt;== 变量叠加方式二，推荐
-➜  ~  echo $x
-123456789
-</code></pre><h4 id="u53D8_u91CF_u67E5_u770B_uFF1Aset"><a href="#u53D8_u91CF_u67E5_u770B_uFF1Aset" class="headerlink" title="变量查看：set"></a>变量查看：<strong>set</strong></h4><p>查询系统中所有变量</p>
-<pre><code>➜  ~  set
-&apos;!&apos;=0
-&apos;#&apos;=0
-&apos;$&apos;=11921
-&apos;*&apos;=()
--=3569JNRTXZghiklms
-0=-zsh
-&apos;?&apos;=0
-@=()
-ARGC=0
-.
-.
-.
-x=123456789
-y=6
-z=5+6
-zsh_eval_context=(toplevel)
-zsh_scheduled_events
-</code></pre><p><strong>set -u</strong></p>
-<pre><code>➜  ~  echo $larry
-                                &lt;== larry变量可能不存在或者值为空,输出空
-➜  ~  set -u
-➜  ~  echo $larry
-zsh: larry: parameter not set   &lt;== 设置『set -u』后会明确报错
-</code></pre><h4 id="u5220_u9664_u53D8_u91CF_uFF1Aunset__u53D8_u91CF_u540D"><a href="#u5220_u9664_u53D8_u91CF_uFF1Aunset__u53D8_u91CF_u540D" class="headerlink" title="删除变量：unset 变量名"></a>删除变量：unset 变量名</h4><pre><code>➜  ~  unset x
-➜  ~  unset y
-➜  ~  echo $x
-zsh: x: parameter not set
-➜  ~  echo $y
-zsh: y: parameter not set
-</code></pre><h3 id="u73AF_u5883_u53D8_u91CF"><a href="#u73AF_u5883_u53D8_u91CF" class="headerlink" title="环境变量"></a>环境变量</h3><h4 id="u53D8_u91CF_u8D4B_u503C"><a href="#u53D8_u91CF_u8D4B_u503C" class="headerlink" title="变量赋值"></a>变量赋值</h4><pre><code>export 变量名=变量值
-</code></pre><p>或者 </p>
-<pre><code>变量名=变量值
-
-export 变量名
-</code></pre><h4 id="u53D8_u91CF_u67E5_u770B"><a href="#u53D8_u91CF_u67E5_u770B" class="headerlink" title="变量查看"></a>变量查看</h4><pre><code>set 查看所有变量
-env 查看环境变量 
-</code></pre><h4 id="u5220_u9664_u53D8_u91CF"><a href="#u5220_u9664_u53D8_u91CF" class="headerlink" title="删除变量"></a>删除变量</h4><pre><code>unset 变量名
-</code></pre><h3 id="u4F4D_u7F6E_u53D8_u91CF_u53C2_u6570"><a href="#u4F4D_u7F6E_u53D8_u91CF_u53C2_u6570" class="headerlink" title="位置变量参数"></a>位置变量参数</h3><p><strong>$n</strong>: n为数字，$0代表命令本身，$1-$9代表第一到第九个参数，10以上的参数用大括号，如${10}</p>
-<pre><code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="shebang">#!/bin/bash</span></span><br><span class="line"><span class="comment">#位置变量参数$n演示</span></span><br><span class="line">num1=<span class="variable">$1</span></span><br><span class="line">num2=<span class="variable">$2</span></span><br><span class="line">sum=$(( <span class="variable">$num1</span> + <span class="variable">$num2</span> ))    <span class="comment">#『 $((计算式)) 』来进行数值运算两个小括号内可以加上空白字节</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$sum</span></span><br></pre></td></tr></table></figure>
-
-//运行输出
-➜  shellnotes  ./sh1.sh 6 9 &lt;==$1为6，$2为9
-15                          &lt;==6+9=15
-</code></pre><p><strong>$*</strong>: 代表命令行中所有的参数，$*把所有的命令看成一个整体</p>
-<p><strong>$@</strong>: 也代表命令行中所有的参数，不过$@把每个参数区分对待</p>
-<p><strong>$#</strong>: 代表命令行中所有参数的个数</p>
-<pre><code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="shebang">#!/bin/bash</span></span><br><span class="line"><span class="comment">#$*,$@,$#演示</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"The parameter is : $*"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"The parameters are : <span class="variable">$@</span>"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Parameters size is : <span class="variable">$#</span>"</span></span><br></pre></td></tr></table></figure>
-
-//运行输出
-➜  shellnotes  ./sh2.sh 11 22 33 44 55  &lt;== 输入4个参数
-The parameter is : 11 22 33 44 55   &lt;==$*把输入的参数看做一个整体
-The parameters are : 11 22 33 44 55 &lt;==$@把输入的参数每个都区别对待
-Parameters size is : 5
-</code></pre><p>用循环看下$*和$@的区别</p>
-<pre><code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="shebang">#!/bin/bash</span></span><br><span class="line"><span class="comment">#for区分$*和$@</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="string">"$*"</span>           </span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">            <span class="built_in">echo</span> <span class="string">"\$*:<span class="variable">$i</span>"</span></span><br><span class="line">    <span class="keyword">done</span></span><br><span class="line"><span class="keyword">for</span> j <span class="keyword">in</span> <span class="string">"<span class="variable">$@</span>"</span>           </span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">            <span class="built_in">echo</span> <span class="string">"\$@:<span class="variable">$j</span>"</span></span><br><span class="line">    <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
-
-//运行输出
-➜  shellnotes  ./for.sh 11 22 33 44
-$*:11 22 33 44                      &lt;== 循环1次
-$@:11                               &lt;== 参数有几个循环几次
-$@:22
-$@:33
-$@:44
-</code></pre><h3 id="u9884_u5B9A_u4E49_u53D8_u91CF"><a href="#u9884_u5B9A_u4E49_u53D8_u91CF" class="headerlink" title="预定义变量"></a>预定义变量</h3><p><strong>$?</strong>:最后一次执行命令的返回状态。如果这个变量的值为0，证明上一个命令执行正确；如果这个值非0，则证明上一个命令执行不正确。</p>
-<pre><code>[root@www ~]# echo $SHELL
-/bin/bash                                  &lt;==可顺利显示！没有错误！
-[root@www ~]# echo $?
-0                                          &lt;==因为没问题，所以回传值为 0
-[root@www ~]# 12name=VBird
--bash: 12name=VBird: command not found     &lt;==发生错误了！bash回报有问题
-[root@www ~]# echo $?
-127                                        &lt;==因为有问题，回传错误代码(非为0)
-# 错误代码回传值依据软件而有不同，我们可以利用这个代码来搜寻错误的原因喔！
-[root@www ~]# echo $?
-0
-# 咦！怎么又变成正确了？这是因为 &quot;?&quot; 只与『上一个运行命令』有关，
-# 所以，我们上一个命令是运行『 echo $? 』，当然没有错误，所以是 0 没错！
-</code></pre><p><strong>$$</strong>:当前进程的进程ID(PID)</p>
-<pre><code>➜  ~  echo $$
-14759
-</code></pre><p><strong>$!</strong>:后台运行的最后一个进程的进程号(PID)</p>
-<pre><code>➜  ~  echo $!
-0
-</code></pre><p>变量详细请看鸟哥的博客<a href="http://linux.vbird.org/linux_basic/0320bash.php#variable" target="_blank" rel="external">认识学习变量</a></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h3 id="u53D8_u91CF"><a href="#u53D8_u91CF" class="headerlink" title="变量"></a>变量</h3><p>变量的配置守则</p>
-<ol>
-<li><code>变量与变量内容以一个等号『=』来连结</code>，如下所示：<br> 『myname=VBird』</li>
-<li><code>等号两边不能直接接空格符</code>，如下所示为错误：<br> 『myname = VBird』或『myname=VBird Tsai』</li>
-<li>变量名称只能是英文字母与数字，但是<code>开头字符不能是数字</code>，如下为错误：<br> 『2myname=VBird』</li>
-<li>变量内容若有空格符可使用双引号『\”』或单引号『\’』将变量内容结合起来，但<ul>
-<li><code>双引号内的特殊字符如 $ 等，可以保有原本的特性</code>，如下所示：<br>  『var=”lang is $LANG”』则『echo $var』可得『lang is en_US』</li>
-<li><code>单引号内的特殊字符则仅为一般字符 (纯文本)</code>，如下所示：<br>  『var=’lang is $LANG’』则『echo $var』可得『lang is $LANG』</li>
-</ul>
-</li>
-<li>可用<code>转义字符『 \ 』</code>将特殊符号(如 [Enter], $, \, 空格符, `等)变成一般字符；</li>
-<li>在一串命令中，还需要藉由其他的命令提供的信息，可以<code>使用反单引号『</code>命令<code>』或 『$(命令)』</code>。特别注意，那个 ` 是键盘上方的数字键 1 左边那个按键，而不是单引号！ 例如想要取得核心版本的配置：<br> 『version=$(uname -r)』再『echo $version』可得『2.6.18-128.el5』</li>
-<li>若该变量为扩增变量内容时，则可用 “$变量名称” 或 ${变量} 累加内容，如下所示：<br> 『PATH=”$PATH”:/home/bin』</li>
-<li>若该变量需要在其他子程序运行，则<code>需要以 export 来使变量变成环境变量</code>：<br> 『export PATH』</li>
-<li>通常大写字符为系统默认变量，自行配置变量可以使用小写字符，方便判断 (纯粹依照使用者兴趣与嗜好) ；</li>
-<li><code>取消变量的方法为使用 unset</code> ：『unset 变量名称』例如取消 myname 的配置：<br>『unset myname』</li>
-<li><code>在Bash中，变量的默认类型是字符串型</code></li>
-</ol>]]>
-    
-    </summary>
-    
-      <category term="linux" scheme="http://suqun.github.io/tags/linux/"/>
-    
-      <category term="shell" scheme="http://suqun.github.io/tags/shell/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Shell基础]]></title>
-    <link href="http://suqun.github.io/2016/01/02/Shell%E5%9F%BA%E7%A1%80/"/>
-    <id>http://suqun.github.io/2016/01/02/Shell基础/</id>
-    <published>2016-01-02T12:40:52.000Z</published>
-    <updated>2016-01-09T12:13:30.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="Shell__u6982_u8FF0"><a href="#Shell__u6982_u8FF0" class="headerlink" title="Shell 概述"></a>Shell 概述</h2><p><a href="http://www.imooc.com/learn/175" target="_blank" rel="external">imooc shell课程</a></p>
-<p>Shell是一个命令行解释器，它为用户提供了一个向Linux内核发送请求以便运行程序的界面系统级程序，用可以用Shell来启动，挂起，停止甚至是编写一些程序。</p>
-<p>Shell还是一个功能强大的编程语言，易编写易调试，灵活性较强。Shell是解释执行的脚本语言，在Shell中可以直接调用Linux系统命令。</p>
-<a id="more"></a>
-<p>echo $SHELL 查看当前计算机的shell版本，我用的是Mac的系统，所以查询出来的是zsh版本，Linux系统多是Bash版本</p>
-<pre><code>➜  ~  echo $SHELL
-/bin/zsh
-</code></pre><p>在 /etc/shells文件中查看系统支持的shell版本</p>
-<pre><code>➜  /etc  vim /etc/shells
-
-# List of acceptable shells for chpass(1).
-# Ftpd will not allow users to connect who are not using
-# one of these shells.
-
-/bin/bash
-/bin/csh
-/bin/ksh
-/bin/sh
-/bin/tcsh
-/bin/zsh
-</code></pre><p>可以使用shells文件中的兼容版本切换当前系统的shell版本</p>
-<pre><code>➜  /etc  bash
-bash-3.2$ exit
-exit
-➜  /etc
-</code></pre><h2 id="u811A_u672C_u6267_u884C_u65B9_u5F0F"><a href="#u811A_u672C_u6267_u884C_u65B9_u5F0F" class="headerlink" title="脚本执行方式"></a>脚本执行方式</h2><h3 id="echo__u8F93_u51FA_u547D_u4EE4"><a href="#echo__u8F93_u51FA_u547D_u4EE4" class="headerlink" title="echo 输出命令"></a>echo 输出命令</h3><pre><code>echo [-e] [输出内容]
-</code></pre><p>-e 若字符串中出现以下字符，则特别加以处理，而不会将它当成一般文字输出</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/shell-echo-e.png" alt="echo -e"></p>
-<h3 id="u7B2C_u4E00_u4E2A_u811A_u672C"><a href="#u7B2C_u4E00_u4E2A_u811A_u672C" class="headerlink" title="第一个脚本"></a>第一个脚本</h3><pre><code>bash-3.2$ vim hello.sh
-
-    #!/bin/bash
-    #The first program
-
-    echo &quot;Happy New Year&quot;
-
-bash-3.2$ sh hello.sh
-Happy New Year
-bash-3.2$
-</code></pre><ul>
-<li>sh hello.sh 执行脚本</li>
-<li>chmod 755 hello.sh 然后直接 hello.sh执行脚本</li>
-</ul>
-<h2 id="Bash_u7684_u57FA_u672C_u529F_u80FD"><a href="#Bash_u7684_u57FA_u672C_u529F_u80FD" class="headerlink" title="Bash的基本功能"></a>Bash的基本功能</h2><h3 id="u547D_u4EE4_u522B_u540D"><a href="#u547D_u4EE4_u522B_u540D" class="headerlink" title="命令别名"></a>命令别名</h3><p><strong>alias 查看系统中所有的命令别名</strong></p>
-<pre><code>➜  shellnotes  alias
-
-history=&apos;fc -l 1&apos;
-l=&apos;ls -lah&apos;
-la=&apos;ls -lAh&apos;
-ls=&apos;ls -G&apos;
-lsa=&apos;ls -lah&apos;
-md=&apos;mkdir -p&apos;
-...
-</code></pre><p><strong>alias 别名=’原命令’ 设置别名命令</strong></p>
-<pre><code>alias ll = &apos;ls -lh&apos;
-</code></pre><p><strong>unalias 取消别名</strong></p>
-<pre><code>unalias ll
-</code></pre><h3 id="u5E38_u7528_u5FEB_u6377_u952E"><a href="#u5E38_u7528_u5FEB_u6377_u952E" class="headerlink" title="常用快捷键"></a>常用快捷键</h3><p>删除</p>
-<pre><code>ctrl + d      删除光标所在位置上的字符相当于VIM里x或者dl
-ctrl + h      删除光标所在位置前的字符相当于VIM里hx或者dh
-ctrl + k      删除光标后面所有字符相当于VIM里d shift+$
-ctrl + u      删除光标前面所有字符相当于VIM里d shift+^
-ctrl + w      删除光标前一个单词相当于VIM里db
-ctrl + y      恢复ctrl+u上次执行时删除的字符
-ctrl + ?      撤消前一次输入
-alt  + r      撤消前一次动作
-alt  + d     删除光标所在位置的后单词
-</code></pre><p>移动</p>
-<pre><code>ctrl + a      将光标移动到命令行开头相当于VIM里shift+^
-ctrl + e      将光标移动到命令行结尾处相当于VIM里shift+$
-ctrl + f      光标向后移动一个字符相当于VIM里l
-ctrl + b      光标向前移动一个字符相当于VIM里h
-ctrl + 方向键左键    光标移动到前一个单词开头
-ctrl + 方向键右键    光标移动到后一个单词结尾
-ctrl + x       在上次光标所在字符和当前光标所在字符之间跳转
-alt  + f      跳到光标所在位置单词尾部
-</code></pre><p>替换</p>
-<pre><code>ctrl + t       将光标当前字符与前面一个字符替换
-alt  + t     交换两个光标当前所处位置单词和光标前一个单词
-alt  + u     把光标当前位置单词变为大写
-alt  + l      把光标当前位置单词变为小写
-alt  + c      把光标当前位置单词头一个字母变为大写
-^oldstr^newstr    替换前一次命令中字符串   
-</code></pre><p>历史命令编辑</p>
-<pre><code>ctrl + p   返回上一次输入命令字符
-ctrl + r       输入单词搜索历史命令
-alt  + p     输入字符查找与字符相接近的历史命令
-alt  + &gt;     返回上一次执行命令
-</code></pre><p>其它</p>
-<pre><code>ctrl + s      锁住终端
-ctrl + q      解锁终端
-ctrl + l        清屏相当于命令clear
-ctrl + c       另起一行
-ctrl + i       类似TAB健补全功能
-ctrl + o      重复执行命令
-alt  + 数字键  操作的次数
-</code></pre><p><a href="http://rainbird.blog.51cto.com/211214/66031/" target="_blank" rel="external">命令快捷键参考地址</a></p>
-<h3 id="u5386_u53F2_u547D_u4EE4"><a href="#u5386_u53F2_u547D_u4EE4" class="headerlink" title="历史命令"></a>历史命令</h3><h4 id="history"><a href="#history" class="headerlink" title="history"></a>history</h4><p>在预设的情况下，会将历史纪录写入~/.bash_history,默认保存1000条，可以在环境变量配置文件/etc/profile中修改HISTSIZE的值</p>
-<pre><code>[dmtsai@study ~]$ history [n] 
-[dmtsai@study ~]$ history [-c] 
-[dmtsai@study ~]$ history [-raw] histfiles 
-选项与参数：
-n ：数字，意思是『要列出最近的n笔命令列表』的意思！
--c ：将目前的shell中的所有history内容全部消除
--a ：将目前新增的history指令新增入histfiles中，若没有加histfiles ，
-      则预设写入~/.bash_history 
--r ：将histfiles的内容读到目前这个shell的history记忆中；
--w ：将目前的history记忆内容写入histfiles中！
-
-范例一：列出目前记忆体内的所有history记忆 
-[dmtsai@study ~]$ history 
-#前面省略 
- 1017 man bash 
- 1018 ll 
- 1019 history 
- 1020 history #列出的资讯当中，共分两栏，第一栏为该指令在这个shell当中的代码，
-#另一个则是指令本身的内容喔！至于会秀出几笔指令记录，则与HISTSIZE有关！
-
-范例二：列出目前最近的3笔资料 
-[dmtsai@study ~]$ history 3 
- 1019 history 
- 1020 history 
- 1021 history 3 
-
-范例三：立刻将目前的资料写入histfile当中 
-[dmtsai@study ~]$ history -w #在预设的情况下，会将历史纪录写入~/.bash_history当中！
-[dmtsai@study ~]$ echo ${HISTSIZE} 
-1000 
-</code></pre><p><a href="http://linux.vbird.org/linux_basic/0320bash.php#alias_history" target="_blank" rel="external">history参考鸟哥资料</a></p>
-<h4 id="u5386_u53F2_u547D_u4EE4_u7684_u8C03_u7528"><a href="#u5386_u53F2_u547D_u4EE4_u7684_u8C03_u7528" class="headerlink" title="历史命令的调用"></a>历史命令的调用</h4><ol>
-<li>使用『上下箭头』调用以前的历史命令</li>
-<li>使用『!n』重复执行第N条命令</li>
-<li>使用『!!』重复执行上一条命令</li>
-<li>使用『!字符串』重复执行最后一条以该字符串开头的命令</li>
-</ol>
-<h3 id="u8D44_u6599_u6D41_u91CD_u5BFC_u5411"><a href="#u8D44_u6599_u6D41_u91CD_u5BFC_u5411" class="headerlink" title="资料流重导向"></a>资料流重导向</h3><p>资料流重导向就是将某个指令执行后应该要出现在萤幕上的资料， 给他传输到其他的地方</p>
-<h4 id="standard_output__u4E0Estandard_error_output"><a href="#standard_output__u4E0Estandard_error_output" class="headerlink" title="standard output 与standard error output"></a>standard output 与standard error output</h4><p>标准输出指的是『指令执行所回传的正确的信息』，而标准错误输出可理解为『指令执行失败后，所回传的错误信息』。举个例子：当前目录下存在Client.java而不存在Server.java，若执行命令”cat Client.java Server.java” , cat 会进行：</p>
-<ul>
-<li>标准输出：读取Client.java，将文档内容显示在屏幕上</li>
-<li><p>标准错误输出：因为无法找到Server.java，因此屏幕上显示错误信息</p>
-<p>  ➜  Documents  cat Client.java Server.java<br>  public class Client {</p>
-<p>  }<br>  cat: Server.java: No such file or directory<br>  ➜  Documents</p>
-</li>
-</ul>
-<p>资料流重导向可以将standard output (简称stdout) 与standard error output (简称stderr) 分别传送到其他的档案或装置去，而分别传送所用的特殊字元则如下所示：</p>
-<ol>
-<li>标准输入(stdin) ：代码为0 ，使用&lt; 或&lt;&lt; ；</li>
-<li>标准输出(stdout)：代码为1 ，使用&gt; 或&gt;&gt; ；</li>
-<li><p>标准错误输出(stderr)：代码为2 ，使用2&gt; 或2&gt;&gt; ；</p>
-<p> 范例一：观察目录(~)下各目录的档名、权限与属性，并记录下来<br> ➜  ~  ll     &lt;==此时萤幕会显示出档名<br> total 8<br> drwx——   6 larry  staff   204B 11 24 23:18 Applications<br> drwx——+ 25 larry  staff   850B  1  2 21:45 Desktop<br> drwx——+ 22 larry  staff   748B  1  3 19:27 Documents<br> drwx——+ 23 larry  staff   782B  1  3 18:33 Downloads<br> drwxr-xr-x   4 larry  staff   136B  1  2 21:52 IdeaProjects<br> drwx——@ 54 larry  staff   1.8K 12  6 09:45 Library<br> drwx——+  3 larry  staff   102B 11 11 12:17 Movies<br> drwx——+  4 larry  staff   136B 12  6 09:45 Music<br> drwx——+  5 larry  staff   170B 12 13 22:02 Pictures<br> drwxr-xr-x+  5 larry  staff   170B 11 11 12:17 Public<br> -rw-r–r–   1 larry  staff    53B 11 30 23:02 dump.rdb<br> ➜  ~  ll &gt; rootfile  &lt;==萤幕并无任何信息<br> ➜  ~  ll rootfile    &lt;==有个新档被建立了<br> -rw-r–r–  1 larry  staff   681B  1  3 19:33 rootfile</p>
-</li>
-</ol>
-<p>该档案(本例中是rootfile) 若不存在，系统会自动的将他建立起来。当这个档案存在的时候，那么系统就会先将这个档案内容清空，然后再将资料写入。也就是若以&gt; 输出到一个已存在的档案中，那个档案就会被覆盖掉。如果不想覆盖,使用『ll &gt;&gt; rootfile』在文件rootfile下方累加</p>
-<ul>
-<li>1&gt; ：以覆盖的方法将『正确的资料』输出到指定的档案或装置上；</li>
-<li>1&gt;&gt;：以累加的方法将『正确的资料』输出到指定的档案或装置上；</li>
-<li>2&gt; ：以覆盖的方法将『错误的资料』输出到指定的档案或装置上；</li>
-<li><p>2&gt;&gt;：以累加的方法将『错误的资料』输出到指定的档案或装置上；</p>
-<p>  范例三：承范例二，将stdout与stderr分存到不同的档案去<br>  [dmtsai@study ~]$ find /home -name .bashrc &gt; list_right 2&gt; list_error</p>
-<p>  范例四：承范例三，将错误的资料丢弃，萤幕上显示正确的资料<br>  [dmtsai@study ~]$ find /home -name .bashrc 2&gt; /dev/null<br>  /home/dmtsai/.bashrc   &lt;==只有stdout会显示到萤幕上， stderr被丢弃了</p>
-<p>  范例五：将指令的资料全部写入名为list的档案中<br>  [dmtsai@study ~]$ find /home -name .bashrc &gt; list 2&gt; list   &lt;==错误<br>  [dmtsai@study ~]$ find /home - name .bashrc &gt; list 2&gt;&amp;1      &lt;==正确<br>  [dmtsai@study ~]$ find /home -name .bashrc &amp;&gt; list          &lt;==正确</p>
-</li>
-</ul>
-<p>写入同一个档案的特殊语法如上表所示，你可以使用2&gt;&amp;1也可以使用&amp;&gt; </p>
-<h4 id="standard_input__uFF1A__26lt_3B__u4E0E_26lt_3B_26lt_3B"><a href="#standard_input__uFF1A__26lt_3B__u4E0E_26lt_3B_26lt_3B" class="headerlink" title="standard input ： &lt; 与&lt;&lt;"></a>standard input ： &lt; 与&lt;&lt;</h4><p>将原本需要由键盘输入的资料，改由档案内容来取代</p>
-<pre><code>范例一：利用cat指令来建立一个档案的简单流程 
-[dmtsai@study ~]$ cat &gt; catfile 
-testing 
-cat file test 
-&lt;==这里按下[ctrl]+d来离开
-
-[dmtsai@study ~]$ cat catfile 
-testing 
-cat file test
-</code></pre><p>由于加入&gt;在cat后，所以那个catfile会被主动的建立，而内容就是刚刚键盘上面输入的那两行资料。<br>下面用纯文字档取代键盘的输入，也就是说，用某个档案的内容来取代键盘的敲击</p>
-<pre><code>范例二：用stdin取代键盘的输入以建立新档案的简单流程 
-[dmtsai@study ~]$ cat &gt; catfile &lt; ~/.bashrc 
-[dmtsai@study ~]$ ll catfile ~/.bashrc 
--rw-r-- r--. 1 dmtsai dmtsai 231 Mar 6 06:06 /home/dmtsai/.bashrc 
--rw-rw-r--. 1 dmtsai dmtsai 231 Jul 9 18:58 catfile
- #注意看，这两个档案的大小会一模一样！几乎像是使用cp来复制一般！
-</code></pre><p>『&lt;&lt;』 这个连续两个小于的符号代表的是『结束的输入字元』的意思。举例来讲：『我要用cat 直接将输入的讯息输出到catfile 中， 且当由键盘输入eof 时，该次输入就结束』，那我可以这样做：</p>
-<pre><code>[dmtsai@study ~]$ cat &gt; catfile &lt;&lt; &quot;eof&quot; 
-This is a test. 
-OK now stop 
-eof   &lt;==输入这关键字，立刻就结束而不需要输入[ctrl]+d
-
-[dmtsai@ study ~]$ cat catfile 
-This is a test. 
-OK now stop      &lt;==只有这两行，不会存在关键字那一行！
-</code></pre><p>利用&lt;&lt; 右侧的控制字元，我们可以终止一次输入， 而不必输入[crtl]+d 来结束.</p>
-<h3 id="u547D_u4EE4_u6267_u884C_u7684_u5224_u65AD_u4F9D_u636E__3B__26amp_3B_26amp_3B__7C_7C"><a href="#u547D_u4EE4_u6267_u884C_u7684_u5224_u65AD_u4F9D_u636E__3B__26amp_3B_26amp_3B__7C_7C" class="headerlink" title="命令执行的判断依据 ; &amp;&amp; ||"></a>命令执行的判断依据 ; &amp;&amp; ||</h3><p>在某些情况下，很多指令我想要一次输入去执行，而不想要分次执行时，该如何是好？基本上你有两个选择，一个是透过shell script 撰写脚本去执行，一种则是透过底下的介绍来一次输入多重指令。</p>
-<h4 id="cmd__3B_cmd__28_u4E0D_u8003_u8651_u6307_u4EE4_u76F8_u5173_u6027_u7684_u8FDE_u7EED_u6307_u4EE4_u4E0B_u8FBE_29"><a href="#cmd__3B_cmd__28_u4E0D_u8003_u8651_u6307_u4EE4_u76F8_u5173_u6027_u7684_u8FDE_u7EED_u6307_u4EE4_u4E0B_u8FBE_29" class="headerlink" title="cmd ; cmd (不考虑指令相关性的连续指令下达)"></a>cmd ; cmd (不考虑指令相关性的连续指令下达)</h4><p>在指令与指令中间利用分号(;) 来隔开，这样一来，分号前的指令执行完后就会立刻接着执行后面的指令了。    </p>
-<h4 id="24_3F__28_u6307_u4EE4_u56DE_u4F20_u503C_29__u4E0E_26amp_3B_26amp_3B__u6216_7C_7C"><a href="#24_3F__28_u6307_u4EE4_u56DE_u4F20_u503C_29__u4E0E_26amp_3B_26amp_3B__u6216_7C_7C" class="headerlink" title="$? (指令回传值) 与&amp;&amp; 或||"></a>$? (指令回传值) 与&amp;&amp; 或||</h4><p>如同上面谈到的，两个指令之间有相依性，而这个相依性主要判断的地方就在于前一个指令执行的结果是否正确。</p>
-<p><strong>若前一个指令执行的结果为正确，在Linux底下会回传一个$? = 0的值</strong></p>
-<ul>
-<li>cmd1 &amp;&amp; cmd2<ul>
-<li>若cmd1执行完毕且正确执行($?=0)，则开始执行cmd2。</li>
-<li>若cmd1执行完毕且为错误($?≠0)，则cmd2不执行。</li>
-</ul>
-</li>
-<li>cmd1 || cmd2<ul>
-<li>若cmd1执行完毕且正确执行($?=0)，则cmd2不执行。</li>
-<li>若cmd1执行完毕且为错误($?≠0)，则开始执行cmd2。</li>
-</ul>
-</li>
-</ul>
-<p><a href="http://linux.vbird.org/linux_basic/0320bash.php#redirect" target="_blank" rel="external">鸟哥资料</a></p>
-<h3 id="u7BA1_u7EBF_u547D_u4EE4_28pipe_29"><a href="#u7BA1_u7EBF_u547D_u4EE4_28pipe_29" class="headerlink" title="管线命令(pipe)"></a>管线命令(pipe)</h3><h4 id="u7BA1_u9053_u7B26__7C"><a href="#u7BA1_u9053_u7B26__7C" class="headerlink" title="管道符 |"></a>管道符 |</h4><p>管线命令使用的是『 | 』这个符号.</p>
-<p>我们来查询系统的网络连接情况 netstat -an</p>
-<pre><code>➜  ~ netstat -an
-Active Internet connections (including servers)
-Proto Recv-Q Send-Q  Local Address          Foreign Address        (state)
-tcp4       0      0  127.0.0.1.51004        127.0.0.1.50724        ESTABLISHED
-tcp4       0      0  127.0.0.1.50724        127.0.0.1.51004        ESTABLISHED
-tcp4       0      0  192.168.1.105.50722    106.187.89.142.443     ESTABLISHED
-...很多很多页
-</code></pre><p>内容太多导致屏幕被塞满了，我们通过less命令分页显示,ctrl+n下一页，ctrl+b上一页,如此一来，使用” netstat -an”指令输出后的内容，就能够被less读取，并且利用less的功能，我们就能够前后翻动相关的信息了。其实这个<strong>管线命令『 | 』仅能处理经由前面一个指令传来的正确资讯，也就是standard output的资讯，对于stdandard error并没有直接处理的能力</strong>。</p>
-<pre><code>➜  ~  netstat -an | less
-</code></pre><p>在每个管线后面接的第一个资料必定是『指令』喔！而且<strong>这个指令必须要能够接受standard input的资料</strong>才行，这样的指令才可以是为『管线命令』，例如<strong>less, more, head, tail</strong>等都是可以接受standard input的管线命令啦。至于例如ls, cp, mv等就不是管线命令了！因为ls, cp, mv并不会接受来自stdin的资料。也就是说，管线命令主要有两个比较需要注意的地方：</p>
-<ol>
-<li>管线命令仅会处理standard output，对于standard error output 会予以忽略</li>
-<li>管线命令必须要能够接受来自前一个指令的资料成为standard input 继续处理才行。</li>
-</ol>
-<h4 id="u64B7_u53D6_u547D_u4EE4_uFF1A_cut_2C_grep"><a href="#u64B7_u53D6_u547D_u4EE4_uFF1A_cut_2C_grep" class="headerlink" title="撷取命令： cut, grep"></a>撷取命令： cut, grep</h4><p>什么是撷取命令啊？说穿了，就是将一段资料经过分析后，取出我们所想要的。或者是经由分析关键字，取得我们所想要的那一行！不过，要注意的是，一般来说，撷取讯息通常是针对『一行一行』来分析的，并不是整篇讯息分析的喔～底下我们介绍两个很常用的讯息撷取命令：</p>
-<h5 id="cut"><a href="#cut" class="headerlink" title="cut"></a>cut</h5><p>这个指令可以将一段信息的某一段给他『切』出来。 处理的信息是以『行』为单位。</p>
-<pre><code>[dmtsai@study ~]$ cut -d&apos;分隔字元&apos; -f fields  &lt;==用于有特定分隔字元 
-[dmtsai@study ~]$ cut -c字元区间             &lt;==用于排列整齐的讯息
-选项与参数：
--d ：后面接分隔字元。与-f一起使用；
--f ：依据-d的分隔字元将一段讯息分割成为数段，用-f取出第几段的意思；
--c ：以字元(characters)的单位取出固定字元区间；
-
-范例一：将PATH变数取出，我要找出第五个路径。
-[dmtsai@study ~]$ echo ${PATH} 
-/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/dmtsai/.local/bin:/home/dmtsai /bin # 1 | 2 | 3 | 4 | 5 | 6 | 
-[dmtsai@study ~]$ echo ${PATH} | cut -d &apos;:&apos; -f 5 #如同上面的数字显示，我们是以『 : 』作为分隔，因此会出现/home/dmtsai/.local/bin 
-#那么如果想要列出第3与第5呢？，就是这样： 
-[dmtsai@study ~]$ echo ${PATH} | cut -d &apos;:&apos; -f 3,5 
-
-范例二：将export输出的讯息，取得第12字元以后的所有字串 
-[dmtsai@ study ~]$ export 
-declare -x HISTCONTROL=&quot;ignoredups&quot; 
-declare -x HISTSIZE=&quot;1000&quot; 
-declare -x HOME=&quot;/home/dmtsai&quot; 
-declare -x HOSTNAME=&quot;study.centos.vbird&quot; .....(其他省略)..... 
-#注意看，每个资料都是排列整齐的输出！如果我们不想要『 declare -x 』时，就得这么做： 
-[dmtsai@study ~]$ export | cut -c 12- 
-HISTCONTROL=&quot;ignoredups&quot; 
-HISTSIZE=&quot;1000&quot; 
-HOME=&quot;/home/dmtsai&quot; 
-HOSTNAME= &quot;study.centos.vbird&quot; .....(其他省略)..... 
-#知道怎么回事了吧？用-c可以处理比较具有格式的输出资料！
-#我们还可以指定某个范围的值，例如第12-20的字元，就是cut -c 12-20等等！
-
-范例三：用last将显示的登入者的资讯中，仅留下使用者大名 
-[dmtsai@study ~]$ last 
-root pts/1 192.168.201.101 Sat Feb 7 12:35 still logged in 
-root pts/1 192.168. 201.101 Fri Feb 6 12:13 - 18:46 (06:33) 
-root pts/1 192.168.201.254 Thu Feb 5 22:37 - 23:53 (01:16) # last可以输出『帐号/终端机/来源/日期时间』的资料，并且是排列整齐的 
-[dmtsai@study ~]$ last | cut -d &apos; &apos; -f 1 #由输出的结果我们可以发现第一个空白分隔的栏位代表帐号，所以使用如上指令：
-#但是因为root pts/1之间空格有好几个，并非仅有一个，所以，如果要找出
-# pts/1其实不能以cut -d &apos; &apos; -f 1,2喔！输出的结果会不是我们想要的。
-</code></pre><h5 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h5><p>刚刚的cut 是将一行讯息当中，取出某部分我们想要的，而grep 则是分析一行讯息， 若当中有我们所需要的资讯，就将该行拿出来～简单的语法是这样的：</p>
-<pre><code>[dmtsai@study ~]$ grep [-acinv] [--color=auto] &apos;搜寻字串&apos; filename 
-选项与参数：
--a ：将binary档案以text档案的方式搜寻资料
--c ：计算找到&apos;搜寻字串&apos;的次数
--i ：忽略大小写的不同，所以大小写视为相同
--n ：顺便输出行号
--v ：反向选择，亦即显示出没有&apos;搜寻字串&apos;内容的那一行！
---color=auto ：可以将找到的关键字部分加上颜色的显示喔！
-
-范例一：将last当中，有出现root的那一行就取出来； 
-[dmtsai@study ~]$ last | grep &apos;root&apos; 
-
-范例二：与范例一相反，只要没有root的就取出！
-[dmtsai@study ~]$ last | grep -v &apos;root&apos; 
-
-范例三：在last的输出讯息中，只要有root就取出，并且仅取第一栏 
-[dmtsai@study ~]$ last | grep &apos;root&apos; |cut -d &apos; &apos; -f1 
-#在取出root之后，利用上个指令cut的处理，就能够仅取得第一栏啰！
-
-范例四：取出/etc/man_db.conf内含MANPATH的那几行 
-[dmtsai@study ~]$ grep --color=auto &apos;MANPATH&apos; /etc/man_db.conf 
-....(前面省略)... . 
-MANPATH _MAP /usr/games /usr/share/man
- MANPATH _MAP /opt/bin /opt/man
- MANPATH _MAP /opt/sbin /opt/man
- #神奇的是，如果加上--color=auto的选项，找到的关键字部分会用特殊颜色显示喔！
-</code></pre><h4 id="u6392_u5E8F_u547D_u4EE4_sort_2C_wc_2C_uniq"><a href="#u6392_u5E8F_u547D_u4EE4_sort_2C_wc_2C_uniq" class="headerlink" title="排序命令 sort, wc, uniq"></a>排序命令 sort, wc, uniq</h4><p>很多时候，我们都会去计算一次资料里头的相同型态的资料总数，举例来说， 使用last 可以查得系统上面有登入主机者的身份。那么我可以针对每个使用者查出他们的总登入次数吗？此时就得要排序与计算之类的指令来辅助了！底下我们介绍几个好用的排序与统计指令</p>
-<h5 id="sort"><a href="#sort" class="headerlink" title="sort"></a>sort</h5><p>sort 是很有趣的指令，他可以帮我们进行排序，而且可以依据不同的资料型态来排序喔！例如数字与文字的排序就不一样。此外，排序的字元与语系的编码有关，因此， 如果您需要排序时，建议使用LANG=C 来让语系统一，资料排序比较好一些。</p>
-<pre><code>[dmtsai@study ~]$ sort [-fbMnrtuk] [file or stdin] 
-选项与参数：
--f ：忽略大小写的差异，例如A与a视为编码相同；
--b ：忽略最前面的空白字元部分；
--M ：以月份的名字来排序，例如JAN, DEC等等的排序方法；
--n ：使用『纯数字』进行排序(预设是以文字型态来排序的)；
--r ：反向排序；
--u ：就是uniq ，相同的资料中，仅出现一行代表；
--t ：分隔符号，预设是用[tab]键来分隔；
--k ：以那个区间(field)来进行排序的意思
-
-范例一：个人帐号都记录在/etc/passwd下，请将帐号进行排序。
-[dmtsai@study ~]$ cat /etc/passwd | sort 
-ab rt:x:173:173::/etc/abrt:/sbin/nologin
- ad m:x:3:4:adm:/var/adm:/ sbin/nologin
- al ex:x:1001:1002::/home/alex:/bin/bash
- #鸟哥省略很多的输出～由上面的资料看起来， sort是预设『以第一个』资料来排序，
-#而且预设是以『文字』型态来排序的喔！所以由a开始排到最后啰！
-
-范例二：/etc/passwd内容是以:来分隔的，我想以第三栏来排序，该如何？
-[dmtsai@study ~]$ cat /etc/passwd | sort -t &apos;:&apos; -k 3 
-root:x: 0 :0:root:/root:/bin/bash 
-dmtsai:x: 1000 :1000:dmtsai:/ home/dmtsai:/bin/bash 
-alex:x: 1001 :1002::/home/alex:/bin/bash 
-arod:x: 1002 :1003::/home/arod:/bin/bash
- #看到特殊字体的输出部分了吧？怎么会这样排列啊？呵呵！没错啦～
-#如果是以文字型态来排序的话，原本就会是这样，想要使用数字排序：
-# cat /etc/passwd | sort -t &apos;:&apos; -k 3 -n 
-#这样才行啊！用那个-n来告知sort以数字来排序啊！
-
-范例三：利用last ，将输出的资料仅取帐号，并加以排序 
-[dmtsai@study ~]$ last | cut -d &apos; &apos; -f1 | sort
-</code></pre><h5 id="uniq"><a href="#uniq" class="headerlink" title="uniq"></a>uniq</h5><p>如果我排序完成了，想要将重复的资料仅列出一个显示，可以怎么做呢？</p>
-<pre><code>[dmtsai@study ~]$ uniq [-ic] 
-选项与参数：
--i ：忽略大小写字元的不同；
--c ：进行计数
-
-范例一：使用last将帐号列出，仅取出帐号栏，进行排序后仅取出一位； 
-[dmtsai@study ~]$ last | cut -d &apos; &apos; -f1 | sort | uniq 
-
-范例二：承上题，如果我还想要知道每个人的登入总次数呢？
-[dmtsai@study ~]$ last | cut -d &apos; &apos; -f1 | sort | uniq -c 
-      1 
-      6 (unknown 
-     47 dmtsai 
-      4 reboot 
-      7 root 
-      1 wtmp #从上面的结果可以发现reboot有4次， root登入则有7次！大部分是以dmtsai来操作！
-# wtmp与第一行的空白都是last的预设字元，那两个可以忽略的！
-</code></pre><p>这个指令用来将『重复的行删除掉只显示一个』，举个例子来说， 你要知道这个月份登入你主机的使用者有谁，而不在乎他的登入次数，那么就使用上面的范例， (1)先将所有的资料列出；(2)再将人名独立出来；(3)经过排序；(4)只显示一个！由于这个指令是在将重复的东西减少，所以当然需要『配合排序过的档案』来处理啰！</p>
-<h5 id="wc"><a href="#wc" class="headerlink" title="wc"></a>wc</h5><pre><code>[dmtsai@study ~]$ wc [-lwm] 
-选项与参数：
--l ：仅列出行；
--w ：仅列出多少字(英文单字)；
--m ：多少字元；
-
-范例一：那个/etc /man_db.conf里面到底有多少相关字、行、字元数？
-
-[dmtsai@study ~]$ cat /etc/man_db.conf | wc 
-    131 723 5171 #输出的三个数字中，分别代表： 『行、字数、字元数』范例二：我知道使用last可以输出登入者，但是last最后两行并非帐号内容，那么请问，
-        我该如何以一行指令串取得登入系统的总人次？
-[dmtsai@study ~]$ last | grep [a-zA-Z] | grep -v &apos;wtmp&apos; | grep -v &apos;reboot&apos; | \ 
-&gt; grep -v &apos;unknown&apos; |wc -l #由于last会输出空白行, wtmp, unknown, reboot等无关帐号登入的资讯，因此，我利用
-# grep取出非空白行，以及去除上述关键字那几行，再计算行数，就能够了解啰！
-</code></pre><p>举个例子来说， 当你要知道目前你的帐号档案中有多少个帐号时，就使用这个方法：『 cat /etc/passwd | wc -l 』啦！因为/etc/passwd 里头一行代表一个使用者呀！所以知道行数就晓得有多少的帐号在里头了！而如果要计算一个档案里头有多少个字元时，就使用wc -m 这个选项吧！</p>
-<p><a href="http://linux.vbird.org/linux_basic/0320bash.php#pipe" target="_blank" rel="external">详细命令请查看鸟哥博客linux_basic</a></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="Shell__u6982_u8FF0"><a href="#Shell__u6982_u8FF0" class="headerlink" title="Shell 概述"></a>Shell 概述</h2><p><a href="http://www.imooc.com/learn/175">imooc shell课程</a></p>
-<p>Shell是一个命令行解释器，它为用户提供了一个向Linux内核发送请求以便运行程序的界面系统级程序，用可以用Shell来启动，挂起，停止甚至是编写一些程序。</p>
-<p>Shell还是一个功能强大的编程语言，易编写易调试，灵活性较强。Shell是解释执行的脚本语言，在Shell中可以直接调用Linux系统命令。</p>]]>
-    
-    </summary>
-    
-      <category term="linux" scheme="http://suqun.github.io/tags/linux/"/>
-    
-      <category term="shell" scheme="http://suqun.github.io/tags/shell/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[What is Docker?]]></title>
-    <link href="http://suqun.github.io/2016/01/01/What-is-Docker/"/>
-    <id>http://suqun.github.io/2016/01/01/What-is-Docker/</id>
-    <published>2016-01-01T11:43:48.000Z</published>
-    <updated>2016-01-04T13:34:08.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="What_is_Docker"><a href="#What_is_Docker" class="headerlink" title="What is Docker"></a>What is Docker</h2><p>Docker allows you to package an applications with all of its dependencies into a standardized unit for development.</p>
-<p>对于软件开发,Docker允许你用其所有相关的依赖打包应用程序到一个标准化单元中.</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/docker-what_is_layered_filesystems_sm.png" alt="layered_filesystems_sm"></p>
-<p>Docker containers wrap up a piece of software in a complete filesystem that contains everything it needs to run : code,runtime,system tools,system libraries - anything you can install on a sever. This guarantees that it will always run the same,regardless of the environment it is running in.</p>
-<p>Docker容器在一个完整的文件系统中包裹一个软件,这个文件系统包含软件运行所需要的code,runtime,系统工具,系统库等任何你所能在服务器上安装的.这保证了软件总是运行在相同的环境.(这句翻译的烂,欢迎指正)</p>
-<a id="more"></a>
-<h3 id="lightweight__u8F7B_u91CF_u7684"><a href="#lightweight__u8F7B_u91CF_u7684" class="headerlink" title="lightweight 轻量的"></a>lightweight 轻量的</h3><p>Containers run on a single machine all share the same operating system kernel so they start instantly and make more efficient use of RAM. Images are constructed from layered filesystems so they can share common files, making disk usage and images download efficient.</p>
-<p>容器运行在一个独立的机器中,共享操作系统核心,所以它可以迅速启动并且可以更有效的使用内存. 在分层文件系统中构建图片,可以共享公共文件,使磁盘的使用和图片的下载更高效.</p>
-<h3 id="Open__u5F00_u653E_u7684"><a href="#Open__u5F00_u653E_u7684" class="headerlink" title="Open 开放的"></a>Open 开放的</h3><p>Docker containers are based on open standards allowing containers to run on all major Linux distributions and Microsoft operating systems with support for every infrastructure.</p>
-<p>Docker容器基于开放标准，允许容器运行在主要的Linux发行版和微软操作系统上，用来支持每一个基础设施。</p>
-<h3 id="Secure__u5B89_u5168_u7684"><a href="#Secure__u5B89_u5168_u7684" class="headerlink" title="Secure 安全的"></a>Secure 安全的</h3><p>Containers isolate applications from each other and the underlying infrastructure while providing an added layer of protection for the application.</p>
-<p>容器将每个应用程序和底层基础架构都相互隔离起来，同时为应用程序提供了额外的保存层。</p>
-<h2 id="How_is_this_different_from_virtual_machines_3F__u548C_u865A_u62DF_u673A_u6709_u4EC0_u4E48_u4E0D_u540C"><a href="#How_is_this_different_from_virtual_machines_3F__u548C_u865A_u62DF_u673A_u6709_u4EC0_u4E48_u4E0D_u540C" class="headerlink" title="How is this different from virtual machines? 和虚拟机有什么不同"></a>How is this different from virtual machines? 和虚拟机有什么不同</h2><p>Containers have similar resource isolation and allocation benefits as virtual machines but a different architectural approach allows them to much more portable and efficient.</p>
-<p>容器有和虚拟机类似的资源隔离和allocation benefits（分配利益？），但不同的架构方法可以让Docker容器更加便携和高效。</p>
-<h3 id="Virtual_Machines__u865A_u62DF_u673A"><a href="#Virtual_Machines__u865A_u62DF_u673A" class="headerlink" title="Virtual Machines 虚拟机"></a>Virtual Machines 虚拟机</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/docker-what-is-docker-diagram.png" alt="vm-diagram"></p>
-<p>Each virtual machine includes the application,the necessary binaries and libraries and an entire guest operating system - all of which may be tens of GBs in size.</p>
-<p>每个虚拟机都包含应用程序，所需的二进制文件和库以及一个完整的客户操作系统，所有的这些都有可能是几十GB的大小。</p>
-<h3 id="Containers__u5BB9_u5668"><a href="#Containers__u5BB9_u5668" class="headerlink" title="Containers 容器"></a>Containers 容器</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/docker-what-is-vm-diagram.png" alt="containers"></p>
-<p>Containers include the application and all of its dependencies, but share the kernel with other containers. They run as an isolated process in userspace on the host operating system. They’re also not tied to any specific infrastructure - Docker containers run on any computer, on any infrastructure and in any cloud.</p>
-<p>容器包含应用程序及其所有的依赖，同其他容器共享内核。它允许在主机操作系统上用户空间中一个独立的进程中。它不会依赖于特定的基础设施，Docker容器可以运行在任何的个人电脑上，任何的基础设施上，任何的云服务上。</p>
-<h2 id="How_does_this_help_you_build_better_software_3F__u5982_u4F55_u6784_u5EFA_u66F4_u597D_u7684_u8F6F_u4EF6"><a href="#How_does_this_help_you_build_better_software_3F__u5982_u4F55_u6784_u5EFA_u66F4_u597D_u7684_u8F6F_u4EF6" class="headerlink" title="How does this help you build better software? 如何构建更好的软件"></a>How does this help you build better software? 如何构建更好的软件</h2><p>When your app is in Docker containers, you don’t have to warry about setting up and maintaining different environment or different tooling for each language. Focus on creating new features, flexing issues and shipping software.</p>
-<p>在Docker容器中运行你的app，你不必担心配置或者维护不同的环境，维护每种语言不同的工具。专心创建新的功能，修复问题以及shipping软件。</p>
-<h3 id="Accelerate_Developer_Onboarding__u52A0_u5FEB_u5F00_u53D1"><a href="#Accelerate_Developer_Onboarding__u52A0_u5FEB_u5F00_u53D1" class="headerlink" title="Accelerate Developer Onboarding 加快开发"></a>Accelerate Developer Onboarding 加快开发</h3><p>Stop wasting hours trying to setup developer environments, spin up new instances and make copies of production code to run locally. With Docker, you can easily take copies of your live environment and run on any new endpoint running Docker.</p>
-<p>省去设置开发环境的时间，将生产代码复制到本地运行。有了Docker，你可以很容易的将生产环境的副本运行在任何运行着Docker容器的终端上。</p>
-<h3 id="Empower_Developer_Creativity__u4F7F_u5F00_u53D1_u4EBA_u5458_u6709_u521B_u9020_u529B"><a href="#Empower_Developer_Creativity__u4F7F_u5F00_u53D1_u4EBA_u5458_u6709_u521B_u9020_u529B" class="headerlink" title="Empower Developer Creativity 使开发人员有创造力"></a>Empower Developer Creativity 使开发人员有创造力</h3><p>The isolation capabilities of Docker containers free developers from the worries of using “approved” language stacks and tooling. Developers can use the best language and tools for their application service without worrying about causing conflict issues.</p>
-<h3 id="Eliminate_Environment_inconsistencies__u6D88_u9664_u73AF_u5883_u4E0D_u4E00_u81F4"><a href="#Eliminate_Environment_inconsistencies__u6D88_u9664_u73AF_u5883_u4E0D_u4E00_u81F4" class="headerlink" title="Eliminate Environment inconsistencies 消除环境不一致"></a>Eliminate Environment inconsistencies 消除环境不一致</h3><p>By packaging up the application with its configs and dependencies together and shipping as a container, the application will always work as designed locally, on another machine, in test or production. No more worries about having to install the same configs into a different environment.</p>
-<h2 id="Easily_Share_and_Collaborate_on_Application__u8F7B_u677E_u5171_u4EAB_u548C_u534F_u4F5C"><a href="#Easily_Share_and_Collaborate_on_Application__u8F7B_u677E_u5171_u4EAB_u548C_u534F_u4F5C" class="headerlink" title="Easily Share and Collaborate on Application 轻松共享和协作"></a>Easily Share and Collaborate on Application 轻松共享和协作</h2><p>Docker creates a common framework for developers and sysadmins to work together on distributed applications</p>
-<h3 id="Distribute_and_Share_content__u5206_u53D1_u548C_u5171_u4EAB_u5185_u5BB9"><a href="#Distribute_and_Share_content__u5206_u53D1_u548C_u5171_u4EAB_u5185_u5BB9" class="headerlink" title="Distribute and Share content 分发和共享内容"></a>Distribute and Share content 分发和共享内容</h3><p>Store,distribute and manage your Docker images in your Docker Hub with your team. Image updates,changes and history are automatically shared across your orgnization.</p>
-<p>在团队中，使用Docker Hub存储，分发，管理你的图片。图片的更新，改变和历史都会被自动的在你的组织中共享。</p>
-<h3 id="Simpley_share_your_applications_with_others__u7B80_u5355_u7684_u4E0E_u4ED6_u4EBA_u5206_u4EAB_u4F60_u7684_u5E94_u7528_u7A0B_u5E8F"><a href="#Simpley_share_your_applications_with_others__u7B80_u5355_u7684_u4E0E_u4ED6_u4EBA_u5206_u4EAB_u4F60_u7684_u5E94_u7528_u7A0B_u5E8F" class="headerlink" title="Simpley share your applications with others 简单的与他人分享你的应用程序"></a>Simpley share your applications with others 简单的与他人分享你的应用程序</h3><p>Ship one or many containers to others or downstream service teams without worrying about different environment dependencies creating issues with your application. Other teams can easily link to or test against your app without having to learn or worry about how it works.</p>
-<h2 id="Ship_More_Software_Faster"><a href="#Ship_More_Software_Faster" class="headerlink" title="Ship More Software Faster"></a>Ship More Software Faster</h2><p>Docker allows you to dynamically change your application like never before from adding new capabilities , scaling out services to quickly changing problem areas.</p>
-<h3 id="Ship_7X_More"><a href="#Ship_7X_More" class="headerlink" title="Ship 7X More"></a>Ship 7X More</h3><p>Docker users on average ship software 7X more after deploying Docker in their environment. More frequent updates provide more value to your customers faster.</p>
-<h3 id="Quickly_Scale__u5FEB_u901F_u6269_u5C55"><a href="#Quickly_Scale__u5FEB_u901F_u6269_u5C55" class="headerlink" title="Quickly Scale 快速扩展"></a>Quickly Scale 快速扩展</h3><p>Docker containers spin up and down in seconds making it easy to scale an application service at any time to satisfy peak customer demand, then just as easily spin down those containers to only use the resources you need when you need it</p>
-<h3 id="Easily_Remediate_Issues__u8F7B_u677E_u7EA0_u6B63_u95EE_u9898"><a href="#Easily_Remediate_Issues__u8F7B_u677E_u7EA0_u6B63_u95EE_u9898" class="headerlink" title="Easily Remediate Issues 轻松纠正问题"></a>Easily Remediate Issues 轻松纠正问题</h3><p>Docker make it easy to identify issues and isolate the problem container, quickly roll back to make the necessary changes then push the updated container into production. The isolation between containers make these changes less disruptive than traditional software models.</p>
-<p><a href="http://www.docker.com/what-docker" target="_blank" rel="external">What is Docker原文地址</a></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="What_is_Docker"><a href="#What_is_Docker" class="headerlink" title="What is Docker"></a>What is Docker</h2><p>Docker allows you to package an applications with all of its dependencies into a standardized unit for development.</p>
-<p>对于软件开发,Docker允许你用其所有相关的依赖打包应用程序到一个标准化单元中.</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/docker-what_is_layered_filesystems_sm.png" alt="layered_filesystems_sm"></p>
-<p>Docker containers wrap up a piece of software in a complete filesystem that contains everything it needs to run : code,runtime,system tools,system libraries - anything you can install on a sever. This guarantees that it will always run the same,regardless of the environment it is running in.</p>
-<p>Docker容器在一个完整的文件系统中包裹一个软件,这个文件系统包含软件运行所需要的code,runtime,系统工具,系统库等任何你所能在服务器上安装的.这保证了软件总是运行在相同的环境.(这句翻译的烂,欢迎指正)</p>]]>
     
     </summary>
     

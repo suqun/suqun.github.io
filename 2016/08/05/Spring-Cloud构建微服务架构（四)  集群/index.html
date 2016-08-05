@@ -1,0 +1,780 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="EUREKA,NETFLIX,SPRING BOOT,SPRING CLOUD," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="入耳箸心" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="前面三篇都分享自程序猿DD的博客,暂时(2016年08月05日)还没有更新关于Eureka集群的博客。这里参考了木木彬的Spring Cloud实战(二)-Spring Cloud Eureka博客内容。对集群配置简单记录下,方便以后查阅。同时也期待程序猿DD更新更多更精彩的博客。
+本文代码基于程序猿DD / SpringBoot-Learning / Chapter9-1-3进行集群配置。
+Sp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Cloud构建微服务架构（四) 集群">
+<meta property="og:url" content="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/index.html">
+<meta property="og:site_name" content="入耳箸心">
+<meta property="og:description" content="前面三篇都分享自程序猿DD的博客,暂时(2016年08月05日)还没有更新关于Eureka集群的博客。这里参考了木木彬的Spring Cloud实战(二)-Spring Cloud Eureka博客内容。对集群配置简单记录下,方便以后查阅。同时也期待程序猿DD更新更多更精彩的博客。
+本文代码基于程序猿DD / SpringBoot-Learning / Chapter9-1-3进行集群配置。
+Sp">
+<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/eureka-server-1.png">
+<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/eureka-server-2.png">
+<meta property="og:updated_time" content="2016-08-05T03:23:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Cloud构建微服务架构（四) 集群">
+<meta name="twitter:description" content="前面三篇都分享自程序猿DD的博客,暂时(2016年08月05日)还没有更新关于Eureka集群的博客。这里参考了木木彬的Spring Cloud实战(二)-Spring Cloud Eureka博客内容。对集群配置简单记录下,方便以后查阅。同时也期待程序猿DD更新更多更精彩的博客。
+本文代码基于程序猿DD / SpringBoot-Learning / Chapter9-1-3进行集群配置。
+Sp">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> Spring Cloud构建微服务架构（四) 集群 | 入耳箸心 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6d9237319769cb2bd5c922f64d95b5f2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">入耳箸心</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">成长路上的点滴记录</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Spring Cloud构建微服务架构（四) 集群
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-08-05T10:07:59+08:00" content="2016-08-05">
+              2016-08-05
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/05/Spring-Cloud构建微服务架构（四)  集群/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>前面三篇都分享自<a href="http://blog.didispace.com/" target="_blank" rel="external">程序猿DD</a>的博客,暂时(2016年08月05日)还没有更新关于Eureka集群的博客。<br>这里参考了<a href="https://segmentfault.com/blog/mumubin" target="_blank" rel="external">木木彬</a>的<a href="https://segmentfault.com/a/1190000006149891" target="_blank" rel="external">Spring Cloud实战(二)-Spring Cloud Eureka</a>博客内容。<br>对集群配置简单记录下,方便以后查阅。同时也期待<code>程序猿DD</code>更新更多更精彩的博客。</p>
+<p>本文代码基于<a href="https://git.oschina.net/didispace/SpringBoot-Learning/tree/master/Chapter9-1-3?dir=1&amp;filepath=Chapter9-1-3&amp;oid=cc93af44af30b42320041332790d071ed72a2450&amp;sha=4329c564d673b6cf7a53893ad9770abb7a67b328" target="_blank" rel="external">程序猿DD / SpringBoot-Learning / Chapter9-1-3</a>进行集群配置。</p>
+<p>Spring Cloud 官方文档上对集群配置介绍的非常简单，对Eureka Server进行<a href="http://cloud.spring.io/spring-cloud-static/docs/1.0.x/spring-cloud.html#_peer_awareness" target="_blank" rel="external">Peer Awareness</a>配置，这样多个服务端就可以关联到一起。好了，下面看看具体的配置。</p>
+<h4 id="hosts_u4FEE_u6539"><a href="#hosts_u4FEE_u6539" class="headerlink" title="hosts修改"></a>hosts修改</h4><p>在hosts（路径：/etc/hosts）文件中添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1       eureka-primary&#10;127.0.0.1       eureka-secondary&#10;127.0.0.1       eureka-tertiary</span><br></pre></td></tr></table></figure>
+<h4 id="u670D_u52A1_u7AEF_u914D_u7F6E"><a href="#u670D_u52A1_u7AEF_u914D_u7F6E" class="headerlink" title="服务端配置"></a>服务端配置</h4><p>先注释掉application.properties中的配置，添加application.yml，在yml添加多个profiles,和instanceId，此时Eureka Server 同时也是个Eureka Client,需要设置eureka.client.serviceUrl.defaultZone,值是另外两个（这就是官网所说的<code>Peer Awareness</code>）:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">---&#10;spring:&#10;  application:&#10;    name: eureka-server-clustered&#10;  profiles: primary&#10;server:&#10;  port: 1111&#10;eureka:&#10;  instance:&#10;    hostname: eureka-primary&#10;  client:&#10;    registerWithEureka: true&#10;    fetchRegistry: true&#10;    serviceUrl:&#10;      defaultZone: http://eureka-secondary:1112/eureka/,http://eureka-tertiary:1113/eureka/&#10;---&#10;spring:&#10;  application:&#10;    name: eureka-server-clustered&#10;  profiles: secondary&#10;server:&#10;  port: 1112&#10;eureka:&#10;  instance:&#10;    hostname: eureka-secondary&#10;  client:&#10;    registerWithEureka: true&#10;    fetchRegistry: true&#10;    serviceUrl:&#10;      defaultZone: http://eureka-secondary:1111/eureka/,http://eureka-tertiary:1113/eureka/&#10;---&#10;spring:&#10;  application:&#10;    name: eureka-server-clustered&#10;  profiles: tertiary&#10;server:&#10;  port: 1113&#10;eureka:&#10;  instance:&#10;    hostname: eureka-tertiary&#10;  client:&#10;    registerWithEureka: true&#10;    fetchRegistry: true&#10;    serviceUrl:&#10;      defaultZone: http://eureka-secondary:1111/eureka/,http://eureka-tertiary:1112/eureka/</span><br></pre></td></tr></table></figure>
+<h4 id="u670D_u52A1_u7AEF_u542F_u52A8"><a href="#u670D_u52A1_u7AEF_u542F_u52A8" class="headerlink" title="服务端启动"></a>服务端启动</h4><p>配置完成，要分别启动3个Server，分别执行下面的命令即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  eureka-server git:(master) ✗ mvn clean &amp;&amp; mvn install</span><br><span class="line">➜  eureka-server git:(master) ✗ <span class="built_in">cd</span> target</span><br><span class="line">➜  target git:(master) ✗ java -Dspring.profiles.active=primary -jar eureka-server-<span class="number">0.0</span>.<span class="number">1</span>-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  target git:(master) ✗ java -Dspring.profiles.active=secondary -jar eureka-server-<span class="number">0.0</span>.<span class="number">1</span>-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  target git:(master) ✗ java -Dspring.profiles.active=tertiary -jar eureka-server-<span class="number">0.0</span>.<span class="number">1</span>-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
+<p>我们访问其中一个服务地址<a href="http://localhost:1111/" target="_blank" rel="external">http://localhost:1111/</a> 可以看到如下内容，说明服务启动成功：</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/eureka-server-1.png" alt="Eureka Server"></p>
+<h4 id="u5BA2_u6237_u7AEF_u914D_u7F6E"><a href="#u5BA2_u6237_u7AEF_u914D_u7F6E" class="headerlink" title="客户端配置"></a>客户端配置</h4><p>服务端已准备就绪，客户端如何注册到多个服务地址呢？其实在服务端配置defaultZone时，指定多个地址，就告诉我们客户端也这么指定就可以啦。</p>
+<p>修改compute-service的application.properties中的defaultZone值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#25351;&#23450;&#24494;&#26381;&#21153;&#30340;&#21517;&#31216;&#21518;&#32493;&#22312;&#35843;&#29992;&#30340;&#26102;&#20505;&#21482;&#38656;&#35201;&#20351;&#29992;&#35813;&#21517;&#31216;&#23601;&#21487;&#20197;&#36827;&#34892;&#26381;&#21153;&#30340;&#35775;&#38382;&#10;spring.application.name=compute-service&#10;#&#24212;&#29992;&#31471;&#21475;&#10;server.port=2222&#10;#&#25351;&#23450;&#26381;&#21153;&#27880;&#20876;&#20013;&#24515;&#30340;&#20301;&#32622;&#10;#eureka.client.serviceUrl.defaultZone=http://localhost:1111/eureka/&#10;eureka.client.serviceUrl.defaultZone=http://eureka-primary:1111/eureka/,http://eureka-secondary:1112/eureka/,http://eureka-tertiary:1113/eureka/</span><br></pre></td></tr></table></figure>
+<h4 id="u542F_u52A8_u5BA2_u6237_u7AEF"><a href="#u542F_u52A8_u5BA2_u6237_u7AEF" class="headerlink" title="启动客户端"></a>启动客户端</h4><p>客户端默认端口是2222，我们启动2个客户端，另一个端口用2223好了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  compute-service git:(master) ✗ mvn clean &amp;&amp; mvn insatll</span><br><span class="line">➜  compute-service git:(master) ✗ <span class="built_in">cd</span> target</span><br><span class="line">➜  target git:(master) ✗ java -jar compute-service-<span class="number">0.0</span>.<span class="number">1</span>-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  target git:(master) ✗ java -DServer.port=<span class="number">2223</span> -jar compute-service-<span class="number">0.0</span>.<span class="number">1</span>-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
+<p>重新查看下<a href="http://localhost:1111/" target="_blank" rel="external">http://localhost:1111/</a></p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/eureka-server-2.png" alt="client starting"></p>
+<p>2个客户端启动成功了。</p>
+<h4 id="u6D4B_u8BD5"><a href="#u6D4B_u8BD5" class="headerlink" title="测试"></a>测试</h4><p>启动消费者eureka-ribbon成功后，简单测试下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ curl localhost:<span class="number">3333</span>/add</span><br><span class="line"><span class="number">30</span>%</span><br></pre></td></tr></table></figure>
+<p>一个客户端也打出了日志</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2016</span>-<span class="number">08</span>-<span class="number">05</span> <span class="number">11</span>:<span class="number">18</span>:<span class="number">23.554</span>  INFO <span class="number">5127</span> --- [nio-<span class="number">2223</span>-exec-<span class="number">1</span>] com.ow.wises.web.ComputeController       : /add, host:<span class="number">192.168</span>.<span class="number">1.145</span>, service_id:compute-service, result:<span class="number">30</span></span><br></pre></td></tr></table></figure>
+<p>好了，就先这样了。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/EUREKA/" rel="tag">#EUREKA</a>
+          
+            <a href="/tags/NETFLIX/" rel="tag">#NETFLIX</a>
+          
+            <a href="/tags/SPRING-BOOT/" rel="tag">#SPRING BOOT</a>
+          
+            <a href="/tags/SPRING-CLOUD/" rel="tag">#SPRING CLOUD</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/" rel="next" title="Spring Cloud构建微服务架构（三）断路器">
+                <i class="fa fa-chevron-left"></i> Spring Cloud构建微服务架构（三）断路器
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/05/Spring-Cloud构建微服务架构（四)  集群/"
+           data-title="Spring Cloud构建微服务架构（四) 集群" data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/uploads/avatar.jpg" alt="Larry" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Larry</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">吾生也有涯而知也无涯，以有涯随无涯，殆已。</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">30</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/suqun" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">友情链接</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.didispace.com/" target="_blank">程序猿DD</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://ifeve.com/" target="_blank">并发编程网</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://colobu.com/" target="_blank">鸟窝</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jikexueyuan.com/" target="_blank">极客学院</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.imooc.com/" target="_blank">慕课网</a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#hosts_u4FEE_u6539"><span class="nav-number">1.</span> <span class="nav-text">hosts修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u670D_u52A1_u7AEF_u914D_u7F6E"><span class="nav-number">2.</span> <span class="nav-text">服务端配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u670D_u52A1_u7AEF_u542F_u52A8"><span class="nav-number">3.</span> <span class="nav-text">服务端启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5BA2_u6237_u7AEF_u914D_u7F6E"><span class="nav-number">4.</span> <span class="nav-text">客户端配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u542F_u52A8_u5BA2_u6237_u7AEF"><span class="nav-number">5.</span> <span class="nav-text">启动客户端</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u6D4B_u8BD5"><span class="nav-number">6.</span> <span class="nav-text">测试</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Larry</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"suqun"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>
