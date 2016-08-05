@@ -18,7 +18,7 @@
 获取构造函数的对象1Constructor[] constructors = orderClass.getConstructors();
 可以通过构造函数的具体参数类型直接获取单独的构造函数，而不用获取全部的Constructors
 123456try &amp;#123;    Constructor constructor = orde">
-<meta property="og:updated_time" content="2016-05-28T07:29:02.000Z">
+<meta property="og:updated_time" content="2016-08-05T08:44:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java反射之构造函数">
 <meta name="twitter:description" content="原文地址Java Reflection Constructors
@@ -103,7 +103,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/constructors.html" target="_blank" rel="external">Java Reflection Constructors</a></p>
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61"><span class="toc-number">1.</span> <span class="toc-text">获取构造函数的对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u6784_u9020_u51FD_u6570_u7684_u53C2_u6570_u7C7B_u578B"><span class="toc-number">2.</span> <span class="toc-text">构造函数的参数类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u7528_u6784_u9020_u51FD_u6570_u5BF9_u8C61_u5B9E_u4F8B_u5316_u4E00_u4E2A_u7C7B"><span class="toc-number">3.</span> <span class="toc-text">用构造函数对象实例化一个类</span></a></li></ol>
+      </div>
+      
+
+      <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/constructors.html" target="_blank" rel="external">Java Reflection Constructors</a></p>
 <h4 id="u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61"><a href="#u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61" class="headerlink" title="获取构造函数的对象"></a>获取构造函数的对象</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Constructor[] constructors = orderClass.getConstructors();</span><br></pre></td></tr></table></figure>
 <p>可以通过构造函数的具体参数类型直接获取单独的构造函数，而不用获取全部的Constructors</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Constructor constructor = orderClass.getConstructor(<span class="keyword">new</span> Class[]&#123;String.class&#125;);</span><br><span class="line">    System.out.println(constructor.getName());<span class="comment">//com.larry.bean.Order</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;<span class="comment">//没有找到匹配的构造函数会抛出NoSuchMethodException</span></span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -112,11 +120,12 @@
 <h4 id="u7528_u6784_u9020_u51FD_u6570_u5BF9_u8C61_u5B9E_u4F8B_u5316_u4E00_u4E2A_u7C7B"><a href="#u7528_u6784_u9020_u51FD_u6570_u5BF9_u8C61_u5B9E_u4F8B_u5316_u4E00_u4E2A_u7C7B" class="headerlink" title="用构造函数对象实例化一个类"></a>用构造函数对象实例化一个类</h4><p>constructor.newInstance()方法的方法参数是一个可变参数列表，但是当你调用构造方法的时候你必须提供精确的参数，即形参与实参必须一一对应。在这个例子中构造方法需要一个String类型的参数，那我们在调用newInstance方法的时候就必须传入一个String类型的参数</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Constructor constructor = Order.class.getConstructor(String.class);</span><br><span class="line">    Order order = (Order) constructor.newInstance(<span class="string">"2016050901"</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (InstantiationException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/11/JavaReflectionConstructors/" data-id="cirhh567g0025qtuqau02l89q" class="article-share-link" data-share="baidu" data-title="Java反射之构造函数">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/11/JavaReflectionConstructors/" data-id="cirhic86b0025xpuqef0wynhh" class="article-share-link" data-share="baidu" data-title="Java反射之构造函数">分享到</a>
       
 
       
@@ -196,7 +205,7 @@
       <ul>
         
           <li>
-            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/">Spring Cloud构建微服务架构（四) 集群</a>
+            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/">Spring Cloud构建微服务架构（四）集群</a>
           </li>
         
           <li>

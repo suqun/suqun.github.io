@@ -12,7 +12,7 @@
 <meta property="og:url" content="http://suqun.github.io/2016/01/13/Shell编程之正则表达式/index.html">
 <meta property="og:site_name" content="入耳箸心">
 <meta property="og:description" content="正则表达式与通配符Linux中的正则表达式和通配符有些区别，正则表达式用来在文件中匹配符合条件的字符串，正则是包含匹配。grep，awk，sed等命令可以支持正则表达式。通配符用来匹配符合条件的文件名，通配符是完全匹配。ls，find，cp这些命令不支持正则所有只能用shell自己的通配符进行匹配。">
-<meta property="og:updated_time" content="2016-01-18T15:39:35.000Z">
+<meta property="og:updated_time" content="2016-08-05T08:44:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Shell编程之正则表达式">
 <meta name="twitter:description" content="正则表达式与通配符Linux中的正则表达式和通配符有些区别，正则表达式用来在文件中匹配符合条件的字符串，正则是包含匹配。grep，awk，sed等命令可以支持正则表达式。通配符用来匹配符合条件的文件名，通配符是完全匹配。ls，find，cp这些命令不支持正则所有只能用shell自己的通配符进行匹配。">
@@ -94,7 +94,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="u6B63_u5219_u8868_u8FBE_u5F0F_u4E0E_u901A_u914D_u7B26"><a href="#u6B63_u5219_u8868_u8FBE_u5F0F_u4E0E_u901A_u914D_u7B26" class="headerlink" title="正则表达式与通配符"></a>正则表达式与通配符</h3><p>Linux中的正则表达式和通配符有些区别，正则表达式用来在文件中匹配符合条件的<code>字符串</code>，正则是<code>包含匹配</code>。grep，awk，sed等命令可以支持正则表达式。通配符用来匹配符合条件的<code>文件名</code>，通配符是<code>完全匹配</code>。ls，find，cp这些命令不支持正则所有只能用shell自己的通配符进行匹配。</p>
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#u6B63_u5219_u8868_u8FBE_u5F0F_u4E0E_u901A_u914D_u7B26"><span class="toc-number">1.</span> <span class="toc-text">正则表达式与通配符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u57FA_u7840_u6B63_u5219_u8868_u8FBE_u5F0F"><span class="toc-number">2.</span> <span class="toc-text">基础正则表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5B57_u7B26_u64CD_u4F5C_u547D_u4EE4"><span class="toc-number">3.</span> <span class="toc-text">字符操作命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#cut"><span class="toc-number">3.1.</span> <span class="toc-text">cut</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#printf"><span class="toc-number">3.2.</span> <span class="toc-text">printf</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#awk"><span class="toc-number">3.3.</span> <span class="toc-text">awk</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sed"><span class="toc-number">3.4.</span> <span class="toc-text">sed</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sort"><span class="toc-number">3.5.</span> <span class="toc-text">sort</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#wc"><span class="toc-number">3.6.</span> <span class="toc-text">wc</span></a></li></ol></li></ol>
+      </div>
+      
+
+      <h3 id="u6B63_u5219_u8868_u8FBE_u5F0F_u4E0E_u901A_u914D_u7B26"><a href="#u6B63_u5219_u8868_u8FBE_u5F0F_u4E0E_u901A_u914D_u7B26" class="headerlink" title="正则表达式与通配符"></a>正则表达式与通配符</h3><p>Linux中的正则表达式和通配符有些区别，正则表达式用来在文件中匹配符合条件的<code>字符串</code>，正则是<code>包含匹配</code>。grep，awk，sed等命令可以支持正则表达式。通配符用来匹配符合条件的<code>文件名</code>，通配符是<code>完全匹配</code>。ls，find，cp这些命令不支持正则所有只能用shell自己的通配符进行匹配。</p>
 <a id="more"></a>
 <p>通配符：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">*   匹配任意内容</span><br><span class="line">？   匹配任意一个内容</span><br><span class="line">[]  匹配中括号中的一个字符</span><br></pre></td></tr></table></figure>
@@ -129,11 +137,12 @@
 <p><a href="http://www.imooc.com/learn/378" target="_blank" rel="external">http://www.imooc.com/learn/378</a></p>
 <p><a href="http://man.linuxde.net/printf" target="_blank" rel="external">http://man.linuxde.net/printf</a></p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/13/Shell编程之正则表达式/" data-id="cirhh5670001nqtuqxk4tmyss" class="article-share-link" data-share="baidu" data-title="Shell编程之正则表达式">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/13/Shell编程之正则表达式/" data-id="cirhic85u001nxpuq526egsew" class="article-share-link" data-share="baidu" data-title="Shell编程之正则表达式">分享到</a>
       
 
       
@@ -213,7 +222,7 @@
       <ul>
         
           <li>
-            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/">Spring Cloud构建微服务架构（四) 集群</a>
+            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/">Spring Cloud构建微服务架构（四）集群</a>
           </li>
         
           <li>

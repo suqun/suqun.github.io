@@ -18,7 +18,7 @@
 获取class对象Java中的所有类型包括基本类型(int, long, float等等)，即使是数组都有与之关联的Class类的对象。如果你在编译期知道一个类的名字的话，那么你可以使用如下的方式获取一个类的Class对象
 1Class orderClass = Order.class;
 如果你在编译期不知道类的名字，但是你可以在运行期获得到">
-<meta property="og:updated_time" content="2016-05-28T07:30:52.000Z">
+<meta property="og:updated_time" content="2016-08-05T08:44:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java反射之对象">
 <meta name="twitter:description" content="原文地址Java Reflection Classes
@@ -103,7 +103,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/classes.html" target="_blank" rel="external">Java Reflection Classes</a></p>
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#u83B7_u53D6class_u5BF9_u8C61"><span class="toc-number">1.</span> <span class="toc-text">获取class对象</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Class_Name__u7C7B_u540D"><span class="toc-number">2.</span> <span class="toc-text">Class Name 类名</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Modifiers__u4FEE_u9970_u7B26"><span class="toc-number">3.</span> <span class="toc-text">Modifiers 修饰符</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Package_Info__u5305"><span class="toc-number">4.</span> <span class="toc-text">Package Info 包</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Superclass__u7236_u7C7B"><span class="toc-number">5.</span> <span class="toc-text">Superclass 父类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Implemented_Interfaces__u5B9E_u73B0_u7684_u63A5_u53E3"><span class="toc-number">6.</span> <span class="toc-text">Implemented Interfaces 实现的接口</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Constructors__u6784_u9020_u51FD_u6570"><span class="toc-number">7.</span> <span class="toc-text">Constructors 构造函数</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61"><span class="toc-number">7.1.</span> <span class="toc-text">获取构造函数的对象</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Method__u65B9_u6CD5"><span class="toc-number">8.</span> <span class="toc-text">Method 方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Field__u53D8_u91CF"><span class="toc-number">9.</span> <span class="toc-text">Field 变量</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Annotations__u6CE8_u89E3"><span class="toc-number">10.</span> <span class="toc-text">Annotations 注解</span></a></li></ol>
+      </div>
+      
+
+      <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/classes.html" target="_blank" rel="external">Java Reflection Classes</a></p>
 <h5 id="u83B7_u53D6class_u5BF9_u8C61"><a href="#u83B7_u53D6class_u5BF9_u8C61" class="headerlink" title="获取class对象"></a>获取class对象</h5><p>Java中的所有类型包括基本类型(int, long, float等等)，即使是数组都有与之关联的Class类的对象。<br>如果你在编译期知道一个类的名字的话，那么你可以使用如下的方式获取一个类的Class对象</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class orderClass = Order.class;</span><br></pre></td></tr></table></figure>
 <p>如果你在编译期不知道类的名字，但是你可以在运行期获得到类名的字符串,那么你则可以这么做来获取Class对象</p>
@@ -130,11 +138,12 @@
 <h5 id="Annotations__u6CE8_u89E3"><a href="#Annotations__u6CE8_u89E3" class="headerlink" title="Annotations 注解"></a>Annotations 注解</h5><p>获取类的注解</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Annotation[] annotations = orderClass.getAnnotations();</span><br></pre></td></tr></table></figure>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/09/JavaReflectionClasses/" data-id="cirhh567i0027qtuqnwfxhnm8" class="article-share-link" data-share="baidu" data-title="Java反射之对象">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/09/JavaReflectionClasses/" data-id="cirhic86c0027xpuq7y2mukt8" class="article-share-link" data-share="baidu" data-title="Java反射之对象">分享到</a>
       
 
       
@@ -214,7 +223,7 @@
       <ul>
         
           <li>
-            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/">Spring Cloud构建微服务架构（四) 集群</a>
+            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/">Spring Cloud构建微服务架构（四）集群</a>
           </li>
         
           <li>

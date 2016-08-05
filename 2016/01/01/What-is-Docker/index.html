@@ -21,7 +21,7 @@ Docker containers wrap up a">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/docker-what_is_layered_filesystems_sm.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/docker-what-is-docker-diagram.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/docker-what-is-vm-diagram.png">
-<meta property="og:updated_time" content="2016-01-04T13:34:08.000Z">
+<meta property="og:updated_time" content="2016-08-05T08:44:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="What is Docker?">
 <meta name="twitter:description" content="What is DockerDocker allows you to package an applications with all of its dependencies into a standardized unit for development.
@@ -106,7 +106,15 @@ Docker containers wrap up a">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="What_is_Docker"><a href="#What_is_Docker" class="headerlink" title="What is Docker"></a>What is Docker</h2><p>Docker allows you to package an applications with all of its dependencies into a standardized unit for development.</p>
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What_is_Docker"><span class="toc-number">1.</span> <span class="toc-text">What is Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#lightweight__u8F7B_u91CF_u7684"><span class="toc-number">1.1.</span> <span class="toc-text">lightweight 轻量的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Open__u5F00_u653E_u7684"><span class="toc-number">1.2.</span> <span class="toc-text">Open 开放的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Secure__u5B89_u5168_u7684"><span class="toc-number">1.3.</span> <span class="toc-text">Secure 安全的</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#How_is_this_different_from_virtual_machines_3F__u548C_u865A_u62DF_u673A_u6709_u4EC0_u4E48_u4E0D_u540C"><span class="toc-number">2.</span> <span class="toc-text">How is this different from virtual machines? 和虚拟机有什么不同</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Virtual_Machines__u865A_u62DF_u673A"><span class="toc-number">2.1.</span> <span class="toc-text">Virtual Machines 虚拟机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Containers__u5BB9_u5668"><span class="toc-number">2.2.</span> <span class="toc-text">Containers 容器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#How_does_this_help_you_build_better_software_3F__u5982_u4F55_u6784_u5EFA_u66F4_u597D_u7684_u8F6F_u4EF6"><span class="toc-number">3.</span> <span class="toc-text">How does this help you build better software? 如何构建更好的软件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Accelerate_Developer_Onboarding__u52A0_u5FEB_u5F00_u53D1"><span class="toc-number">3.1.</span> <span class="toc-text">Accelerate Developer Onboarding 加快开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Empower_Developer_Creativity__u4F7F_u5F00_u53D1_u4EBA_u5458_u6709_u521B_u9020_u529B"><span class="toc-number">3.2.</span> <span class="toc-text">Empower Developer Creativity 使开发人员有创造力</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Eliminate_Environment_inconsistencies__u6D88_u9664_u73AF_u5883_u4E0D_u4E00_u81F4"><span class="toc-number">3.3.</span> <span class="toc-text">Eliminate Environment inconsistencies 消除环境不一致</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Easily_Share_and_Collaborate_on_Application__u8F7B_u677E_u5171_u4EAB_u548C_u534F_u4F5C"><span class="toc-number">4.</span> <span class="toc-text">Easily Share and Collaborate on Application 轻松共享和协作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Distribute_and_Share_content__u5206_u53D1_u548C_u5171_u4EAB_u5185_u5BB9"><span class="toc-number">4.1.</span> <span class="toc-text">Distribute and Share content 分发和共享内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Simpley_share_your_applications_with_others__u7B80_u5355_u7684_u4E0E_u4ED6_u4EBA_u5206_u4EAB_u4F60_u7684_u5E94_u7528_u7A0B_u5E8F"><span class="toc-number">4.2.</span> <span class="toc-text">Simpley share your applications with others 简单的与他人分享你的应用程序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ship_More_Software_Faster"><span class="toc-number">5.</span> <span class="toc-text">Ship More Software Faster</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Ship_7X_More"><span class="toc-number">5.1.</span> <span class="toc-text">Ship 7X More</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Quickly_Scale__u5FEB_u901F_u6269_u5C55"><span class="toc-number">5.2.</span> <span class="toc-text">Quickly Scale 快速扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Easily_Remediate_Issues__u8F7B_u677E_u7EA0_u6B63_u95EE_u9898"><span class="toc-number">5.3.</span> <span class="toc-text">Easily Remediate Issues 轻松纠正问题</span></a></li></ol></li></ol>
+      </div>
+      
+
+      <h2 id="What_is_Docker"><a href="#What_is_Docker" class="headerlink" title="What is Docker"></a>What is Docker</h2><p>Docker allows you to package an applications with all of its dependencies into a standardized unit for development.</p>
 <p>对于软件开发,Docker允许你用其所有相关的依赖打包应用程序到一个标准化单元中.</p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/docker-what_is_layered_filesystems_sm.png" alt="layered_filesystems_sm"></p>
 <p>Docker containers wrap up a piece of software in a complete filesystem that contains everything it needs to run : code,runtime,system tools,system libraries - anything you can install on a sever. This guarantees that it will always run the same,regardless of the environment it is running in.</p>
@@ -142,11 +150,12 @@ Docker containers wrap up a">
 <h3 id="Easily_Remediate_Issues__u8F7B_u677E_u7EA0_u6B63_u95EE_u9898"><a href="#Easily_Remediate_Issues__u8F7B_u677E_u7EA0_u6B63_u95EE_u9898" class="headerlink" title="Easily Remediate Issues 轻松纠正问题"></a>Easily Remediate Issues 轻松纠正问题</h3><p>Docker make it easy to identify issues and isolate the problem container, quickly roll back to make the necessary changes then push the updated container into production. The isolation between containers make these changes less disruptive than traditional software models.</p>
 <p><a href="http://www.docker.com/what-docker" target="_blank" rel="external">What is Docker原文地址</a></p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/01/What-is-Docker/" data-id="cirhh566k000uqtuqb4gsajvk" class="article-share-link" data-share="baidu" data-title="What is Docker?">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/01/What-is-Docker/" data-id="cirhic85e000uxpuq0q6lighq" class="article-share-link" data-share="baidu" data-title="What is Docker?">分享到</a>
       
 
       
@@ -226,7 +235,7 @@ Docker containers wrap up a">
       <ul>
         
           <li>
-            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/">Spring Cloud构建微服务架构（四) 集群</a>
+            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/">Spring Cloud构建微服务架构（四）集群</a>
           </li>
         
           <li>

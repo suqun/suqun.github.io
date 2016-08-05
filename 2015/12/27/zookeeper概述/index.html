@@ -16,7 +16,7 @@ zookeeper 从设计模式角度来看，是一个基于观察者模式设计的�
 zookeeper 从设计模式角度来看，是一个基于观察者模式设计的分布式服务管理框架，它负责存储和管">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/configuration.gif">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/znode.gif">
-<meta property="og:updated_time" content="2016-01-09T12:11:57.000Z">
+<meta property="og:updated_time" content="2016-08-05T08:44:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zookeeper概述">
 <meta name="twitter:description" content="zookeeper是什么zookeeper是源代码开放的分布式协调服务 ，由雅虎创建，是GoogleChubby的开源实现。zookeeper是一个高性能的分布式数据一致性解决方案 ，它将那些复杂的、容易出错的分布式一致性服务封装起来，构成一个高效可靠的原语集，并提供一系列简单易用的接口给用户使用
@@ -99,7 +99,15 @@ zookeeper 从设计模式角度来看，是一个基于观察者模式设计的�
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="zookeeper_u662F_u4EC0_u4E48"><a href="#zookeeper_u662F_u4EC0_u4E48" class="headerlink" title="zookeeper是什么"></a>zookeeper是什么</h4><p>zookeeper是源代码开放的<strong>分布式协调服务</strong> ，由雅虎创建，是Google<br>Chubby的开源实现。zookeeper是一个高性能的<strong>分布式数据一致性解决方案</strong> ，它将那些复杂的、容易出错的分布式一致性服务封装起来，构成一个高效可靠的原语集，并提供一系列简单易用的接口给用户使用</p>
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#zookeeper_u662F_u4EC0_u4E48"><span class="toc-number">1.</span> <span class="toc-text">zookeeper是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#u77E5_u8BC6_u8981_u70B9"><span class="toc-number">1.0.1.</span> <span class="toc-text">知识要点</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#zookeeper_u7684_u5178_u578B_u5E94_u7528_u573A_u666F"><span class="toc-number">2.</span> <span class="toc-text">zookeeper的典型应用场景</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u57FA_u672C_u6982_u5FF5"><span class="toc-number"></span> <span class="toc-text">基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u96C6_u7FA4_u89D2_u8272"><span class="toc-number">1.</span> <span class="toc-text">集群角色</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u4F1A_u8BDD"><span class="toc-number">2.</span> <span class="toc-text">会话</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u6570_u636E_u6A21_u578B"><span class="toc-number">3.</span> <span class="toc-text">数据模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u7248_u672C"><span class="toc-number">4.</span> <span class="toc-text">版本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ACL_u6743_u9650_u63A7_u5236"><span class="toc-number">5.</span> <span class="toc-text">ACL权限控制</span></a></li></ol>
+      </div>
+      
+
+      <h4 id="zookeeper_u662F_u4EC0_u4E48"><a href="#zookeeper_u662F_u4EC0_u4E48" class="headerlink" title="zookeeper是什么"></a>zookeeper是什么</h4><p>zookeeper是源代码开放的<strong>分布式协调服务</strong> ，由雅虎创建，是Google<br>Chubby的开源实现。zookeeper是一个高性能的<strong>分布式数据一致性解决方案</strong> ，它将那些复杂的、容易出错的分布式一致性服务封装起来，构成一个高效可靠的原语集，并提供一系列简单易用的接口给用户使用</p>
 <p>zookeeper 从设计模式角度来看，是一个<strong>基于观察者模式设计的分布式服务管理框架</strong>，它负责存储和管理大家都关心的数据，然后接受观察者的注册，一旦这些数据的状态发生变化，zookeeper 就将负责通知已经在 zookeeper 上注册的那些观察者做出相应的反应，从而实现集群中类似 Master/Slave 管理模式</p>
 <a id="more"></a>
 <h6 id="u77E5_u8BC6_u8981_u70B9"><a href="#u77E5_u8BC6_u8981_u70B9" class="headerlink" title="知识要点"></a>知识要点</h6><ul>
@@ -179,11 +187,12 @@ zookeeper 从设计模式角度来看，是一个基于观察者模式设计的�
 <p>DELETE:删除子节点的权限</p>
 <p>ADMIN:设置节点ACL的权限</p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/27/zookeeper概述/" data-id="cirhh566a000fqtuq7zeri2gb" class="article-share-link" data-share="baidu" data-title="zookeeper概述">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/27/zookeeper概述/" data-id="cirhic854000fxpuqgw1h5j0l" class="article-share-link" data-share="baidu" data-title="zookeeper概述">分享到</a>
       
 
       
@@ -258,7 +267,7 @@ zookeeper 从设计模式角度来看，是一个基于观察者模式设计的�
       <ul>
         
           <li>
-            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/">Spring Cloud构建微服务架构（四) 集群</a>
+            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/">Spring Cloud构建微服务架构（四）集群</a>
           </li>
         
           <li>

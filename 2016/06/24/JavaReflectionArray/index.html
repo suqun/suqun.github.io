@@ -16,7 +16,7 @@ java.lang.reflect.Array通过Java反射使用数组用到的是类java.lang.refl
 <meta property="og:description" content="原文地址Java Reflection Arrays
 在Java反射里面处理数组有时是比较棘手的.特别是你需要获得数组对象的实际类型.例如 int[]等待.这篇文字就来讨论通过反射如何创建数组如何获取数组中的对象.
 java.lang.reflect.Array通过Java反射使用数组用到的是类java.lang.reflect.Array,不要和Java集合中的java.util.Arrays混">
-<meta property="og:updated_time" content="2016-06-24T13:10:33.000Z">
+<meta property="og:updated_time" content="2016-08-05T08:44:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java反射之数组">
 <meta name="twitter:description" content="原文地址Java Reflection Arrays
@@ -100,7 +100,15 @@ java.lang.reflect.Array通过Java反射使用数组用到的是类java.lang.refl
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/arrays.html" target="_blank" rel="external">Java Reflection Arrays</a></p>
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#java-lang-reflect-Array"><span class="toc-number">1.</span> <span class="toc-text">java.lang.reflect.Array</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Creating_Arrays"><span class="toc-number">2.</span> <span class="toc-text">Creating Arrays</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Accessing_Arrays"><span class="toc-number">3.</span> <span class="toc-text">Accessing Arrays</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u83B7_u53D6_u6570_u7EC4_u7684Class_u5BF9_u8C61"><span class="toc-number">4.</span> <span class="toc-text">获取数组的Class对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u83B7_u53D6_u6570_u7EC4_u7684_u6210_u5458_u7C7B_u578B"><span class="toc-number">5.</span> <span class="toc-text">获取数组的成员类型</span></a></li></ol>
+      </div>
+      
+
+      <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/arrays.html" target="_blank" rel="external">Java Reflection Arrays</a></p>
 <p>在Java反射里面处理数组有时是比较棘手的.特别是你需要获得数组对象的实际类型.例如 int[]等待.这篇文字就来讨论通过反射如何创建数组如何获取数组中的对象.</p>
 <h4 id="java-lang-reflect-Array"><a href="#java-lang-reflect-Array" class="headerlink" title="java.lang.reflect.Array"></a>java.lang.reflect.Array</h4><p>通过Java反射使用数组用到的是类java.lang.reflect.Array,不要和Java集合中的java.util.Arrays混淆.</p>
 <h4 id="Creating_Arrays"><a href="#Creating_Arrays" class="headerlink" title="Creating Arrays"></a>Creating Arrays</h4><p>通过Java反射创建数组使用类java.lang.reflect.Array,下面给出了创建数组的例子:</p>
@@ -128,11 +136,12 @@ java.lang.reflect.Array通过Java反射使用数组用到的是类java.lang.refl
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String[] strings = <span class="keyword">new</span> String[<span class="number">3</span>];</span><br><span class="line">Class stringArrayClass = strings.getClass();</span><br><span class="line">Class stringArrayComponentType = stringArrayClass.getComponentType();</span><br><span class="line">System.out.println(stringArrayComponentType);</span><br></pre></td></tr></table></figure>
 <p>下面这个例子会打印<code>java.lang.String</code>代表这个数组的成员类型是字符串。</p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/24/JavaReflectionArray/" data-id="cirhh567j0029qtuq8uhlw36c" class="article-share-link" data-share="baidu" data-title="Java反射之数组">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/24/JavaReflectionArray/" data-id="cirhic86e0029xpuqbg6bzlus" class="article-share-link" data-share="baidu" data-title="Java反射之数组">分享到</a>
       
 
       
@@ -212,7 +221,7 @@ java.lang.reflect.Array通过Java反射使用数组用到的是类java.lang.refl
       <ul>
         
           <li>
-            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/">Spring Cloud构建微服务架构（四) 集群</a>
+            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/">Spring Cloud构建微服务架构（四）集群</a>
           </li>
         
           <li>

@@ -24,7 +24,7 @@ bin目录下输入命令`./zkCli.sh -server 192.168.1.101:2181`
 stat path [watch]
 set path data [version]
 ls path [watch">
-<meta property="og:updated_time" content="2016-01-05T14:36:39.000Z">
+<meta property="og:updated_time" content="2016-08-05T08:44:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zookeeper客户端命令">
 <meta name="twitter:description" content="zkCli.sh连接zookeeper：./zkCli.sh -server ip:port
@@ -112,7 +112,15 @@ ls path [watch">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="zkCli-sh"><a href="#zkCli-sh" class="headerlink" title="zkCli.sh"></a>zkCli.sh</h3><pre><code>连接zookeeper：./zkCli.sh -server ip:port
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#zkCli-sh"><span class="toc-number">1.</span> <span class="toc-text">zkCli.sh</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5BA2_u6237_u7AEF_u547D_u4EE4"><span class="toc-number">2.</span> <span class="toc-text">客户端命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#help"><span class="toc-number">2.1.</span> <span class="toc-text">help</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ls_path__5Bwatch_5D__u5217_u51FA_u5F53_u524D_u8282_u70B9_u7684_u5B50_u8282_u70B9"><span class="toc-number">2.2.</span> <span class="toc-text">ls path [watch] 列出当前节点的子节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#stat_path__5Bwatch_5D__u83B7_u53D6_u8282_u70B9_u72B6_u6001_u4FE1_u606F"><span class="toc-number">2.3.</span> <span class="toc-text">stat path [watch] 获取节点状态信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#get_path__5Bwatch_5D__u83B7_u53D6_u8282_u70B9_u5B58_u50A8_u7684_u5185_u5BB9"><span class="toc-number">2.4.</span> <span class="toc-text">get path [watch] 获取节点存储的内容</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ls2_path__5Bwatch_5D__u5217_u51FA_u5F53_u524D_u8282_u70B9_u7684_u5B50_u8282_u70B9_u5E76_u67E5_u770B_u5B50_u8282_u70B9_u7684_u72B6_u6001_u4FE1_u606F_uFF0C_u76F8_u5F53_u4E8Els_u548Cstat"><span class="toc-number">2.5.</span> <span class="toc-text">ls2 path [watch] 列出当前节点的子节点并查看子节点的状态信息，相当于ls和stat</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#create__5B-s_5D__5B-e_5D_path_data_acl__u521B_u5EFA_u6307_u4EE4"><span class="toc-number">2.6.</span> <span class="toc-text">create [-s] [-e] path data acl 创建指令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#set_path_data__5Bversion_5D__u4FEE_u6539_u6307_u4EE4"><span class="toc-number">2.7.</span> <span class="toc-text">set path data [version] 修改指令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#delete_path__5Bversion_5D__u5220_u9664_u6307_u5B9A_u8DEF_u5F84_u7684_u8282_u70B9"><span class="toc-number">2.8.</span> <span class="toc-text">delete path [version] 删除指定路径的节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#rmr_path__u5FAA_u73AF_u5220_u9664_u8DEF_u5F84_u4E0B_u7684_u8282_u70B9"><span class="toc-number">2.9.</span> <span class="toc-text">rmr path 循环删除路径下的节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#setquota_-n_7C-b_val_path__u9650_u5236_u8282_u70B9_u7684_u503C_u7684_u957F_u5EA6_u6216_u5176_u5B50_u8282_u70B9_u7684_u4E2A_u6570"><span class="toc-number">2.10.</span> <span class="toc-text">setquota -n|-b val path 限制节点的值的长度或其子节点的个数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#listquota_path__u67E5_u770B_u8282_u70B9_u914D_u989D_u60C5_u51B5"><span class="toc-number">2.11.</span> <span class="toc-text">listquota path 查看节点配额情况</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#delquota__5B-n_7C-b_5D_path__u5220_u9664_u914D_u989D_u4FE1_u606F"><span class="toc-number">2.12.</span> <span class="toc-text">delquota [-n|-b] path 删除配额信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#history__u5217_u51FA_u5DF2_u64CD_u4F5C_u7684_u6307_u4EE4_u8BB0_u5F55"><span class="toc-number">2.13.</span> <span class="toc-text">history 列出已操作的指令记录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#redo_cmdno__u91CD_u65B0_u6267_u884Chistory_u4E2D_u7684_u547D_u4EE4"><span class="toc-number">2.14.</span> <span class="toc-text">redo cmdno 重新执行history中的命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#connect_host_3Aport__u8FDE_u63A5_u5176_u4ED6_u670D_u52A1_u5668"><span class="toc-number">2.15.</span> <span class="toc-text">connect host:port 连接其他服务器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#close__u5173_u95EDconnect_u8FDE_u63A5_u7684_u670D_u52A1_u5668"><span class="toc-number">2.16.</span> <span class="toc-text">close 关闭connect连接的服务器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#quit__u9000_u51FAzookeeper_u5BA2_u6237_u7AEF_u8FDE_u63A5"><span class="toc-number">2.17.</span> <span class="toc-text">quit 退出zookeeper客户端连接</span></a></li></ol></li></ol>
+      </div>
+      
+
+      <h3 id="zkCli-sh"><a href="#zkCli-sh" class="headerlink" title="zkCli.sh"></a>zkCli.sh</h3><pre><code>连接zookeeper：./zkCli.sh -server ip:port
 
 bin目录下输入命令`./zkCli.sh -server 192.168.1.101:2181`
 </code></pre><h3 id="u5BA2_u6237_u7AEF_u547D_u4EE4"><a href="#u5BA2_u6237_u7AEF_u547D_u4EE4" class="headerlink" title="客户端命令"></a>客户端命令</h3><h4 id="help"><a href="#help" class="headerlink" title="help"></a><strong>help</strong></h4><pre><code>ZooKeeper -server host:port cmd args
@@ -363,11 +371,12 @@ Output stat for /node_test count=4,bytes=12
 [node_test_2, node_test_3, node_test_1]
 [zk: 192.168.1.101:2181(CONNECTED) 32] 
 </code></pre><h4 id="connect_host_3Aport__u8FDE_u63A5_u5176_u4ED6_u670D_u52A1_u5668"><a href="#connect_host_3Aport__u8FDE_u63A5_u5176_u4ED6_u670D_u52A1_u5668" class="headerlink" title="connect host:port 连接其他服务器"></a><strong>connect host:port</strong> 连接其他服务器</h4><h4 id="close__u5173_u95EDconnect_u8FDE_u63A5_u7684_u670D_u52A1_u5668"><a href="#close__u5173_u95EDconnect_u8FDE_u63A5_u7684_u670D_u52A1_u5668" class="headerlink" title="close 关闭connect连接的服务器"></a><strong>close</strong> 关闭connect连接的服务器</h4><h4 id="quit__u9000_u51FAzookeeper_u5BA2_u6237_u7AEF_u8FDE_u63A5"><a href="#quit__u9000_u51FAzookeeper_u5BA2_u6237_u7AEF_u8FDE_u63A5" class="headerlink" title="quit 退出zookeeper客户端连接"></a><strong>quit</strong> 退出zookeeper客户端连接</h4>
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/28/zookeeper客户端命令/" data-id="cirhh566c000iqtuq5wtdk2ln" class="article-share-link" data-share="baidu" data-title="zookeeper客户端命令">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/28/zookeeper客户端命令/" data-id="cirhic856000ixpuqptuyf1c9" class="article-share-link" data-share="baidu" data-title="zookeeper客户端命令">分享到</a>
       
 
       
@@ -447,7 +456,7 @@ Output stat for /node_test count=4,bytes=12
       <ul>
         
           <li>
-            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/">Spring Cloud构建微服务架构（四) 集群</a>
+            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/">Spring Cloud构建微服务架构（四）集群</a>
           </li>
         
           <li>

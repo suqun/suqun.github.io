@@ -28,7 +28,7 @@ Java NIO 还有很多其他的类和组件,Channel,Buffer,Selector是核心的AP
 Channels  and Buffers典型的,NIO中的所有IO都是起始于Channel。Channel有点像流">
 <meta property="og:image" content="http://tutorials.jenkov.com/images/java-nio/overview-channels-buffers.png">
 <meta property="og:image" content="http://tutorials.jenkov.com/images/java-nio/overview-selectors.png">
-<meta property="og:updated_time" content="2016-06-26T12:58:50.000Z">
+<meta property="og:updated_time" content="2016-08-05T08:44:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java NIO 概述">
 <meta name="twitter:description" content="Java NIO 包含下面三个核心组件:
@@ -117,7 +117,15 @@ Channels  and Buffers典型的,NIO中的所有IO都是起始于Channel。Channel
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Java NIO 包含下面三个核心组件:</p>
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Channels_and_Buffers"><span class="toc-number">1.</span> <span class="toc-text">Channels  and Buffers</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Selectors"><span class="toc-number">2.</span> <span class="toc-text">Selectors</span></a></li></ol>
+      </div>
+      
+
+      <p>Java NIO 包含下面三个核心组件:</p>
 <ul>
 <li>Channels</li>
 <li>Buffers</li>
@@ -151,11 +159,12 @@ Channels  and Buffers典型的,NIO中的所有IO都是起始于Channel。Channel
 <p><img src="http://tutorials.jenkov.com/images/java-nio/overview-selectors.png" alt="Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"><br><strong>Java NIO: A Thread uses a Selector to handle 3 Channel’s</strong></p>
 <p>先将Channels注册到Selector中，然后调用他的select()方法。这个方法会阻塞直到有注册的channel相应的事件触发。一旦这个方法返回，线程就可以处理这个事件。比如正在打开的连接，获取到数据的事件等等。</p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/" data-id="cirhh567q002gqtuqx2orrzun" class="article-share-link" data-share="baidu" data-title="Java NIO 概述">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/" data-id="cirhic86k002gxpuq6825a9r1" class="article-share-link" data-share="baidu" data-title="Java NIO 概述">分享到</a>
       
 
       
@@ -235,7 +244,7 @@ Channels  and Buffers典型的,NIO中的所有IO都是起始于Channel。Channel
       <ul>
         
           <li>
-            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/">Spring Cloud构建微服务架构（四) 集群</a>
+            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/">Spring Cloud构建微服务架构（四）集群</a>
           </li>
         
           <li>

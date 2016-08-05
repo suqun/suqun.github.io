@@ -16,7 +16,7 @@ Accessing Private Fields获取私有变量你需要用到Class.getDeclaredField(
 <meta property="og:description" content="原文地址Java Reflection Methods
 通常情况下，从对象外部访问私有变量和私有方法是不被允许的，但是通过反射可以很容易获取私有变量和私有方法，在单元测试的时候很有用。
 Accessing Private Fields获取私有变量你需要用到Class.getDeclaredField(String name)或者Class.getDeclaredFields(String name">
-<meta property="og:updated_time" content="2016-05-28T07:29:54.000Z">
+<meta property="og:updated_time" content="2016-08-05T08:44:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java反射之私有变量和私有方法">
 <meta name="twitter:description" content="原文地址Java Reflection Methods
@@ -100,7 +100,15 @@ Accessing Private Fields获取私有变量你需要用到Class.getDeclaredField(
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/private-fields-and-methods.html" target="_blank" rel="external">Java Reflection Methods</a></p>
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-6"><a class="toc-link" href="#Accessing_Private_Fields"><span class="toc-number">1.</span> <span class="toc-text">Accessing Private Fields</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Accessing_Private_Methods"><span class="toc-number">2.</span> <span class="toc-text">Accessing Private Methods</span></a></li></ol>
+      </div>
+      
+
+      <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/private-fields-and-methods.html" target="_blank" rel="external">Java Reflection Methods</a></p>
 <p>通常情况下，从对象外部访问私有变量和私有方法是不被允许的，但是通过反射可以很容易获取私有变量和私有方法，在单元测试的时候很有用。</p>
 <h6 id="Accessing_Private_Fields"><a href="#Accessing_Private_Fields" class="headerlink" title="Accessing Private Fields"></a>Accessing Private Fields</h6><p>获取私有变量你需要用到<code>Class.getDeclaredField(String name)</code>或者<code>Class.getDeclaredFields(String name)</code>方法。<code>Class.getField(String name)</code>和<code>Class.getFields(String name)</code>方法只能返回公有变量。下面是通过java的反射获取私有变量代码:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Order privateObject = <span class="keyword">new</span> Order(<span class="string">"2016051901"</span>);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Field privateField = Order.class.getDeclaredField(<span class="string">"orderId"</span>);</span><br><span class="line">    privateField.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">    String orderId = (String) privateField.get(privateObject);</span><br><span class="line">    System.out.println(<span class="string">"orderId:"</span> + orderId);</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -113,11 +121,12 @@ Accessing Private Fields获取私有变量你需要用到Class.getDeclaredField(
 <p><code>Order.class.getDeclaredMethod(&quot;getOrderId&quot;)</code>,这个方法也之后返回Order类自己的私有方法，而非其继承自父类的私有方法。</p>
 <p><code>privateMethod.setAcessible(true)</code>，这个方法会关闭实例类的私有方法反射访问检查，现在你可以通过反射获取的实例的私有，受保护和包级访问权限的方法。 </p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/" data-id="cirhh5677001wqtuqyzmdxshw" class="article-share-link" data-share="baidu" data-title="Java反射之私有变量和私有方法">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/" data-id="cirhic860001wxpuqmjxclf6m" class="article-share-link" data-share="baidu" data-title="Java反射之私有变量和私有方法">分享到</a>
       
 
       
@@ -197,7 +206,7 @@ Accessing Private Fields获取私有变量你需要用到Class.getDeclaredField(
       <ul>
         
           <li>
-            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/">Spring Cloud构建微服务架构（四) 集群</a>
+            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/">Spring Cloud构建微服务架构（四）集群</a>
           </li>
         
           <li>

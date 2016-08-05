@@ -17,7 +17,7 @@ Shell还是一个功能强大的编程语言，易编写易调试，灵活性较
 Shell是一个命令行解释器，它为用户提供了一个向Linux内核发送请求以便运行程序的界面系统级程序，用可以用Shell来启动，挂起，停止甚至是编写一些程序。
 Shell还是一个功能强大的编程语言，易编写易调试，灵活性较强。Shell是解释执行的脚本语言，在Shell中可以直接调用Linux系统命令。">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/shell-echo-e.png">
-<meta property="og:updated_time" content="2016-01-09T12:13:30.000Z">
+<meta property="og:updated_time" content="2016-08-05T08:44:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Shell基础">
 <meta name="twitter:description" content="Shell 概述imooc shell课程
@@ -101,7 +101,15 @@ Shell还是一个功能强大的编程语言，易编写易调试，灵活性较
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Shell__u6982_u8FF0"><a href="#Shell__u6982_u8FF0" class="headerlink" title="Shell 概述"></a>Shell 概述</h2><p><a href="http://www.imooc.com/learn/175" target="_blank" rel="external">imooc shell课程</a></p>
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Shell__u6982_u8FF0"><span class="toc-number">1.</span> <span class="toc-text">Shell 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u811A_u672C_u6267_u884C_u65B9_u5F0F"><span class="toc-number">2.</span> <span class="toc-text">脚本执行方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#echo__u8F93_u51FA_u547D_u4EE4"><span class="toc-number">2.1.</span> <span class="toc-text">echo 输出命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u7B2C_u4E00_u4E2A_u811A_u672C"><span class="toc-number">2.2.</span> <span class="toc-text">第一个脚本</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bash_u7684_u57FA_u672C_u529F_u80FD"><span class="toc-number">3.</span> <span class="toc-text">Bash的基本功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u547D_u4EE4_u522B_u540D"><span class="toc-number">3.1.</span> <span class="toc-text">命令别名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5E38_u7528_u5FEB_u6377_u952E"><span class="toc-number">3.2.</span> <span class="toc-text">常用快捷键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5386_u53F2_u547D_u4EE4"><span class="toc-number">3.3.</span> <span class="toc-text">历史命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#history"><span class="toc-number">3.3.1.</span> <span class="toc-text">history</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u5386_u53F2_u547D_u4EE4_u7684_u8C03_u7528"><span class="toc-number">3.3.2.</span> <span class="toc-text">历史命令的调用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u8D44_u6599_u6D41_u91CD_u5BFC_u5411"><span class="toc-number">3.4.</span> <span class="toc-text">资料流重导向</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#standard_output__u4E0Estandard_error_output"><span class="toc-number">3.4.1.</span> <span class="toc-text">standard output 与standard error output</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#standard_input__uFF1A__26lt_3B__u4E0E_26lt_3B_26lt_3B"><span class="toc-number">3.4.2.</span> <span class="toc-text">standard input ： < 与<<</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u547D_u4EE4_u6267_u884C_u7684_u5224_u65AD_u4F9D_u636E__3B__26amp_3B_26amp_3B__7C_7C"><span class="toc-number">3.5.</span> <span class="toc-text">命令执行的判断依据 ; && ||</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#cmd__3B_cmd__28_u4E0D_u8003_u8651_u6307_u4EE4_u76F8_u5173_u6027_u7684_u8FDE_u7EED_u6307_u4EE4_u4E0B_u8FBE_29"><span class="toc-number">3.5.1.</span> <span class="toc-text">cmd ; cmd (不考虑指令相关性的连续指令下达)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#24_3F__28_u6307_u4EE4_u56DE_u4F20_u503C_29__u4E0E_26amp_3B_26amp_3B__u6216_7C_7C"><span class="toc-number">3.5.2.</span> <span class="toc-text">$? (指令回传值) 与&& 或||</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u7BA1_u7EBF_u547D_u4EE4_28pipe_29"><span class="toc-number">3.6.</span> <span class="toc-text">管线命令(pipe)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u7BA1_u9053_u7B26__7C"><span class="toc-number">3.6.1.</span> <span class="toc-text">管道符 |</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u64B7_u53D6_u547D_u4EE4_uFF1A_cut_2C_grep"><span class="toc-number">3.6.2.</span> <span class="toc-text">撷取命令： cut, grep</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#cut"><span class="toc-number">3.6.2.1.</span> <span class="toc-text">cut</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#grep"><span class="toc-number">3.6.2.2.</span> <span class="toc-text">grep</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u6392_u5E8F_u547D_u4EE4_sort_2C_wc_2C_uniq"><span class="toc-number">3.6.3.</span> <span class="toc-text">排序命令 sort, wc, uniq</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#sort"><span class="toc-number">3.6.3.1.</span> <span class="toc-text">sort</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#uniq"><span class="toc-number">3.6.3.2.</span> <span class="toc-text">uniq</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#wc"><span class="toc-number">3.6.3.3.</span> <span class="toc-text">wc</span></a></li></ol></li></ol></li></ol></li></ol>
+      </div>
+      
+
+      <h2 id="Shell__u6982_u8FF0"><a href="#Shell__u6982_u8FF0" class="headerlink" title="Shell 概述"></a>Shell 概述</h2><p><a href="http://www.imooc.com/learn/175" target="_blank" rel="external">imooc shell课程</a></p>
 <p>Shell是一个命令行解释器，它为用户提供了一个向Linux内核发送请求以便运行程序的界面系统级程序，用可以用Shell来启动，挂起，停止甚至是编写一些程序。</p>
 <p>Shell还是一个功能强大的编程语言，易编写易调试，灵活性较强。Shell是解释执行的脚本语言，在Shell中可以直接调用Linux系统命令。</p>
 <a id="more"></a>
@@ -460,11 +468,12 @@ arod:x: 1002 :1003::/home/arod:/bin/bash
 </code></pre><p>举个例子来说， 当你要知道目前你的帐号档案中有多少个帐号时，就使用这个方法：『 cat /etc/passwd | wc -l 』啦！因为/etc/passwd 里头一行代表一个使用者呀！所以知道行数就晓得有多少的帐号在里头了！而如果要计算一个档案里头有多少个字元时，就使用wc -m 这个选项吧！</p>
 <p><a href="http://linux.vbird.org/linux_basic/0320bash.php#pipe" target="_blank" rel="external">详细命令请查看鸟哥博客linux_basic</a></p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/02/Shell基础/" data-id="cirhh5674001tqtuqj8508kwd" class="article-share-link" data-share="baidu" data-title="Shell基础">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/02/Shell基础/" data-id="cirhic85y001txpuq3yisx2xy" class="article-share-link" data-share="baidu" data-title="Shell基础">分享到</a>
       
 
       
@@ -544,7 +553,7 @@ arod:x: 1002 :1003::/home/arod:/bin/bash
       <ul>
         
           <li>
-            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/">Spring Cloud构建微服务架构（四) 集群</a>
+            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/">Spring Cloud构建微服务架构（四）集群</a>
           </li>
         
           <li>

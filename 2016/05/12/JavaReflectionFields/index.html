@@ -18,7 +18,7 @@ Field[]数组里面只包含类中public修饰的成员变量
 Obtaining Field Objects1Field[] fields = orderClass.getFields();
 Field[]数组里面只包含类中public修饰的成员变量
 如果知道类的成员变量名称，可以直接通过getField()方法获取到，成员变量的访问权限同样需要是public的">
-<meta property="og:updated_time" content="2016-05-28T07:29:12.000Z">
+<meta property="og:updated_time" content="2016-08-05T08:44:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java反射之变量">
 <meta name="twitter:description" content="Java Reflection Fields原文地址Java Reflection Fields
@@ -103,7 +103,15 @@ Field[]数组里面只包含类中public修饰的成员变量
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="Java_Reflection_Fields"><a href="#Java_Reflection_Fields" class="headerlink" title="Java Reflection Fields"></a>Java Reflection Fields</h3><p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/fields.html" target="_blank" rel="external">Java Reflection Fields</a></p>
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java_Reflection_Fields"><span class="toc-number">1.</span> <span class="toc-text">Java Reflection Fields</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Obtaining_Field_Objects"><span class="toc-number">1.1.</span> <span class="toc-text">Obtaining Field Objects</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Field_Name_and_Type"><span class="toc-number">1.2.</span> <span class="toc-text">Field Name and Type</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Getting_and_Setting_Field_Values"><span class="toc-number">1.3.</span> <span class="toc-text">Getting and Setting Field Values</span></a></li></ol></li></ol>
+      </div>
+      
+
+      <h3 id="Java_Reflection_Fields"><a href="#Java_Reflection_Fields" class="headerlink" title="Java Reflection Fields"></a>Java Reflection Fields</h3><p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/fields.html" target="_blank" rel="external">Java Reflection Fields</a></p>
 <h4 id="Obtaining_Field_Objects"><a href="#Obtaining_Field_Objects" class="headerlink" title="Obtaining Field Objects"></a>Obtaining Field Objects</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Field[] fields = orderClass.getFields();</span><br></pre></td></tr></table></figure>
 <p>Field[]数组里面只包含类中public修饰的成员变量</p>
 <p>如果知道类的成员变量名称，可以直接通过getField()方法获取到，成员变量的访问权限同样需要是public的</p>
@@ -112,11 +120,12 @@ Field[]数组里面只包含类中public修饰的成员变量
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Field field = orderClass.getField(<span class="string">"description"</span>);</span><br><span class="line">    Order order = <span class="keyword">new</span> Order();</span><br><span class="line">    Object value = field.get(order);</span><br><span class="line">    field.set(order, value);</span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>传入Field.get()/Field.set()方法的参数order是Order类的实例。<br>如果变量是静态变量的话(public static)那么在调用Field.get()/Field.set()方法的时候传入null做为参数而不用传递拥有该变量的类的实例(传入类的实例也是可以的)。</p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/12/JavaReflectionFields/" data-id="cirhh567d0023qtuq252daq9d" class="article-share-link" data-share="baidu" data-title="Java反射之变量">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/12/JavaReflectionFields/" data-id="cirhic8670023xpuq4jvjmjpp" class="article-share-link" data-share="baidu" data-title="Java反射之变量">分享到</a>
       
 
       
@@ -196,7 +205,7 @@ Field[]数组里面只包含类中public修饰的成员变量
       <ul>
         
           <li>
-            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/">Spring Cloud构建微服务架构（四) 集群</a>
+            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/">Spring Cloud构建微服务架构（四）集群</a>
           </li>
         
           <li>

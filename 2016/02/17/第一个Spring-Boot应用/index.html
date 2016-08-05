@@ -18,7 +18,7 @@
 准备让我们使用Java开发一个简单的”Hello World!” web应用，来强调下Spring Boot的一些关键特性。我们将使用Maven构建该项目，因为大多数IDEs都支持它。
 注：spring.io网站包含很多使用Spring Boot的”入门”指南。如果你正在找特定问题的解决方案，可以先去那瞅瞅。
 在开始前，你需要打开一">
-<meta property="og:updated_time" content="2016-02-20T11:27:17.000Z">
+<meta property="og:updated_time" content="2016-08-05T08:44:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="第一个Spring Boot应用">
 <meta name="twitter:description" content="原文地址：天码营-SpringBoot参考指南 本文只是学习笔记
@@ -103,7 +103,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原文地址：<a href="http://course.tianmaying.com/spring-boot-reference/lesson/lesson-11#0" target="_blank" rel="external">天码营-SpringBoot参考指南</a> 本文只是学习笔记</p>
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#u51C6_u5907"><span class="toc-number">1.</span> <span class="toc-text">准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POM"><span class="toc-number">2.</span> <span class="toc-text">POM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web_u4F9D_u8D56"><span class="toc-number">3.</span> <span class="toc-text">web依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u4EE3_u7801"><span class="toc-number">4.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#@RestController"><span class="toc-number">5.</span> <span class="toc-text">@RestController</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#@EnableAutoConfiguration"><span class="toc-number">6.</span> <span class="toc-text">@EnableAutoConfiguration</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mian"><span class="toc-number">7.</span> <span class="toc-text">mian</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u8FD0_u884C"><span class="toc-number">8.</span> <span class="toc-text">运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u53EF_u6267_u884Cjar"><span class="toc-number">9.</span> <span class="toc-text">可执行jar</span></a></li></ol>
+      </div>
+      
+
+      <p>原文地址：<a href="http://course.tianmaying.com/spring-boot-reference/lesson/lesson-11#0" target="_blank" rel="external">天码营-SpringBoot参考指南</a> 本文只是学习笔记</p>
 <h3 id="u51C6_u5907"><a href="#u51C6_u5907" class="headerlink" title="准备"></a>准备</h3><p>让我们使用Java开发一个简单的”Hello World!” web应用，来强调下Spring Boot的一些关键特性。我们将使用Maven构建该项目，因为大多数IDEs都支持它。</p>
 <p>注：<a href="/spring.io">spring.io</a>网站包含很多使用Spring Boot的”入门”指南。如果你正在找特定问题的解决方案，可以先去那瞅瞅。</p>
 <p>在开始前，你需要打开一个终端，检查是否安装可用的Java版本和Maven：</p>
@@ -140,11 +148,12 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">➜  springboot java -jar target/myproject-<span class="number">0.0</span>.<span class="number">1</span>-SNAPSHOT.jar</span><br><span class="line"></span><br><span class="line">  .   ____          _            __ _ _</span><br><span class="line"> /\\ / ___<span class="string">'_ __ _ _(_)_ __  __ _ \ \ \ \</span><br><span class="line">( ( )\___ | '</span>_ | <span class="string">'_| | '</span>_ \/ _` | \ \ \ \</span><br><span class="line"> \\/  ___)| |_)| | | | | || (_| |  ) ) ) )</span><br><span class="line">  <span class="string">'  |____| .__|_| |_|_| |_\__, | / / / /</span><br><span class="line"> =========|_|==============|___/=/_/_/_/</span><br><span class="line"> :: Spring Boot ::  (v1.3.2.BUILD-SNAPSHOT)</span><br><span class="line"></span><br><span class="line">2016-02-20 19:07:17.774  INFO 2849 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet '</span>dispatcherServlet<span class="string">'</span><br><span class="line">2016-02-20 19:07:17.774  INFO 2849 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet '</span>dispatcherServlet<span class="string">': initialization started</span><br><span class="line">2016-02-20 19:07:17.785  INFO 2849 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet '</span>dispatcherServlet<span class="string">': initialization completed in 11 ms</span></span><br></pre></td></tr></table></figure>
 <p>使用<code>ctrl-c</code>退出程序</p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/02/17/第一个Spring-Boot应用/" data-id="cirhh565y0003qtuq9v8ozh0z" class="article-share-link" data-share="baidu" data-title="第一个Spring Boot应用">分享到</a>
+        <a data-url="http://suqun.github.io/2016/02/17/第一个Spring-Boot应用/" data-id="cirhic84k0003xpuqt7b0scw5" class="article-share-link" data-share="baidu" data-title="第一个Spring Boot应用">分享到</a>
       
 
       
@@ -224,7 +233,7 @@
       <ul>
         
           <li>
-            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/">Spring Cloud构建微服务架构（四) 集群</a>
+            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/">Spring Cloud构建微服务架构（四）集群</a>
           </li>
         
           <li>

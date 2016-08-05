@@ -16,7 +16,7 @@ Channels and Buffers在标准的IO API中,使用字节流和字符流。在NIO�
 <meta property="og:description" content="原文地址Java Reflection
 Java NIO(New IO) 是java(从java1.4开始) IO API的一个选择,可以代替Java标准IO和Java网络编程API。对于标准的IO来说,Java NIO提供了不同的处理IO的方式。
 Channels and Buffers在标准的IO API中,使用字节流和字符流。在NIO中需要用到channels和buffers。数据总是从ch">
-<meta property="og:updated_time" content="2016-06-26T12:40:24.000Z">
+<meta property="og:updated_time" content="2016-08-05T08:44:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java NIO 教程">
 <meta name="twitter:description" content="原文地址Java Reflection
@@ -100,18 +100,27 @@ Channels and Buffers在标准的IO API中,使用字节流和字符流。在NIO�
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/classes.html" target="_blank" rel="external">Java Reflection</a></p>
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Channels_and_Buffers"><span class="toc-number">1.</span> <span class="toc-text">Channels and Buffers</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Non-blocking_IO"><span class="toc-number">2.</span> <span class="toc-text">Non-blocking IO</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Selectors"><span class="toc-number">3.</span> <span class="toc-text">Selectors</span></a></li></ol>
+      </div>
+      
+
+      <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/classes.html" target="_blank" rel="external">Java Reflection</a></p>
 <p>Java NIO(New IO) 是java(从java1.4开始) IO API的一个选择,可以代替Java标准IO和Java网络编程API。对于标准的IO来说,Java NIO提供了不同的处理IO的方式。</p>
 <h4 id="Channels_and_Buffers"><a href="#Channels_and_Buffers" class="headerlink" title="Channels and Buffers"></a>Channels and Buffers</h4><p>在标准的IO API中,使用字节流和字符流。在NIO中需要用到channels和buffers。数据总是从channel获取读到buffer中,从buffer中获取写入channel。</p>
 <h4 id="Non-blocking_IO"><a href="#Non-blocking_IO" class="headerlink" title="Non-blocking IO"></a>Non-blocking IO</h4><p>Java NIO 可以非阻塞式的处理IO。比如,一个线程将channel的数据读到buffer。在读的过程中,线程可以做其他事情。一旦数据读取完毕放到buffer中,线程在继续处理。写数据也是一样的操作。</p>
 <h4 id="Selectors"><a href="#Selectors" class="headerlink" title="Selectors"></a>Selectors</h4><p>Java NIO 有个 『selectors』的概念,一个selector就是一个对象,通过事件(比如:连接打开,数据到达等等)监控多个channels。这样,一个单独的线程就可以监控多个channel的数据。</p>
 <p>这些都是如何工作的,本系列的下一章 <a href="/">the Java NIO overview</a>会详细描述。</p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/" data-id="cirhh567m002dqtuqzumo7d5x" class="article-share-link" data-share="baidu" data-title="Java NIO 教程">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/" data-id="cirhic86i002dxpuq4y8lvra2" class="article-share-link" data-share="baidu" data-title="Java NIO 教程">分享到</a>
       
 
       
@@ -191,7 +200,7 @@ Channels and Buffers在标准的IO API中,使用字节流和字符流。在NIO�
       <ul>
         
           <li>
-            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/">Spring Cloud构建微服务架构（四) 集群</a>
+            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/">Spring Cloud构建微服务架构（四）集群</a>
           </li>
         
           <li>

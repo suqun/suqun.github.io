@@ -73,9 +73,9 @@
     <div class="outer">
       <section id="main">
   
-    <article id="post-Spring-Cloud构建微服务架构（四)  集群" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Spring-Cloud构建微服务架构（四）集群" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/" class="article-date">
+    <a href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/" class="article-date">
   <time datetime="2016-08-05T02:07:59.000Z" itemprop="datePublished">2016-08-05</time>
 </a>
     
@@ -87,7 +87,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/">Spring Cloud构建微服务架构（四) 集群</a>
+      <a class="article-title" href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/">Spring Cloud构建微服务架构（四）集群</a>
     </h1>
   
 
@@ -95,7 +95,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>前面三篇都分享自<a href="http://blog.didispace.com/" target="_blank" rel="external">程序猿DD</a>的博客,暂时(2016年08月05日)还没有更新关于Eureka集群的博客。<br>这里参考了<a href="https://segmentfault.com/blog/mumubin" target="_blank" rel="external">木木彬</a>的<a href="https://segmentfault.com/a/1190000006149891" target="_blank" rel="external">Spring Cloud实战(二)-Spring Cloud Eureka</a>博客内容。<br>对集群配置简单记录下,方便以后查阅。同时也期待<code>程序猿DD</code>更新更多更精彩的博客。</p>
+      <!-- Table of Contents -->
+      
+
+      <p>前面三篇都分享自<a href="http://blog.didispace.com/" target="_blank" rel="external">程序猿DD</a>的博客,暂时(2016年08月05日)还没有更新关于Eureka集群的博客。<br>这里参考了<a href="https://segmentfault.com/blog/mumubin" target="_blank" rel="external">木木彬</a>的<a href="https://segmentfault.com/a/1190000006149891" target="_blank" rel="external">Spring Cloud实战(二)-Spring Cloud Eureka</a>博客内容。<br>对集群配置简单记录下,方便以后查阅。同时也期待<code>程序猿DD</code>更新更多更精彩的博客。</p>
 <p>本文代码基于<a href="https://git.oschina.net/didispace/SpringBoot-Learning/tree/master/Chapter9-1-3?dir=1&amp;filepath=Chapter9-1-3&amp;oid=cc93af44af30b42320041332790d071ed72a2450&amp;sha=4329c564d673b6cf7a53893ad9770abb7a67b328" target="_blank" rel="external">程序猿DD / SpringBoot-Learning / Chapter9-1-3</a>进行集群配置。</p>
 <p>Spring Cloud 官方文档上对集群配置介绍的非常简单，对Eureka Server进行<a href="http://cloud.spring.io/spring-cloud-static/docs/1.0.x/spring-cloud.html#_peer_awareness" target="_blank" rel="external">Peer Awareness</a>配置，这样多个服务端就可以关联到一起。好了，下面看看具体的配置。</p>
 <h4 id="hosts_u4FEE_u6539"><a href="#hosts_u4FEE_u6539" class="headerlink" title="hosts修改"></a>hosts修改</h4><p>在hosts（路径：/etc/hosts）文件中添加</p>
@@ -123,15 +126,16 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2016</span>-<span class="number">08</span>-<span class="number">05</span> <span class="number">11</span>:<span class="number">18</span>:<span class="number">23.554</span>  INFO <span class="number">5127</span> --- [nio-<span class="number">2223</span>-exec-<span class="number">1</span>] com.ow.wises.web.ComputeController       : /add, host:<span class="number">192.168</span>.<span class="number">1.145</span>, service_id:compute-service, result:<span class="number">30</span></span><br></pre></td></tr></table></figure>
 <p>好了，就先这样了。</p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/" data-id="cirhh566m000wqtuq79rkn02d" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（四) 集群">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四）集群/" data-id="cirhic85g000wxpuq0pcouvoj" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（四）集群">分享到</a>
       
 
       
-        <a href="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/#ds-thread" class="article-comment-link">评论</a>
+        <a href="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四）集群/#ds-thread" class="article-comment-link">评论</a>
       
 
       
@@ -166,13 +170,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原文 : <a href="http://blog.didispace.com/springcloud3/" target="_blank" rel="external">Spring Cloud构建微服务架构（三）断路器</a></p>
+      <!-- Table of Contents -->
+      
+
+      <p>原文 : <a href="http://blog.didispace.com/springcloud3/" target="_blank" rel="external">Spring Cloud构建微服务架构（三）断路器</a></p>
+
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/" data-id="cirhh566t001aqtuq9tvlxype" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（三）断路器">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/" data-id="cirhic85n001axpuqbh6p9hu8" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（三）断路器">分享到</a>
       
 
       
@@ -211,13 +219,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原文 : <a href="http://blog.didispace.com/springcloud2/" target="_blank" rel="external">Spring Cloud构建微服务架构（二）服务消费者</a></p>
+      <!-- Table of Contents -->
+      
+
+      <p>原文 : <a href="http://blog.didispace.com/springcloud2/" target="_blank" rel="external">Spring Cloud构建微服务架构（二）服务消费者</a></p>
+
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（二）服务消费者/" data-id="cirhh566r0015qtuqgae9uruv" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（二）服务消费者">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（二）服务消费者/" data-id="cirhic85j0015xpuq67mq3t2v" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（二）服务消费者">分享到</a>
       
 
       
@@ -256,13 +268,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原文 : <a href="http://blog.didispace.com/springcloud1/" target="_blank" rel="external">Spring Cloud构建微服务架构（一）服务注册与发现</a></p>
+      <!-- Table of Contents -->
+      
+
+      <p>原文 : <a href="http://blog.didispace.com/springcloud1/" target="_blank" rel="external">Spring Cloud构建微服务架构（一）服务注册与发现</a></p>
+
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（一）服务注册与发现/" data-id="cirhh566v001fqtuqv5ees522" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（一）服务注册与发现">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（一）服务注册与发现/" data-id="cirhic85p001fxpuqkaejenfn" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（一）服务注册与发现">分享到</a>
       
 
       
@@ -301,7 +317,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Java NIO Buffers是和NIO的Channels交互使用的。你知道的，数据是从Channel中读到Buffer里，数据从Buffer里写入到Channel中。 </p>
+      <!-- Table of Contents -->
+      
+
+      <p>Java NIO Buffers是和NIO的Channels交互使用的。你知道的，数据是从Channel中读到Buffer里，数据从Buffer里写入到Channel中。 </p>
 <p>Buffer本质上是可以读写数据的内存块。这个内存块被NIO的Buffer对象包裹，然后提供很多方法以便能够简单的操作这个内存块。</p>
 <h4 id="Basic_Buffer_Usage"><a href="#Basic_Buffer_Usage" class="headerlink" title="Basic Buffer Usage"></a>Basic Buffer Usage</h4><p>使用Buffer读写数据基本上就4步：</p>
 <ol>
@@ -311,11 +330,12 @@
 <li>Call buffer.clear() or buffer.compact()</li>
 </ol>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/28/Java-NIO-Buffer/" data-id="cirhh567t002kqtuq4t3kamir" class="article-share-link" data-share="baidu" data-title="Java NIO Buffer">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/28/Java-NIO-Buffer/" data-id="cirhic86o002kxpuqtl4y4qc3" class="article-share-link" data-share="baidu" data-title="Java NIO Buffer">分享到</a>
       
 
       
@@ -354,7 +374,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Java NIO 的Channels有些像流，但是也有一些区别：</p>
+      <!-- Table of Contents -->
+      
+
+      <p>Java NIO 的Channels有些像流，但是也有一些区别：</p>
 <ul>
 <li>可以向一个Channel即读又写。流是典型的单向的（写或者读）</li>
 <li>Channels的读写是异步的</li>
@@ -374,11 +397,12 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChannelExample</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        RandomAccessFile accessFile = <span class="keyword">new</span> RandomAccessFile(<span class="string">"nio-data.txt"</span>,<span class="string">"rw"</span>);</span><br><span class="line">        FileChannel fileChannel = accessFile.getChannel();</span><br><span class="line"></span><br><span class="line">        ByteBuffer buffer = ByteBuffer.allocate(<span class="number">48</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> bytesRead = fileChannel.read(buffer);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (bytesRead != -<span class="number">1</span>) &#123;</span><br><span class="line">            System.out.println(<span class="string">"Read "</span> + bytesRead);</span><br><span class="line">            buffer.flip();</span><br><span class="line">            <span class="keyword">if</span> (buffer.hasRemaining()) &#123;</span><br><span class="line">                System.out.print((<span class="keyword">char</span>) buffer.get());</span><br><span class="line">            &#125;</span><br><span class="line">            buffer.clear();</span><br><span class="line">            bytesRead = fileChannel.read(buffer);</span><br><span class="line">        &#125;</span><br><span class="line">        accessFile.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>注意 buf.flip() 的调用，首先读取数据到Buffer，然后反转Buffer，接着再从Buffer中读取数据。下一节会深入讲解Buffer的更多细节。</p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/26/Java-NIO-Channel/" data-id="cirhh567r002iqtuq6dl42lgm" class="article-share-link" data-share="baidu" data-title="Java NIO Channel">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/26/Java-NIO-Channel/" data-id="cirhic86n002ixpuqh8dzolg3" class="article-share-link" data-share="baidu" data-title="Java NIO Channel">分享到</a>
       
 
       
@@ -417,7 +441,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Java NIO 包含下面三个核心组件:</p>
+      <!-- Table of Contents -->
+      
+
+      <p>Java NIO 包含下面三个核心组件:</p>
 <ul>
 <li>Channels</li>
 <li>Buffers</li>
@@ -451,11 +478,12 @@
 <p><img src="http://tutorials.jenkov.com/images/java-nio/overview-selectors.png" alt="Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"><br><strong>Java NIO: A Thread uses a Selector to handle 3 Channel’s</strong></p>
 <p>先将Channels注册到Selector中，然后调用他的select()方法。这个方法会阻塞直到有注册的channel相应的事件触发。一旦这个方法返回，线程就可以处理这个事件。比如正在打开的连接，获取到数据的事件等等。</p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/" data-id="cirhh567q002gqtuqx2orrzun" class="article-share-link" data-share="baidu" data-title="Java NIO 概述">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/" data-id="cirhic86k002gxpuq6825a9r1" class="article-share-link" data-share="baidu" data-title="Java NIO 概述">分享到</a>
       
 
       
@@ -494,18 +522,22 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/classes.html" target="_blank" rel="external">Java Reflection</a></p>
+      <!-- Table of Contents -->
+      
+
+      <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/classes.html" target="_blank" rel="external">Java Reflection</a></p>
 <p>Java NIO(New IO) 是java(从java1.4开始) IO API的一个选择,可以代替Java标准IO和Java网络编程API。对于标准的IO来说,Java NIO提供了不同的处理IO的方式。</p>
 <h4 id="Channels_and_Buffers"><a href="#Channels_and_Buffers" class="headerlink" title="Channels and Buffers"></a>Channels and Buffers</h4><p>在标准的IO API中,使用字节流和字符流。在NIO中需要用到channels和buffers。数据总是从channel获取读到buffer中,从buffer中获取写入channel。</p>
 <h4 id="Non-blocking_IO"><a href="#Non-blocking_IO" class="headerlink" title="Non-blocking IO"></a>Non-blocking IO</h4><p>Java NIO 可以非阻塞式的处理IO。比如,一个线程将channel的数据读到buffer。在读的过程中,线程可以做其他事情。一旦数据读取完毕放到buffer中,线程在继续处理。写数据也是一样的操作。</p>
 <h4 id="Selectors"><a href="#Selectors" class="headerlink" title="Selectors"></a>Selectors</h4><p>Java NIO 有个 『selectors』的概念,一个selector就是一个对象,通过事件(比如:连接打开,数据到达等等)监控多个channels。这样,一个单独的线程就可以监控多个channel的数据。</p>
 <p>这些都是如何工作的,本系列的下一章 <a href="/">the Java NIO overview</a>会详细描述。</p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/" data-id="cirhh567m002dqtuqzumo7d5x" class="article-share-link" data-share="baidu" data-title="Java NIO 教程">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/" data-id="cirhic86i002dxpuq4y8lvra2" class="article-share-link" data-share="baidu" data-title="Java NIO 教程">分享到</a>
       
 
       
@@ -544,7 +576,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/arrays.html" target="_blank" rel="external">Java Reflection Arrays</a></p>
+      <!-- Table of Contents -->
+      
+
+      <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/arrays.html" target="_blank" rel="external">Java Reflection Arrays</a></p>
 <p>在Java反射里面处理数组有时是比较棘手的.特别是你需要获得数组对象的实际类型.例如 int[]等待.这篇文字就来讨论通过反射如何创建数组如何获取数组中的对象.</p>
 <h4 id="java-lang-reflect-Array"><a href="#java-lang-reflect-Array" class="headerlink" title="java.lang.reflect.Array"></a>java.lang.reflect.Array</h4><p>通过Java反射使用数组用到的是类java.lang.reflect.Array,不要和Java集合中的java.util.Arrays混淆.</p>
 <h4 id="Creating_Arrays"><a href="#Creating_Arrays" class="headerlink" title="Creating Arrays"></a>Creating Arrays</h4><p>通过Java反射创建数组使用类java.lang.reflect.Array,下面给出了创建数组的例子:</p>
@@ -572,11 +607,12 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String[] strings = <span class="keyword">new</span> String[<span class="number">3</span>];</span><br><span class="line">Class stringArrayClass = strings.getClass();</span><br><span class="line">Class stringArrayComponentType = stringArrayClass.getComponentType();</span><br><span class="line">System.out.println(stringArrayComponentType);</span><br></pre></td></tr></table></figure>
 <p>下面这个例子会打印<code>java.lang.String</code>代表这个数组的成员类型是字符串。</p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/24/JavaReflectionArray/" data-id="cirhh567j0029qtuq8uhlw36c" class="article-share-link" data-share="baidu" data-title="Java反射之数组">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/24/JavaReflectionArray/" data-id="cirhic86e0029xpuqbg6bzlus" class="article-share-link" data-share="baidu" data-title="Java反射之数组">分享到</a>
       
 
       
@@ -615,7 +651,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/generics.html" target="_blank" rel="external">Java Reflection Generics</a></p>
+      <!-- Table of Contents -->
+      
+
+      <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/generics.html" target="_blank" rel="external">Java Reflection Generics</a></p>
 <h4 id="Generic_Method_Return_Types"><a href="#Generic_Method_Return_Types" class="headerlink" title="Generic Method Return Types"></a>Generic Method Return Types</h4><p>如果你已经获取一个<code>java.lang.reflect.Method</code>的对象，就可以获取到该对象上的泛型返回类型信息。如果方法是在一个被参数化类型之中（如T fun()）那么你无法获取他的具体类型，但是如果方法返回一个泛型类（如List fun()）那么你就可以获得这个泛型类的具体参数化类型。下面这个例子定义了一个类这个类中的方法返回类型是一个泛型类型：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> List&lt;String&gt; stringList = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">getStringList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> stringList;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这个例子是可以获取到<code>getStringList()</code>方法的泛型返回类型。可以检测到<code>getStringList()</code>方法返回的List并不仅仅是一个List。</p>
@@ -631,11 +670,12 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Field field = MyClass.class.getField(<span class="string">"stringList"</span>);</span><br><span class="line"></span><br><span class="line">Type genericFieldType = field.getGenericType();</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(genericFieldType <span class="keyword">instanceof</span> ParameterizedType)&#123;</span><br><span class="line">    ParameterizedType aType = (ParameterizedType) genericFieldType;</span><br><span class="line">    Type[] fieldArgTypes = aType.getActualTypeArguments();</span><br><span class="line">    <span class="keyword">for</span>(Type fieldArgType : fieldArgTypes)&#123;</span><br><span class="line">        Class fieldArgClass = (Class) fieldArgType;</span><br><span class="line">        System.out.println(<span class="string">"fieldArgClass = "</span> + fieldArgClass);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这段代码打印出”fieldArgClass = java.lang.String”。fieldArgTypes这个数组包含的是代表java.lang.String的Class类的实例。Class类实现了Type接口。</p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/21/JavaReflectionGenerics/" data-id="cirhh567c0021qtuqgz2k7hce" class="article-share-link" data-share="baidu" data-title="Java反射之泛型">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/21/JavaReflectionGenerics/" data-id="cirhic8660021xpuqh2nowykf" class="article-share-link" data-share="baidu" data-title="Java反射之泛型">分享到</a>
       
 
       
@@ -674,7 +714,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/annotations.html" target="_blank" rel="external">Java Reflection Annotations</a></p>
+      <!-- Table of Contents -->
+      
+
+      <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/annotations.html" target="_blank" rel="external">Java Reflection Annotations</a></p>
 <p>在运行时状态下，你可以通过反射获取java对象上的注解。</p>
 <h4 id="What_are_Java_Annotations_3F"><a href="#What_are_Java_Annotations_3F" class="headerlink" title="What are Java Annotations?"></a>What are Java Annotations?</h4><p>注解是Java5增加的功能。注解是一种注释或者是元数据可以直接插入到Java代码中。在编译时，通过预编译工具处理；或者在运行时，通过java反射处理。下面是个注解的例子：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@MyAnnotation</span>(name=<span class="string">"someName"</span>,  value = <span class="string">"Hello World"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TheClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -706,11 +749,12 @@
 <p>或者：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Field field = TheClass4.class.getField(<span class="string">"myField"</span>);</span><br><span class="line">Annotation annotation = field.getAnnotation(MyAnnotation.class);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(annotation <span class="keyword">instanceof</span> MyAnnotation)&#123;</span><br><span class="line">    MyAnnotation myAnnotation = (MyAnnotation) annotation;</span><br><span class="line">    System.out.println(<span class="string">"name: "</span> + myAnnotation.name());</span><br><span class="line">    System.out.println(<span class="string">"value: "</span> + myAnnotation.value());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/18/JavaReflectionAnnotations/" data-id="cirhh567l002bqtuqge68cs8g" class="article-share-link" data-share="baidu" data-title="Java反射之注解">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/18/JavaReflectionAnnotations/" data-id="cirhic86g002bxpuqi5yjxiu2" class="article-share-link" data-share="baidu" data-title="Java反射之注解">分享到</a>
       
 
       
@@ -749,7 +793,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/private-fields-and-methods.html" target="_blank" rel="external">Java Reflection Methods</a></p>
+      <!-- Table of Contents -->
+      
+
+      <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/private-fields-and-methods.html" target="_blank" rel="external">Java Reflection Methods</a></p>
 <p>通常情况下，从对象外部访问私有变量和私有方法是不被允许的，但是通过反射可以很容易获取私有变量和私有方法，在单元测试的时候很有用。</p>
 <h6 id="Accessing_Private_Fields"><a href="#Accessing_Private_Fields" class="headerlink" title="Accessing Private Fields"></a>Accessing Private Fields</h6><p>获取私有变量你需要用到<code>Class.getDeclaredField(String name)</code>或者<code>Class.getDeclaredFields(String name)</code>方法。<code>Class.getField(String name)</code>和<code>Class.getFields(String name)</code>方法只能返回公有变量。下面是通过java的反射获取私有变量代码:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Order privateObject = <span class="keyword">new</span> Order(<span class="string">"2016051901"</span>);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Field privateField = Order.class.getDeclaredField(<span class="string">"orderId"</span>);</span><br><span class="line">    privateField.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">    String orderId = (String) privateField.get(privateObject);</span><br><span class="line">    System.out.println(<span class="string">"orderId:"</span> + orderId);</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -762,11 +809,12 @@
 <p><code>Order.class.getDeclaredMethod(&quot;getOrderId&quot;)</code>,这个方法也之后返回Order类自己的私有方法，而非其继承自父类的私有方法。</p>
 <p><code>privateMethod.setAcessible(true)</code>，这个方法会关闭实例类的私有方法反射访问检查，现在你可以通过反射获取的实例的私有，受保护和包级访问权限的方法。 </p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/" data-id="cirhh5677001wqtuqyzmdxshw" class="article-share-link" data-share="baidu" data-title="Java反射之私有变量和私有方法">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/" data-id="cirhic860001wxpuqmjxclf6m" class="article-share-link" data-share="baidu" data-title="Java反射之私有变量和私有方法">分享到</a>
       
 
       
@@ -805,7 +853,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/methods.html" target="_blank" rel="external">Java Reflection Methods</a></p>
+      <!-- Table of Contents -->
+      
+
+      <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/methods.html" target="_blank" rel="external">Java Reflection Methods</a></p>
 <h5 id="Obtaining_Method_Objects"><a href="#Obtaining_Method_Objects" class="headerlink" title="Obtaining Method Objects"></a>Obtaining Method Objects</h5><p>获取类的方法，Method[]数组里面只包含类中public修饰的方法</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Method[] methods = orderClass.getMethods();</span><br></pre></td></tr></table></figure>
 <p>也可以使用具体的方法名及参数类型直接获取,以Order类中的getState()，setState()方法为例:</p>
@@ -823,11 +874,12 @@
 <p>下面是从类中找到get/set方法的例子</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printGettersSetters</span><span class="params">(Class aClass)</span></span>&#123;</span><br><span class="line">  Method[] methods = aClass.getMethods();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span>(Method method : methods)&#123;</span><br><span class="line">    <span class="keyword">if</span>(isGetter(method)) System.out.println(<span class="string">"getter: "</span> + method);</span><br><span class="line">    <span class="keyword">if</span>(isSetter(method)) System.out.println(<span class="string">"setter: "</span> + method);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isGetter</span><span class="params">(Method method)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!method.getName().startsWith(<span class="string">"get"</span>))      <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">if</span>(method.getParameterTypes().length != <span class="number">0</span>)   <span class="keyword">return</span> <span class="keyword">false</span>;  </span><br><span class="line">  <span class="keyword">if</span>(<span class="keyword">void</span>.class.equals(method.getReturnType()) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isSetter</span><span class="params">(Method method)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!method.getName().startsWith(<span class="string">"set"</span>)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">if</span>(method.getParameterTypes().length != <span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/13/JavaReflectionMethods/" data-id="cirhh567a001zqtuqn5q1r2xo" class="article-share-link" data-share="baidu" data-title="Java反射之方法">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/13/JavaReflectionMethods/" data-id="cirhic864001zxpuqdcll10rr" class="article-share-link" data-share="baidu" data-title="Java反射之方法">分享到</a>
       
 
       
@@ -866,7 +918,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="Java_Reflection_Fields"><a href="#Java_Reflection_Fields" class="headerlink" title="Java Reflection Fields"></a>Java Reflection Fields</h3><p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/fields.html" target="_blank" rel="external">Java Reflection Fields</a></p>
+      <!-- Table of Contents -->
+      
+
+      <h3 id="Java_Reflection_Fields"><a href="#Java_Reflection_Fields" class="headerlink" title="Java Reflection Fields"></a>Java Reflection Fields</h3><p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/fields.html" target="_blank" rel="external">Java Reflection Fields</a></p>
 <h4 id="Obtaining_Field_Objects"><a href="#Obtaining_Field_Objects" class="headerlink" title="Obtaining Field Objects"></a>Obtaining Field Objects</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Field[] fields = orderClass.getFields();</span><br></pre></td></tr></table></figure>
 <p>Field[]数组里面只包含类中public修饰的成员变量</p>
 <p>如果知道类的成员变量名称，可以直接通过getField()方法获取到，成员变量的访问权限同样需要是public的</p>
@@ -875,11 +930,12 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Field field = orderClass.getField(<span class="string">"description"</span>);</span><br><span class="line">    Order order = <span class="keyword">new</span> Order();</span><br><span class="line">    Object value = field.get(order);</span><br><span class="line">    field.set(order, value);</span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>传入Field.get()/Field.set()方法的参数order是Order类的实例。<br>如果变量是静态变量的话(public static)那么在调用Field.get()/Field.set()方法的时候传入null做为参数而不用传递拥有该变量的类的实例(传入类的实例也是可以的)。</p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/12/JavaReflectionFields/" data-id="cirhh567d0023qtuq252daq9d" class="article-share-link" data-share="baidu" data-title="Java反射之变量">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/12/JavaReflectionFields/" data-id="cirhic8670023xpuq4jvjmjpp" class="article-share-link" data-share="baidu" data-title="Java反射之变量">分享到</a>
       
 
       
@@ -918,7 +974,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/constructors.html" target="_blank" rel="external">Java Reflection Constructors</a></p>
+      <!-- Table of Contents -->
+      
+
+      <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/constructors.html" target="_blank" rel="external">Java Reflection Constructors</a></p>
 <h4 id="u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61"><a href="#u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61" class="headerlink" title="获取构造函数的对象"></a>获取构造函数的对象</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Constructor[] constructors = orderClass.getConstructors();</span><br></pre></td></tr></table></figure>
 <p>可以通过构造函数的具体参数类型直接获取单独的构造函数，而不用获取全部的Constructors</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Constructor constructor = orderClass.getConstructor(<span class="keyword">new</span> Class[]&#123;String.class&#125;);</span><br><span class="line">    System.out.println(constructor.getName());<span class="comment">//com.larry.bean.Order</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;<span class="comment">//没有找到匹配的构造函数会抛出NoSuchMethodException</span></span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -927,11 +986,12 @@
 <h4 id="u7528_u6784_u9020_u51FD_u6570_u5BF9_u8C61_u5B9E_u4F8B_u5316_u4E00_u4E2A_u7C7B"><a href="#u7528_u6784_u9020_u51FD_u6570_u5BF9_u8C61_u5B9E_u4F8B_u5316_u4E00_u4E2A_u7C7B" class="headerlink" title="用构造函数对象实例化一个类"></a>用构造函数对象实例化一个类</h4><p>constructor.newInstance()方法的方法参数是一个可变参数列表，但是当你调用构造方法的时候你必须提供精确的参数，即形参与实参必须一一对应。在这个例子中构造方法需要一个String类型的参数，那我们在调用newInstance方法的时候就必须传入一个String类型的参数</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Constructor constructor = Order.class.getConstructor(String.class);</span><br><span class="line">    Order order = (Order) constructor.newInstance(<span class="string">"2016050901"</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (InstantiationException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/11/JavaReflectionConstructors/" data-id="cirhh567g0025qtuqau02l89q" class="article-share-link" data-share="baidu" data-title="Java反射之构造函数">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/11/JavaReflectionConstructors/" data-id="cirhic86b0025xpuqef0wynhh" class="article-share-link" data-share="baidu" data-title="Java反射之构造函数">分享到</a>
       
 
       
@@ -970,7 +1030,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/classes.html" target="_blank" rel="external">Java Reflection Classes</a></p>
+      <!-- Table of Contents -->
+      
+
+      <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/classes.html" target="_blank" rel="external">Java Reflection Classes</a></p>
 <h5 id="u83B7_u53D6class_u5BF9_u8C61"><a href="#u83B7_u53D6class_u5BF9_u8C61" class="headerlink" title="获取class对象"></a>获取class对象</h5><p>Java中的所有类型包括基本类型(int, long, float等等)，即使是数组都有与之关联的Class类的对象。<br>如果你在编译期知道一个类的名字的话，那么你可以使用如下的方式获取一个类的Class对象</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class orderClass = Order.class;</span><br></pre></td></tr></table></figure>
 <p>如果你在编译期不知道类的名字，但是你可以在运行期获得到类名的字符串,那么你则可以这么做来获取Class对象</p>
@@ -997,11 +1060,12 @@
 <h5 id="Annotations__u6CE8_u89E3"><a href="#Annotations__u6CE8_u89E3" class="headerlink" title="Annotations 注解"></a>Annotations 注解</h5><p>获取类的注解</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Annotation[] annotations = orderClass.getAnnotations();</span><br></pre></td></tr></table></figure>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/09/JavaReflectionClasses/" data-id="cirhh567i0027qtuqnwfxhnm8" class="article-share-link" data-share="baidu" data-title="Java反射之对象">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/09/JavaReflectionClasses/" data-id="cirhic86c0027xpuq7y2mukt8" class="article-share-link" data-share="baidu" data-title="Java反射之对象">分享到</a>
       
 
       
@@ -1040,7 +1104,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近在公司做一个运营平台,增删改查的那种,需要一个多功能的表格,网上看到Jquery的DataTables功能很丰富,查询,排序,翻页等等功能完善,<br>但是<a href="http://www.datatables.net/" target="_blank" rel="external">DataTables官网</a>上的例子,表格数据都没有从服务端获取,生产上使用还得自己摸索下.另外,公司使用<br>Spring boot这个框架,配置简单,下面我们一起做一个整合的例子</p>
+      <!-- Table of Contents -->
+      
+
+      <p>最近在公司做一个运营平台,增删改查的那种,需要一个多功能的表格,网上看到Jquery的DataTables功能很丰富,查询,排序,翻页等等功能完善,<br>但是<a href="http://www.datatables.net/" target="_blank" rel="external">DataTables官网</a>上的例子,表格数据都没有从服务端获取,生产上使用还得自己摸索下.另外,公司使用<br>Spring boot这个框架,配置简单,下面我们一起做一个整合的例子</p>
 <h3 id="u65B0_u5EFASpring_boot_u7684_u5E94_u7528"><a href="#u65B0_u5EFASpring_boot_u7684_u5E94_u7528" class="headerlink" title="新建Spring boot的应用"></a>新建Spring boot的应用</h3><p>新建个项目springboot-datatables-demo,我使用的是intellij idea,创建个maven项目,在pom里面引用包后,创建main方法即可主要代码如下:<br>(详细讲解可以参考我的上一篇日志<a href="http://suqun.github.io/2016/02/17/%E7%AC%AC%E4%B8%80%E4%B8%AASpring-Boot%E5%BA%94%E7%94%A8/">第一个Spring Boot应用</a>)</p>
 <p>####pom.xml<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="pi">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">project</span> <span class="attribute">xmlns</span>=<span class="value">"http://maven.apache.org/POM/4.0.0"</span></span><br><span class="line">         <span class="attribute">xmlns:xsi</span>=<span class="value">"http://www.w3.org/2001/XMLSchema-instance"</span></span><br><span class="line">         <span class="attribute">xsi:schemaLocation</span>=<span class="value">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="title">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>com.larry<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>springboot-datatables-demo<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="title">parent</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.2.5.RELEASE<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">parent</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="title">properties</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="title">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="title">java.version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="title">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-starter-thymeleaf<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-starter-data-jpa<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>c3p0<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>c3p0<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">version</span>&gt;</span>0.9.1.2<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>net.sourceforge.nekohtml<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>nekohtml<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.9.21<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.16.4<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">version</span>&gt;</span>4.12<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.mockito<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>mockito-core<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.10.19<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="title">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>net.coobird<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>thumbnailator<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">version</span>&gt;</span>0.4.8<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>fastjson<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.2.8<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="title">build</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">plugins</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">plugin</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="title">plugin</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">plugins</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">build</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="title">repositories</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">repository</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">id</span>&gt;</span>spring-releases<span class="tag">&lt;/<span class="title">id</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">name</span>&gt;</span>Spring Releases<span class="tag">&lt;/<span class="title">name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">url</span>&gt;</span>https://repo.spring.io/libs-release<span class="tag">&lt;/<span class="title">url</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">repository</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">repositories</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">pluginRepositories</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">pluginRepository</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">id</span>&gt;</span>spring-releases<span class="tag">&lt;/<span class="title">id</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">name</span>&gt;</span>Spring Releases<span class="tag">&lt;/<span class="title">name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">url</span>&gt;</span>https://repo.spring.io/libs-release<span class="tag">&lt;/<span class="title">url</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">pluginRepository</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">pluginRepositories</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">project</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <h4 id="SddApplication-java"><a href="#SddApplication-java" class="headerlink" title="SddApplication.java"></a>SddApplication.java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.larry;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"></span><br><span class="line"><span class="annotation">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SddApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(SddApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -1072,11 +1139,12 @@
 <p>重启，添加12条数据，设置6条记录删除状态为true，看看效果<br><img src="http://7xpk5e.com1.z0.glb.clouddn.com/datatables-delete.png" alt="过滤删除记录"><br>表格下面显示：<br>Showing 1 to 6 of 6 entries (filtered from 12 total entries)<br>说明我们过滤成功了！</p>
 <p>打完收工！<br>详细代码，欢迎从我的github上获取：<a href="/">spring-data-jpa-jquery-datatables</a></p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/04/03/使用Spring-Boot-Jquery-Datatables实现管理平台的表格/" data-id="cirhh56650008qtuqq0l9stzj" class="article-share-link" data-share="baidu" data-title="使用Spring Boot Jquery Datatables实现管理平台的表格">分享到</a>
+        <a data-url="http://suqun.github.io/2016/04/03/使用Spring-Boot-Jquery-Datatables实现管理平台的表格/" data-id="cirhic84r0008xpuqw53jtyi3" class="article-share-link" data-share="baidu" data-title="使用Spring Boot Jquery Datatables实现管理平台的表格">分享到</a>
       
 
       
@@ -1129,7 +1197,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/02/17/第一个Spring-Boot应用/" data-id="cirhh565y0003qtuq9v8ozh0z" class="article-share-link" data-share="baidu" data-title="第一个Spring Boot应用">分享到</a>
+        <a data-url="http://suqun.github.io/2016/02/17/第一个Spring-Boot应用/" data-id="cirhic84k0003xpuqt7b0scw5" class="article-share-link" data-share="baidu" data-title="第一个Spring Boot应用">分享到</a>
       
 
       
@@ -1182,7 +1250,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/02/16/Spring-Boot安装/" data-id="cirhh566y001kqtuq6bm8oxta" class="article-share-link" data-share="baidu" data-title="Spring Boot安装">分享到</a>
+        <a data-url="http://suqun.github.io/2016/02/16/Spring-Boot安装/" data-id="cirhic85r001kxpuqq0u7g3dt" class="article-share-link" data-share="baidu" data-title="Spring Boot安装">分享到</a>
       
 
       
@@ -1232,7 +1300,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/30/docker容器的操作/" data-id="cirhh566h000pqtuqagnaz3cd" class="article-share-link" data-share="baidu" data-title="docker容器的操作">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/30/docker容器的操作/" data-id="cirhic85b000pxpuqmo8lgjmn" class="article-share-link" data-share="baidu" data-title="docker容器的操作">分享到</a>
       
 
       
@@ -1281,7 +1349,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/13/Shell编程之正则表达式/" data-id="cirhh5670001nqtuqxk4tmyss" class="article-share-link" data-share="baidu" data-title="Shell编程之正则表达式">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/13/Shell编程之正则表达式/" data-id="cirhic85u001nxpuq526egsew" class="article-share-link" data-share="baidu" data-title="Shell编程之正则表达式">分享到</a>
       
 
       
@@ -1331,7 +1399,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/09/shell编程之运算符/" data-id="cirhh566e000kqtuqsxex8mvm" class="article-share-link" data-share="baidu" data-title="shell编程之运算符">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/09/shell编程之运算符/" data-id="cirhic858000kxpuqdgxkh5mz" class="article-share-link" data-share="baidu" data-title="shell编程之运算符">分享到</a>
       
 
       
@@ -1397,7 +1465,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/04/Shell编程之变量/" data-id="cirhh5672001qqtuqelil1jul" class="article-share-link" data-share="baidu" data-title="Shell编程之变量">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/04/Shell编程之变量/" data-id="cirhic85w001qxpuqouiqs9s7" class="article-share-link" data-share="baidu" data-title="Shell编程之变量">分享到</a>
       
 
       
@@ -1448,7 +1516,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/02/Shell基础/" data-id="cirhh5674001tqtuqj8508kwd" class="article-share-link" data-share="baidu" data-title="Shell基础">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/02/Shell基础/" data-id="cirhic85y001txpuq3yisx2xy" class="article-share-link" data-share="baidu" data-title="Shell基础">分享到</a>
       
 
       
@@ -1501,7 +1569,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/01/What-is-Docker/" data-id="cirhh566k000uqtuqb4gsajvk" class="article-share-link" data-share="baidu" data-title="What is Docker?">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/01/What-is-Docker/" data-id="cirhic85e000uxpuq0q6lighq" class="article-share-link" data-share="baidu" data-title="What is Docker?">分享到</a>
       
 
       
@@ -1552,7 +1620,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/31/2015/" data-id="cirhh567x002mqtuq9ythrly6" class="article-share-link" data-share="baidu" data-title="2015">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/31/2015/" data-id="cirhic86q002mxpuqc0ao8ck0" class="article-share-link" data-share="baidu" data-title="2015">分享到</a>
       
 
       
@@ -1591,7 +1659,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>一直听说Docker怎么怎么厉害,不明所以,网上查了下,也只是简单了解.学技术还得去官网,尽管<a href="http://www.docker.com/" target="_blank" rel="external">Docker官网</a>都是英文,看的比较辛苦,不过一方面学技术,一方面学英语也是妙事.这一系列的Docker笔记,就边抄英文边翻译,边学技术吧.</p>
+      <!-- Table of Contents -->
+      
+
+      <p>一直听说Docker怎么怎么厉害,不明所以,网上查了下,也只是简单了解.学技术还得去官网,尽管<a href="http://www.docker.com/" target="_blank" rel="external">Docker官网</a>都是英文,看的比较辛苦,不过一方面学技术,一方面学英语也是妙事.这一系列的Docker笔记,就边抄英文边翻译,边学技术吧.</p>
 <h4 id="Why_Docker_3F"><a href="#Why_Docker_3F" class="headerlink" title="Why Docker?"></a>Why Docker?</h4><p>Docker provides an integrated technology suite that enables development and IT operations teams to build,ship,and run distributed applications anywhere.</p>
 <p>Docker 提供了一个集成的技术组件,它使得开发或IT运营团队可以在任何地方构建,ship,以及运行分布式应用.(ship到底该怎么翻译呢?)</p>
 <h4 id="Docker_Containers_as_a_Service_28CaaS_29"><a href="#Docker_Containers_as_a_Service_28CaaS_29" class="headerlink" title="Docker Containers as a Service(CaaS)"></a>Docker Containers as a Service(CaaS)</h4><p>Achieve agility and control for Development and IT operations teams to build,ship,and run any app,anywhere </p>
@@ -1603,11 +1674,12 @@
 <h6 id="Portability__u53EF_u79FB_u690D_u6027"><a href="#Portability__u53EF_u79FB_u690D_u6027" class="headerlink" title="Portability 可移植性"></a>Portability 可移植性</h6><p>Docker gives you choice without complexity , from a laptop to team , to private infrastructure and public cloud provides.</p>
 <p>Docker给你简单的选择,从个人电脑到团队,从私有基础设施到公有云服务提供商.</p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/30/Why-Docker/" data-id="cirhh566j000sqtuqrhyfiq7d" class="article-share-link" data-share="baidu" data-title="Why Docker?">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/30/Why-Docker/" data-id="cirhic85d000sxpuqki274mv4" class="article-share-link" data-share="baidu" data-title="Why Docker?">分享到</a>
       
 
       
@@ -1681,7 +1753,7 @@ connect host:port
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/28/zookeeper客户端命令/" data-id="cirhh566c000iqtuq5wtdk2ln" class="article-share-link" data-share="baidu" data-title="zookeeper客户端命令">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/28/zookeeper客户端命令/" data-id="cirhic856000ixpuqptuyf1c9" class="article-share-link" data-share="baidu" data-title="zookeeper客户端命令">分享到</a>
       
 
       
@@ -1739,7 +1811,7 @@ connect host:port
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/28/zookeeper环境搭建/" data-id="cirhh5668000aqtuqpxvjbj3r" class="article-share-link" data-share="baidu" data-title="zookeeper环境搭建">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/28/zookeeper环境搭建/" data-id="cirhic84u000axpuqhfw2bkxe" class="article-share-link" data-share="baidu" data-title="zookeeper环境搭建">分享到</a>
       
 
       
@@ -1789,7 +1861,7 @@ connect host:port
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/27/zookeeper概述/" data-id="cirhh566a000fqtuq7zeri2gb" class="article-share-link" data-share="baidu" data-title="zookeeper概述">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/27/zookeeper概述/" data-id="cirhic854000fxpuqgw1h5j0l" class="article-share-link" data-share="baidu" data-title="zookeeper概述">分享到</a>
       
 
       
@@ -1847,7 +1919,7 @@ connect host:port
       <ul>
         
           <li>
-            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/">Spring Cloud构建微服务架构（四) 集群</a>
+            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/">Spring Cloud构建微服务架构（四）集群</a>
           </li>
         
           <li>

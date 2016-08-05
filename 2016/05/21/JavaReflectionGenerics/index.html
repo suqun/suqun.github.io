@@ -14,7 +14,7 @@ Generic Method Return Types如果你已经获取一个java.lang.reflect.Method�
 <meta property="og:site_name" content="入耳箸心">
 <meta property="og:description" content="原文地址Java Reflection Generics
 Generic Method Return Types如果你已经获取一个java.lang.reflect.Method的对象，就可以获取到该对象上的泛型返回类型信息。如果方法是在一个被参数化类型之中（如T fun()）那么你无法获取他的具体类型，但是如果方法返回一个泛型类（如List fun()）那么你就可以获得这个泛型类的具体参数化类型">
-<meta property="og:updated_time" content="2016-05-30T13:12:08.000Z">
+<meta property="og:updated_time" content="2016-08-05T08:44:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java反射之泛型">
 <meta name="twitter:description" content="原文地址Java Reflection Generics
@@ -97,7 +97,15 @@ Generic Method Return Types如果你已经获取一个java.lang.reflect.Method�
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/generics.html" target="_blank" rel="external">Java Reflection Generics</a></p>
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Generic_Method_Return_Types"><span class="toc-number">1.</span> <span class="toc-text">Generic Method Return Types</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Generic_Method_Parameter_Types"><span class="toc-number">2.</span> <span class="toc-text">Generic Method Parameter Types</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Generic_Field_Types"><span class="toc-number">3.</span> <span class="toc-text">Generic Field Types</span></a></li></ol>
+      </div>
+      
+
+      <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/generics.html" target="_blank" rel="external">Java Reflection Generics</a></p>
 <h4 id="Generic_Method_Return_Types"><a href="#Generic_Method_Return_Types" class="headerlink" title="Generic Method Return Types"></a>Generic Method Return Types</h4><p>如果你已经获取一个<code>java.lang.reflect.Method</code>的对象，就可以获取到该对象上的泛型返回类型信息。如果方法是在一个被参数化类型之中（如T fun()）那么你无法获取他的具体类型，但是如果方法返回一个泛型类（如List fun()）那么你就可以获得这个泛型类的具体参数化类型。下面这个例子定义了一个类这个类中的方法返回类型是一个泛型类型：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> List&lt;String&gt; stringList = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">getStringList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> stringList;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这个例子是可以获取到<code>getStringList()</code>方法的泛型返回类型。可以检测到<code>getStringList()</code>方法返回的List并不仅仅是一个List。</p>
@@ -113,11 +121,12 @@ Generic Method Return Types如果你已经获取一个java.lang.reflect.Method�
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Field field = MyClass.class.getField(<span class="string">"stringList"</span>);</span><br><span class="line"></span><br><span class="line">Type genericFieldType = field.getGenericType();</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(genericFieldType <span class="keyword">instanceof</span> ParameterizedType)&#123;</span><br><span class="line">    ParameterizedType aType = (ParameterizedType) genericFieldType;</span><br><span class="line">    Type[] fieldArgTypes = aType.getActualTypeArguments();</span><br><span class="line">    <span class="keyword">for</span>(Type fieldArgType : fieldArgTypes)&#123;</span><br><span class="line">        Class fieldArgClass = (Class) fieldArgType;</span><br><span class="line">        System.out.println(<span class="string">"fieldArgClass = "</span> + fieldArgClass);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这段代码打印出”fieldArgClass = java.lang.String”。fieldArgTypes这个数组包含的是代表java.lang.String的Class类的实例。Class类实现了Type接口。</p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/21/JavaReflectionGenerics/" data-id="cirhh567c0021qtuqgz2k7hce" class="article-share-link" data-share="baidu" data-title="Java反射之泛型">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/21/JavaReflectionGenerics/" data-id="cirhic8660021xpuqh2nowykf" class="article-share-link" data-share="baidu" data-title="Java反射之泛型">分享到</a>
       
 
       
@@ -197,7 +206,7 @@ Generic Method Return Types如果你已经获取一个java.lang.reflect.Method�
       <ul>
         
           <li>
-            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/">Spring Cloud构建微服务架构（四) 集群</a>
+            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/">Spring Cloud构建微服务架构（四）集群</a>
           </li>
         
           <li>

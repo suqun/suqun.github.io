@@ -20,7 +20,7 @@ Obtaining Method Objects获取类的方法，Method[]数组里面只包含类中
 1Method[] methods = orderClass.getMethods();
 也可以使用具体的方法名及参数类型直接获取,以Order类中的getState()，setState()方法为例:
 1234567891">
-<meta property="og:updated_time" content="2016-05-28T07:31:48.000Z">
+<meta property="og:updated_time" content="2016-08-05T08:44:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java反射之方法">
 <meta name="twitter:description" content="原文地址Java Reflection Methods
@@ -106,7 +106,15 @@ Obtaining Method Objects获取类的方法，Method[]数组里面只包含类中
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/methods.html" target="_blank" rel="external">Java Reflection Methods</a></p>
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#Obtaining_Method_Objects"><span class="toc-number">1.</span> <span class="toc-text">Obtaining Method Objects</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Method_Parameters_and_Return_Types"><span class="toc-number"></span> <span class="toc-text">Method Parameters and Return Types</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Invoking_Methods_using_Method_Object"><span class="toc-number"></span> <span class="toc-text">Invoking Methods using Method Object</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#u83B7_u53D6getter/setter_u65B9_u6CD5"><span class="toc-number">1.</span> <span class="toc-text">获取getter/setter方法</span></a></li></ol>
+      </div>
+      
+
+      <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/methods.html" target="_blank" rel="external">Java Reflection Methods</a></p>
 <h5 id="Obtaining_Method_Objects"><a href="#Obtaining_Method_Objects" class="headerlink" title="Obtaining Method Objects"></a>Obtaining Method Objects</h5><p>获取类的方法，Method[]数组里面只包含类中public修饰的方法</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Method[] methods = orderClass.getMethods();</span><br></pre></td></tr></table></figure>
 <p>也可以使用具体的方法名及参数类型直接获取,以Order类中的getState()，setState()方法为例:</p>
@@ -124,11 +132,12 @@ Obtaining Method Objects获取类的方法，Method[]数组里面只包含类中
 <p>下面是从类中找到get/set方法的例子</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printGettersSetters</span><span class="params">(Class aClass)</span></span>&#123;</span><br><span class="line">  Method[] methods = aClass.getMethods();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span>(Method method : methods)&#123;</span><br><span class="line">    <span class="keyword">if</span>(isGetter(method)) System.out.println(<span class="string">"getter: "</span> + method);</span><br><span class="line">    <span class="keyword">if</span>(isSetter(method)) System.out.println(<span class="string">"setter: "</span> + method);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isGetter</span><span class="params">(Method method)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!method.getName().startsWith(<span class="string">"get"</span>))      <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">if</span>(method.getParameterTypes().length != <span class="number">0</span>)   <span class="keyword">return</span> <span class="keyword">false</span>;  </span><br><span class="line">  <span class="keyword">if</span>(<span class="keyword">void</span>.class.equals(method.getReturnType()) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isSetter</span><span class="params">(Method method)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!method.getName().startsWith(<span class="string">"set"</span>)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">if</span>(method.getParameterTypes().length != <span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/13/JavaReflectionMethods/" data-id="cirhh567a001zqtuqn5q1r2xo" class="article-share-link" data-share="baidu" data-title="Java反射之方法">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/13/JavaReflectionMethods/" data-id="cirhic864001zxpuqdcll10rr" class="article-share-link" data-share="baidu" data-title="Java反射之方法">分享到</a>
       
 
       
@@ -208,7 +217,7 @@ Obtaining Method Objects获取类的方法，Method[]数组里面只包含类中
       <ul>
         
           <li>
-            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/">Spring Cloud构建微服务架构（四) 集群</a>
+            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/">Spring Cloud构建微服务架构（四）集群</a>
           </li>
         
           <li>

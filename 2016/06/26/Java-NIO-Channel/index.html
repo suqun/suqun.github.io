@@ -27,7 +27,7 @@ Channels总是读数据到Buffer中，或者将Buffer中的数据写入Channel
 上面提到的，从channel中读取数据至buffer中，将buffer中的数据写入channel中：
 Java NIO: Channels re">
 <meta property="og:image" content="http://tutorials.jenkov.com/images/java-nio/overview-channels-buffers.png">
-<meta property="og:updated_time" content="2016-06-30T02:15:21.000Z">
+<meta property="og:updated_time" content="2016-08-05T08:44:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java NIO Channel">
 <meta name="twitter:description" content="Java NIO 的Channels有些像流，但是也有一些区别：
@@ -116,7 +116,15 @@ Java NIO: Channels re">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Java NIO 的Channels有些像流，但是也有一些区别：</p>
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Channel_Implementations"><span class="toc-number">1.</span> <span class="toc-text">Channel Implementations</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Basic_Channel_Example"><span class="toc-number">2.</span> <span class="toc-text">Basic Channel Example</span></a></li></ol>
+      </div>
+      
+
+      <p>Java NIO 的Channels有些像流，但是也有一些区别：</p>
 <ul>
 <li>可以向一个Channel即读又写。流是典型的单向的（写或者读）</li>
 <li>Channels的读写是异步的</li>
@@ -136,11 +144,12 @@ Java NIO: Channels re">
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChannelExample</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        RandomAccessFile accessFile = <span class="keyword">new</span> RandomAccessFile(<span class="string">"nio-data.txt"</span>,<span class="string">"rw"</span>);</span><br><span class="line">        FileChannel fileChannel = accessFile.getChannel();</span><br><span class="line"></span><br><span class="line">        ByteBuffer buffer = ByteBuffer.allocate(<span class="number">48</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> bytesRead = fileChannel.read(buffer);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (bytesRead != -<span class="number">1</span>) &#123;</span><br><span class="line">            System.out.println(<span class="string">"Read "</span> + bytesRead);</span><br><span class="line">            buffer.flip();</span><br><span class="line">            <span class="keyword">if</span> (buffer.hasRemaining()) &#123;</span><br><span class="line">                System.out.print((<span class="keyword">char</span>) buffer.get());</span><br><span class="line">            &#125;</span><br><span class="line">            buffer.clear();</span><br><span class="line">            bytesRead = fileChannel.read(buffer);</span><br><span class="line">        &#125;</span><br><span class="line">        accessFile.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>注意 buf.flip() 的调用，首先读取数据到Buffer，然后反转Buffer，接着再从Buffer中读取数据。下一节会深入讲解Buffer的更多细节。</p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/26/Java-NIO-Channel/" data-id="cirhh567r002iqtuq6dl42lgm" class="article-share-link" data-share="baidu" data-title="Java NIO Channel">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/26/Java-NIO-Channel/" data-id="cirhic86n002ixpuqh8dzolg3" class="article-share-link" data-share="baidu" data-title="Java NIO Channel">分享到</a>
       
 
       
@@ -220,7 +229,7 @@ Java NIO: Channels re">
       <ul>
         
           <li>
-            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/">Spring Cloud构建微服务架构（四) 集群</a>
+            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/">Spring Cloud构建微服务架构（四）集群</a>
           </li>
         
           <li>

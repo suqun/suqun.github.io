@@ -16,7 +16,7 @@
 12345678910111213141516171819202122232425262728293031323334declare [-afiprx] 变量名参数说明： -   ：设置属性+   ：取消属性-a  ：定义为数组 array -f  ：定义为函数 function  -i  ：定义为整数 integer -p  ：显示变量被声明的类型">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/shell-ysf.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/shell-test-ysf.png">
-<meta property="og:updated_time" content="2016-01-09T12:10:57.000Z">
+<meta property="og:updated_time" content="2016-08-05T08:44:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="shell编程之运算符">
 <meta name="twitter:description" content="声明变量类型declaredeclare语法：
@@ -99,7 +99,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="u58F0_u660E_u53D8_u91CF_u7C7B_u578Bdeclare"><a href="#u58F0_u660E_u53D8_u91CF_u7C7B_u578Bdeclare" class="headerlink" title="声明变量类型declare"></a>声明变量类型declare</h3><p>declare语法：</p>
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#u58F0_u660E_u53D8_u91CF_u7C7B_u578Bdeclare"><span class="toc-number">1.</span> <span class="toc-text">声明变量类型declare</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u6570_u503C_u8FD0_u7B97"><span class="toc-number">2.</span> <span class="toc-text">数值运算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u53D8_u91CF_u6D4B_u8BD5"><span class="toc-number">3.</span> <span class="toc-text">变量测试</span></a></li></ol>
+      </div>
+      
+
+      <h3 id="u58F0_u660E_u53D8_u91CF_u7C7B_u578Bdeclare"><a href="#u58F0_u660E_u53D8_u91CF_u7C7B_u578Bdeclare" class="headerlink" title="声明变量类型declare"></a>声明变量类型declare</h3><p>declare语法：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">declare</span> [-afiprx] 变量名</span><br><span class="line">参数说明： </span><br><span class="line">-   ：设置属性</span><br><span class="line">+   ：取消属性</span><br><span class="line"><span class="operator">-a</span>  ：定义为数组 array </span><br><span class="line"><span class="operator">-f</span>  ：定义为函数 <span class="keyword">function</span>  </span><br><span class="line">-i  ：定义为整数 <span class="built_in">integer</span> </span><br><span class="line">-p  ：显示变量被声明的类型</span><br><span class="line">-r  ：定义为『只读』 </span><br><span class="line">-x  ：定义为环境变量 </span><br><span class="line"></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -i a=<span class="number">47</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -i b=<span class="number">53</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -i c=<span class="variable">$a</span>+<span class="variable">$b</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$c</span></span><br><span class="line"><span class="number">100</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -p c</span><br><span class="line"><span class="built_in">declare</span> -i c=<span class="string">"100"</span></span><br><span class="line"></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> <span class="operator">-a</span> arr[<span class="number">0</span>]=<span class="number">11</span>  &lt;==定义数组</span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -p arr</span><br><span class="line"><span class="built_in">declare</span> <span class="operator">-a</span> arr=<span class="string">'([0]="11")'</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> <span class="operator">-a</span> arr[<span class="number">1</span>]=<span class="number">22</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -p arr</span><br><span class="line"><span class="built_in">declare</span> <span class="operator">-a</span> arr=<span class="string">'([0]="11" [1]="22")'</span></span><br><span class="line">bash-<span class="number">3.2</span>$</span><br><span class="line"></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$&#123;arr&#125;</span>       &lt;==查看数组方法</span><br><span class="line"><span class="number">11</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$&#123;arr[1]&#125;</span></span><br><span class="line"><span class="number">22</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$&#123;arr[*]&#125;</span></span><br><span class="line"><span class="number">11</span> <span class="number">22</span></span><br><span class="line">bash-<span class="number">3.2</span>$</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <h3 id="u6570_u503C_u8FD0_u7B97"><a href="#u6570_u503C_u8FD0_u7B97" class="headerlink" title="数值运算"></a>数值运算</h3><p>数值运算可以通过<code>declare -i c=$a+$b</code>进行，也可以用<code>expr</code>/<code>$((运算式))</code>/<code>$[运算式]</code></p>
@@ -110,11 +118,12 @@
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/shell-test-ysf.png" alt="shell变量测试运算符"></p>
 <p>shell编程视频地址：<a href="http://www.imooc.com/learn/355" target="_blank" rel="external">http://www.imooc.com/learn/355</a></p>
 
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/09/shell编程之运算符/" data-id="cirhh566e000kqtuqsxex8mvm" class="article-share-link" data-share="baidu" data-title="shell编程之运算符">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/09/shell编程之运算符/" data-id="cirhic858000kxpuqdgxkh5mz" class="article-share-link" data-share="baidu" data-title="shell编程之运算符">分享到</a>
       
 
       
@@ -194,7 +203,7 @@
       <ul>
         
           <li>
-            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四)  集群/">Spring Cloud构建微服务架构（四) 集群</a>
+            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/">Spring Cloud构建微服务架构（四）集群</a>
           </li>
         
           <li>
