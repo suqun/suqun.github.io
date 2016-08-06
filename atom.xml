@@ -4,7 +4,7 @@
   <subtitle><![CDATA[成长路上的点滴记录]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://suqun.github.io/"/>
-  <updated>2016-08-05T08:42:07.000Z</updated>
+  <updated>2016-08-06T02:22:56.000Z</updated>
   <id>http://suqun.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://suqun.github.io/2016/08/05/Spring-Cloud%E6%9E%84%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%EF%BC%88%E5%9B%9B%EF%BC%89%E9%9B%86%E7%BE%A4/"/>
     <id>http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四）集群/</id>
     <published>2016-08-05T02:07:59.000Z</published>
-    <updated>2016-08-05T08:42:07.000Z</updated>
+    <updated>2016-08-06T02:22:56.000Z</updated>
     <content type="html"><![CDATA[<p>前面三篇都分享自<a href="http://blog.didispace.com/" target="_blank" rel="external">程序猿DD</a>的博客,暂时(2016年08月05日)还没有更新关于Eureka集群的博客。<br>这里参考了<a href="https://segmentfault.com/blog/mumubin" target="_blank" rel="external">木木彬</a>的<a href="https://segmentfault.com/a/1190000006149891" target="_blank" rel="external">Spring Cloud实战(二)-Spring Cloud Eureka</a>博客内容。<br>对集群配置简单记录下,方便以后查阅。同时也期待<code>程序猿DD</code>更新更多更精彩的博客。</p>
 <p>本文代码基于<a href="https://git.oschina.net/didispace/SpringBoot-Learning/tree/master/Chapter9-1-3?dir=1&amp;filepath=Chapter9-1-3&amp;oid=cc93af44af30b42320041332790d071ed72a2450&amp;sha=4329c564d673b6cf7a53893ad9770abb7a67b328" target="_blank" rel="external">程序猿DD / SpringBoot-Learning / Chapter9-1-3</a>进行集群配置。</p>
 <p>Spring Cloud 官方文档上对集群配置介绍的非常简单，对Eureka Server进行<a href="http://cloud.spring.io/spring-cloud-static/docs/1.0.x/spring-cloud.html#_peer_awareness" target="_blank" rel="external">Peer Awareness</a>配置，这样多个服务端就可以关联到一起。好了，下面看看具体的配置。</p>
@@ -56,6 +56,8 @@
     
       <category term="NETFLIX" scheme="http://suqun.github.io/tags/NETFLIX/"/>
     
+      <category term="RIBBON" scheme="http://suqun.github.io/tags/RIBBON/"/>
+    
       <category term="SPRING BOOT" scheme="http://suqun.github.io/tags/SPRING-BOOT/"/>
     
       <category term="SPRING CLOUD" scheme="http://suqun.github.io/tags/SPRING-CLOUD/"/>
@@ -67,7 +69,7 @@
     <link href="http://suqun.github.io/2016/08/05/Spring-Cloud%E6%9E%84%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%EF%BC%88%E4%B8%89%EF%BC%89%E6%96%AD%E8%B7%AF%E5%99%A8/"/>
     <id>http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/</id>
     <published>2016-08-05T02:02:21.000Z</published>
-    <updated>2016-08-05T08:44:38.000Z</updated>
+    <updated>2016-08-06T02:22:56.000Z</updated>
     <content type="html"><![CDATA[<p>原文 : <a href="http://blog.didispace.com/springcloud3/" target="_blank" rel="external">Spring Cloud构建微服务架构（三）断路器</a></p>
 ]]></content>
     <summary type="html">
@@ -76,6 +78,8 @@
     </summary>
     
       <category term="EUREKA" scheme="http://suqun.github.io/tags/EUREKA/"/>
+    
+      <category term="HYSTRIX" scheme="http://suqun.github.io/tags/HYSTRIX/"/>
     
       <category term="NETFLIX" scheme="http://suqun.github.io/tags/NETFLIX/"/>
     
@@ -90,7 +94,7 @@
     <link href="http://suqun.github.io/2016/08/05/Spring-Cloud%E6%9E%84%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%EF%BC%88%E4%BA%8C%EF%BC%89%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/"/>
     <id>http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（二）服务消费者/</id>
     <published>2016-08-05T02:00:33.000Z</published>
-    <updated>2016-08-05T08:44:37.000Z</updated>
+    <updated>2016-08-06T02:22:56.000Z</updated>
     <content type="html"><![CDATA[<p>原文 : <a href="http://blog.didispace.com/springcloud2/" target="_blank" rel="external">Spring Cloud构建微服务架构（二）服务消费者</a></p>
 ]]></content>
     <summary type="html">
@@ -100,7 +104,11 @@
     
       <category term="EUREKA" scheme="http://suqun.github.io/tags/EUREKA/"/>
     
+      <category term="FEIGN" scheme="http://suqun.github.io/tags/FEIGN/"/>
+    
       <category term="NETFLIX" scheme="http://suqun.github.io/tags/NETFLIX/"/>
+    
+      <category term="RIBBON" scheme="http://suqun.github.io/tags/RIBBON/"/>
     
       <category term="SPRING BOOT" scheme="http://suqun.github.io/tags/SPRING-BOOT/"/>
     
@@ -136,7 +144,7 @@
     <link href="http://suqun.github.io/2016/06/28/Java-NIO-Buffer/"/>
     <id>http://suqun.github.io/2016/06/28/Java-NIO-Buffer/</id>
     <published>2016-06-28T14:10:31.000Z</published>
-    <updated>2016-08-05T08:44:38.000Z</updated>
+    <updated>2016-08-06T02:15:42.000Z</updated>
     <content type="html"><![CDATA[<p>Java NIO Buffers是和NIO的Channels交互使用的。你知道的，数据是从Channel中读到Buffer里，数据从Buffer里写入到Channel中。 </p>
 <p>Buffer本质上是可以读写数据的内存块。这个内存块被NIO的Buffer对象包裹，然后提供很多方法以便能够简单的操作这个内存块。</p>
 <h4 id="Basic_Buffer_Usage"><a href="#Basic_Buffer_Usage" class="headerlink" title="Basic Buffer Usage"></a>Basic Buffer Usage</h4><p>使用Buffer读写数据基本上就4步：</p>
@@ -152,7 +160,7 @@
 <p>Buffer本质上是可以读写数据的内存块。这个内存块被NIO的Buffer对象包裹，然]]>
     </summary>
     
-      <category term="Java NIO" scheme="http://suqun.github.io/tags/Java-NIO/"/>
+      <category term="JAVA NIO" scheme="http://suqun.github.io/tags/JAVA-NIO/"/>
     
   </entry>
   
@@ -161,7 +169,7 @@
     <link href="http://suqun.github.io/2016/06/26/Java-NIO-Channel/"/>
     <id>http://suqun.github.io/2016/06/26/Java-NIO-Channel/</id>
     <published>2016-06-26T13:04:43.000Z</published>
-    <updated>2016-08-05T08:44:38.000Z</updated>
+    <updated>2016-08-06T02:15:42.000Z</updated>
     <content type="html"><![CDATA[<p>Java NIO 的Channels有些像流，但是也有一些区别：</p>
 <ul>
 <li>可以向一个Channel即读又写。流是典型的单向的（写或者读）</li>
@@ -190,7 +198,7 @@
 <li>Channels总是读数据到Buffer中，或者将]]>
     </summary>
     
-      <category term="Java NIO" scheme="http://suqun.github.io/tags/Java-NIO/"/>
+      <category term="JAVA NIO" scheme="http://suqun.github.io/tags/JAVA-NIO/"/>
     
   </entry>
   
@@ -199,7 +207,7 @@
     <link href="http://suqun.github.io/2016/06/25/Java-NIO-Overview/"/>
     <id>http://suqun.github.io/2016/06/25/Java-NIO-Overview/</id>
     <published>2016-06-25T05:27:34.000Z</published>
-    <updated>2016-08-05T08:44:37.000Z</updated>
+    <updated>2016-08-06T02:15:42.000Z</updated>
     <content type="html"><![CDATA[<p>Java NIO 包含下面三个核心组件:</p>
 <ul>
 <li>Channels</li>
@@ -244,7 +252,7 @@
 <p>Java NIO 还有很多其他的类和组件,Channel,Buffer,Selector]]>
     </summary>
     
-      <category term="Java NIO" scheme="http://suqun.github.io/tags/Java-NIO/"/>
+      <category term="JAVA NIO" scheme="http://suqun.github.io/tags/JAVA-NIO/"/>
     
   </entry>
   
@@ -253,7 +261,7 @@
     <link href="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/"/>
     <id>http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/</id>
     <published>2016-06-25T05:24:25.000Z</published>
-    <updated>2016-08-05T08:44:38.000Z</updated>
+    <updated>2016-08-06T02:15:42.000Z</updated>
     <content type="html"><![CDATA[<p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/classes.html" target="_blank" rel="external">Java Reflection</a></p>
 <p>Java NIO(New IO) 是java(从java1.4开始) IO API的一个选择,可以代替Java标准IO和Java网络编程API。对于标准的IO来说,Java NIO提供了不同的处理IO的方式。</p>
 <h4 id="Channels_and_Buffers"><a href="#Channels_and_Buffers" class="headerlink" title="Channels and Buffers"></a>Channels and Buffers</h4><p>在标准的IO API中,使用字节流和字符流。在NIO中需要用到channels和buffers。数据总是从channel获取读到buffer中,从buffer中获取写入channel。</p>
@@ -266,7 +274,7 @@
 <p>Java NIO]]>
     </summary>
     
-      <category term="Java NIO" scheme="http://suqun.github.io/tags/Java-NIO/"/>
+      <category term="JAVA NIO" scheme="http://suqun.github.io/tags/JAVA-NIO/"/>
     
   </entry>
   
@@ -275,7 +283,7 @@
     <link href="http://suqun.github.io/2016/06/24/JavaReflectionArray/"/>
     <id>http://suqun.github.io/2016/06/24/JavaReflectionArray/</id>
     <published>2016-06-24T12:52:55.000Z</published>
-    <updated>2016-08-05T08:44:38.000Z</updated>
+    <updated>2016-08-06T02:15:42.000Z</updated>
     <content type="html"><![CDATA[<p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/arrays.html" target="_blank" rel="external">Java Reflection Arrays</a></p>
 <p>在Java反射里面处理数组有时是比较棘手的.特别是你需要获得数组对象的实际类型.例如 int[]等待.这篇文字就来讨论通过反射如何创建数组如何获取数组中的对象.</p>
 <h4 id="java-lang-reflect-Array"><a href="#java-lang-reflect-Array" class="headerlink" title="java.lang.reflect.Array"></a>java.lang.reflect.Array</h4><p>通过Java反射使用数组用到的是类java.lang.reflect.Array,不要和Java集合中的java.util.Arrays混淆.</p>
@@ -309,7 +317,7 @@
 <p>在J]]>
     </summary>
     
-      <category term="Java" scheme="http://suqun.github.io/tags/Java/"/>
+      <category term="JAVA" scheme="http://suqun.github.io/tags/JAVA/"/>
     
   </entry>
   
@@ -318,7 +326,7 @@
     <link href="http://suqun.github.io/2016/05/21/JavaReflectionGenerics/"/>
     <id>http://suqun.github.io/2016/05/21/JavaReflectionGenerics/</id>
     <published>2016-05-20T16:52:55.000Z</published>
-    <updated>2016-08-05T08:44:37.000Z</updated>
+    <updated>2016-08-06T02:15:42.000Z</updated>
     <content type="html"><![CDATA[<p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/generics.html" target="_blank" rel="external">Java Reflection Generics</a></p>
 <h4 id="Generic_Method_Return_Types"><a href="#Generic_Method_Return_Types" class="headerlink" title="Generic Method Return Types"></a>Generic Method Return Types</h4><p>如果你已经获取一个<code>java.lang.reflect.Method</code>的对象，就可以获取到该对象上的泛型返回类型信息。如果方法是在一个被参数化类型之中（如T fun()）那么你无法获取他的具体类型，但是如果方法返回一个泛型类（如List fun()）那么你就可以获得这个泛型类的具体参数化类型。下面这个例子定义了一个类这个类中的方法返回类型是一个泛型类型：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> List&lt;String&gt; stringList = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">getStringList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> stringList;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -340,7 +348,7 @@
 <]]>
     </summary>
     
-      <category term="Java" scheme="http://suqun.github.io/tags/Java/"/>
+      <category term="JAVA" scheme="http://suqun.github.io/tags/JAVA/"/>
     
   </entry>
   
@@ -349,7 +357,7 @@
     <link href="http://suqun.github.io/2016/05/18/JavaReflectionAnnotations/"/>
     <id>http://suqun.github.io/2016/05/18/JavaReflectionAnnotations/</id>
     <published>2016-05-17T16:52:55.000Z</published>
-    <updated>2016-08-05T08:44:37.000Z</updated>
+    <updated>2016-08-06T02:15:42.000Z</updated>
     <content type="html"><![CDATA[<p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/annotations.html" target="_blank" rel="external">Java Reflection Annotations</a></p>
 <p>在运行时状态下，你可以通过反射获取java对象上的注解。</p>
 <h4 id="What_are_Java_Annotations_3F"><a href="#What_are_Java_Annotations_3F" class="headerlink" title="What are Java Annotations?"></a>What are Java Annotations?</h4><p>注解是Java5增加的功能。注解是一种注释或者是元数据可以直接插入到Java代码中。在编译时，通过预编译工具处理；或者在运行时，通过java反射处理。下面是个注解的例子：</p>
@@ -386,7 +394,7 @@
     <![CDATA[<p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/annotations.html" target="_blank" rel="external">Java Reflection Annotations</a>]]>
     </summary>
     
-      <category term="Java" scheme="http://suqun.github.io/tags/Java/"/>
+      <category term="JAVA" scheme="http://suqun.github.io/tags/JAVA/"/>
     
   </entry>
   
@@ -395,7 +403,7 @@
     <link href="http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/"/>
     <id>http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/</id>
     <published>2016-05-13T16:52:55.000Z</published>
-    <updated>2016-08-05T08:44:37.000Z</updated>
+    <updated>2016-08-06T02:15:42.000Z</updated>
     <content type="html"><![CDATA[<p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/private-fields-and-methods.html" target="_blank" rel="external">Java Reflection Methods</a></p>
 <p>通常情况下，从对象外部访问私有变量和私有方法是不被允许的，但是通过反射可以很容易获取私有变量和私有方法，在单元测试的时候很有用。</p>
 <h6 id="Accessing_Private_Fields"><a href="#Accessing_Private_Fields" class="headerlink" title="Accessing Private Fields"></a>Accessing Private Fields</h6><p>获取私有变量你需要用到<code>Class.getDeclaredField(String name)</code>或者<code>Class.getDeclaredFields(String name)</code>方法。<code>Class.getField(String name)</code>和<code>Class.getFields(String name)</code>方法只能返回公有变量。下面是通过java的反射获取私有变量代码:</p>
@@ -413,7 +421,7 @@
     <![CDATA[<p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/private-fields-and-methods.html" target="_blank" rel="external">Java Reflection ]]>
     </summary>
     
-      <category term="Java" scheme="http://suqun.github.io/tags/Java/"/>
+      <category term="JAVA" scheme="http://suqun.github.io/tags/JAVA/"/>
     
   </entry>
   
@@ -422,7 +430,7 @@
     <link href="http://suqun.github.io/2016/05/13/JavaReflectionMethods/"/>
     <id>http://suqun.github.io/2016/05/13/JavaReflectionMethods/</id>
     <published>2016-05-12T16:52:55.000Z</published>
-    <updated>2016-08-05T08:44:38.000Z</updated>
+    <updated>2016-08-06T02:15:42.000Z</updated>
     <content type="html"><![CDATA[<p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/methods.html" target="_blank" rel="external">Java Reflection Methods</a></p>
 <h5 id="Obtaining_Method_Objects"><a href="#Obtaining_Method_Objects" class="headerlink" title="Obtaining Method Objects"></a>Obtaining Method Objects</h5><p>获取类的方法，Method[]数组里面只包含类中public修饰的方法</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Method[] methods = orderClass.getMethods();</span><br></pre></td></tr></table></figure>
@@ -446,7 +454,7 @@
 <h5]]>
     </summary>
     
-      <category term="Java" scheme="http://suqun.github.io/tags/Java/"/>
+      <category term="JAVA" scheme="http://suqun.github.io/tags/JAVA/"/>
     
   </entry>
   
@@ -455,7 +463,7 @@
     <link href="http://suqun.github.io/2016/05/12/JavaReflectionFields/"/>
     <id>http://suqun.github.io/2016/05/12/JavaReflectionFields/</id>
     <published>2016-05-11T16:52:55.000Z</published>
-    <updated>2016-08-05T08:44:37.000Z</updated>
+    <updated>2016-08-06T02:15:42.000Z</updated>
     <content type="html"><![CDATA[<h3 id="Java_Reflection_Fields"><a href="#Java_Reflection_Fields" class="headerlink" title="Java Reflection Fields"></a>Java Reflection Fields</h3><p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/fields.html" target="_blank" rel="external">Java Reflection Fields</a></p>
 <h4 id="Obtaining_Field_Objects"><a href="#Obtaining_Field_Objects" class="headerlink" title="Obtaining Field Objects"></a>Obtaining Field Objects</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Field[] fields = orderClass.getFields();</span><br></pre></td></tr></table></figure>
 <p>Field[]数组里面只包含类中public修饰的成员变量</p>
@@ -469,7 +477,7 @@
     <![CDATA[<h3 id="Java_Reflection_Fields"><a href="#Java_Reflection_Fields" class="headerlink" title="Java Reflection Fields"></a>Java Reflection Fiel]]>
     </summary>
     
-      <category term="Java" scheme="http://suqun.github.io/tags/Java/"/>
+      <category term="JAVA" scheme="http://suqun.github.io/tags/JAVA/"/>
     
   </entry>
   
@@ -478,7 +486,7 @@
     <link href="http://suqun.github.io/2016/05/11/JavaReflectionConstructors/"/>
     <id>http://suqun.github.io/2016/05/11/JavaReflectionConstructors/</id>
     <published>2016-05-10T16:52:55.000Z</published>
-    <updated>2016-08-05T08:44:38.000Z</updated>
+    <updated>2016-08-06T02:15:42.000Z</updated>
     <content type="html"><![CDATA[<p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/constructors.html" target="_blank" rel="external">Java Reflection Constructors</a></p>
 <h4 id="u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61"><a href="#u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61" class="headerlink" title="获取构造函数的对象"></a>获取构造函数的对象</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Constructor[] constructors = orderClass.getConstructors();</span><br></pre></td></tr></table></figure>
 <p>可以通过构造函数的具体参数类型直接获取单独的构造函数，而不用获取全部的Constructors</p>
@@ -492,7 +500,7 @@
     <![CDATA[<p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/constructors.html" target="_blank" rel="external">Java Reflection Constructors</]]>
     </summary>
     
-      <category term="Java" scheme="http://suqun.github.io/tags/Java/"/>
+      <category term="JAVA" scheme="http://suqun.github.io/tags/JAVA/"/>
     
   </entry>
   
@@ -501,7 +509,7 @@
     <link href="http://suqun.github.io/2016/05/09/JavaReflectionClasses/"/>
     <id>http://suqun.github.io/2016/05/09/JavaReflectionClasses/</id>
     <published>2016-05-08T16:52:55.000Z</published>
-    <updated>2016-08-05T08:44:37.000Z</updated>
+    <updated>2016-08-06T02:15:42.000Z</updated>
     <content type="html"><![CDATA[<p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/classes.html" target="_blank" rel="external">Java Reflection Classes</a></p>
 <h5 id="u83B7_u53D6class_u5BF9_u8C61"><a href="#u83B7_u53D6class_u5BF9_u8C61" class="headerlink" title="获取class对象"></a>获取class对象</h5><p>Java中的所有类型包括基本类型(int, long, float等等)，即使是数组都有与之关联的Class类的对象。<br>如果你在编译期知道一个类的名字的话，那么你可以使用如下的方式获取一个类的Class对象</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class orderClass = Order.class;</span><br></pre></td></tr></table></figure>
@@ -534,7 +542,7 @@
 <h5]]>
     </summary>
     
-      <category term="Java" scheme="http://suqun.github.io/tags/Java/"/>
+      <category term="JAVA" scheme="http://suqun.github.io/tags/JAVA/"/>
     
   </entry>
   
@@ -543,7 +551,7 @@
     <link href="http://suqun.github.io/2016/04/03/%E4%BD%BF%E7%94%A8Spring-Boot-Jquery-Datatables%E5%AE%9E%E7%8E%B0%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0%E7%9A%84%E8%A1%A8%E6%A0%BC/"/>
     <id>http://suqun.github.io/2016/04/03/使用Spring-Boot-Jquery-Datatables实现管理平台的表格/</id>
     <published>2016-04-03T06:21:46.000Z</published>
-    <updated>2016-08-05T08:44:37.000Z</updated>
+    <updated>2016-08-06T02:17:11.000Z</updated>
     <content type="html"><![CDATA[<p>最近在公司做一个运营平台,增删改查的那种,需要一个多功能的表格,网上看到Jquery的DataTables功能很丰富,查询,排序,翻页等等功能完善,<br>但是<a href="http://www.datatables.net/" target="_blank" rel="external">DataTables官网</a>上的例子,表格数据都没有从服务端获取,生产上使用还得自己摸索下.另外,公司使用<br>Spring boot这个框架,配置简单,下面我们一起做一个整合的例子</p>
 <h3 id="u65B0_u5EFASpring_boot_u7684_u5E94_u7528"><a href="#u65B0_u5EFASpring_boot_u7684_u5E94_u7528" class="headerlink" title="新建Spring boot的应用"></a>新建Spring boot的应用</h3><p>新建个项目springboot-datatables-demo,我使用的是intellij idea,创建个maven项目,在pom里面引用包后,创建main方法即可主要代码如下:<br>(详细讲解可以参考我的上一篇日志<a href="http://suqun.github.io/2016/02/17/%E7%AC%AC%E4%B8%80%E4%B8%AASpring-Boot%E5%BA%94%E7%94%A8/">第一个Spring Boot应用</a>)</p>
 <p>####pom.xml<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="pi">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">project</span> <span class="attribute">xmlns</span>=<span class="value">"http://maven.apache.org/POM/4.0.0"</span></span><br><span class="line">         <span class="attribute">xmlns:xsi</span>=<span class="value">"http://www.w3.org/2001/XMLSchema-instance"</span></span><br><span class="line">         <span class="attribute">xsi:schemaLocation</span>=<span class="value">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="title">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>com.larry<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>springboot-datatables-demo<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="title">parent</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.2.5.RELEASE<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">parent</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="title">properties</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="title">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="title">java.version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="title">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-starter-thymeleaf<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-starter-data-jpa<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>c3p0<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>c3p0<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">version</span>&gt;</span>0.9.1.2<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>net.sourceforge.nekohtml<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>nekohtml<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.9.21<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.16.4<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">version</span>&gt;</span>4.12<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.mockito<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>mockito-core<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.10.19<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="title">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>net.coobird<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>thumbnailator<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">version</span>&gt;</span>0.4.8<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>fastjson<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.2.8<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="title">build</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">plugins</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">plugin</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="title">plugin</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">plugins</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">build</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="title">repositories</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">repository</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">id</span>&gt;</span>spring-releases<span class="tag">&lt;/<span class="title">id</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">name</span>&gt;</span>Spring Releases<span class="tag">&lt;/<span class="title">name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">url</span>&gt;</span>https://repo.spring.io/libs-release<span class="tag">&lt;/<span class="title">url</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">repository</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">repositories</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">pluginRepositories</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">pluginRepository</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">id</span>&gt;</span>spring-releases<span class="tag">&lt;/<span class="title">id</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">name</span>&gt;</span>Spring Releases<span class="tag">&lt;/<span class="title">name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">url</span>&gt;</span>https://repo.spring.io/libs-release<span class="tag">&lt;/<span class="title">url</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">pluginRepository</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">pluginRepositories</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">project</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
@@ -580,7 +588,7 @@
     <![CDATA[<p>最近在公司做一个运营平台,增删改查的那种,需要一个多功能的表格,网上看到Jquery的DataTables功能很丰富,查询,排序,翻页等等功能完善,<br>但是<a href="http://www.datatables.net/" target="_blank" rel=]]>
     </summary>
     
-      <category term="SpringBoot" scheme="http://suqun.github.io/tags/SpringBoot/"/>
+      <category term="SPRING BOOT" scheme="http://suqun.github.io/tags/SPRING-BOOT/"/>
     
   </entry>
   
@@ -589,7 +597,7 @@
     <link href="http://suqun.github.io/2016/02/17/%E7%AC%AC%E4%B8%80%E4%B8%AASpring-Boot%E5%BA%94%E7%94%A8/"/>
     <id>http://suqun.github.io/2016/02/17/第一个Spring-Boot应用/</id>
     <published>2016-02-17T14:32:06.000Z</published>
-    <updated>2016-08-05T08:44:37.000Z</updated>
+    <updated>2016-08-06T02:15:42.000Z</updated>
     <content type="html"><![CDATA[<p>原文地址：<a href="http://course.tianmaying.com/spring-boot-reference/lesson/lesson-11#0" target="_blank" rel="external">天码营-SpringBoot参考指南</a> 本文只是学习笔记</p>
 <h3 id="u51C6_u5907"><a href="#u51C6_u5907" class="headerlink" title="准备"></a>准备</h3><p>让我们使用Java开发一个简单的”Hello World!” web应用，来强调下Spring Boot的一些关键特性。我们将使用Maven构建该项目，因为大多数IDEs都支持它。</p>
 <p>注：<a href="/spring.io">spring.io</a>网站包含很多使用Spring Boot的”入门”指南。如果你正在找特定问题的解决方案，可以先去那瞅瞅。</p>
@@ -636,9 +644,7 @@
     
     </summary>
     
-      <category term="Spring" scheme="http://suqun.github.io/tags/Spring/"/>
-    
-      <category term="SpringBoot" scheme="http://suqun.github.io/tags/SpringBoot/"/>
+      <category term="SPRING BOOT" scheme="http://suqun.github.io/tags/SPRING-BOOT/"/>
     
   </entry>
   
@@ -647,7 +653,7 @@
     <link href="http://suqun.github.io/2016/02/16/Spring-Boot%E5%AE%89%E8%A3%85/"/>
     <id>http://suqun.github.io/2016/02/16/Spring-Boot安装/</id>
     <published>2016-02-16T14:54:54.000Z</published>
-    <updated>2016-08-05T08:44:38.000Z</updated>
+    <updated>2016-08-06T02:15:42.000Z</updated>
     <content type="html"><![CDATA[<h3 id="JDK"><a href="#JDK" class="headerlink" title="JDK"></a>JDK</h3><p>Spring Boot可以跟典型的Java开发工具一块使用或安装为一个命令行工具。不管怎样，你将需要安装Java SDK v1.6 或更高版本。在开始之前，你需要检查下当前安装的Java版本：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -version</span><br></pre></td></tr></table></figure>
 <p>注：尽管Spring Boot兼容Java 1.6，如果可能的话，你应该考虑使用Java最新版本。</p>
@@ -677,9 +683,9 @@
     
     </summary>
     
-      <category term="Spring" scheme="http://suqun.github.io/tags/Spring/"/>
+      <category term="SPRING" scheme="http://suqun.github.io/tags/SPRING/"/>
     
-      <category term="SpringBoot" scheme="http://suqun.github.io/tags/SpringBoot/"/>
+      <category term="SPRING BOOT" scheme="http://suqun.github.io/tags/SPRING-BOOT/"/>
     
   </entry>
   
@@ -688,7 +694,7 @@
     <link href="http://suqun.github.io/2016/01/30/docker%E5%AE%B9%E5%99%A8%E7%9A%84%E6%93%8D%E4%BD%9C/"/>
     <id>http://suqun.github.io/2016/01/30/docker容器的操作/</id>
     <published>2016-01-29T16:06:23.000Z</published>
-    <updated>2016-08-05T08:44:37.000Z</updated>
+    <updated>2016-08-06T02:15:42.000Z</updated>
     <content type="html"><![CDATA[<h3 id="u8FD0_u884C_u5BB9_u5668"><a href="#u8FD0_u884C_u5BB9_u5668" class="headerlink" title="运行容器"></a>运行容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker run 运行容器</span><br><span class="line">-i -t  创建交互式容器</span><br><span class="line"><span class="operator">-d</span> 创建守护式容器</span><br><span class="line">--name 为容器指定一个名称</span><br></pre></td></tr></table></figure>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -it ubuntu /bin/bash</span><br><span class="line">root@<span class="number">8</span>abb3326b08f:/<span class="comment"># cat /etc/issue.net</span></span><br><span class="line">Ubuntu <span class="number">14.04</span>.<span class="number">3</span> LTS</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
@@ -704,7 +710,7 @@
     
     </summary>
     
-      <category term="Docker" scheme="http://suqun.github.io/tags/Docker/"/>
+      <category term="DOCKER" scheme="http://suqun.github.io/tags/DOCKER/"/>
     
   </entry>
   
