@@ -73,6 +73,114 @@
     <div class="outer">
       <section id="main">
   
+    <article id="post-dockerjavamicroservice1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/08/24/dockerjavamicroservice1/" class="article-date">
+  <time datetime="2016-08-24T11:23:15.000Z" itemprop="datePublished">2016-08-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/24/dockerjavamicroservice1/">基于Docker的java微服务(一) 部署Chris Richardson的转账案例</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      <!-- Table of Contents -->
+      
+
+      <h3 id="u6982_u8FF0"><a href="#u6982_u8FF0" class="headerlink" title="概述"></a>概述</h3><p>本文主要参考<a href="http://www.infoq.com/cn/articles/Automate-Docker-Cloud-Java-Microservice-Deployment-with-DCHQ" target="_blank" rel="external">使用DCHQ自动部署和管理基于Docker的云/虚拟化环境Java微服务</a></p>
+<p>最近在学习微服务,前两周了解基于Spring Cloud的微服务框架,这两天开始看看关于Docker的微服务。</p>
+<p>Spring Cloud整合了Netflix开源的Eureka,Hystrix,Ribbon,Feign,ZUUL等,<br>是一个基于Spring Boot实现的云应用开发工具，它为基于JVM的云应用开发中的配置管理、服务发现、断路器、智能路由、微代理、控制总线、全局锁、决策竞选、<br>分布式会话和集群状态管理等操作提供了一种简单的开发方式(<a href="http://blog.didispace.com/springcloud1/" target="_blank" rel="external">参考DIDI</a>)。</p>
+<p>那么Docker的微服务是什么样的呢。有空的同学可以看看Spring Cloud和Docker的比较<br><a href="http://www.infoq.com/cn/articles/netflix-oss-spring-cloud-kubernetes?utm_campaign=rightbar_v2&amp;utm_source=infoq&amp;utm_medium=articles_link&amp;utm_content=link_text" target="_blank" rel="external">Netflix OSS、Spring Cloud还是Kubernetes?</a>。<br>简单的说,就是基于Docker的调度器Kubernetes可以帮忙把大家从服务发现、负载均衡、容错等功能中解放出来,更专注于业务逻辑开发。</p>
+<p>Kubernetes是个什么鬼?要了解它,我们得先了解下,我们开发好的项目是怎么在Docker上部署应用的,多个Docker容器又是如何管理的。<br>这篇文章是Chris Richardson针对事件溯源、CQRS和Docker所创建的转账<a href="https://github.com/cer/event-sourcing-examples" target="_blank" rel="external">案例</a>。</p>
+<p>案例主要功能如下:</p>
+<ul>
+<li>基于一个初始的余额，创建新账户</li>
+<li>查询某个账户，得到其余额</li>
+<li>从一个账户到另一个账户进行转账</li>
+</ul>
+<p>我们就用这个例子,来了解下整个开发部署流程(<strong>仅仅是了解</strong>)。案例的具体业务逻辑介绍请移步<a href="https://github.com/cer/event-sourcing-examples" target="_blank" rel="external">event-sourcing-examples</a></p>
+<h3 id="u83B7_u53D6Event_Store_u51ED_u8BC1"><a href="#u83B7_u53D6Event_Store_u51ED_u8BC1" class="headerlink" title="获取Event Store凭证"></a>获取Event Store凭证</h3><p>架构使用事件驱动的方式来确保数据的一致性,这里面使用的是Event Store。</p>
+<p>在使用之前,需要获取Event Store凭证。<br>进入<a href="http://eventuate.io/" target="_blank" rel="external">Event Store</a>官网,注册个账号,过几个小时一般就会收到来自<a href="/chris@chrisrichardson.net">chris</a>的邮件。<br>邮件中有EVENTUATE_API_KEY_ID和EVENTUATE_API_KEY_SECRET,这个在后面的yml模板里会用到。</p>
+<h3 id="gradle_u6784_u5EFA"><a href="#gradle_u6784_u5EFA" class="headerlink" title="gradle构建"></a>gradle构建</h3><p>从<a href="https://github.com/cer/event-sourcing-examples" target="_blank" rel="external">event-sourcing-examples</a>clone项目到本地。</p>
+<p>直接下载下来的例子，部署测试的时候，会报几个错误，需要对代码做部分修改</p>
+<ul>
+<li>修改 xx-xx-side-service模块中build.gradle文件,添加如下内容<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">jar &#123;</span><br><span class="line">    manifest &#123;</span><br><span class="line">        attributes <span class="string">'Main-Class'</span>: <span class="string">'net.chrisrichardson.eventstore.javaexamples.banking.web.main.XxxxSideServiceMain'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>添加这个解决部署时遇到的找不到manifest错误</p>
+<ul>
+<li>xx-xx-side-service主方法添加注解@SpringBootApplication</li>
+</ul>
+<p>主方法没有@SpringBootApplication这个注解，是无法启动spring boot滴。</p>
+<p>修改后，使用gradle的assemble命令构建，构建成功后，模块的/build/libs会生成jar包。</p>
+<h3 id="docker-compose"><a href="#docker-compose" class="headerlink" title="docker-compose"></a>docker-compose</h3><p>gradle构建完毕后，我们要把service模块的jar包放到一个docker镜像中，然后启动这个docker。<br>这里使用了docker-compose来生成启动镜像。</p>
+<p>docker-compose的安装及介绍，请移步：<a href="https://yeasy.gitbooks.io/docker_practice/content/compose/" target="_blank" rel="external">Docker Compose 项目</a></p>
+<h4 id="docker-compose-yml"><a href="#docker-compose-yml" class="headerlink" title="docker-compose.yml"></a>docker-compose.yml</h4><p>docker-compose管理调度docker容器默认是根据docker-compose.yml模板进行的。这个模板里定义了生成镜像部署镜像的一些步骤。</p>
+<p>本案例的yml如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">accountscommandside:&#10;  image: openjdk:8u92-jdk-alpine&#10;  working_dir: /app&#10;  volumes:&#10;    - ./accounts-command-side-service/build/libs:/app&#10;  command: java -jar /app/accounts-command-side-service.jar&#10;  ports:&#10;    - &#34;8080:8080&#34;&#10;  environment:&#10;    EVENTUATE_API_KEY_ID: 5NJSVTRJ6UTYVL8U4RN8TKDRM&#10;    EVENTUATE_API_KEY_SECRET: fiAKWYEEj7EVxNi6yKXF8WDcVLbYA8Cu5RnFFKjwVOw&#10;&#10;transactionscommandside:&#10;  image: openjdk:8u92-jdk-alpine&#10;  working_dir: /app&#10;  volumes:&#10;    - ./transactions-command-side-service/build/libs:/app&#10;  command: java -jar /app/transactions-command-side-service.jar&#10;  ports:&#10;    - &#34;8082:8080&#34;&#10;  environment:&#10;    EVENTUATE_API_KEY_ID: 5NJSVTRJ6UTYVL8U4RN8TKDRM&#10;    EVENTUATE_API_KEY_SECRET: fiAKWYEEj7EVxNi6yKXF8WDcVLbYA8Cu5RnFFKjwVOw&#10;&#10;&#10;accountsqueryside:&#10;  image: openjdk:8u92-jdk-alpine&#10;  working_dir: /app&#10;  volumes:&#10;    - ./accounts-query-side-service/build/libs:/app&#10;  command: java -jar /app/accounts-query-side-service.jar&#10;  ports:&#10;    - &#34;8081:8080&#34;&#10;  links:&#10;    - mongodb&#10;  environment:&#10;    EVENTUATE_API_KEY_ID: 5NJSVTRJ6UTYVL8U4RN8TKDRM&#10;    EVENTUATE_API_KEY_SECRET: fiAKWYEEj7EVxNi6yKXF8WDcVLbYA8Cu5RnFFKjwVOw&#10;    SPRING_DATA_MONGODB_URI: mongodb://mongodb/mydb&#10;&#10;mongodb:&#10;  image: mongo:3.2.9&#10;  hostname: mongodb&#10;  command: mongod --smallfiles&#10;  ports:&#10;    - &#34;27017:27017&#34;</span><br></pre></td></tr></table></figure>
+<p>这里面定义了4个容器内容，分别是accountscommandside，transactionscommandside，accountsqueryside，mongodb</p>
+<ul>
+<li>image：指定为镜像名称或镜像 ID。如果镜像在本地不存在，Compose 将会尝试拉取这个镜像</li>
+<li>volumes：卷挂载路径设置，这里是将容器的/app路径挂载到宿主机/build/libs 路径上</li>
+<li>command：覆盖容器启动后默认执行的命令，这里是默认直接启动spring boot项目</li>
+<li>ports：暴露端口信息，格式如下<ul>
+<li>宿主：容器 （HOST:CONTAINER）</li>
+<li>容器（宿主会随机选择端口）</li>
+</ul>
+</li>
+<li>links：链接到其它服务中的容器。使用服务名称（同时作为别名）或服务名称：服务别名 （SERVICE:ALIAS）格式都可以。 <ul>
+<li>db</li>
+<li>db:database</li>
+<li>redis</li>
+</ul>
+</li>
+<li>environment：设置环境变量</li>
+</ul>
+<p>替换成你自己的EVENTUATE_API_KEY_ID和EVENTUATE_API_KEY_SECRET，否则部署后运行测试，会报401未授权错误。</p>
+<h4 id="docker-compse_up"><a href="#docker-compse_up" class="headerlink" title="docker-compse up"></a>docker-compse up</h4><p>设置好yml模板以后，使用docker-compse up来启动这4个容器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  java-spring git:(master) ✗ docker-compose up</span><br></pre></td></tr></table></figure>
+<p>再开个shell，看下启动的四个容器的状态</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  java-spring git:(master) ✗ docker-compose ps</span><br><span class="line">                Name                              Command               State            Ports</span><br><span class="line">--------------------------------------------------------------------------------------------------------</span><br><span class="line">javaspring_accountscommandside_1       java -jar /app/accounts-co ...   Up      <span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">8080</span>-&gt;<span class="number">8080</span>/tcp</span><br><span class="line">javaspring_accountsqueryside_1         java -jar /app/accounts-qu ...   Up      <span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">8081</span>-&gt;<span class="number">8080</span>/tcp</span><br><span class="line">javaspring_mongodb_1                   /entrypoint.sh mongod --sm ...   Up      <span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">27017</span>-&gt;<span class="number">27017</span>/tcp</span><br><span class="line">javaspring_transactionscommandside_1   java -jar /app/transaction ...   Up      <span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">8082</span>-&gt;<span class="number">8080</span>/tcp</span><br></pre></td></tr></table></figure>
+<p>四个状态都是up，好了，访问服务测试下。</p>
+<h3 id="u6D4B_u8BD5"><a href="#u6D4B_u8BD5" class="headerlink" title="测试"></a>测试</h3><p>先创建2个账户，每个都初始500美元<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  java-spring git:(master) ✗ curl -X POST -H <span class="string">"Content-Type: application/json"</span> -H <span class="string">"Cache-Control: no-cache"</span> <span class="operator">-d</span> <span class="string">'&#123;"initialBalance": 500&#125;'</span> <span class="string">"http://localhost:8080/accounts"</span></span><br><span class="line">&#123;<span class="string">"accountId"</span>:<span class="string">"00000156bfc1c044-0242ac1100460000"</span>&#125;%                                                                            </span><br><span class="line">➜  java-spring git:(master) ✗ curl -X POST -H <span class="string">"Content-Type: application/json"</span> -H <span class="string">"Cache-Control: no-cache"</span> <span class="operator">-d</span> <span class="string">'&#123;"initialBalance": 500&#125;'</span> <span class="string">"http://localhost:8080/accounts"</span></span><br><span class="line">&#123;<span class="string">"accountId"</span>:<span class="string">"00000156bfc1da88-0242ac1100960000"</span>&#125;%</span><br></pre></td></tr></table></figure></p>
+<p>根据账户ID查询<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  java-spring git:(master) ✗ curl -X GET <span class="string">"http://localhost:8081/accounts/00000156bfc1c044-0242ac1100460000"</span></span><br><span class="line">&#123;<span class="string">"accountId"</span>:<span class="string">"00000156bfc1c044-0242ac1100460000"</span>,<span class="string">"balance"</span>:<span class="number">50000</span>&#125;%                                                        </span><br><span class="line">➜  java-spring git:(master) ✗ curl -X GET <span class="string">"http://localhost:8081/accounts/00000156bfc1da88-0242ac1100960000"</span></span><br><span class="line">&#123;<span class="string">"accountId"</span>:<span class="string">"00000156bfc1da88-0242ac1100960000"</span>,<span class="string">"balance"</span>:<span class="number">50000</span>&#125;%</span><br></pre></td></tr></table></figure></p>
+<p>可以看到每个账户里都有50000美分。试试转账，然后再查询<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">➜  java-spring git:(master) ✗ curl -X POST -H <span class="string">"Content-Type: application/json"</span> <span class="operator">-d</span> <span class="string">'&#123;"fromAccountId" : "00000156bfc1c044-0242ac1100460000", "toAccountId" : "00000156bfc1da88-0242ac1100960000", "amount" : 500&#125;'</span> <span class="string">"http://localhost:8082/transfers"</span></span><br><span class="line">&#123;<span class="string">"moneyTransferId"</span>:<span class="string">"00000156bfc75387-0242ac1100ac0000"</span>&#125;%                                                                                                                                                    </span><br><span class="line">➜  java-spring git:(master) ✗ curl -X GET <span class="string">"http://localhost:8081/accounts/00000156bfc1da88-0242ac1100960000"</span></span><br><span class="line">&#123;<span class="string">"accountId"</span>:<span class="string">"00000156bfc1da88-0242ac1100960000"</span>,<span class="string">"balance"</span>:<span class="number">50000</span>&#125;%                                                                                                                                          </span><br><span class="line">➜  java-spring git:(master) ✗ curl -X GET <span class="string">"http://localhost:8081/accounts/00000156bfc1c044-0242ac1100460000"</span></span><br><span class="line">&#123;<span class="string">"accountId"</span>:<span class="string">"00000156bfc1c044-0242ac1100460000"</span>,<span class="string">"balance"</span>:<span class="number">0</span>&#125;%                                                                                                                                              </span><br><span class="line">➜  java-spring git:(master) ✗ curl -X GET <span class="string">"http://localhost:8081/accounts/00000156bfc1da88-0242ac1100960000"</span></span><br><span class="line">&#123;<span class="string">"accountId"</span>:<span class="string">"00000156bfc1da88-0242ac1100960000"</span>,<span class="string">"balance"</span>:<span class="number">100000</span>&#125;%</span><br></pre></td></tr></table></figure></p>
+<p>可以看到中间有个状态是不对的，这个基于事件驱动的，还没有自己看，应该是有延迟，后来再查询就是准确的了。事件驱动的后面会专门看看再整理篇文章。</p>
+<h3 id="u7ED3_u8BED"><a href="#u7ED3_u8BED" class="headerlink" title="结语"></a>结语</h3><p>本篇主要描述了如何使用docker-compose构建基于docker的java微服务框架。后续会对里面的知识点做些详细的学习。</p>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://suqun.github.io/2016/08/24/dockerjavamicroservice1/" data-id="cis9uantn000rhouqwk0w30eh" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(一) 部署Chris Richardson的转账案例">分享到</a>
+      
+
+      
+        <a href="http://suqun.github.io/2016/08/24/dockerjavamicroservice1/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CQRS/">CQRS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DOCKER/">DOCKER</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Event-Sourcing/">Event-Sourcing</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SPRING-BOOT/">SPRING BOOT</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-springcloud6" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/08/09/springcloud6/" class="article-date">
@@ -105,7 +213,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/09/springcloud6/" data-id="cirn61r1h000fokuq2mwia83l" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（六）服务网关">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/09/springcloud6/" data-id="cis9uantf000fhouqejhjm5w8" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（六）服务网关">分享到</a>
       
 
       
@@ -154,7 +262,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/09/SpringCloud5/" data-id="cirn61r1q000sokuq09tlo97j" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（五）分布式配置中心">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/09/SpringCloud5/" data-id="cis9uantu0012houqsdd0awxy" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（五）分布式配置中心">分享到</a>
       
 
       
@@ -229,7 +337,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四）集群/" data-id="cirn61r1s000wokuqjqnls7cz" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（四）集群">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四）集群/" data-id="cis9uantw0016houql0qzzprx" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（四）集群">分享到</a>
       
 
       
@@ -278,7 +386,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/" data-id="cirn61r20001eokuqvxngvjo8" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（三）断路器">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/" data-id="cis9uanu2001ohouqy7poqutn" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（三）断路器">分享到</a>
       
 
       
@@ -327,7 +435,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（二）服务消费者/" data-id="cirn61r1x0016okuqh4jndgx4" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（二）服务消费者">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（二）服务消费者/" data-id="cis9uantz001ghouqi7rs5dm9" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（二）服务消费者">分享到</a>
       
 
       
@@ -376,7 +484,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（一）服务注册与发现/" data-id="cirn61r23001lokuqscaujtee" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（一）服务注册与发现">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（一）服务注册与发现/" data-id="cis9uanu6001vhouqquralat5" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（一）服务注册与发现">分享到</a>
       
 
       
@@ -433,7 +541,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/28/Java-NIO-Buffer/" data-id="cirn61r31002rokuqkunm8f0p" class="article-share-link" data-share="baidu" data-title="Java NIO Buffer">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/28/Java-NIO-Buffer/" data-id="cis9uanv60031houqp6q6j6yr" class="article-share-link" data-share="baidu" data-title="Java NIO Buffer">分享到</a>
       
 
       
@@ -500,7 +608,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/26/Java-NIO-Channel/" data-id="cirn61r2z002pokuqc1rnl9ht" class="article-share-link" data-share="baidu" data-title="Java NIO Channel">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/26/Java-NIO-Channel/" data-id="cis9uanv4002zhouqm8jh2441" class="article-share-link" data-share="baidu" data-title="Java NIO Channel">分享到</a>
       
 
       
@@ -581,7 +689,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/" data-id="cirn61r2w002nokuq7ai14euo" class="article-share-link" data-share="baidu" data-title="Java NIO 概述">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/" data-id="cis9uanv2002xhouqzeg6apey" class="article-share-link" data-share="baidu" data-title="Java NIO 概述">分享到</a>
       
 
       
@@ -635,7 +743,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/" data-id="cirn61r2u002kokuq17njbn5o" class="article-share-link" data-share="baidu" data-title="Java NIO 教程">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/" data-id="cis9uanuz002uhouqphvpijgz" class="article-share-link" data-share="baidu" data-title="Java NIO 教程">分享到</a>
       
 
       
@@ -710,7 +818,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/24/JavaReflectionArray/" data-id="cirn61r2q002gokuqmsnczwxu" class="article-share-link" data-share="baidu" data-title="Java反射之数组">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/24/JavaReflectionArray/" data-id="cis9uanuw002qhouqd8cv29xw" class="article-share-link" data-share="baidu" data-title="Java反射之数组">分享到</a>
       
 
       
@@ -773,7 +881,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/21/JavaReflectionGenerics/" data-id="cirn61r2j0028okuq7q8uw3el" class="article-share-link" data-share="baidu" data-title="Java反射之泛型">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/21/JavaReflectionGenerics/" data-id="cis9uanuo002ihouqmmu9z1n3" class="article-share-link" data-share="baidu" data-title="Java反射之泛型">分享到</a>
       
 
       
@@ -852,7 +960,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/18/JavaReflectionAnnotations/" data-id="cirn61r2s002iokuq3lz73u7c" class="article-share-link" data-share="baidu" data-title="Java反射之注解">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/18/JavaReflectionAnnotations/" data-id="cis9uanux002shouqe1fxtkwv" class="article-share-link" data-share="baidu" data-title="Java反射之注解">分享到</a>
       
 
       
@@ -912,7 +1020,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/" data-id="cirn61r2e0023okuqdw1ms9cd" class="article-share-link" data-share="baidu" data-title="Java反射之私有变量和私有方法">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/" data-id="cis9uanui002dhouqs5t15juw" class="article-share-link" data-share="baidu" data-title="Java反射之私有变量和私有方法">分享到</a>
       
 
       
@@ -977,7 +1085,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/13/JavaReflectionMethods/" data-id="cirn61r2g0026okuqtx9k1wmn" class="article-share-link" data-share="baidu" data-title="Java反射之方法">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/13/JavaReflectionMethods/" data-id="cis9uanum002ghouq0rsakv13" class="article-share-link" data-share="baidu" data-title="Java反射之方法">分享到</a>
       
 
       
@@ -1033,7 +1141,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/12/JavaReflectionFields/" data-id="cirn61r2l002aokuqk0q9oefi" class="article-share-link" data-share="baidu" data-title="Java反射之变量">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/12/JavaReflectionFields/" data-id="cis9uanup002khouq3iuxnwor" class="article-share-link" data-share="baidu" data-title="Java反射之变量">分享到</a>
       
 
       
@@ -1089,7 +1197,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/11/JavaReflectionConstructors/" data-id="cirn61r2m002cokuqmpcx7snw" class="article-share-link" data-share="baidu" data-title="Java反射之构造函数">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/11/JavaReflectionConstructors/" data-id="cis9uanur002mhouqzgqdy0z8" class="article-share-link" data-share="baidu" data-title="Java反射之构造函数">分享到</a>
       
 
       
@@ -1163,7 +1271,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/09/JavaReflectionClasses/" data-id="cirn61r2o002eokuqkoeiyucb" class="article-share-link" data-share="baidu" data-title="Java反射之对象">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/09/JavaReflectionClasses/" data-id="cis9uanut002ohouq5aae7g17" class="article-share-link" data-share="baidu" data-title="Java反射之对象">分享到</a>
       
 
       
@@ -1242,7 +1350,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/04/03/使用Spring-Boot-Jquery-Datatables实现管理平台的表格/" data-id="cirn61r170006okuq3ot0es42" class="article-share-link" data-share="baidu" data-title="使用Spring Boot Jquery Datatables实现管理平台的表格">分享到</a>
+        <a data-url="http://suqun.github.io/2016/04/03/使用Spring-Boot-Jquery-Datatables实现管理平台的表格/" data-id="cis9uant60006houqcdb5b3zg" class="article-share-link" data-share="baidu" data-title="使用Spring Boot Jquery Datatables实现管理平台的表格">分享到</a>
       
 
       
@@ -1295,7 +1403,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/02/17/第一个Spring-Boot应用/" data-id="cirn61r100003okuqvzg8zh7f" class="article-share-link" data-share="baidu" data-title="第一个Spring Boot应用">分享到</a>
+        <a data-url="http://suqun.github.io/2016/02/17/第一个Spring-Boot应用/" data-id="cis9uanss0003houqmto58v2q" class="article-share-link" data-share="baidu" data-title="第一个Spring Boot应用">分享到</a>
       
 
       
@@ -1348,7 +1456,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/02/16/Spring-Boot安装/" data-id="cirn61r26001qokuq8x43ceow" class="article-share-link" data-share="baidu" data-title="Spring Boot安装">分享到</a>
+        <a data-url="http://suqun.github.io/2016/02/16/Spring-Boot安装/" data-id="cis9uanu90020houqn5bkaq4r" class="article-share-link" data-share="baidu" data-title="Spring Boot安装">分享到</a>
       
 
       
@@ -1398,7 +1506,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/30/docker容器的操作/" data-id="cirn61r1l000lokuqpw317wk7" class="article-share-link" data-share="baidu" data-title="docker容器的操作">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/30/docker容器的操作/" data-id="cis9uantl000ohouquocpmjln" class="article-share-link" data-share="baidu" data-title="docker容器的操作">分享到</a>
       
 
       
@@ -1447,7 +1555,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/13/Shell编程之正则表达式/" data-id="cirn61r29001uokuqp1tsdp71" class="article-share-link" data-share="baidu" data-title="Shell编程之正则表达式">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/13/Shell编程之正则表达式/" data-id="cis9uanua0024houqou40v8et" class="article-share-link" data-share="baidu" data-title="Shell编程之正则表达式">分享到</a>
       
 
       
@@ -1497,7 +1605,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/09/shell编程之运算符/" data-id="cirn61r1i000gokuq119qea14" class="article-share-link" data-share="baidu" data-title="shell编程之运算符">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/09/shell编程之运算符/" data-id="cis9uanti000jhouq1f0brznq" class="article-share-link" data-share="baidu" data-title="shell编程之运算符">分享到</a>
       
 
       
@@ -1563,7 +1671,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/04/Shell编程之变量/" data-id="cirn61r2a001xokuq3r8xk930" class="article-share-link" data-share="baidu" data-title="Shell编程之变量">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/04/Shell编程之变量/" data-id="cis9uanuc0027houqfjwzjbyp" class="article-share-link" data-share="baidu" data-title="Shell编程之变量">分享到</a>
       
 
       
@@ -1614,7 +1722,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/02/Shell基础/" data-id="cirn61r2c0020okuq9x3jrxti" class="article-share-link" data-share="baidu" data-title="Shell基础">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/02/Shell基础/" data-id="cis9uanue002ahouqyo8wugk3" class="article-share-link" data-share="baidu" data-title="Shell基础">分享到</a>
       
 
       
@@ -1667,7 +1775,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/01/What-is-Docker/" data-id="cirn61r1p000qokuqs3w6jl70" class="article-share-link" data-share="baidu" data-title="What is Docker?">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/01/What-is-Docker/" data-id="cis9uantr0010houqjhucwaxp" class="article-share-link" data-share="baidu" data-title="What is Docker?">分享到</a>
       
 
       
@@ -1718,7 +1826,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/31/2015/" data-id="cirn61r34002tokuqezk0dptn" class="article-share-link" data-share="baidu" data-title="2015">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/31/2015/" data-id="cis9uanv90033houqhrdna8h8" class="article-share-link" data-share="baidu" data-title="2015">分享到</a>
       
 
       
@@ -1777,7 +1885,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/30/Why-Docker/" data-id="cirn61r1n000ookuq0psak5by" class="article-share-link" data-share="baidu" data-title="Why Docker?">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/30/Why-Docker/" data-id="cis9uantq000yhouqeh14mnfn" class="article-share-link" data-share="baidu" data-title="Why Docker?">分享到</a>
       
 
       
@@ -1851,7 +1959,7 @@ connect host:port
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/28/zookeeper客户端命令/" data-id="cirn61r1f000dokuqn13mhf3y" class="article-share-link" data-share="baidu" data-title="zookeeper客户端命令">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/28/zookeeper客户端命令/" data-id="cis9uantd000dhouq5rsro2pq" class="article-share-link" data-share="baidu" data-title="zookeeper客户端命令">分享到</a>
       
 
       
@@ -1909,7 +2017,7 @@ connect host:port
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/28/zookeeper环境搭建/" data-id="cirn61r190008okuqlaqvw3j6" class="article-share-link" data-share="baidu" data-title="zookeeper环境搭建">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/28/zookeeper环境搭建/" data-id="cis9uant80008houq4opr1g8c" class="article-share-link" data-share="baidu" data-title="zookeeper环境搭建">分享到</a>
       
 
       
@@ -1959,7 +2067,7 @@ connect host:port
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/27/zookeeper概述/" data-id="cirn61r1c000bokuqkxn1g47t" class="article-share-link" data-share="baidu" data-title="zookeeper概述">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/27/zookeeper概述/" data-id="cis9uantb000bhouqsu6h4qvq" class="article-share-link" data-share="baidu" data-title="zookeeper概述">分享到</a>
       
 
       
@@ -1987,7 +2095,7 @@ connect host:port
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOCKER/">DOCKER</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EUREKA/">EUREKA</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FEIGN/">FEIGN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HYSTRIX/">HYSTRIX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-NIO/">JAVA NIO</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LINUX/">LINUX</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETFLIX/">NETFLIX</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RIBBON/">RIBBON</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SHELL/">SHELL</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING/">SPRING</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING-BOOT/">SPRING BOOT</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING-CLOUD/">SPRING CLOUD</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING-CLOUD-CONFIG/">SPRING CLOUD CONFIG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZOOKEEPER/">ZOOKEEPER</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZUUL/">ZUUL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CQRS/">CQRS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOCKER/">DOCKER</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EUREKA/">EUREKA</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event-Sourcing/">Event-Sourcing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FEIGN/">FEIGN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HYSTRIX/">HYSTRIX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-NIO/">JAVA NIO</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LINUX/">LINUX</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETFLIX/">NETFLIX</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RIBBON/">RIBBON</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SHELL/">SHELL</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING/">SPRING</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING-BOOT/">SPRING BOOT</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING-CLOUD/">SPRING CLOUD</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING-CLOUD-CONFIG/">SPRING CLOUD CONFIG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZOOKEEPER/">ZOOKEEPER</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZUUL/">ZUUL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -1996,7 +2104,7 @@ connect host:port
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/DOCKER/" style="font-size: 14px;">DOCKER</a> <a href="/tags/EUREKA/" style="font-size: 16px;">EUREKA</a> <a href="/tags/FEIGN/" style="font-size: 10px;">FEIGN</a> <a href="/tags/HYSTRIX/" style="font-size: 10px;">HYSTRIX</a> <a href="/tags/JAVA/" style="font-size: 18px;">JAVA</a> <a href="/tags/JAVA-NIO/" style="font-size: 16px;">JAVA NIO</a> <a href="/tags/LINUX/" style="font-size: 16px;">LINUX</a> <a href="/tags/NETFLIX/" style="font-size: 16px;">NETFLIX</a> <a href="/tags/RIBBON/" style="font-size: 12px;">RIBBON</a> <a href="/tags/SHELL/" style="font-size: 16px;">SHELL</a> <a href="/tags/SPRING/" style="font-size: 10px;">SPRING</a> <a href="/tags/SPRING-BOOT/" style="font-size: 20px;">SPRING BOOT</a> <a href="/tags/SPRING-CLOUD/" style="font-size: 16px;">SPRING CLOUD</a> <a href="/tags/SPRING-CLOUD-CONFIG/" style="font-size: 10px;">SPRING CLOUD CONFIG</a> <a href="/tags/ZOOKEEPER/" style="font-size: 14px;">ZOOKEEPER</a> <a href="/tags/ZUUL/" style="font-size: 10px;">ZUUL</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+      <a href="/tags/CQRS/" style="font-size: 10px;">CQRS</a> <a href="/tags/DOCKER/" style="font-size: 16px;">DOCKER</a> <a href="/tags/EUREKA/" style="font-size: 16px;">EUREKA</a> <a href="/tags/Event-Sourcing/" style="font-size: 10px;">Event-Sourcing</a> <a href="/tags/FEIGN/" style="font-size: 10px;">FEIGN</a> <a href="/tags/HYSTRIX/" style="font-size: 10px;">HYSTRIX</a> <a href="/tags/JAVA/" style="font-size: 18px;">JAVA</a> <a href="/tags/JAVA-NIO/" style="font-size: 16px;">JAVA NIO</a> <a href="/tags/LINUX/" style="font-size: 16px;">LINUX</a> <a href="/tags/NETFLIX/" style="font-size: 16px;">NETFLIX</a> <a href="/tags/RIBBON/" style="font-size: 12px;">RIBBON</a> <a href="/tags/SHELL/" style="font-size: 16px;">SHELL</a> <a href="/tags/SPRING/" style="font-size: 10px;">SPRING</a> <a href="/tags/SPRING-BOOT/" style="font-size: 20px;">SPRING BOOT</a> <a href="/tags/SPRING-CLOUD/" style="font-size: 16px;">SPRING CLOUD</a> <a href="/tags/SPRING-CLOUD-CONFIG/" style="font-size: 10px;">SPRING CLOUD CONFIG</a> <a href="/tags/ZOOKEEPER/" style="font-size: 14px;">ZOOKEEPER</a> <a href="/tags/ZUUL/" style="font-size: 10px;">ZUUL</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
     </div>
   </div>
 
@@ -2005,7 +2113,7 @@ connect host:port
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -2015,6 +2123,10 @@ connect host:port
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/08/24/dockerjavamicroservice1/">基于Docker的java微服务(一) 部署Chris Richardson的转账案例</a>
+          </li>
         
           <li>
             <a href="/2016/08/09/springcloud6/">Spring Cloud构建微服务架构（六）服务网关</a>
@@ -2030,10 +2142,6 @@ connect host:port
         
           <li>
             <a href="/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/">Spring Cloud构建微服务架构（三）断路器</a>
-          </li>
-        
-          <li>
-            <a href="/2016/08/05/Spring-Cloud构建微服务架构（二）服务消费者/">Spring Cloud构建微服务架构（二）服务消费者</a>
           </li>
         
       </ul>

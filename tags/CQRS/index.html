@@ -4,42 +4,17 @@
 <head>
   <meta charset="utf-8">
   
-  <title>zookeeper环境搭建 | 入耳箸心</title>
+  <title>Tag: CQRS | 入耳箸心</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="集群模式安装
-设置3台CentOS虚拟机192.168.1.105/106/107 网络模式桥接
-安装zookeeper到opt目录中
-cd /opt
-wget zookeeperURL
-tar xzvf zookeeper_3.**.gz
-
-
-安装JDK环境">
-<meta property="og:type" content="article">
-<meta property="og:title" content="zookeeper环境搭建">
-<meta property="og:url" content="http://suqun.github.io/2015/12/28/zookeeper环境搭建/index.html">
+  <meta name="description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="入耳箸心">
+<meta property="og:url" content="http://suqun.github.io/tags/CQRS/index.html">
 <meta property="og:site_name" content="入耳箸心">
-<meta property="og:description" content="集群模式安装
-设置3台CentOS虚拟机192.168.1.105/106/107 网络模式桥接
-安装zookeeper到opt目录中
-cd /opt
-wget zookeeperURL
-tar xzvf zookeeper_3.**.gz
-
-
-安装JDK环境">
-<meta property="og:updated_time" content="2016-08-06T02:15:42.000Z">
+<meta property="og:description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="zookeeper环境搭建">
-<meta name="twitter:description" content="集群模式安装
-设置3台CentOS虚拟机192.168.1.105/106/107 网络模式桥接
-安装zookeeper到opt目录中
-cd /opt
-wget zookeeperURL
-tar xzvf zookeeper_3.**.gz
-
-
-安装JDK环境">
+<meta name="twitter:title" content="入耳箸心">
+<meta name="twitter:description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
   
     <link rel="alternative" href="/atom.xml" title="入耳箸心" type="application/atom+xml">
   
@@ -96,195 +71,39 @@ tar xzvf zookeeper_3.**.gz
   </div>
 </header>
     <div class="outer">
-      <section id="main"><article id="post-zookeeper环境搭建" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/12/28/zookeeper环境搭建/" class="article-date">
-  <time datetime="2015-12-28T14:40:00.000Z" itemprop="datePublished">2015-12-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+      <section id="main">
   
-    <h1 class="article-title" itemprop="name">
-      zookeeper环境搭建
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2016" class="archive-year">2016</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2016/08/24/dockerjavamicroservice1/" class="archive-article-date">
+  <time datetime="2016-08-24T11:23:15.000Z" itemprop="datePublished">8月 24</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2016/08/24/dockerjavamicroservice1/">基于Docker的java微服务(一) 部署Chris Richardson的转账案例</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      <!-- Table of Contents -->
-      
-      <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#u96C6_u7FA4_u6A21_u5F0F_u5B89_u88C5"><span class="toc-number">1.</span> <span class="toc-text">集群模式安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u4F2A_u96C6_u7FA4_u6A21_u5F0F_u5B89_u88C5"><span class="toc-number">2.</span> <span class="toc-text">伪集群模式安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u5355_u673A_u6A21_u5F0F_u5B89_u88C5"><span class="toc-number">3.</span> <span class="toc-text">单机模式安装</span></a></li></ol>
-      </div>
-      
-
-      <h4 id="u96C6_u7FA4_u6A21_u5F0F_u5B89_u88C5"><a href="#u96C6_u7FA4_u6A21_u5F0F_u5B89_u88C5" class="headerlink" title="集群模式安装"></a>集群模式安装</h4><ul>
-<li>设置3台CentOS虚拟机192.168.1.105/106/107 网络模式桥接</li>
-<li>安装zookeeper到opt目录中<ul>
-<li>cd /opt</li>
-<li>wget zookeeperURL</li>
-<li>tar xzvf zookeeper_3.**.gz</li>
-</ul>
-</li>
-<li>安装JDK环境</li>
-</ul>
-<a id="more"></a>
-<ul>
-<li>配置<ul>
-<li>cd zookeeper/conf/</li>
-<li>cp zoo_sample.cfg zoo.cfg</li>
-<li>vim zoo.cfg<ul>
-<li>tickTime=2000</li>
-<li>dataDir=/var/zookeeper</li>
-<li>clientPort=2181</li>
-<li>配置服务器 server.id=host:port:port</li>
-<li>server.1=192.168.1.105:2888:3888</li>
-<li>server.2=192.168.1.106:2888:3888</li>
-<li>server.3=192.168.1.107:2888:3888</li>
-<li>保存退出</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>将zoo.cfg 负责到其他2台服务器上<ul>
-<li>scp zoo.cfg root@192.168.1.106:/opt/zookeeper/conf</li>
-<li>scp zoo.cfg root@192.168.1.107:/opt/zookeeper/conf</li>
-</ul>
-</li>
-<li>在var目录下创建zookeeper目录<ul>
-<li>cd /var &amp;&amp; mkdir zookeeper</li>
-</ul>
-</li>
-<li>在var/zookeeper目录下创建myid文件,内容为server.id的id值<ul>
-<li>vim myid</li>
-<li>1</li>
-<li>wq!</li>
-<li>其他2台服务器响应创建写入2，3</li>
-</ul>
-</li>
-<li>启动zookeeper<ul>
-<li>cd /opt/zookeeper</li>
-<li>./zkServer.sh start</li>
-<li>测试连接 telnet 192.168.105 2181 (yum install telnet)</li>
-<li>stat (显示当前服务器不能对外提供服务，需要其他其他2台)</li>
-</ul>
-</li>
-</ul>
-<h4 id="u4F2A_u96C6_u7FA4_u6A21_u5F0F_u5B89_u88C5"><a href="#u4F2A_u96C6_u7FA4_u6A21_u5F0F_u5B89_u88C5" class="headerlink" title="伪集群模式安装"></a>伪集群模式安装</h4><ol>
-<li><p>配置</p>
-<ul>
-<li>cd zookeeper/conf/</li>
-<li>cp zoo_sample.cfg zk1.cfg</li>
-<li>vim zk1.cfg<ul>
-<li>tickTime=2000</li>
-<li>dataDir=/var/zookeeper/zk1</li>
-<li>clientPort=2181</li>
-<li>server.1=192.168.1.105:2888:3888</li>
-<li>server.2=192.168.1.105:2889:3889</li>
-<li>server.3=192.168.1.105:2890:3890</li>
-</ul>
-</li>
-<li>cp zk1.cfg zk2.cfg<ul>
-<li>tickTime=2000</li>
-<li>dataDir=/var/zookeeper/zk2</li>
-<li>clientPort=2182</li>
-<li>server.1=192.168.1.105:2888:3888</li>
-<li>server.2=192.168.1.105:2889:3889</li>
-<li>server.3=192.168.1.105:2890:3890</li>
-</ul>
-</li>
-<li>cp zk1.cfg zk3.cfg<ul>
-<li>tickTime=2000</li>
-<li>dataDir=/var/zookeeper/zk3</li>
-<li>clientPort=2183</li>
-<li>server.1=192.168.1.105:2888:3888</li>
-<li>server.2=192.168.1.105:2889:3889</li>
-<li>server.3=192.168.1.105:2890:3890</li>
-</ul>
-</li>
-<li>在var/zookeeper/zk1(zk2,zk3)目录下创建myid文件,内容为server.id的id值<ul>
-<li>vim myid</li>
-<li>1</li>
-<li>wq!</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>启动zookeeper</p>
-<ul>
-<li>cd /opt/zookeeper</li>
-<li>./zkServer.sh start zk1.cfg</li>
-<li>./zkServer.sh start zk2.cfg</li>
-<li>./zkServer.sh start zk3.cfg</li>
-<li>查看节点状态<ul>
-<li>./zkServer.sh status zk1.cfg</li>
-<li>./zkServer.sh status zk2.cfg </li>
-<li>./zkServer.sh status zk3.cfg </li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h4 id="u5355_u673A_u6A21_u5F0F_u5B89_u88C5"><a href="#u5355_u673A_u6A21_u5F0F_u5B89_u88C5" class="headerlink" title="单机模式安装"></a>单机模式安装</h4><ul>
-<li>保留一台服务器，其他同集群安装配置<ul>
-<li>server.1=192.168.1.105:2888:3888</li>
-</ul>
-</li>
-</ul>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://suqun.github.io/2015/12/28/zookeeper环境搭建/" data-id="cis9uant80008houq4opr1g8c" class="article-share-link" data-share="baidu" data-title="zookeeper环境搭建">分享到</a>
-      
-
-      
-        <a href="http://suqun.github.io/2015/12/28/zookeeper环境搭建/#ds-thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ZOOKEEPER/">ZOOKEEPER</a></li></ul>
-
-    </footer>
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2015/12/28/zookeeper客户端命令/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">
-        
-          zookeeper客户端命令
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2015/12/27/zookeeper概述/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">zookeeper概述</div>
-    </a>
-  
-</nav>
-
-  
 </article>
-
-
-  <section id="comments">
-    <div id="ds-thread" class="ds-thread" data-thread-key="2015/12/28/zookeeper环境搭建/" data-title="zookeeper环境搭建" data-url="http://suqun.github.io/2015/12/28/zookeeper环境搭建/"></div>
-  </section>
+  
+  
+    </div></section>
+  
 </section>
       
       <aside id="sidebar">
