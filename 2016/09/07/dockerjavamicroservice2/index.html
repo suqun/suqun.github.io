@@ -16,7 +16,7 @@ vagrant安装多台CentOS7使用vagrant创建多个CentOS7虚拟机用于集群�
 <meta property="og:description" content="本文主要参考美团云的在CentOS7上部署Kubernetes集群
 概述Kubernetes(k8s)是Google开源的大规模容器集群管理系统, 本文将基于CentOS7自带的Kubernetes组件、分布式键值存储系统etcd以及Flannel实现的overlay网络来搭建一个简单的k8s集群。
 vagrant安装多台CentOS7使用vagrant创建多个CentOS7虚拟机用于集群部署。v">
-<meta property="og:updated_time" content="2016-09-07T14:04:22.000Z">
+<meta property="og:updated_time" content="2016-09-08T01:22:15.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于Docker的java微服务(二) CentOS7部署Kubernetes集群">
 <meta name="twitter:description" content="本文主要参考美团云的在CentOS7上部署Kubernetes集群
@@ -180,7 +180,7 @@ vagrant安装多台CentOS7使用vagrant创建多个CentOS7虚拟机用于集群�
 <h3 id="u6D4B_u8BD5"><a href="#u6D4B_u8BD5" class="headerlink" title="测试"></a>测试</h3><p>在Master上查看节点信息</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[vagrant@master ~]$ kubectl get nodes</span><br><span class="line">NAME              STATUS    AGE</span><br><span class="line">worker1.vagrant   Ready     <span class="number">4</span>m</span><br><span class="line">worker2.vagrant   Ready     <span class="number">10</span>s</span><br></pre></td></tr></table></figure>
 <p>在Master节点查看flannel子网分配情况</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[vagrant@master ~]$ etcdctl ls /coreos.com/network/subnets</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[vagrant@master ~]$ etcdctl ls /coreos.com/network/subnets</span><br><span class="line">/coreos.com/network/subnets/<span class="number">172.17</span>.<span class="number">29.0</span>-<span class="number">24</span></span><br></pre></td></tr></table></figure>
 <h3 id="Guestbook_u90E8_u7F72_u5230k8s_u4E2D"><a href="#Guestbook_u90E8_u7F72_u5230k8s_u4E2D" class="headerlink" title="Guestbook部署到k8s中"></a>Guestbook部署到k8s中</h3><p><a href="https://github.com/kubernetes/kubernetes/blob/release-1.2/examples/guestbook/README.md" target="_blank" rel="external">Guestbook example</a></p>
 <h3 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h3><p>这里的集群部署参考的是美团云分享的。都只是练手用的。</p>
 <p>k8s部署还可以更简单，一键部署。使用vagrant+coreOs，安装完虚拟机后，Master节点c1会自动下在k8s所需的环境，奈何大陆的程序员比较苦逼，有墙的存在。在翻墙的情况下可以尝试一键部署k8s集群。详情请移步<a href="https://coreos.com/kubernetes/docs/latest/kubernetes-on-vagrant.html" target="_blank" rel="external">要翻才能看的到</a>。</p>
@@ -190,7 +190,7 @@ vagrant安装多台CentOS7使用vagrant创建多个CentOS7虚拟机用于集群�
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/09/07/dockerjavamicroservice2/" data-id="cissz901o000rb8uqu0bve02c" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(二) CentOS7部署Kubernetes集群">分享到</a>
+        <a data-url="http://suqun.github.io/2016/09/07/dockerjavamicroservice2/" data-id="cistnfw3j000rj0uqibxxwy8c" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(二) CentOS7部署Kubernetes集群">分享到</a>
       
 
       
