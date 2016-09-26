@@ -73,6 +73,54 @@
     <div class="outer">
       <section id="main">
   
+    <article id="post-dockerjavamicroservice3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/09/26/dockerjavamicroservice3/" class="article-date">
+  <time datetime="2016-09-26T09:14:49.000Z" itemprop="datePublished">2016-09-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/26/dockerjavamicroservice3/">基于Docker的java微服务(三) Kubernetes服务发现之环境变量</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      <!-- Table of Contents -->
+      
+
+      
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://suqun.github.io/2016/09/26/dockerjavamicroservice3/" data-id="citjus698000rt9uqjze2bc1w" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(三) Kubernetes服务发现之环境变量">分享到</a>
+      
+
+      
+        <a href="http://suqun.github.io/2016/09/26/dockerjavamicroservice3/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DOCKER/">DOCKER</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/K8s/">K8s</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-dockerjavamicroservice2" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/09/07/dockerjavamicroservice2/" class="article-date">
@@ -107,7 +155,7 @@
 <p>创建单台CentOS很简单，需要下面的步骤</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkidr centos7</span><br><span class="line"><span class="built_in">cd</span> centos7</span><br><span class="line">vagrant init</span><br><span class="line">vagrant up</span><br></pre></td></tr></table></figure>
 <p>vagrant init会初始化一个Vagrantfile的文件，CentOS的配置都是这个文件设定的。这里给出创建多台centos的Vagrantfile配置。</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- mode: ruby -*-</span></span><br><span class="line"><span class="comment"># vi: set ft=ruby :</span></span><br><span class="line"></span><br><span class="line">boxes = [</span><br><span class="line">  &#123; <span class="symbol">:name</span> =&gt; <span class="symbol">:master</span>,<span class="symbol">:ip</span> =&gt; <span class="string">'192.168.253.7'</span>,<span class="symbol">:cpus</span> =&gt; <span class="number">1</span>,<span class="symbol">:mem</span> =&gt; <span class="number">1024</span>&#125;,</span><br><span class="line">  &#123; <span class="symbol">:name</span> =&gt; <span class="symbol">:worker1</span>,<span class="symbol">:ip</span> =&gt; <span class="string">'192.168.253.8'</span>,<span class="symbol">:cpus</span> =&gt; <span class="number">1</span>,<span class="symbol">:mem</span> =&gt; <span class="number">1024</span>&#125;,</span><br><span class="line">  &#123; <span class="symbol">:name</span> =&gt; <span class="symbol">:worker2</span>,<span class="symbol">:ip</span> =&gt; <span class="string">'192.168.253.9'</span>,<span class="symbol">:cpus</span> =&gt; <span class="number">1</span>,<span class="symbol">:mem</span> =&gt; <span class="number">1024</span>&#125;,</span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line"><span class="constant">VAGRANTFILE_API_VERSION</span> = <span class="string">"2"</span></span><br><span class="line"></span><br><span class="line"><span class="constant">Vagrant</span>.configure(<span class="constant">VAGRANTFILE_API_VERSION</span>) <span class="keyword">do</span> |config|</span><br><span class="line">    boxes.each <span class="keyword">do</span> |opts|</span><br><span class="line">        config.vm.define opts[<span class="symbol">:name</span>] <span class="keyword">do</span> |config|</span><br><span class="line">            config.vm.box       = <span class="string">"centos7"</span></span><br><span class="line">            config.vm.boot_timeout = <span class="number">360</span></span><br><span class="line">            config.ssh.username = <span class="string">"vagrant"</span></span><br><span class="line">            config.ssh.password = <span class="string">"vagrant"</span></span><br><span class="line">            config.vm.synced_folder <span class="string">"."</span>, <span class="string">"/vagrant"</span>, <span class="symbol">disabled:</span><span class="keyword">true</span></span><br><span class="line">            config.vm.network  <span class="string">"private_network"</span>, <span class="symbol">ip:</span> opts[<span class="symbol">:ip</span>]</span><br><span class="line">            config.vm.hostname = <span class="string">"%s.vagrant"</span> % opts[<span class="symbol">:name</span>].to_s</span><br><span class="line">            config.vm.provider <span class="string">"virtualbox"</span> <span class="keyword">do</span> |vb|</span><br><span class="line">                vb.customize [<span class="string">"modifyvm"</span>, <span class="symbol">:id</span>, <span class="string">"--cpus"</span>, opts[<span class="symbol">:cpus</span>] ] <span class="keyword">if</span> opts[<span class="symbol">:cpus</span>]</span><br><span class="line">                vb.customize [<span class="string">"modifyvm"</span>, <span class="symbol">:id</span>, <span class="string">"--memory"</span>, opts[<span class="symbol">:mem</span>] ] <span class="keyword">if</span> opts[<span class="symbol">:mem</span>]</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">            <span class="comment">#config.vm.provision "shell", inline: $update_script</span></span><br><span class="line">            <span class="comment">#config.vm.provision "shell", path: opts[:provision] if opts[:provision]</span></span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- mode: ruby -*-</span></span><br><span class="line"><span class="comment"># vi: set ft=ruby :</span></span><br><span class="line"></span><br><span class="line">boxes = [</span><br><span class="line">  &#123; <span class="symbol">:name</span> =&gt; <span class="symbol">:master</span>,<span class="symbol">:ip</span> =&gt; <span class="string">'192.168.253.7'</span>,<span class="symbol">:cpus</span> =&gt; <span class="number">1</span>,<span class="symbol">:mem</span> =&gt; <span class="number">1024</span>&#125;,</span><br><span class="line">  &#123; <span class="symbol">:name</span> =&gt; <span class="symbol">:worker1</span>,<span class="symbol">:ip</span> =&gt; <span class="string">'192.168.253.8'</span>,<span class="symbol">:cpus</span> =&gt; <span class="number">1</span>,<span class="symbol">:mem</span> =&gt; <span class="number">1024</span>&#125;,</span><br><span class="line">  &#123; <span class="symbol">:name</span> =&gt; <span class="symbol">:worker2</span>,<span class="symbol">:ip</span> =&gt; <span class="string">'192.168.253.9'</span>,<span class="symbol">:cpus</span> =&gt; <span class="number">1</span>,<span class="symbol">:mem</span> =&gt; <span class="number">1024</span>&#125;,</span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line"><span class="constant">VAGRANTFILE_API_VERSION</span> = <span class="string">"2"</span></span><br><span class="line"></span><br><span class="line"><span class="constant">Vagrant</span>.configure(<span class="constant">VAGRANTFILE_API_VERSION</span>) <span class="keyword">do</span> |config|</span><br><span class="line">    boxes.each <span class="keyword">do</span> |opts|</span><br><span class="line">        config.vm.define opts[<span class="symbol">:name</span>] <span class="keyword">do</span> |config|</span><br><span class="line">            config.vm.box       = <span class="string">"centos7"</span></span><br><span class="line">            config.vm.boot_timeout = <span class="number">360</span></span><br><span class="line">            config.ssh.username = <span class="string">"vagrant"</span></span><br><span class="line">            config.ssh.password = <span class="string">"vagrant"</span></span><br><span class="line">            config.vm.synced_folder <span class="string">"."</span>, <span class="string">"/vagrant"</span>, <span class="symbol">disabled:</span><span class="keyword">true</span></span><br><span class="line">            config.vm.network  <span class="string">"public_network"</span>, <span class="symbol">ip:</span> opts[<span class="symbol">:ip</span>]</span><br><span class="line">            config.vm.hostname = <span class="string">"%s.vagrant"</span> % opts[<span class="symbol">:name</span>].to_s</span><br><span class="line">            config.vm.provider <span class="string">"virtualbox"</span> <span class="keyword">do</span> |vb|</span><br><span class="line">                vb.customize [<span class="string">"modifyvm"</span>, <span class="symbol">:id</span>, <span class="string">"--cpus"</span>, opts[<span class="symbol">:cpus</span>] ] <span class="keyword">if</span> opts[<span class="symbol">:cpus</span>]</span><br><span class="line">                vb.customize [<span class="string">"modifyvm"</span>, <span class="symbol">:id</span>, <span class="string">"--memory"</span>, opts[<span class="symbol">:mem</span>] ] <span class="keyword">if</span> opts[<span class="symbol">:mem</span>]</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">            <span class="comment">#config.vm.provision "shell", inline: $update_script</span></span><br><span class="line">            <span class="comment">#config.vm.provision "shell", path: opts[:provision] if opts[:provision]</span></span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
 <p>在这个文件的目录下执行<code>vagrant up</code>就可以创建3台虚拟机。我们把其中master作为k8s的Master节点，worker1，worker2作为k8s的Node节点来创建k8s集群。</p>
 <h3 id="u73AF_u5883_u51C6_u5907"><a href="#u73AF_u5883_u51C6_u5907" class="headerlink" title="环境准备"></a>环境准备</h3><table>
 <thead>
@@ -164,7 +212,7 @@
 <p>类似Master节点，如果每一个服务都启动成功，那么sudo systemctl status $SRV显示的信息则包含Active: active (running)。</p>
 <p>配置步骤都是参考<a href="https://mos.meituan.com/library/37/how-to-setup-k8s-cluster-on-CentOS7/" target="_blank" rel="external">美团云在CentOS7上部署Kubernetes集群</a>。<br>不巧的是，我在这一步上花了1周的时间。。。。Node节点上的flanneld和docker服务死活起不起来。<br>通过<code>systemctl status flanneld</code>，发现一直报错<code>Failed to retrieve network config</code>。</p>
 <p><strong>解决方法</strong>：</p>
-<p>修改Node节点上的flanneld配置<code>/etc/sysconfig/flanneld</code></p>
+<p>修改Node节点上的flanneld配置 <code>/etc/sysconfig/flanneld</code></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FLANNEL_ETCD_KEY=<span class="string">"/coreos.com/network"</span></span><br></pre></td></tr></table></figure>
 <p>然后重新启动flanneld和docker服务即可。</p>
 <h3 id="u6D4B_u8BD5"><a href="#u6D4B_u8BD5" class="headerlink" title="测试"></a>测试</h3><p>在Master上查看节点信息</p>
@@ -180,7 +228,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/09/07/dockerjavamicroservice2/" data-id="cistngfch000rkduqxw7bhm4w" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(二) CentOS7部署Kubernetes集群">分享到</a>
+        <a data-url="http://suqun.github.io/2016/09/07/dockerjavamicroservice2/" data-id="citjus69a000vt9uqzu35spb2" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(二) CentOS7部署Kubernetes集群">分享到</a>
       
 
       
@@ -288,7 +336,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/24/dockerjavamicroservice1/" data-id="cistngfcj000vkduqstzsrmk4" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(一) 部署Chris Richardson的转账案例">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/24/dockerjavamicroservice1/" data-id="citjus69d000yt9uqcl0shcvn" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(一) 部署Chris Richardson的转账案例">分享到</a>
       
 
       
@@ -337,7 +385,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/09/springcloud6/" data-id="cistngfca000fkduqsygxyyjh" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（六）服务网关">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/09/springcloud6/" data-id="citjus692000ft9uqfnha9v9o" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（六）服务网关">分享到</a>
       
 
       
@@ -386,7 +434,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/09/SpringCloud5/" data-id="cistngfcr0016kduq91kpdpfe" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（五）分布式配置中心">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/09/SpringCloud5/" data-id="citjus69m0019t9uqqm66yxkz" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（五）分布式配置中心">分享到</a>
       
 
       
@@ -461,7 +509,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四）集群/" data-id="cistngfct001akduq9lc554yd" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（四）集群">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四）集群/" data-id="citjus69o001dt9uqr712cbuj" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（四）集群">分享到</a>
       
 
       
@@ -510,7 +558,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/" data-id="cistngfd0001skduqaifaqdxv" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（三）断路器">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/" data-id="citjus69u001vt9uq47vtxr7m" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（三）断路器">分享到</a>
       
 
       
@@ -559,7 +607,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（二）服务消费者/" data-id="cistngfcx001kkduq5i4wliul" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（二）服务消费者">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（二）服务消费者/" data-id="citjus69r001nt9uq1m9jlgbg" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（二）服务消费者">分享到</a>
       
 
       
@@ -608,7 +656,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（一）服务注册与发现/" data-id="cistngfd3001zkduqtr62xtff" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（一）服务注册与发现">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（一）服务注册与发现/" data-id="citjus69x0022t9uq6ujs44w0" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（一）服务注册与发现">分享到</a>
       
 
       
@@ -665,7 +713,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/28/Java-NIO-Buffer/" data-id="cistngfe40035kduqsllnv1v9" class="article-share-link" data-share="baidu" data-title="Java NIO Buffer">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/28/Java-NIO-Buffer/" data-id="citjus6az0038t9uqz0szglub" class="article-share-link" data-share="baidu" data-title="Java NIO Buffer">分享到</a>
       
 
       
@@ -732,7 +780,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/26/Java-NIO-Channel/" data-id="cistngfe00033kduqeuag0o4q" class="article-share-link" data-share="baidu" data-title="Java NIO Channel">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/26/Java-NIO-Channel/" data-id="citjus6aw0036t9uqji3lga99" class="article-share-link" data-share="baidu" data-title="Java NIO Channel">分享到</a>
       
 
       
@@ -813,7 +861,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/" data-id="cistngfdy0031kduq16anffzl" class="article-share-link" data-share="baidu" data-title="Java NIO 概述">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/" data-id="citjus6at0034t9uq96834vuk" class="article-share-link" data-share="baidu" data-title="Java NIO 概述">分享到</a>
       
 
       
@@ -867,7 +915,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/" data-id="cistngfdv002ykduqqtvufy1s" class="article-share-link" data-share="baidu" data-title="Java NIO 教程">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/" data-id="citjus6aq0031t9uq2x78hqcg" class="article-share-link" data-share="baidu" data-title="Java NIO 教程">分享到</a>
       
 
       
@@ -942,7 +990,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/24/JavaReflectionArray/" data-id="cistngfdr002ukduqfmt2tj6s" class="article-share-link" data-share="baidu" data-title="Java反射之数组">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/24/JavaReflectionArray/" data-id="citjus6ak002xt9uq0faws0mt" class="article-share-link" data-share="baidu" data-title="Java反射之数组">分享到</a>
       
 
       
@@ -1005,7 +1053,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/21/JavaReflectionGenerics/" data-id="cistngfdk002mkduqpi4pu59r" class="article-share-link" data-share="baidu" data-title="Java反射之泛型">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/21/JavaReflectionGenerics/" data-id="citjus6ac002pt9uqhcy8ctkc" class="article-share-link" data-share="baidu" data-title="Java反射之泛型">分享到</a>
       
 
       
@@ -1084,7 +1132,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/18/JavaReflectionAnnotations/" data-id="cistngfdt002wkduq9byhx5qa" class="article-share-link" data-share="baidu" data-title="Java反射之注解">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/18/JavaReflectionAnnotations/" data-id="citjus6an002zt9uqo75jn4x0" class="article-share-link" data-share="baidu" data-title="Java反射之注解">分享到</a>
       
 
       
@@ -1144,7 +1192,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/" data-id="cistngfdf002hkduq0wqvdvlz" class="article-share-link" data-share="baidu" data-title="Java反射之私有变量和私有方法">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/" data-id="citjus6a8002kt9uqgmblr5ku" class="article-share-link" data-share="baidu" data-title="Java反射之私有变量和私有方法">分享到</a>
       
 
       
@@ -1209,7 +1257,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/13/JavaReflectionMethods/" data-id="cistngfdi002kkduq2cdw57z2" class="article-share-link" data-share="baidu" data-title="Java反射之方法">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/13/JavaReflectionMethods/" data-id="citjus6ab002nt9uqkooayjl7" class="article-share-link" data-share="baidu" data-title="Java反射之方法">分享到</a>
       
 
       
@@ -1265,7 +1313,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/12/JavaReflectionFields/" data-id="cistngfdl002okduqxzz6tgh8" class="article-share-link" data-share="baidu" data-title="Java反射之变量">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/12/JavaReflectionFields/" data-id="citjus6ad002rt9uq4rkrxvkx" class="article-share-link" data-share="baidu" data-title="Java反射之变量">分享到</a>
       
 
       
@@ -1321,7 +1369,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/11/JavaReflectionConstructors/" data-id="cistngfdn002qkduqxgk72aya" class="article-share-link" data-share="baidu" data-title="Java反射之构造函数">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/11/JavaReflectionConstructors/" data-id="citjus6ag002tt9uqlvu3e702" class="article-share-link" data-share="baidu" data-title="Java反射之构造函数">分享到</a>
       
 
       
@@ -1395,7 +1443,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/09/JavaReflectionClasses/" data-id="cistngfdp002skduqdxtxd096" class="article-share-link" data-share="baidu" data-title="Java反射之对象">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/09/JavaReflectionClasses/" data-id="citjus6ai002vt9uqjoflopt7" class="article-share-link" data-share="baidu" data-title="Java反射之对象">分享到</a>
       
 
       
@@ -1474,7 +1522,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/04/03/使用Spring-Boot-Jquery-Datatables实现管理平台的表格/" data-id="cistngfc10006kduqadwx049d" class="article-share-link" data-share="baidu" data-title="使用Spring Boot Jquery Datatables实现管理平台的表格">分享到</a>
+        <a data-url="http://suqun.github.io/2016/04/03/使用Spring-Boot-Jquery-Datatables实现管理平台的表格/" data-id="citjus68s0006t9uq8281gxbz" class="article-share-link" data-share="baidu" data-title="使用Spring Boot Jquery Datatables实现管理平台的表格">分享到</a>
       
 
       
@@ -1527,7 +1575,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/02/17/第一个Spring-Boot应用/" data-id="cistngfbv0003kduqcetwfxk6" class="article-share-link" data-share="baidu" data-title="第一个Spring Boot应用">分享到</a>
+        <a data-url="http://suqun.github.io/2016/02/17/第一个Spring-Boot应用/" data-id="citjus68l0003t9uqojlyzivw" class="article-share-link" data-share="baidu" data-title="第一个Spring Boot应用">分享到</a>
       
 
       
@@ -1580,7 +1628,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/02/16/Spring-Boot安装/" data-id="cistngfd50024kduq83zv3xpn" class="article-share-link" data-share="baidu" data-title="Spring Boot安装">分享到</a>
+        <a data-url="http://suqun.github.io/2016/02/16/Spring-Boot安装/" data-id="citjus6a00027t9uq19v61dzy" class="article-share-link" data-share="baidu" data-title="Spring Boot安装">分享到</a>
       
 
       
@@ -1630,7 +1678,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/30/docker容器的操作/" data-id="cistngfcf000okduqplw1eab1" class="article-share-link" data-share="baidu" data-title="docker容器的操作">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/30/docker容器的操作/" data-id="citjus696000ot9uqytgucw31" class="article-share-link" data-share="baidu" data-title="docker容器的操作">分享到</a>
       
 
       
@@ -1679,7 +1727,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/13/Shell编程之正则表达式/" data-id="cistngfd70028kduqljscsrln" class="article-share-link" data-share="baidu" data-title="Shell编程之正则表达式">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/13/Shell编程之正则表达式/" data-id="citjus6a2002bt9uqchypz1kn" class="article-share-link" data-share="baidu" data-title="Shell编程之正则表达式">分享到</a>
       
 
       
@@ -1729,7 +1777,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/09/shell编程之运算符/" data-id="cistngfcd000jkduq8zc4f26c" class="article-share-link" data-share="baidu" data-title="shell编程之运算符">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/09/shell编程之运算符/" data-id="citjus694000jt9uqnzsl4i5l" class="article-share-link" data-share="baidu" data-title="shell编程之运算符">分享到</a>
       
 
       
@@ -1795,7 +1843,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/04/Shell编程之变量/" data-id="cistngfd9002bkduqr2r2runu" class="article-share-link" data-share="baidu" data-title="Shell编程之变量">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/04/Shell编程之变量/" data-id="citjus6a4002et9uq0aqg64nu" class="article-share-link" data-share="baidu" data-title="Shell编程之变量">分享到</a>
       
 
       
@@ -1846,7 +1894,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/02/Shell基础/" data-id="cistngfdc002ekduqbzzwyfgw" class="article-share-link" data-share="baidu" data-title="Shell基础">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/02/Shell基础/" data-id="citjus6a7002ht9uqkj07wfmc" class="article-share-link" data-share="baidu" data-title="Shell基础">分享到</a>
       
 
       
@@ -1899,7 +1947,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/01/What-is-Docker/" data-id="cistngfcp0014kduqasuoof7m" class="article-share-link" data-share="baidu" data-title="What is Docker?">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/01/What-is-Docker/" data-id="citjus69k0017t9uq5l4n0fx8" class="article-share-link" data-share="baidu" data-title="What is Docker?">分享到</a>
       
 
       
@@ -1950,7 +1998,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/31/2015/" data-id="cistngfe60037kduq131s3h5k" class="article-share-link" data-share="baidu" data-title="2015">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/31/2015/" data-id="citjus6b1003at9uq6fz7cc88" class="article-share-link" data-share="baidu" data-title="2015">分享到</a>
       
 
       
@@ -2009,7 +2057,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/30/Why-Docker/" data-id="cistngfcn0012kduqiawpszm5" class="article-share-link" data-share="baidu" data-title="Why Docker?">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/30/Why-Docker/" data-id="citjus69h0015t9uqf4rfp151" class="article-share-link" data-share="baidu" data-title="Why Docker?">分享到</a>
       
 
       
@@ -2083,7 +2131,7 @@ connect host:port
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/28/zookeeper客户端命令/" data-id="cistngfc8000dkduq62x4oa0w" class="article-share-link" data-share="baidu" data-title="zookeeper客户端命令">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/28/zookeeper客户端命令/" data-id="citjus68z000dt9uq7ren8on1" class="article-share-link" data-share="baidu" data-title="zookeeper客户端命令">分享到</a>
       
 
       
@@ -2141,7 +2189,7 @@ connect host:port
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/28/zookeeper环境搭建/" data-id="cistngfc40008kduq25iykrcl" class="article-share-link" data-share="baidu" data-title="zookeeper环境搭建">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/28/zookeeper环境搭建/" data-id="citjus68v0008t9uqvek8drat" class="article-share-link" data-share="baidu" data-title="zookeeper环境搭建">分享到</a>
       
 
       
@@ -2191,7 +2239,7 @@ connect host:port
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/27/zookeeper概述/" data-id="cistngfc6000bkduqu094qi70" class="article-share-link" data-share="baidu" data-title="zookeeper概述">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/27/zookeeper概述/" data-id="citjus68y000bt9uqe26awnta" class="article-share-link" data-share="baidu" data-title="zookeeper概述">分享到</a>
       
 
       
@@ -2219,7 +2267,7 @@ connect host:port
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CQRS/">CQRS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOCKER/">DOCKER</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EUREKA/">EUREKA</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event-Sourcing/">Event-Sourcing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FEIGN/">FEIGN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HYSTRIX/">HYSTRIX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-NIO/">JAVA NIO</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/K8s/">K8s</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LINUX/">LINUX</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETFLIX/">NETFLIX</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RIBBON/">RIBBON</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SHELL/">SHELL</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING/">SPRING</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING-BOOT/">SPRING BOOT</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING-CLOUD/">SPRING CLOUD</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING-CLOUD-CONFIG/">SPRING CLOUD CONFIG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZOOKEEPER/">ZOOKEEPER</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZUUL/">ZUUL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CQRS/">CQRS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOCKER/">DOCKER</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EUREKA/">EUREKA</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event-Sourcing/">Event-Sourcing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FEIGN/">FEIGN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HYSTRIX/">HYSTRIX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-NIO/">JAVA NIO</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/K8s/">K8s</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LINUX/">LINUX</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETFLIX/">NETFLIX</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RIBBON/">RIBBON</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SHELL/">SHELL</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING/">SPRING</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING-BOOT/">SPRING BOOT</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING-CLOUD/">SPRING CLOUD</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING-CLOUD-CONFIG/">SPRING CLOUD CONFIG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZOOKEEPER/">ZOOKEEPER</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZUUL/">ZUUL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -2228,7 +2276,7 @@ connect host:port
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CQRS/" style="font-size: 10px;">CQRS</a> <a href="/tags/DOCKER/" style="font-size: 16.67px;">DOCKER</a> <a href="/tags/EUREKA/" style="font-size: 15px;">EUREKA</a> <a href="/tags/Event-Sourcing/" style="font-size: 10px;">Event-Sourcing</a> <a href="/tags/FEIGN/" style="font-size: 10px;">FEIGN</a> <a href="/tags/HYSTRIX/" style="font-size: 10px;">HYSTRIX</a> <a href="/tags/JAVA/" style="font-size: 18.33px;">JAVA</a> <a href="/tags/JAVA-NIO/" style="font-size: 15px;">JAVA NIO</a> <a href="/tags/K8s/" style="font-size: 10px;">K8s</a> <a href="/tags/LINUX/" style="font-size: 15px;">LINUX</a> <a href="/tags/NETFLIX/" style="font-size: 15px;">NETFLIX</a> <a href="/tags/RIBBON/" style="font-size: 11.67px;">RIBBON</a> <a href="/tags/SHELL/" style="font-size: 15px;">SHELL</a> <a href="/tags/SPRING/" style="font-size: 10px;">SPRING</a> <a href="/tags/SPRING-BOOT/" style="font-size: 20px;">SPRING BOOT</a> <a href="/tags/SPRING-CLOUD/" style="font-size: 15px;">SPRING CLOUD</a> <a href="/tags/SPRING-CLOUD-CONFIG/" style="font-size: 10px;">SPRING CLOUD CONFIG</a> <a href="/tags/ZOOKEEPER/" style="font-size: 13.33px;">ZOOKEEPER</a> <a href="/tags/ZUUL/" style="font-size: 10px;">ZUUL</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+      <a href="/tags/CQRS/" style="font-size: 10px;">CQRS</a> <a href="/tags/DOCKER/" style="font-size: 16.67px;">DOCKER</a> <a href="/tags/EUREKA/" style="font-size: 15px;">EUREKA</a> <a href="/tags/Event-Sourcing/" style="font-size: 10px;">Event-Sourcing</a> <a href="/tags/FEIGN/" style="font-size: 10px;">FEIGN</a> <a href="/tags/HYSTRIX/" style="font-size: 10px;">HYSTRIX</a> <a href="/tags/JAVA/" style="font-size: 18.33px;">JAVA</a> <a href="/tags/JAVA-NIO/" style="font-size: 15px;">JAVA NIO</a> <a href="/tags/K8s/" style="font-size: 11.67px;">K8s</a> <a href="/tags/LINUX/" style="font-size: 15px;">LINUX</a> <a href="/tags/NETFLIX/" style="font-size: 15px;">NETFLIX</a> <a href="/tags/RIBBON/" style="font-size: 11.67px;">RIBBON</a> <a href="/tags/SHELL/" style="font-size: 15px;">SHELL</a> <a href="/tags/SPRING/" style="font-size: 10px;">SPRING</a> <a href="/tags/SPRING-BOOT/" style="font-size: 20px;">SPRING BOOT</a> <a href="/tags/SPRING-CLOUD/" style="font-size: 15px;">SPRING CLOUD</a> <a href="/tags/SPRING-CLOUD-CONFIG/" style="font-size: 10px;">SPRING CLOUD CONFIG</a> <a href="/tags/ZOOKEEPER/" style="font-size: 13.33px;">ZOOKEEPER</a> <a href="/tags/ZUUL/" style="font-size: 10px;">ZUUL</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
     </div>
   </div>
 
@@ -2237,7 +2285,7 @@ connect host:port
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -2247,6 +2295,10 @@ connect host:port
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/09/26/dockerjavamicroservice3/">基于Docker的java微服务(三) Kubernetes服务发现之环境变量</a>
+          </li>
         
           <li>
             <a href="/2016/09/07/dockerjavamicroservice2/">基于Docker的java微服务(二) CentOS7部署Kubernetes集群</a>
@@ -2262,10 +2314,6 @@ connect host:port
         
           <li>
             <a href="/2016/08/09/SpringCloud5/">Spring Cloud构建微服务架构（五）分布式配置中心</a>
-          </li>
-        
-          <li>
-            <a href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/">Spring Cloud构建微服务架构（四）集群</a>
           </li>
         
       </ul>
