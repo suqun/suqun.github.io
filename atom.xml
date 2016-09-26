@@ -36,7 +36,7 @@
     <link href="http://suqun.github.io/2016/09/07/dockerjavamicroservice2/"/>
     <id>http://suqun.github.io/2016/09/07/dockerjavamicroservice2/</id>
     <published>2016-09-07T11:23:15.000Z</published>
-    <updated>2016-09-26T09:20:27.000Z</updated>
+    <updated>2016-09-26T09:31:51.000Z</updated>
     <content type="html"><![CDATA[<p>本文主要参考美团云的<a href="https://mos.meituan.com/library/37/how-to-setup-k8s-cluster-on-CentOS7/" target="_blank" rel="external">在CentOS7上部署Kubernetes集群</a></p>
 <h3 id="u6982_u8FF0"><a href="#u6982_u8FF0" class="headerlink" title="概述"></a>概述</h3><p>Kubernetes(k8s)是Google开源的大规模容器集群管理系统, 本文将基于CentOS7自带的Kubernetes组件、分布式键值存储系统etcd以及Flannel实现的overlay网络来搭建一个简单的k8s集群。</p>
 <h3 id="vagrant_u5B89_u88C5_u591A_u53F0CentOS7"><a href="#vagrant_u5B89_u88C5_u591A_u53F0CentOS7" class="headerlink" title="vagrant安装多台CentOS7"></a>vagrant安装多台CentOS7</h3><p>使用vagrant创建多个CentOS7虚拟机用于集群部署。vagrant的安装非常简单,网上一大堆教程，可以参考<a href="http://www.tuicool.com/articles/miE7vm6" target="_blank" rel="external">这里</a>。我使用的是1.8.5版本。同时还需要下载CentOS的box文件,<br>由于box文件都在国外的网站上下载速度缓慢,可以从我的云盘上下载<a href="https://pan.baidu.com/s/1jI6T4EE" target="_blank" rel="external">CentOS-7-x86_64-Minimal-1511.box</a>。<br>有了box文件后,执行以下命令添加box</p>
@@ -111,6 +111,13 @@
 <p>在Master节点查看flannel子网分配情况</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[vagrant@master ~]$ etcdctl ls /coreos.com/network/subnets</span><br><span class="line">/coreos.com/network/subnets/<span class="number">172.17</span>.<span class="number">29.0</span>-<span class="number">24</span></span><br></pre></td></tr></table></figure>
 <h3 id="Guestbook_u90E8_u7F72_u5230k8s_u4E2D"><a href="#Guestbook_u90E8_u7F72_u5230k8s_u4E2D" class="headerlink" title="Guestbook部署到k8s中"></a>Guestbook部署到k8s中</h3><p><a href="https://github.com/kubernetes/kubernetes/blob/release-1.2/examples/guestbook/README.md" target="_blank" rel="external">Guestbook example</a></p>
+<p>部署的过程中遇到2个问题</p>
+<ol>
+<li><p>通过<code>kubectl create -f xxx.yaml</code>创建pod显示成功，但是通过 <code>kubectl get pod</code>命令确查询不到任何pod信息。解决方案可以参考：<a href="http://www.voidcn.com/blog/jinzhencs/article/p-5975011.html" target="_blank" rel="external"> kubenetes无法创建pod/创建RC时无法自动创建pod的问题</a></p>
+</li>
+<li><p>解决了上面的问题后，可以get到pod信息，但是node节点通过查询docker images并未发现任何镜像，原因是因为国内的网络问题，无法下载到镜像所致。可以手动pull<br>镜像：<code>registry.access.redhat.com/rhel7/pod-infrastructure</code>以及你所需的其他镜像。</p>
+</li>
+</ol>
 <h3 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h3><p>这里的集群部署参考的是美团云分享的。都只是练手用的。</p>
 <p>k8s部署还可以更简单，一键部署。使用vagrant+coreOs，安装完虚拟机后，Master节点c1会自动下在k8s所需的环境，奈何大陆的程序员比较苦逼，有墙的存在。在翻墙的情况下可以尝试一键部署k8s集群。详情请移步<a href="https://coreos.com/kubernetes/docs/latest/kubernetes-on-vagrant.html" target="_blank" rel="external">要翻才能看的到</a>。</p>
 ]]></content>
