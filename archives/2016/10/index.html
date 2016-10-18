@@ -4,41 +4,17 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Java NIO 概述 | 入耳箸心</title>
+  <title>Archives: 2016/10 | 入耳箸心</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Java NIO 包含下面三个核心组件:
-
-Channels
-Buffers
-Selectors
-
-Java NIO 还有很多其他的类和组件,Channel,Buffer,Selector是核心的API。其他的组件,诸如Pipe、FileLock仅仅只是这3个核心组组件的实际应用。
-Channels  and Buffers典型的,NIO中的所有IO都是起始于Channel。Channel有点像流">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Java NIO 概述">
-<meta property="og:url" content="http://suqun.github.io/2016/06/25/Java-NIO-Overview/index.html">
+  <meta name="description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="入耳箸心">
+<meta property="og:url" content="http://suqun.github.io/archives/2016/10/index.html">
 <meta property="og:site_name" content="入耳箸心">
-<meta property="og:description" content="Java NIO 包含下面三个核心组件:
-
-Channels
-Buffers
-Selectors
-
-Java NIO 还有很多其他的类和组件,Channel,Buffer,Selector是核心的API。其他的组件,诸如Pipe、FileLock仅仅只是这3个核心组组件的实际应用。
-Channels  and Buffers典型的,NIO中的所有IO都是起始于Channel。Channel有点像流">
-<meta property="og:image" content="http://tutorials.jenkov.com/images/java-nio/overview-channels-buffers.png">
-<meta property="og:image" content="http://tutorials.jenkov.com/images/java-nio/overview-selectors.png">
-<meta property="og:updated_time" content="2016-08-06T02:15:42.000Z">
+<meta property="og:description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java NIO 概述">
-<meta name="twitter:description" content="Java NIO 包含下面三个核心组件:
-
-Channels
-Buffers
-Selectors
-
-Java NIO 还有很多其他的类和组件,Channel,Buffer,Selector是核心的API。其他的组件,诸如Pipe、FileLock仅仅只是这3个核心组组件的实际应用。
-Channels  and Buffers典型的,NIO中的所有IO都是起始于Channel。Channel有点像流">
+<meta name="twitter:title" content="入耳箸心">
+<meta name="twitter:description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
   
     <link rel="alternative" href="/atom.xml" title="入耳箸心" type="application/atom+xml">
   
@@ -95,115 +71,39 @@ Channels  and Buffers典型的,NIO中的所有IO都是起始于Channel。Channel
   </div>
 </header>
     <div class="outer">
-      <section id="main"><article id="post-Java-NIO-Overview" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/06/25/Java-NIO-Overview/" class="article-date">
-  <time datetime="2016-06-25T05:27:34.000Z" itemprop="datePublished">2016-06-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+      <section id="main">
   
-    <h1 class="article-title" itemprop="name">
-      Java NIO 概述
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2016" class="archive-year">2016</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2016/10/17/docker-jenkins/" class="archive-article-date">
+  <time datetime="2016-10-17T08:44:51.000Z" itemprop="datePublished">10月 17</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2016/10/17/docker-jenkins/">java应用结合Jenkins，docker部署到Kubernetes</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      <!-- Table of Contents -->
-      
-      <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Channels_and_Buffers"><span class="toc-number">1.</span> <span class="toc-text">Channels  and Buffers</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Selectors"><span class="toc-number">2.</span> <span class="toc-text">Selectors</span></a></li></ol>
-      </div>
-      
-
-      <p>Java NIO 包含下面三个核心组件:</p>
-<ul>
-<li>Channels</li>
-<li>Buffers</li>
-<li>Selectors</li>
-</ul>
-<p>Java NIO 还有很多其他的类和组件,Channel,Buffer,Selector是核心的API。其他的组件,诸如Pipe、FileLock仅仅只是这3个核心组组件的实际应用。</p>
-<h4 id="Channels_and_Buffers"><a href="#Channels_and_Buffers" class="headerlink" title="Channels  and Buffers"></a>Channels  and Buffers</h4><p>典型的,NIO中的所有IO都是起始于Channel。Channel有点像流。可以将Channel中数据读到Buffer里,也可以将Buffer里的数据写入Channel中。说明如下:</p>
-<p><img src="http://tutorials.jenkov.com/images/java-nio/overview-channels-buffers.png" alt="Java NIO: Channels read data into Buffers, and Buffers write data into Channels"><br><strong>Java NIO: Channels read data into Buffers, and Buffers write data into Channels</strong></p>
-<p>Java NIO中主要的Channel实现类有：</p>
-<ul>
-<li>FileChannel</li>
-<li>DatagramChannel</li>
-<li>SocketChannel</li>
-<li>ServerSocketChannel</li>
-</ul>
-<p>可以看出,这些channels覆盖了UDP+TCP的网络IO,以及文件IO。</p>
-<p>Java NIO中主要的Buffer实现类有:</p>
-<ul>
-<li>ByteBuffer</li>
-<li>CharBuffer</li>
-<li>DoubleBuffer</li>
-<li>FloatBuffer</li>
-<li>IntBuffer</li>
-<li>LongBuffer</li>
-<li>ShortBuffer</li>
-</ul>
-<p>这些实现类也包含了通过IO发送数据所需要的基本的数据类型：byte、short、int、long、float、double、Char型。</p>
-<p>Java NIO也有 MappedByteBuffer类型，用于表示内存映射文件。</p>
-<h4 id="Selectors"><a href="#Selectors" class="headerlink" title="Selectors"></a>Selectors</h4><p>一个Selectors允许一个单线程同时处理多个Channel。如果应用中有很多打开的连接（Channels）这么做是很方便的，但是每个连接的流量都很低。比如，聊天服务器。</p>
-<p>下面是一个Selector处理3个Channel的说明：</p>
-<p><img src="http://tutorials.jenkov.com/images/java-nio/overview-selectors.png" alt="Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"><br><strong>Java NIO: A Thread uses a Selector to handle 3 Channel’s</strong></p>
-<p>先将Channels注册到Selector中，然后调用他的select()方法。这个方法会阻塞直到有注册的channel相应的事件触发。一旦这个方法返回，线程就可以处理这个事件。比如正在打开的连接，获取到数据的事件等等。</p>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/" data-id="ciuewsbjc003cw1uqt5ly5pnh" class="article-share-link" data-share="baidu" data-title="Java NIO 概述">分享到</a>
-      
-
-      
-        <a href="http://suqun.github.io/2016/06/25/Java-NIO-Overview/#ds-thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA-NIO/">JAVA NIO</a></li></ul>
-
-    </footer>
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2016/06/26/Java-NIO-Channel/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">
-        
-          Java NIO Channel
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2016/06/25/Java-NIO-Tutorial/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">Java NIO 教程</div>
-    </a>
-  
-</nav>
-
-  
 </article>
-
-
-  <section id="comments">
-    <div id="ds-thread" class="ds-thread" data-thread-key="2016/06/25/Java-NIO-Overview/" data-title="Java NIO 概述" data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/"></div>
-  </section>
+  
+  
+    </div></section>
+  
 </section>
       
       <aside id="sidebar">

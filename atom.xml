@@ -4,7 +4,7 @@
   <subtitle><![CDATA[成长路上的点滴记录]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://suqun.github.io/"/>
-  <updated>2016-09-26T09:16:54.000Z</updated>
+  <updated>2016-10-18T03:05:24.000Z</updated>
   <id>http://suqun.github.io/</id>
   
   <author>
@@ -15,14 +15,106 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[java应用结合Jenkins，docker部署到Kubernetes]]></title>
+    <link href="http://suqun.github.io/2016/10/17/docker-jenkins/"/>
+    <id>http://suqun.github.io/2016/10/17/docker-jenkins/</id>
+    <published>2016-10-17T08:44:51.000Z</published>
+    <updated>2016-10-18T03:05:24.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="Jenkins_u5B89_u88C5"><a href="#Jenkins_u5B89_u88C5" class="headerlink" title="Jenkins安装"></a>Jenkins安装</h3><p>1、下载Jenkins war包安装，下载地址 <a href="/jenkins.io">jenkins.io</a>。这里使用的是Jenkins2.24版本</p>
+<p>2、启动Jenkins</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JENKINS_HOME=~/.jenkins java -jar ~/Downloads/jenkins-<span class="number">2.24</span>.war --httpPort=<span class="number">9090</span></span><br></pre></td></tr></table></figure>
+<p>启动后，日志会提示<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*************************************************************&#10;*************************************************************&#10;*************************************************************&#10; &#10;Jenkins initial setup is required. An admin user has been created and a password generated.&#10;Please use the following password to proceed to installation:&#10; &#10;3521fbc3d40448efa8942f8e464b2dd9&#10; &#10;This may also be found at: /Users/arungupta/.jenkins/secrets/initialAdminPassword&#10; &#10;*************************************************************&#10;*************************************************************&#10;*************************************************************</span><br></pre></td></tr></table></figure></p>
+<p>访问localhost:9090，输入上面提示的密码，然后根据提示，安装推荐的插件，并创建用户</p>
+<h3 id="Jenkins_u63D2_u4EF6_u5B89_u88C5"><a href="#Jenkins_u63D2_u4EF6_u5B89_u88C5" class="headerlink" title="Jenkins插件安装"></a>Jenkins插件安装</h3><p>1、maven配置<br>在 系统管理-&gt;Global Tool Configuration-&gt;Maven 中配置Maven信息<br><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jenkis-maven3.png" alt="maven3"></p>
+<p>2、其他插件安装<br>在 系统管理-&gt;管理插件-&gt;可选插件中搜索 docker pipe ，选择CloudBees Docker Pipeline进行安装，安装后重启Jenkins</p>
+<h3 id="u521B_u5EFAJenkins_u4EFB_u52A1"><a href="#u521B_u5EFAJenkins_u4EFB_u52A1" class="headerlink" title="创建Jenkins任务"></a>创建Jenkins任务</h3><p>新建任务docker-pipeline</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/docker-pipeline.png" alt="docker-pipeline"></p>
+<p>选择Pipeline后，点击Ok后对任务进行配置。配置页中，可以根据自己需要进行设置。都比较简单一看就知道。我这里测试的是代码SCM使用的SVN，再Pipeline项选择Pipeline script from scm进行如下设置</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/pipeline-from-scm.png" alt="pipeline-from-scm"></p>
+<p>其中script path中设置的Jenkinsfile为具体的构建步骤，在项目地址的目录中。</p>
+<p>当然也可以直接选择 Pipeline script，直接在脚本中设置构建步骤</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/pipeline-script.png" alt="pipeline-script"></p>
+<p>脚本中主要的就是构建步骤，从scm检出项目，mvn测试打包，生成docker镜像，将docker镜像上传到镜像仓库，然后登录K8s的master上，部署新的镜像包。</p>
+<p>来看看Jenkinsfile，里面是如何描述上面的步骤的。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node &#123;&#10;    checkout scm&#10;    env.PATH = &#34;$&#123;tool &#39;Maven3&#39;&#125;/bin:$&#123;env.PATH&#125;&#34;&#10;    stage(&#39;Package&#39;) &#123;&#10;        dir(&#39;RpcServerSample&#39;) &#123;&#10;            sh &#39;mvn clean package -DskipTests&#39;&#10;        &#125;&#10;    &#125;&#10;&#10;    stage(&#39;Run Tests&#39;) &#123;&#10;        dir(&#39;RpcServerSample&#39;) &#123;&#10;                sh &#34;mvn test&#34;&#10;        &#125;&#10;    &#125;&#10;&#10;    stage(&#39;Build Image&#39;) &#123;&#10;        dir(&#39;RpcServerSample&#39;) &#123;&#10;            docker.build(&#34;daocloud.io/suqun/docker-jenkins-pipeline:v1&#34;).push()&#10;        &#125;&#10;    &#125;&#10;&#10;    stage(&#39;Deploy&#39;) &#123;&#10;        //&#26367;&#25442;rpcserver.yaml&#30340;&#38236;&#20687;&#29256;&#26412;&#21495;&#65292;&#24453;&#23436;&#25104;&#10;&#10;        dir(&#39;RpcServerSample&#39;) &#123;&#10;            //scp rpcserver.yaml &#21040; k8s&#30340;master&#19978;&#10;            sh &#39;sshpass -p vagrant scp rpcserver.yaml vagrant@192.168.1.10:/home/vagrant/rpcserver.yaml&#39;&#10;&#10;            //&#36828;&#31243;&#30331;&#24405;k8s&#38598;&#32676;master&#20027;&#26426;,&#26356;&#26032;&#38236;&#20687;&#65292;&#36825;&#37324;&#38754;&#35201;&#36827;&#34892;&#21028;&#26029;&#65292;&#31532;&#19968;&#27425;create&#10;            sh &#39;sshpass -p vagrant ssh vagrant@192.168.1.10 &#34;kubectl create -f /home/vagrant/rpcserver.yaml&#34;&#39;&#10;        &#125;&#10;    &#125;&#10;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>docker.build语句通过RpcServerSample路径下的Dockerfile创建镜像</p>
+<p>Dockerfile<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FROM daocloud.io/java:<span class="number">7</span></span><br><span class="line">MAINTAINER <span class="string">"Larry Su &lt;larrys@wicresoft.com&gt;"</span></span><br><span class="line">ADD target/RpcServerSample-<span class="number">1.0</span>-SNAPSHOT-jar-with-dependencies.jar /usr/src/myapp/RpcServerSample.jar</span><br><span class="line">WORKDIR /usr/src/myapp</span><br><span class="line">CMD [<span class="string">"java"</span>,<span class="string">"-jar"</span>, <span class="string">"RpcServerSample.jar"</span>]</span><br></pre></td></tr></table></figure></p>
+<p>rpcserver.yaml是K8s中的Deployment和Service</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1&#10;kind: Service&#10;metadata:&#10;  name: rpcserversample&#10;  labels:&#10;    app: rpcserversample&#10;spec:&#10;  # if your cluster supports it, uncomment the following to automatically create&#10;  # an external load-balanced IP for the frontend service.&#10;  #type: NodePort&#10;  ports:&#10;    # the port that this service should serve on&#10;  - port: 9001&#10;  selector:&#10;    app: rpcserversample&#10;---&#10;apiVersion: extensions/v1beta1&#10;kind: Deployment&#10;metadata:&#10;  name: rpcserversample&#10;  # these labels can be applied automatically&#10;  # from the labels in the pod template if not set&#10;  labels:&#10;    app: rpcserversample&#10;spec:&#10;  # this replicas value is default&#10;  # modify it according to your case&#10;  replicas: 2&#10;  # selector can be applied automatically&#10;  # from the labels in the pod template if not set&#10;  # selector:&#10;  #   matchLabels:&#10;  #     app: guestbook&#10;  #     tier: frontend&#10;  template:&#10;    metadata:&#10;      labels:&#10;        app: rpcserversample&#10;    spec:&#10;      containers:&#10;      - name: rpcserversample&#10;        image: daocloud.io/suqun/rpcserversample:v1&#10;        resources:&#10;          requests:&#10;            cpu: 100m&#10;            memory: 100Mi&#10;        ports:&#10;        - containerPort: 80</span><br></pre></td></tr></table></figure>
+<p>这里有些Jenkins pipeline最佳实践，可以参考:<a href="http://www.weixinla.com/document/41174312.html" target="_blank" rel="external">Jenkins管道最佳实践Top 10</a></p>
+<p>脚本写的比较烂，只是大概的流程，待完善。</p>
+<h3 id="u6784_u5EFA"><a href="#u6784_u5EFA" class="headerlink" title="构建"></a>构建</h3><p>进入任务，点击立即构建后结果如下</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/Jenkins-build.png" alt="result"></p>
+<p>然后可以登录K8s集群的master主机，通过<code>kubectl get po,svc</code> 检查是否部署成功。</p>
+<p>参考：<a href="https://dzone.com/articles/deployment-pipeline-using-docker-jenkins-java-and" target="_blank" rel="external">Deployment Pipeline Using Docker, Jenkins, Java, and Couchbase</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h3 id="Jenkins_u5B89_u88C5"><a href="#Jenkins_u5B89_u88C5" class="headerlink" title="Jenkins安装"></a>Jenkins安装</h3><p>1、下载Jenkins war包安装，下载地]]>
+    </summary>
+    
+      <category term="DOCKER" scheme="http://suqun.github.io/tags/DOCKER/"/>
+    
+      <category term="Jenkins" scheme="http://suqun.github.io/tags/Jenkins/"/>
+    
+      <category term="K8s" scheme="http://suqun.github.io/tags/K8s/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[使用kubeadm在CentOS7上安装Kubernetes集群]]></title>
+    <link href="http://suqun.github.io/2016/09/27/dockerjavamicroservice4/"/>
+    <id>http://suqun.github.io/2016/09/27/dockerjavamicroservice4/</id>
+    <published>2016-09-27T02:52:03.000Z</published>
+    <updated>2016-10-17T03:17:47.000Z</updated>
+    <content type="html"><![CDATA[<p>Kubernetes1.4版本提供kubeadm命令进行简化k8s集群的安装，只要使用2个简单命令就可以完成安装。 安装kubernetes以后，使用<code>kubeadm init</code>启动master，使用<code>kubeadm joins</code>把node添加到集群里。下面是根据官方博客<a href="http://kubernetes.io/docs/getting-started-guides/kubeadm/" target="_blank" rel="external">Installing Kubernetes on Linux with kubeadm</a>练习的记录。</p>
+<h4 id="u4F7F_u7528vagrant_u521B_u5EFA_u4E24_u4E2Acentos7"><a href="#u4F7F_u7528vagrant_u521B_u5EFA_u4E24_u4E2Acentos7" class="headerlink" title="使用vagrant创建两个centos7"></a>使用vagrant创建两个centos7</h4><p>在k8s-centos7-cluster文件夹下创建Vagrantfile文件。Vagrantfile配置如下：<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- mode: ruby -*-</span></span><br><span class="line"><span class="comment"># vi: set ft=ruby :</span></span><br><span class="line"></span><br><span class="line">boxes = [</span><br><span class="line">  &#123; <span class="symbol">:name</span> =&gt; <span class="symbol">:master</span>,<span class="symbol">:ip</span> =&gt; <span class="string">'192.168.1.20'</span>,<span class="symbol">:forward</span> =&gt; <span class="number">80</span>,<span class="symbol">:cpus</span> =&gt; <span class="number">1</span>,<span class="symbol">:mem</span> =&gt; <span class="number">1024</span>&#125;,</span><br><span class="line">  &#123; <span class="symbol">:name</span> =&gt; <span class="symbol">:node1</span>,<span class="symbol">:ip</span> =&gt; <span class="string">'192.168.1.21'</span>,<span class="symbol">:forward</span> =&gt; <span class="number">80</span>,<span class="symbol">:cpus</span> =&gt; <span class="number">1</span>,<span class="symbol">:mem</span> =&gt; <span class="number">1024</span>&#125;,</span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line"><span class="constant">VAGRANTFILE_API_VERSION</span> = <span class="string">"2"</span></span><br><span class="line"></span><br><span class="line"><span class="constant">Vagrant</span>.configure(<span class="constant">VAGRANTFILE_API_VERSION</span>) <span class="keyword">do</span> |config|</span><br><span class="line">    boxes.each <span class="keyword">do</span> |opts|</span><br><span class="line">        config.vm.define opts[<span class="symbol">:name</span>] <span class="keyword">do</span> |config|</span><br><span class="line">            config.vm.box       = <span class="string">"centos7"</span></span><br><span class="line">            config.vm.boot_timeout = <span class="number">360</span></span><br><span class="line">            config.ssh.username = <span class="string">"vagrant"</span></span><br><span class="line">            config.ssh.password = <span class="string">"vagrant"</span></span><br><span class="line">            config.vm.synced_folder <span class="string">"."</span>, <span class="string">"/vagrant"</span>, <span class="symbol">disabled:</span><span class="keyword">true</span></span><br><span class="line">            config.vm.network  <span class="string">"public_network"</span>, <span class="symbol">ip:</span> opts[<span class="symbol">:ip</span>]</span><br><span class="line">            <span class="comment">#config.vm.network "forwarded_port", guest: 80, host: 8080</span></span><br><span class="line">            config.vm.hostname = <span class="string">"%s.vagrant"</span> % opts[<span class="symbol">:name</span>].to_s</span><br><span class="line">            config.vm.provider <span class="string">"virtualbox"</span> <span class="keyword">do</span> |vb|</span><br><span class="line">                vb.customize [<span class="string">"modifyvm"</span>, <span class="symbol">:id</span>, <span class="string">"--cpus"</span>, opts[<span class="symbol">:cpus</span>] ] <span class="keyword">if</span> opts[<span class="symbol">:cpus</span>]</span><br><span class="line">                vb.customize [<span class="string">"modifyvm"</span>, <span class="symbol">:id</span>, <span class="string">"--memory"</span>, opts[<span class="symbol">:mem</span>] ] <span class="keyword">if</span> opts[<span class="symbol">:mem</span>]</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">            <span class="comment">#config.vm.provision "shell", inline: $update_script</span></span><br><span class="line">            <span class="comment">#config.vm.provision "shell", path: opts[:provision] if opts[:provision]</span></span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<p>在Vagrantfile文件目录下，创建两个CentOS7系统，一个作为master，一个作为node<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  k8s-centos7-cluster vagrant up</span><br><span class="line">Bringing machine <span class="string">'master'</span> up with <span class="string">'virtualbox'</span> provider...</span><br><span class="line">Bringing machine <span class="string">'node1'</span> up with <span class="string">'virtualbox'</span> provider...</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>Ok，下面我们开始在CentOS7中安装k8s集群</p>
+<h4 id="u5B89_u88C5kubelet_u548Ckuebadm"><a href="#u5B89_u88C5kubelet_u548Ckuebadm" class="headerlink" title="安装kubelet和kuebadm"></a>安装kubelet和kuebadm</h4><p>在所有的机子上都必须安装docker，kubelet，kubectl，kubeadm，无论是master还是node。并且使用root权限进行安装。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  k8s-centos7-cluster vagrant ssh master <span class="comment">#输入密码登录master</span></span><br><span class="line">[vagrant@master ~]$ </span><br><span class="line">[vagrant@master ~]$ sudo su -</span><br></pre></td></tr></table></figure>
+<p>登录master，切换到root用户，然后执行下面的命令:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># cat &#60;&#60;EOF &#62; /etc/yum.repos.d/k8s.repo&#10;[kubelet]&#10;name=kubelet&#10;baseurl=http://files.rm-rf.ca/rpms/kubelet/&#10;enabled=1&#10;gpgcheck=0&#10;EOF&#10;# yum install docker kubelet kubeadm kubectl kubernetes-cni&#10;# systemctl enable docker &#38;&#38; systemctl start docker&#10;# systemctl enable kubelet &#38;&#38; systemctl start kubelet</span><br></pre></td></tr></table></figure>
+<p>等待下载后安装。<br>安装完成后，可以使用<code>systemctl status</code> 查看安装好的组件服务状态。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@master ~]<span class="comment"># systemctl status docker</span></span><br><span class="line">● docker.service - Docker Application Container Engine</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since Tue <span class="number">2016</span>-<span class="number">09</span>-<span class="number">27</span> <span class="number">04</span>:<span class="number">57</span>:<span class="number">44</span> UTC; <span class="number">41</span>s ago</span><br></pre></td></tr></table></figure>
+<h4 id="u521D_u59CB_u5316master"><a href="#u521D_u59CB_u5316master" class="headerlink" title="初始化master"></a>初始化master</h4><p>在master上运行控制组件，包含etcd（集群的数据库），API server（kubectl 客户端沟通用）。这些组件都在pod中通过kubelet启动运行。<br>初始化master，选择上面实现安装过kubelet和kubeadm的主机，然后运行下面的命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@master ~]<span class="comment"># kubeadm init --use-kubernetes-version v1.4.0-beta.11</span></span><br></pre></td></tr></table></figure>
+<p>运行后，会下载安装集群用的数据库和控制组件，需要等待一些时间，输出内容如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;master/tokens&gt; generated token: <span class="string">"88958f.2068ff49c1675f8c"</span></span><br><span class="line">&lt;master/pki&gt; created keys and certificates <span class="keyword">in</span> <span class="string">"/etc/kubernetes/pki"</span></span><br><span class="line">&lt;util/kubeconfig&gt; created <span class="string">"/etc/kubernetes/kubelet.conf"</span></span><br><span class="line">&lt;util/kubeconfig&gt; created <span class="string">"/etc/kubernetes/admin.conf"</span></span><br><span class="line">&lt;master/apiclient&gt; created API client configuration</span><br><span class="line">&lt;master/apiclient&gt; created API client, waiting <span class="keyword">for</span> the control plane to become ready</span><br></pre></td></tr></table></figure>
+<p>未完待续。。。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Kubernetes1.4版本提供kubeadm命令进行简化k8s集群的安装，只要使用2个简单命令就可以完成安装。 安装kubernetes以后，使用<code>kubeadm init</code>启动master，使用<code>kubeadm joins</code>]]>
+    </summary>
+    
+      <category term="DOCKER" scheme="http://suqun.github.io/tags/DOCKER/"/>
+    
+      <category term="K8s" scheme="http://suqun.github.io/tags/K8s/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[基于Docker的java微服务(三) Kubernetes服务发现之环境变量]]></title>
     <link href="http://suqun.github.io/2016/09/26/dockerjavamicroservice3/"/>
     <id>http://suqun.github.io/2016/09/26/dockerjavamicroservice3/</id>
     <published>2016-09-26T09:14:49.000Z</published>
-    <updated>2016-09-26T09:16:54.000Z</updated>
-    <content type="html"></content>
+    <updated>2016-09-26T09:44:05.000Z</updated>
+    <content type="html"><![CDATA[<ol>
+<li>创建两个服务</li>
+<li>将服务打包成镜像</li>
+<li>k8s的service</li>
+<li>k8s的deployment</li>
+<li>简单测试</li>
+</ol>
+]]></content>
     <summary type="html">
-    
+    <![CDATA[<ol>
+<li>创建两个服务</li>
+<li>将服务打包成镜像</li>
+<li>k8s的service</li>
+<li>k8s的deployment</li>
+<li>简单测试</li>
+</ol>
+]]>
     </summary>
     
       <category term="DOCKER" scheme="http://suqun.github.io/tags/DOCKER/"/>
@@ -688,52 +780,6 @@
     <summary type="html">
     <![CDATA[<p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/methods.html" target="_blank" rel="external">Java Reflection Methods</a></p>
 <h5]]>
-    </summary>
-    
-      <category term="JAVA" scheme="http://suqun.github.io/tags/JAVA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Java反射之变量]]></title>
-    <link href="http://suqun.github.io/2016/05/12/JavaReflectionFields/"/>
-    <id>http://suqun.github.io/2016/05/12/JavaReflectionFields/</id>
-    <published>2016-05-11T16:52:55.000Z</published>
-    <updated>2016-08-06T02:15:42.000Z</updated>
-    <content type="html"><![CDATA[<h3 id="Java_Reflection_Fields"><a href="#Java_Reflection_Fields" class="headerlink" title="Java Reflection Fields"></a>Java Reflection Fields</h3><p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/fields.html" target="_blank" rel="external">Java Reflection Fields</a></p>
-<h4 id="Obtaining_Field_Objects"><a href="#Obtaining_Field_Objects" class="headerlink" title="Obtaining Field Objects"></a>Obtaining Field Objects</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Field[] fields = orderClass.getFields();</span><br></pre></td></tr></table></figure>
-<p>Field[]数组里面只包含类中public修饰的成员变量</p>
-<p>如果知道类的成员变量名称，可以直接通过getField()方法获取到，成员变量的访问权限同样需要是public的</p>
-<h4 id="Field_Name_and_Type"><a href="#Field_Name_and_Type" class="headerlink" title="Field Name and Type"></a>Field Name and Type</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Field field = orderClass.getField(<span class="string">"description"</span>);</span><br><span class="line">    System.out.println(field.getName());<span class="comment">//成员变量名称description</span></span><br><span class="line">    System.out.println(field.getType());<span class="comment">//成员变量类型class java.lang.String</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;<span class="comment">//如果不存在description的变量，会抛出NoSuchFieldException</span></span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="Getting_and_Setting_Field_Values"><a href="#Getting_and_Setting_Field_Values" class="headerlink" title="Getting and Setting Field Values"></a>Getting and Setting Field Values</h4><p>获得了field的引用，就可以通过get()，set()方法，获取和设置成员变量的值</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Field field = orderClass.getField(<span class="string">"description"</span>);</span><br><span class="line">    Order order = <span class="keyword">new</span> Order();</span><br><span class="line">    Object value = field.get(order);</span><br><span class="line">    field.set(order, value);</span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>传入Field.get()/Field.set()方法的参数order是Order类的实例。<br>如果变量是静态变量的话(public static)那么在调用Field.get()/Field.set()方法的时候传入null做为参数而不用传递拥有该变量的类的实例(传入类的实例也是可以的)。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h3 id="Java_Reflection_Fields"><a href="#Java_Reflection_Fields" class="headerlink" title="Java Reflection Fields"></a>Java Reflection Fiel]]>
-    </summary>
-    
-      <category term="JAVA" scheme="http://suqun.github.io/tags/JAVA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Java反射之构造函数]]></title>
-    <link href="http://suqun.github.io/2016/05/11/JavaReflectionConstructors/"/>
-    <id>http://suqun.github.io/2016/05/11/JavaReflectionConstructors/</id>
-    <published>2016-05-10T16:52:55.000Z</published>
-    <updated>2016-08-06T02:15:42.000Z</updated>
-    <content type="html"><![CDATA[<p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/constructors.html" target="_blank" rel="external">Java Reflection Constructors</a></p>
-<h4 id="u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61"><a href="#u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61" class="headerlink" title="获取构造函数的对象"></a>获取构造函数的对象</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Constructor[] constructors = orderClass.getConstructors();</span><br></pre></td></tr></table></figure>
-<p>可以通过构造函数的具体参数类型直接获取单独的构造函数，而不用获取全部的Constructors</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Constructor constructor = orderClass.getConstructor(<span class="keyword">new</span> Class[]&#123;String.class&#125;);</span><br><span class="line">    System.out.println(constructor.getName());<span class="comment">//com.larry.bean.Order</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;<span class="comment">//没有找到匹配的构造函数会抛出NoSuchMethodException</span></span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="u6784_u9020_u51FD_u6570_u7684_u53C2_u6570_u7C7B_u578B"><a href="#u6784_u9020_u51FD_u6570_u7684_u53C2_u6570_u7C7B_u578B" class="headerlink" title="构造函数的参数类型"></a>构造函数的参数类型</h4><p>可以像下面这样获取构造函数的参数</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class[] parameterTypes = constructor.getParameterTypes();</span><br><span class="line">parameterTypes[<span class="number">0</span>].getName();<span class="comment">//java.lang.String</span></span><br></pre></td></tr></table></figure>
-<h4 id="u7528_u6784_u9020_u51FD_u6570_u5BF9_u8C61_u5B9E_u4F8B_u5316_u4E00_u4E2A_u7C7B"><a href="#u7528_u6784_u9020_u51FD_u6570_u5BF9_u8C61_u5B9E_u4F8B_u5316_u4E00_u4E2A_u7C7B" class="headerlink" title="用构造函数对象实例化一个类"></a>用构造函数对象实例化一个类</h4><p>constructor.newInstance()方法的方法参数是一个可变参数列表，但是当你调用构造方法的时候你必须提供精确的参数，即形参与实参必须一一对应。在这个例子中构造方法需要一个String类型的参数，那我们在调用newInstance方法的时候就必须传入一个String类型的参数</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Constructor constructor = Order.class.getConstructor(String.class);</span><br><span class="line">    Order order = (Order) constructor.newInstance(<span class="string">"2016050901"</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (InstantiationException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/constructors.html" target="_blank" rel="external">Java Reflection Constructors</]]>
     </summary>
     
       <category term="JAVA" scheme="http://suqun.github.io/tags/JAVA/"/>

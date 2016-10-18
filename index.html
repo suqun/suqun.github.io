@@ -73,6 +73,144 @@
     <div class="outer">
       <section id="main">
   
+    <article id="post-docker-jenkins" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/17/docker-jenkins/" class="article-date">
+  <time datetime="2016-10-17T08:44:51.000Z" itemprop="datePublished">2016-10-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/17/docker-jenkins/">java应用结合Jenkins，docker部署到Kubernetes</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      <!-- Table of Contents -->
+      
+
+      <h3 id="Jenkins_u5B89_u88C5"><a href="#Jenkins_u5B89_u88C5" class="headerlink" title="Jenkins安装"></a>Jenkins安装</h3><p>1、下载Jenkins war包安装，下载地址 <a href="/jenkins.io">jenkins.io</a>。这里使用的是Jenkins2.24版本</p>
+<p>2、启动Jenkins</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JENKINS_HOME=~/.jenkins java -jar ~/Downloads/jenkins-<span class="number">2.24</span>.war --httpPort=<span class="number">9090</span></span><br></pre></td></tr></table></figure>
+<p>启动后，日志会提示<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*************************************************************&#10;*************************************************************&#10;*************************************************************&#10; &#10;Jenkins initial setup is required. An admin user has been created and a password generated.&#10;Please use the following password to proceed to installation:&#10; &#10;3521fbc3d40448efa8942f8e464b2dd9&#10; &#10;This may also be found at: /Users/arungupta/.jenkins/secrets/initialAdminPassword&#10; &#10;*************************************************************&#10;*************************************************************&#10;*************************************************************</span><br></pre></td></tr></table></figure></p>
+<p>访问localhost:9090，输入上面提示的密码，然后根据提示，安装推荐的插件，并创建用户</p>
+<h3 id="Jenkins_u63D2_u4EF6_u5B89_u88C5"><a href="#Jenkins_u63D2_u4EF6_u5B89_u88C5" class="headerlink" title="Jenkins插件安装"></a>Jenkins插件安装</h3><p>1、maven配置<br>在 系统管理-&gt;Global Tool Configuration-&gt;Maven 中配置Maven信息<br><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jenkis-maven3.png" alt="maven3"></p>
+<p>2、其他插件安装<br>在 系统管理-&gt;管理插件-&gt;可选插件中搜索 docker pipe ，选择CloudBees Docker Pipeline进行安装，安装后重启Jenkins</p>
+<h3 id="u521B_u5EFAJenkins_u4EFB_u52A1"><a href="#u521B_u5EFAJenkins_u4EFB_u52A1" class="headerlink" title="创建Jenkins任务"></a>创建Jenkins任务</h3><p>新建任务docker-pipeline</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/docker-pipeline.png" alt="docker-pipeline"></p>
+<p>选择Pipeline后，点击Ok后对任务进行配置。配置页中，可以根据自己需要进行设置。都比较简单一看就知道。我这里测试的是代码SCM使用的SVN，再Pipeline项选择Pipeline script from scm进行如下设置</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/pipeline-from-scm.png" alt="pipeline-from-scm"></p>
+<p>其中script path中设置的Jenkinsfile为具体的构建步骤，在项目地址的目录中。</p>
+<p>当然也可以直接选择 Pipeline script，直接在脚本中设置构建步骤</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/pipeline-script.png" alt="pipeline-script"></p>
+<p>脚本中主要的就是构建步骤，从scm检出项目，mvn测试打包，生成docker镜像，将docker镜像上传到镜像仓库，然后登录K8s的master上，部署新的镜像包。</p>
+<p>来看看Jenkinsfile，里面是如何描述上面的步骤的。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node &#123;&#10;    checkout scm&#10;    env.PATH = &#34;$&#123;tool &#39;Maven3&#39;&#125;/bin:$&#123;env.PATH&#125;&#34;&#10;    stage(&#39;Package&#39;) &#123;&#10;        dir(&#39;RpcServerSample&#39;) &#123;&#10;            sh &#39;mvn clean package -DskipTests&#39;&#10;        &#125;&#10;    &#125;&#10;&#10;    stage(&#39;Run Tests&#39;) &#123;&#10;        dir(&#39;RpcServerSample&#39;) &#123;&#10;                sh &#34;mvn test&#34;&#10;        &#125;&#10;    &#125;&#10;&#10;    stage(&#39;Build Image&#39;) &#123;&#10;        dir(&#39;RpcServerSample&#39;) &#123;&#10;            docker.build(&#34;daocloud.io/suqun/docker-jenkins-pipeline:v1&#34;).push()&#10;        &#125;&#10;    &#125;&#10;&#10;    stage(&#39;Deploy&#39;) &#123;&#10;        //&#26367;&#25442;rpcserver.yaml&#30340;&#38236;&#20687;&#29256;&#26412;&#21495;&#65292;&#24453;&#23436;&#25104;&#10;&#10;        dir(&#39;RpcServerSample&#39;) &#123;&#10;            //scp rpcserver.yaml &#21040; k8s&#30340;master&#19978;&#10;            sh &#39;sshpass -p vagrant scp rpcserver.yaml vagrant@192.168.1.10:/home/vagrant/rpcserver.yaml&#39;&#10;&#10;            //&#36828;&#31243;&#30331;&#24405;k8s&#38598;&#32676;master&#20027;&#26426;,&#26356;&#26032;&#38236;&#20687;&#65292;&#36825;&#37324;&#38754;&#35201;&#36827;&#34892;&#21028;&#26029;&#65292;&#31532;&#19968;&#27425;create&#10;            sh &#39;sshpass -p vagrant ssh vagrant@192.168.1.10 &#34;kubectl create -f /home/vagrant/rpcserver.yaml&#34;&#39;&#10;        &#125;&#10;    &#125;&#10;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>docker.build语句通过RpcServerSample路径下的Dockerfile创建镜像</p>
+<p>Dockerfile<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FROM daocloud.io/java:<span class="number">7</span></span><br><span class="line">MAINTAINER <span class="string">"Larry Su &lt;larrys@wicresoft.com&gt;"</span></span><br><span class="line">ADD target/RpcServerSample-<span class="number">1.0</span>-SNAPSHOT-jar-with-dependencies.jar /usr/src/myapp/RpcServerSample.jar</span><br><span class="line">WORKDIR /usr/src/myapp</span><br><span class="line">CMD [<span class="string">"java"</span>,<span class="string">"-jar"</span>, <span class="string">"RpcServerSample.jar"</span>]</span><br></pre></td></tr></table></figure></p>
+<p>rpcserver.yaml是K8s中的Deployment和Service</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1&#10;kind: Service&#10;metadata:&#10;  name: rpcserversample&#10;  labels:&#10;    app: rpcserversample&#10;spec:&#10;  # if your cluster supports it, uncomment the following to automatically create&#10;  # an external load-balanced IP for the frontend service.&#10;  #type: NodePort&#10;  ports:&#10;    # the port that this service should serve on&#10;  - port: 9001&#10;  selector:&#10;    app: rpcserversample&#10;---&#10;apiVersion: extensions/v1beta1&#10;kind: Deployment&#10;metadata:&#10;  name: rpcserversample&#10;  # these labels can be applied automatically&#10;  # from the labels in the pod template if not set&#10;  labels:&#10;    app: rpcserversample&#10;spec:&#10;  # this replicas value is default&#10;  # modify it according to your case&#10;  replicas: 2&#10;  # selector can be applied automatically&#10;  # from the labels in the pod template if not set&#10;  # selector:&#10;  #   matchLabels:&#10;  #     app: guestbook&#10;  #     tier: frontend&#10;  template:&#10;    metadata:&#10;      labels:&#10;        app: rpcserversample&#10;    spec:&#10;      containers:&#10;      - name: rpcserversample&#10;        image: daocloud.io/suqun/rpcserversample:v1&#10;        resources:&#10;          requests:&#10;            cpu: 100m&#10;            memory: 100Mi&#10;        ports:&#10;        - containerPort: 80</span><br></pre></td></tr></table></figure>
+<p>这里有些Jenkins pipeline最佳实践，可以参考:<a href="http://www.weixinla.com/document/41174312.html" target="_blank" rel="external">Jenkins管道最佳实践Top 10</a></p>
+<p>脚本写的比较烂，只是大概的流程，待完善。</p>
+<h3 id="u6784_u5EFA"><a href="#u6784_u5EFA" class="headerlink" title="构建"></a>构建</h3><p>进入任务，点击立即构建后结果如下</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/Jenkins-build.png" alt="result"></p>
+<p>然后可以登录K8s集群的master主机，通过<code>kubectl get po,svc</code> 检查是否部署成功。</p>
+<p>参考：<a href="https://dzone.com/articles/deployment-pipeline-using-docker-jenkins-java-and" target="_blank" rel="external">Deployment Pipeline Using Docker, Jenkins, Java, and Couchbase</a></p>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://suqun.github.io/2016/10/17/docker-jenkins/" data-id="ciuewsbht0018w1uqewhkmrx2" class="article-share-link" data-share="baidu" data-title="java应用结合Jenkins，docker部署到Kubernetes">分享到</a>
+      
+
+      
+        <a href="http://suqun.github.io/2016/10/17/docker-jenkins/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DOCKER/">DOCKER</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jenkins/">Jenkins</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/K8s/">K8s</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-dockerjavamicroservice4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/09/27/dockerjavamicroservice4/" class="article-date">
+  <time datetime="2016-09-27T02:52:03.000Z" itemprop="datePublished">2016-09-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/27/dockerjavamicroservice4/">使用kubeadm在CentOS7上安装Kubernetes集群</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      <!-- Table of Contents -->
+      
+
+      <p>Kubernetes1.4版本提供kubeadm命令进行简化k8s集群的安装，只要使用2个简单命令就可以完成安装。 安装kubernetes以后，使用<code>kubeadm init</code>启动master，使用<code>kubeadm joins</code>把node添加到集群里。下面是根据官方博客<a href="http://kubernetes.io/docs/getting-started-guides/kubeadm/" target="_blank" rel="external">Installing Kubernetes on Linux with kubeadm</a>练习的记录。</p>
+<h4 id="u4F7F_u7528vagrant_u521B_u5EFA_u4E24_u4E2Acentos7"><a href="#u4F7F_u7528vagrant_u521B_u5EFA_u4E24_u4E2Acentos7" class="headerlink" title="使用vagrant创建两个centos7"></a>使用vagrant创建两个centos7</h4><p>在k8s-centos7-cluster文件夹下创建Vagrantfile文件。Vagrantfile配置如下：<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- mode: ruby -*-</span></span><br><span class="line"><span class="comment"># vi: set ft=ruby :</span></span><br><span class="line"></span><br><span class="line">boxes = [</span><br><span class="line">  &#123; <span class="symbol">:name</span> =&gt; <span class="symbol">:master</span>,<span class="symbol">:ip</span> =&gt; <span class="string">'192.168.1.20'</span>,<span class="symbol">:forward</span> =&gt; <span class="number">80</span>,<span class="symbol">:cpus</span> =&gt; <span class="number">1</span>,<span class="symbol">:mem</span> =&gt; <span class="number">1024</span>&#125;,</span><br><span class="line">  &#123; <span class="symbol">:name</span> =&gt; <span class="symbol">:node1</span>,<span class="symbol">:ip</span> =&gt; <span class="string">'192.168.1.21'</span>,<span class="symbol">:forward</span> =&gt; <span class="number">80</span>,<span class="symbol">:cpus</span> =&gt; <span class="number">1</span>,<span class="symbol">:mem</span> =&gt; <span class="number">1024</span>&#125;,</span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line"><span class="constant">VAGRANTFILE_API_VERSION</span> = <span class="string">"2"</span></span><br><span class="line"></span><br><span class="line"><span class="constant">Vagrant</span>.configure(<span class="constant">VAGRANTFILE_API_VERSION</span>) <span class="keyword">do</span> |config|</span><br><span class="line">    boxes.each <span class="keyword">do</span> |opts|</span><br><span class="line">        config.vm.define opts[<span class="symbol">:name</span>] <span class="keyword">do</span> |config|</span><br><span class="line">            config.vm.box       = <span class="string">"centos7"</span></span><br><span class="line">            config.vm.boot_timeout = <span class="number">360</span></span><br><span class="line">            config.ssh.username = <span class="string">"vagrant"</span></span><br><span class="line">            config.ssh.password = <span class="string">"vagrant"</span></span><br><span class="line">            config.vm.synced_folder <span class="string">"."</span>, <span class="string">"/vagrant"</span>, <span class="symbol">disabled:</span><span class="keyword">true</span></span><br><span class="line">            config.vm.network  <span class="string">"public_network"</span>, <span class="symbol">ip:</span> opts[<span class="symbol">:ip</span>]</span><br><span class="line">            <span class="comment">#config.vm.network "forwarded_port", guest: 80, host: 8080</span></span><br><span class="line">            config.vm.hostname = <span class="string">"%s.vagrant"</span> % opts[<span class="symbol">:name</span>].to_s</span><br><span class="line">            config.vm.provider <span class="string">"virtualbox"</span> <span class="keyword">do</span> |vb|</span><br><span class="line">                vb.customize [<span class="string">"modifyvm"</span>, <span class="symbol">:id</span>, <span class="string">"--cpus"</span>, opts[<span class="symbol">:cpus</span>] ] <span class="keyword">if</span> opts[<span class="symbol">:cpus</span>]</span><br><span class="line">                vb.customize [<span class="string">"modifyvm"</span>, <span class="symbol">:id</span>, <span class="string">"--memory"</span>, opts[<span class="symbol">:mem</span>] ] <span class="keyword">if</span> opts[<span class="symbol">:mem</span>]</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">            <span class="comment">#config.vm.provision "shell", inline: $update_script</span></span><br><span class="line">            <span class="comment">#config.vm.provision "shell", path: opts[:provision] if opts[:provision]</span></span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<p>在Vagrantfile文件目录下，创建两个CentOS7系统，一个作为master，一个作为node<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  k8s-centos7-cluster vagrant up</span><br><span class="line">Bringing machine <span class="string">'master'</span> up with <span class="string">'virtualbox'</span> provider...</span><br><span class="line">Bringing machine <span class="string">'node1'</span> up with <span class="string">'virtualbox'</span> provider...</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>Ok，下面我们开始在CentOS7中安装k8s集群</p>
+<h4 id="u5B89_u88C5kubelet_u548Ckuebadm"><a href="#u5B89_u88C5kubelet_u548Ckuebadm" class="headerlink" title="安装kubelet和kuebadm"></a>安装kubelet和kuebadm</h4><p>在所有的机子上都必须安装docker，kubelet，kubectl，kubeadm，无论是master还是node。并且使用root权限进行安装。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  k8s-centos7-cluster vagrant ssh master <span class="comment">#输入密码登录master</span></span><br><span class="line">[vagrant@master ~]$ </span><br><span class="line">[vagrant@master ~]$ sudo su -</span><br></pre></td></tr></table></figure>
+<p>登录master，切换到root用户，然后执行下面的命令:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># cat &#60;&#60;EOF &#62; /etc/yum.repos.d/k8s.repo&#10;[kubelet]&#10;name=kubelet&#10;baseurl=http://files.rm-rf.ca/rpms/kubelet/&#10;enabled=1&#10;gpgcheck=0&#10;EOF&#10;# yum install docker kubelet kubeadm kubectl kubernetes-cni&#10;# systemctl enable docker &#38;&#38; systemctl start docker&#10;# systemctl enable kubelet &#38;&#38; systemctl start kubelet</span><br></pre></td></tr></table></figure>
+<p>等待下载后安装。<br>安装完成后，可以使用<code>systemctl status</code> 查看安装好的组件服务状态。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@master ~]<span class="comment"># systemctl status docker</span></span><br><span class="line">● docker.service - Docker Application Container Engine</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since Tue <span class="number">2016</span>-<span class="number">09</span>-<span class="number">27</span> <span class="number">04</span>:<span class="number">57</span>:<span class="number">44</span> UTC; <span class="number">41</span>s ago</span><br></pre></td></tr></table></figure>
+<h4 id="u521D_u59CB_u5316master"><a href="#u521D_u59CB_u5316master" class="headerlink" title="初始化master"></a>初始化master</h4><p>在master上运行控制组件，包含etcd（集群的数据库），API server（kubectl 客户端沟通用）。这些组件都在pod中通过kubelet启动运行。<br>初始化master，选择上面实现安装过kubelet和kubeadm的主机，然后运行下面的命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@master ~]<span class="comment"># kubeadm init --use-kubernetes-version v1.4.0-beta.11</span></span><br></pre></td></tr></table></figure>
+<p>运行后，会下载安装集群用的数据库和控制组件，需要等待一些时间，输出内容如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;master/tokens&gt; generated token: <span class="string">"88958f.2068ff49c1675f8c"</span></span><br><span class="line">&lt;master/pki&gt; created keys and certificates <span class="keyword">in</span> <span class="string">"/etc/kubernetes/pki"</span></span><br><span class="line">&lt;util/kubeconfig&gt; created <span class="string">"/etc/kubernetes/kubelet.conf"</span></span><br><span class="line">&lt;util/kubeconfig&gt; created <span class="string">"/etc/kubernetes/admin.conf"</span></span><br><span class="line">&lt;master/apiclient&gt; created API client configuration</span><br><span class="line">&lt;master/apiclient&gt; created API client, waiting <span class="keyword">for</span> the control plane to become ready</span><br></pre></td></tr></table></figure>
+<p>未完待续。。。</p>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://suqun.github.io/2016/09/27/dockerjavamicroservice4/" data-id="ciuewsbhh000rw1uq0vj3pf40" class="article-share-link" data-share="baidu" data-title="使用kubeadm在CentOS7上安装Kubernetes集群">分享到</a>
+      
+
+      
+        <a href="http://suqun.github.io/2016/09/27/dockerjavamicroservice4/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DOCKER/">DOCKER</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/K8s/">K8s</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-dockerjavamicroservice3" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/09/26/dockerjavamicroservice3/" class="article-date">
@@ -98,13 +236,20 @@
       <!-- Table of Contents -->
       
 
-      
+      <ol>
+<li>创建两个服务</li>
+<li>将服务打包成镜像</li>
+<li>k8s的service</li>
+<li>k8s的deployment</li>
+<li>简单测试</li>
+</ol>
+
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/09/26/dockerjavamicroservice3/" data-id="citjuv73i000rwkuqtasob53j" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(三) Kubernetes服务发现之环境变量">分享到</a>
+        <a data-url="http://suqun.github.io/2016/09/26/dockerjavamicroservice3/" data-id="ciuewsbhj000vw1uq2a4gel9i" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(三) Kubernetes服务发现之环境变量">分享到</a>
       
 
       
@@ -235,7 +380,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/09/07/dockerjavamicroservice2/" data-id="citjuv73l000vwkuqzz0ratwo" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(二) CentOS7部署Kubernetes集群">分享到</a>
+        <a data-url="http://suqun.github.io/2016/09/07/dockerjavamicroservice2/" data-id="ciuewsbhm000yw1uq3ylhlbid" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(二) CentOS7部署Kubernetes集群">分享到</a>
       
 
       
@@ -343,7 +488,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/24/dockerjavamicroservice1/" data-id="citjuv73n000ywkuqcszz9yok" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(一) 部署Chris Richardson的转账案例">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/24/dockerjavamicroservice1/" data-id="ciuewsbhp0011w1uqdmg04w7r" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(一) 部署Chris Richardson的转账案例">分享到</a>
       
 
       
@@ -392,7 +537,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/09/springcloud6/" data-id="citjuv73a000fwkuqvoiwycd7" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（六）服务网关">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/09/springcloud6/" data-id="ciuewsbh8000fw1uqp0acpmto" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（六）服务网关">分享到</a>
       
 
       
@@ -441,7 +586,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/09/SpringCloud5/" data-id="citjuv73v0019wkuqtgfmkixr" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（五）分布式配置中心">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/09/SpringCloud5/" data-id="ciuewsbi0001hw1uqbagswok6" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（五）分布式配置中心">分享到</a>
       
 
       
@@ -516,7 +661,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四）集群/" data-id="citjuv73x001dwkuq33wv0kol" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（四）集群">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四）集群/" data-id="ciuewsbi2001lw1uqbqxishnd" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（四）集群">分享到</a>
       
 
       
@@ -565,7 +710,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/" data-id="citjuv743001vwkuqd92zbric" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（三）断路器">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/" data-id="ciuewsbi90023w1uqmmf48ug0" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（三）断路器">分享到</a>
       
 
       
@@ -614,7 +759,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（二）服务消费者/" data-id="citjuv740001nwkuqbw9m0z48" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（二）服务消费者">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（二）服务消费者/" data-id="ciuewsbi6001vw1uqbk4q0iq4" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（二）服务消费者">分享到</a>
       
 
       
@@ -663,7 +808,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（一）服务注册与发现/" data-id="citjuv7460022wkuqm2kmyy2i" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（一）服务注册与发现">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（一）服务注册与发现/" data-id="ciuewsbic002aw1uqgqnvf06r" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（一）服务注册与发现">分享到</a>
       
 
       
@@ -720,7 +865,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/28/Java-NIO-Buffer/" data-id="citjuv7580038wkuq16fnausy" class="article-share-link" data-share="baidu" data-title="Java NIO Buffer">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/28/Java-NIO-Buffer/" data-id="ciuewsbjg003gw1uq3iojkp02" class="article-share-link" data-share="baidu" data-title="Java NIO Buffer">分享到</a>
       
 
       
@@ -787,7 +932,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/26/Java-NIO-Channel/" data-id="citjuv7560036wkuqagaqzcnu" class="article-share-link" data-share="baidu" data-title="Java NIO Channel">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/26/Java-NIO-Channel/" data-id="ciuewsbje003ew1uqvaxaseyp" class="article-share-link" data-share="baidu" data-title="Java NIO Channel">分享到</a>
       
 
       
@@ -868,7 +1013,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/" data-id="citjuv7530034wkuq54hooqa6" class="article-share-link" data-share="baidu" data-title="Java NIO 概述">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/" data-id="ciuewsbjc003cw1uqt5ly5pnh" class="article-share-link" data-share="baidu" data-title="Java NIO 概述">分享到</a>
       
 
       
@@ -922,7 +1067,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/" data-id="citjuv74z0031wkuqdwsz7j26" class="article-share-link" data-share="baidu" data-title="Java NIO 教程">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/" data-id="ciuewsbj90039w1uq407g7c90" class="article-share-link" data-share="baidu" data-title="Java NIO 教程">分享到</a>
       
 
       
@@ -997,7 +1142,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/24/JavaReflectionArray/" data-id="citjuv74t002xwkuqxjdr1nar" class="article-share-link" data-share="baidu" data-title="Java反射之数组">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/24/JavaReflectionArray/" data-id="ciuewsbj40035w1uq0cmdp6db" class="article-share-link" data-share="baidu" data-title="Java反射之数组">分享到</a>
       
 
       
@@ -1060,7 +1205,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/21/JavaReflectionGenerics/" data-id="citjuv74m002pwkuqyvax0uqo" class="article-share-link" data-share="baidu" data-title="Java反射之泛型">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/21/JavaReflectionGenerics/" data-id="ciuewsbit002xw1uqb8jatciu" class="article-share-link" data-share="baidu" data-title="Java反射之泛型">分享到</a>
       
 
       
@@ -1139,7 +1284,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/18/JavaReflectionAnnotations/" data-id="citjuv74w002zwkuqokzjqp0k" class="article-share-link" data-share="baidu" data-title="Java反射之注解">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/18/JavaReflectionAnnotations/" data-id="ciuewsbj60037w1uqo6z87067" class="article-share-link" data-share="baidu" data-title="Java反射之注解">分享到</a>
       
 
       
@@ -1199,7 +1344,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/" data-id="citjuv74i002kwkuqr0nehnri" class="article-share-link" data-share="baidu" data-title="Java反射之私有变量和私有方法">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/" data-id="ciuewsbio002sw1uqn5ti07nu" class="article-share-link" data-share="baidu" data-title="Java反射之私有变量和私有方法">分享到</a>
       
 
       
@@ -1264,7 +1409,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/13/JavaReflectionMethods/" data-id="citjuv74k002nwkuqlra3veln" class="article-share-link" data-share="baidu" data-title="Java反射之方法">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/13/JavaReflectionMethods/" data-id="ciuewsbiq002vw1uq66ju51pw" class="article-share-link" data-share="baidu" data-title="Java反射之方法">分享到</a>
       
 
       
@@ -1320,7 +1465,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/12/JavaReflectionFields/" data-id="citjuv74n002rwkuqsgnkyhq8" class="article-share-link" data-share="baidu" data-title="Java反射之变量">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/12/JavaReflectionFields/" data-id="ciuewsbiv002zw1uqk1nllets" class="article-share-link" data-share="baidu" data-title="Java反射之变量">分享到</a>
       
 
       
@@ -1376,7 +1521,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/11/JavaReflectionConstructors/" data-id="citjuv74q002twkuql9zfcrwm" class="article-share-link" data-share="baidu" data-title="Java反射之构造函数">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/11/JavaReflectionConstructors/" data-id="ciuewsbiw0031w1uqr0fmcmp4" class="article-share-link" data-share="baidu" data-title="Java反射之构造函数">分享到</a>
       
 
       
@@ -1450,7 +1595,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/09/JavaReflectionClasses/" data-id="citjuv74s002vwkuqz1fhw9st" class="article-share-link" data-share="baidu" data-title="Java反射之对象">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/09/JavaReflectionClasses/" data-id="ciuewsbj10033w1uq8iwrqbgo" class="article-share-link" data-share="baidu" data-title="Java反射之对象">分享到</a>
       
 
       
@@ -1529,7 +1674,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/04/03/使用Spring-Boot-Jquery-Datatables实现管理平台的表格/" data-id="citjuv7310006wkuqieso1cpa" class="article-share-link" data-share="baidu" data-title="使用Spring Boot Jquery Datatables实现管理平台的表格">分享到</a>
+        <a data-url="http://suqun.github.io/2016/04/03/使用Spring-Boot-Jquery-Datatables实现管理平台的表格/" data-id="ciuewsbgz0006w1uqlnc1b7xv" class="article-share-link" data-share="baidu" data-title="使用Spring Boot Jquery Datatables实现管理平台的表格">分享到</a>
       
 
       
@@ -1582,7 +1727,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/02/17/第一个Spring-Boot应用/" data-id="citjuv72u0003wkuqir4ukepo" class="article-share-link" data-share="baidu" data-title="第一个Spring Boot应用">分享到</a>
+        <a data-url="http://suqun.github.io/2016/02/17/第一个Spring-Boot应用/" data-id="ciuewsbgs0003w1uqy26glfwe" class="article-share-link" data-share="baidu" data-title="第一个Spring Boot应用">分享到</a>
       
 
       
@@ -1635,7 +1780,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/02/16/Spring-Boot安装/" data-id="citjuv7480027wkuqg97fa8lz" class="article-share-link" data-share="baidu" data-title="Spring Boot安装">分享到</a>
+        <a data-url="http://suqun.github.io/2016/02/16/Spring-Boot安装/" data-id="ciuewsbif002fw1uqljtp37p5" class="article-share-link" data-share="baidu" data-title="Spring Boot安装">分享到</a>
       
 
       
@@ -1685,7 +1830,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/30/docker容器的操作/" data-id="citjuv73g000owkuqx3vqhs3g" class="article-share-link" data-share="baidu" data-title="docker容器的操作">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/30/docker容器的操作/" data-id="ciuewsbhe000ow1uq851ert0o" class="article-share-link" data-share="baidu" data-title="docker容器的操作">分享到</a>
       
 
       
@@ -1734,7 +1879,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/13/Shell编程之正则表达式/" data-id="citjuv74a002bwkuqyo5bg3at" class="article-share-link" data-share="baidu" data-title="Shell编程之正则表达式">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/13/Shell编程之正则表达式/" data-id="ciuewsbij002jw1uqroytyfod" class="article-share-link" data-share="baidu" data-title="Shell编程之正则表达式">分享到</a>
       
 
       
@@ -1784,7 +1929,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/09/shell编程之运算符/" data-id="citjuv73d000jwkuqtmsm8au0" class="article-share-link" data-share="baidu" data-title="shell编程之运算符">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/09/shell编程之运算符/" data-id="ciuewsbha000jw1uqossxv7f2" class="article-share-link" data-share="baidu" data-title="shell编程之运算符">分享到</a>
       
 
       
@@ -1850,7 +1995,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/04/Shell编程之变量/" data-id="citjuv74d002ewkuqyhn8qv53" class="article-share-link" data-share="baidu" data-title="Shell编程之变量">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/04/Shell编程之变量/" data-id="ciuewsbil002mw1uqxkpxt94d" class="article-share-link" data-share="baidu" data-title="Shell编程之变量">分享到</a>
       
 
       
@@ -1901,7 +2046,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/02/Shell基础/" data-id="citjuv74g002hwkuq9cvpufko" class="article-share-link" data-share="baidu" data-title="Shell基础">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/02/Shell基础/" data-id="ciuewsbin002pw1uq1txjbkh7" class="article-share-link" data-share="baidu" data-title="Shell基础">分享到</a>
       
 
       
@@ -1954,7 +2099,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/01/What-is-Docker/" data-id="citjuv73t0017wkuq94lrfgjh" class="article-share-link" data-share="baidu" data-title="What is Docker?">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/01/What-is-Docker/" data-id="ciuewsbhy001fw1uqrtih0t3d" class="article-share-link" data-share="baidu" data-title="What is Docker?">分享到</a>
       
 
       
@@ -2005,7 +2150,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/31/2015/" data-id="citjuv75a003awkuq9gzisojp" class="article-share-link" data-share="baidu" data-title="2015">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/31/2015/" data-id="ciuewsbji003iw1uqxt6wn82l" class="article-share-link" data-share="baidu" data-title="2015">分享到</a>
       
 
       
@@ -2064,7 +2209,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/30/Why-Docker/" data-id="citjuv73r0015wkuq7imx4xsk" class="article-share-link" data-share="baidu" data-title="Why Docker?">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/30/Why-Docker/" data-id="ciuewsbhv001dw1uqzgacr54x" class="article-share-link" data-share="baidu" data-title="Why Docker?">分享到</a>
       
 
       
@@ -2138,7 +2283,7 @@ connect host:port
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/28/zookeeper客户端命令/" data-id="citjuv738000dwkuqkdgru4ze" class="article-share-link" data-share="baidu" data-title="zookeeper客户端命令">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/28/zookeeper客户端命令/" data-id="ciuewsbh6000dw1uqj2nvzwl3" class="article-share-link" data-share="baidu" data-title="zookeeper客户端命令">分享到</a>
       
 
       
@@ -2196,7 +2341,7 @@ connect host:port
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/28/zookeeper环境搭建/" data-id="citjuv7330008wkuqy7v4jw4a" class="article-share-link" data-share="baidu" data-title="zookeeper环境搭建">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/28/zookeeper环境搭建/" data-id="ciuewsbh10008w1uqi3inwbmp" class="article-share-link" data-share="baidu" data-title="zookeeper环境搭建">分享到</a>
       
 
       
@@ -2246,7 +2391,7 @@ connect host:port
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/27/zookeeper概述/" data-id="citjuv736000bwkuqfgu3xlcd" class="article-share-link" data-share="baidu" data-title="zookeeper概述">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/27/zookeeper概述/" data-id="ciuewsbh3000bw1uqq60p91xh" class="article-share-link" data-share="baidu" data-title="zookeeper概述">分享到</a>
       
 
       
@@ -2274,7 +2419,7 @@ connect host:port
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CQRS/">CQRS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOCKER/">DOCKER</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EUREKA/">EUREKA</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event-Sourcing/">Event-Sourcing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FEIGN/">FEIGN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HYSTRIX/">HYSTRIX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-NIO/">JAVA NIO</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/K8s/">K8s</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LINUX/">LINUX</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETFLIX/">NETFLIX</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RIBBON/">RIBBON</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SHELL/">SHELL</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING/">SPRING</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING-BOOT/">SPRING BOOT</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING-CLOUD/">SPRING CLOUD</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING-CLOUD-CONFIG/">SPRING CLOUD CONFIG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZOOKEEPER/">ZOOKEEPER</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZUUL/">ZUUL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CQRS/">CQRS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOCKER/">DOCKER</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EUREKA/">EUREKA</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event-Sourcing/">Event-Sourcing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FEIGN/">FEIGN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HYSTRIX/">HYSTRIX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-NIO/">JAVA NIO</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/K8s/">K8s</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LINUX/">LINUX</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NETFLIX/">NETFLIX</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RIBBON/">RIBBON</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SHELL/">SHELL</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING/">SPRING</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING-BOOT/">SPRING BOOT</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING-CLOUD/">SPRING CLOUD</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPRING-CLOUD-CONFIG/">SPRING CLOUD CONFIG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZOOKEEPER/">ZOOKEEPER</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZUUL/">ZUUL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -2283,7 +2428,7 @@ connect host:port
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CQRS/" style="font-size: 10px;">CQRS</a> <a href="/tags/DOCKER/" style="font-size: 16.67px;">DOCKER</a> <a href="/tags/EUREKA/" style="font-size: 15px;">EUREKA</a> <a href="/tags/Event-Sourcing/" style="font-size: 10px;">Event-Sourcing</a> <a href="/tags/FEIGN/" style="font-size: 10px;">FEIGN</a> <a href="/tags/HYSTRIX/" style="font-size: 10px;">HYSTRIX</a> <a href="/tags/JAVA/" style="font-size: 18.33px;">JAVA</a> <a href="/tags/JAVA-NIO/" style="font-size: 15px;">JAVA NIO</a> <a href="/tags/K8s/" style="font-size: 11.67px;">K8s</a> <a href="/tags/LINUX/" style="font-size: 15px;">LINUX</a> <a href="/tags/NETFLIX/" style="font-size: 15px;">NETFLIX</a> <a href="/tags/RIBBON/" style="font-size: 11.67px;">RIBBON</a> <a href="/tags/SHELL/" style="font-size: 15px;">SHELL</a> <a href="/tags/SPRING/" style="font-size: 10px;">SPRING</a> <a href="/tags/SPRING-BOOT/" style="font-size: 20px;">SPRING BOOT</a> <a href="/tags/SPRING-CLOUD/" style="font-size: 15px;">SPRING CLOUD</a> <a href="/tags/SPRING-CLOUD-CONFIG/" style="font-size: 10px;">SPRING CLOUD CONFIG</a> <a href="/tags/ZOOKEEPER/" style="font-size: 13.33px;">ZOOKEEPER</a> <a href="/tags/ZUUL/" style="font-size: 10px;">ZUUL</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+      <a href="/tags/CQRS/" style="font-size: 10px;">CQRS</a> <a href="/tags/DOCKER/" style="font-size: 18px;">DOCKER</a> <a href="/tags/EUREKA/" style="font-size: 16px;">EUREKA</a> <a href="/tags/Event-Sourcing/" style="font-size: 10px;">Event-Sourcing</a> <a href="/tags/FEIGN/" style="font-size: 10px;">FEIGN</a> <a href="/tags/HYSTRIX/" style="font-size: 10px;">HYSTRIX</a> <a href="/tags/JAVA/" style="font-size: 18px;">JAVA</a> <a href="/tags/JAVA-NIO/" style="font-size: 16px;">JAVA NIO</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/K8s/" style="font-size: 16px;">K8s</a> <a href="/tags/LINUX/" style="font-size: 16px;">LINUX</a> <a href="/tags/NETFLIX/" style="font-size: 16px;">NETFLIX</a> <a href="/tags/RIBBON/" style="font-size: 12px;">RIBBON</a> <a href="/tags/SHELL/" style="font-size: 16px;">SHELL</a> <a href="/tags/SPRING/" style="font-size: 10px;">SPRING</a> <a href="/tags/SPRING-BOOT/" style="font-size: 20px;">SPRING BOOT</a> <a href="/tags/SPRING-CLOUD/" style="font-size: 16px;">SPRING CLOUD</a> <a href="/tags/SPRING-CLOUD-CONFIG/" style="font-size: 10px;">SPRING CLOUD CONFIG</a> <a href="/tags/ZOOKEEPER/" style="font-size: 14px;">ZOOKEEPER</a> <a href="/tags/ZUUL/" style="font-size: 10px;">ZUUL</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
     </div>
   </div>
 
@@ -2292,7 +2437,7 @@ connect host:port
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -2304,6 +2449,14 @@ connect host:port
       <ul>
         
           <li>
+            <a href="/2016/10/17/docker-jenkins/">java应用结合Jenkins，docker部署到Kubernetes</a>
+          </li>
+        
+          <li>
+            <a href="/2016/09/27/dockerjavamicroservice4/">使用kubeadm在CentOS7上安装Kubernetes集群</a>
+          </li>
+        
+          <li>
             <a href="/2016/09/26/dockerjavamicroservice3/">基于Docker的java微服务(三) Kubernetes服务发现之环境变量</a>
           </li>
         
@@ -2313,14 +2466,6 @@ connect host:port
         
           <li>
             <a href="/2016/08/24/dockerjavamicroservice1/">基于Docker的java微服务(一) 部署Chris Richardson的转账案例</a>
-          </li>
-        
-          <li>
-            <a href="/2016/08/09/springcloud6/">Spring Cloud构建微服务架构（六）服务网关</a>
-          </li>
-        
-          <li>
-            <a href="/2016/08/09/SpringCloud5/">Spring Cloud构建微服务架构（五）分布式配置中心</a>
           </li>
         
       </ul>
