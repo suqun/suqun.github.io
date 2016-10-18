@@ -4,7 +4,7 @@
   <subtitle><![CDATA[成长路上的点滴记录]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://suqun.github.io/"/>
-  <updated>2016-10-18T08:50:51.000Z</updated>
+  <updated>2016-10-18T08:53:34.000Z</updated>
   <id>http://suqun.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://suqun.github.io/2016/10/18/gitcommands/"/>
     <id>http://suqun.github.io/2016/10/18/gitcommands/</id>
     <published>2016-10-18T08:38:01.000Z</published>
-    <updated>2016-10-18T08:50:51.000Z</updated>
+    <updated>2016-10-18T08:53:34.000Z</updated>
     <content type="html"><![CDATA[<h3 id="u57FA_u672C_u547D_u4EE4"><a href="#u57FA_u672C_u547D_u4EE4" class="headerlink" title="基本命令"></a>基本命令</h3><p>代码检出：git clone 地址</p>
 <p>文件修改添加到暂存区：git add readme.txt </p>
 <p>文件提交：git commit -m “备注” </p>
@@ -79,6 +79,8 @@
     <![CDATA[<h3 id="u57FA_u672C_u547D_u4EE4"><a href="#u57FA_u672C_u547D_u4EE4" class="headerlink" title="基本命令"></a>基本命令</h3><p>代码检出：git clone 地址</p>
 <p]]>
     </summary>
+    
+      <category term="git" scheme="http://suqun.github.io/tags/git/"/>
     
   </entry>
   
