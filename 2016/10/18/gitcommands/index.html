@@ -4,41 +4,39 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Java NIO 概述 | 入耳箸心</title>
+  <title>git 常用命令 | 入耳箸心</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Java NIO 包含下面三个核心组件:
-
-Channels
-Buffers
-Selectors
-
-Java NIO 还有很多其他的类和组件,Channel,Buffer,Selector是核心的API。其他的组件,诸如Pipe、FileLock仅仅只是这3个核心组组件的实际应用。
-Channels  and Buffers典型的,NIO中的所有IO都是起始于Channel。Channel有点像流">
+  <meta name="description" content="基本命令代码检出：git clone 地址
+文件修改：git add readme.txt 
+文件提交：git commit -m “备注” 
+查看工作区当前状态：git status
+查看差异：git diff 文件名
+查看历史：git log –pretty=oneline
+查看历史提交commit id：git log –pretty=oneline –abbrev-commit
+恢复当前版">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java NIO 概述">
-<meta property="og:url" content="http://suqun.github.io/2016/06/25/Java-NIO-Overview/index.html">
+<meta property="og:title" content="git 常用命令">
+<meta property="og:url" content="http://suqun.github.io/2016/10/18/gitcommands/index.html">
 <meta property="og:site_name" content="入耳箸心">
-<meta property="og:description" content="Java NIO 包含下面三个核心组件:
-
-Channels
-Buffers
-Selectors
-
-Java NIO 还有很多其他的类和组件,Channel,Buffer,Selector是核心的API。其他的组件,诸如Pipe、FileLock仅仅只是这3个核心组组件的实际应用。
-Channels  and Buffers典型的,NIO中的所有IO都是起始于Channel。Channel有点像流">
-<meta property="og:image" content="http://tutorials.jenkov.com/images/java-nio/overview-channels-buffers.png">
-<meta property="og:image" content="http://tutorials.jenkov.com/images/java-nio/overview-selectors.png">
-<meta property="og:updated_time" content="2016-08-06T02:15:42.000Z">
+<meta property="og:description" content="基本命令代码检出：git clone 地址
+文件修改：git add readme.txt 
+文件提交：git commit -m “备注” 
+查看工作区当前状态：git status
+查看差异：git diff 文件名
+查看历史：git log –pretty=oneline
+查看历史提交commit id：git log –pretty=oneline –abbrev-commit
+恢复当前版">
+<meta property="og:updated_time" content="2016-10-18T08:44:18.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java NIO 概述">
-<meta name="twitter:description" content="Java NIO 包含下面三个核心组件:
-
-Channels
-Buffers
-Selectors
-
-Java NIO 还有很多其他的类和组件,Channel,Buffer,Selector是核心的API。其他的组件,诸如Pipe、FileLock仅仅只是这3个核心组组件的实际应用。
-Channels  and Buffers典型的,NIO中的所有IO都是起始于Channel。Channel有点像流">
+<meta name="twitter:title" content="git 常用命令">
+<meta name="twitter:description" content="基本命令代码检出：git clone 地址
+文件修改：git add readme.txt 
+文件提交：git commit -m “备注” 
+查看工作区当前状态：git status
+查看差异：git diff 文件名
+查看历史：git log –pretty=oneline
+查看历史提交commit id：git log –pretty=oneline –abbrev-commit
+恢复当前版">
   
     <link rel="alternative" href="/atom.xml" title="入耳箸心" type="application/atom+xml">
   
@@ -95,10 +93,10 @@ Channels  and Buffers典型的,NIO中的所有IO都是起始于Channel。Channel
   </div>
 </header>
     <div class="outer">
-      <section id="main"><article id="post-Java-NIO-Overview" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-gitcommands" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/06/25/Java-NIO-Overview/" class="article-date">
-  <time datetime="2016-06-25T05:27:34.000Z" itemprop="datePublished">2016-06-25</time>
+    <a href="/2016/10/18/gitcommands/" class="article-date">
+  <time datetime="2016-10-18T08:38:01.000Z" itemprop="datePublished">2016-10-18</time>
 </a>
     
   </div>
@@ -109,7 +107,7 @@ Channels  and Buffers典型的,NIO中的所有IO都是起始于Channel。Channel
         
   
     <h1 class="article-title" itemprop="name">
-      Java NIO 概述
+      git 常用命令
     </h1>
   
 
@@ -121,78 +119,88 @@ Channels  and Buffers典型的,NIO中的所有IO都是起始于Channel。Channel
       
       <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
-        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Channels_and_Buffers"><span class="toc-number">1.</span> <span class="toc-text">Channels  and Buffers</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Selectors"><span class="toc-number">2.</span> <span class="toc-text">Selectors</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#u57FA_u672C_u547D_u4EE4"><span class="toc-number">1.</span> <span class="toc-text">基本命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u5206_u652F_u547D_u4EE4"><span class="toc-number">2.</span> <span class="toc-text">分支命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u6807_u7B7E_u547D_u4EE4"><span class="toc-number">3.</span> <span class="toc-text">标签命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u5176_u4ED6"><span class="toc-number">4.</span> <span class="toc-text">其他</span></a></li></ol>
       </div>
       
 
-      <p>Java NIO 包含下面三个核心组件:</p>
-<ul>
-<li>Channels</li>
-<li>Buffers</li>
-<li>Selectors</li>
-</ul>
-<p>Java NIO 还有很多其他的类和组件,Channel,Buffer,Selector是核心的API。其他的组件,诸如Pipe、FileLock仅仅只是这3个核心组组件的实际应用。</p>
-<h4 id="Channels_and_Buffers"><a href="#Channels_and_Buffers" class="headerlink" title="Channels  and Buffers"></a>Channels  and Buffers</h4><p>典型的,NIO中的所有IO都是起始于Channel。Channel有点像流。可以将Channel中数据读到Buffer里,也可以将Buffer里的数据写入Channel中。说明如下:</p>
-<p><img src="http://tutorials.jenkov.com/images/java-nio/overview-channels-buffers.png" alt="Java NIO: Channels read data into Buffers, and Buffers write data into Channels"><br><strong>Java NIO: Channels read data into Buffers, and Buffers write data into Channels</strong></p>
-<p>Java NIO中主要的Channel实现类有：</p>
-<ul>
-<li>FileChannel</li>
-<li>DatagramChannel</li>
-<li>SocketChannel</li>
-<li>ServerSocketChannel</li>
-</ul>
-<p>可以看出,这些channels覆盖了UDP+TCP的网络IO,以及文件IO。</p>
-<p>Java NIO中主要的Buffer实现类有:</p>
-<ul>
-<li>ByteBuffer</li>
-<li>CharBuffer</li>
-<li>DoubleBuffer</li>
-<li>FloatBuffer</li>
-<li>IntBuffer</li>
-<li>LongBuffer</li>
-<li>ShortBuffer</li>
-</ul>
-<p>这些实现类也包含了通过IO发送数据所需要的基本的数据类型：byte、short、int、long、float、double、Char型。</p>
-<p>Java NIO也有 MappedByteBuffer类型，用于表示内存映射文件。</p>
-<h4 id="Selectors"><a href="#Selectors" class="headerlink" title="Selectors"></a>Selectors</h4><p>一个Selectors允许一个单线程同时处理多个Channel。如果应用中有很多打开的连接（Channels）这么做是很方便的，但是每个连接的流量都很低。比如，聊天服务器。</p>
-<p>下面是一个Selector处理3个Channel的说明：</p>
-<p><img src="http://tutorials.jenkov.com/images/java-nio/overview-selectors.png" alt="Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"><br><strong>Java NIO: A Thread uses a Selector to handle 3 Channel’s</strong></p>
-<p>先将Channels注册到Selector中，然后调用他的select()方法。这个方法会阻塞直到有注册的channel相应的事件触发。一旦这个方法返回，线程就可以处理这个事件。比如正在打开的连接，获取到数据的事件等等。</p>
+      <h4 id="u57FA_u672C_u547D_u4EE4"><a href="#u57FA_u672C_u547D_u4EE4" class="headerlink" title="基本命令"></a>基本命令</h4><p>代码检出：git clone 地址</p>
+<p>文件修改：git add readme.txt </p>
+<p>文件提交：git commit -m “备注” </p>
+<p>查看工作区当前状态：git status</p>
+<p>查看差异：git diff 文件名</p>
+<p>查看历史：git log –pretty=oneline</p>
+<p>查看历史提交commit id：git log –pretty=oneline –abbrev-commit</p>
+<p>恢复当前版本：git reset –hard HEAD</p>
+<p>恢复上一个版本：git reset –hard HEAD^<br>（上上一个版本就是HEAD^^，当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100）</p>
+<p>恢复指定版本：git reset –hard 3628164</p>
+<p>查看命令历史：git reflog</p>
+<p>查看工作区和版本库区别：git diff HEAD – readme.txt</p>
+<p>撤销修改：git checkout – readme.txt</p>
+<p>撤销缓存区文件：git reset HEAD readme.txt</p>
+<p>删除文件：git rm test.txt</p>
+<h4 id="u5206_u652F_u547D_u4EE4"><a href="#u5206_u652F_u547D_u4EE4" class="headerlink" title="分支命令"></a>分支命令</h4><p>查看分支：git branch</p>
+<p>创建分支：git branch <name></name></p>
+<p>切换分支：git checkout <name></name></p>
+<p>创建+切换分支：git checkout -b <name></name></p>
+<p>推送远程分支：git push origin <name></name></p>
+<p>创建远程分支：git checkout -b dev origin/dev</p>
+<p>git checkout -b paytest_20151202_online origin/paytest_20151202_online</p>
+<p>合并某分支到当前分支：git merge <name></name></p>
+<p>合并分支禁用Fast forward：git merge –no-ff -m “备注” dev</p>
+<p>删除分支：git branch -d <name></name></p>
+<p>删除远程分支：git push origin –delete <branchname></branchname></p>
+<p>强制删除分支：git branch -D <name></name></p>
+<p>查看分支历史：git log –graph –pretty=oneline –abbrev-commit</p>
+<p>分支合并图：git log –graph</p>
+<p>储藏工作区：git stash</p>
+<p>查看储藏的工作区：git stash list</p>
+<p>恢复并删除储藏工作区：git stash pop</p>
+<p>恢复指定工作区：git stash apply stash@{0}</p>
+<p>恢复储藏工作区：git stash apply</p>
+<p>删除储藏工作区：git stash drop</p>
+<p>查询远程库详细信息：git remote -v</p>
+<p>推送分支：git push origin dev</p>
+<p>抓取最新文件：git pull 分支名</p>
+<p>取远程分支：git pull origin 分支名</p>
+<p>指定分支与远程分支链接：git branch –set-upstream dev origin/dev</p>
+<h4 id="u6807_u7B7E_u547D_u4EE4"><a href="#u6807_u7B7E_u547D_u4EE4" class="headerlink" title="标签命令"></a>标签命令</h4><p>创建标签：git tag v1.0</p>
+<p>删除本地标签：git tag -d v0.1</p>
+<p>删除远程标签：git push origin :refs/tags0.9</p>
+<p>删除远程标签：git push origin –delete tag <tagname></tagname></p>
+<p>查看标签：git tag</p>
+<p>指定commit id创建标签：git tag v0.9 6224937</p>
+<p>指定标签信息：git tag -a <tagname> -m “blablabla…”</tagname></p>
+<p>可以用PGP签名标签：git tag -s <tagname> -m “blablabla…”</tagname></p>
+<p>查看标签信息：git show 标签名</p>
+<p>推送标签到远程：git push origin v1.0</p>
+<p>推送所有标签到远程：git push origin –tags</p>
+<h4 id="u5176_u4ED6"><a href="#u5176_u4ED6" class="headerlink" title="其他"></a>其他</h4><p>配置别名：git config –global alias.st status</p>
+<p>在Git工作区的根目录下创建一个特殊的.gitignore文件，然后把要忽略的文件名填进去，Git就会自动忽略这些文件。</p>
+<p>撤銷git add . =&gt; git rm -r –cached .</p>
 
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/" data-id="ciuf8urah003dcnuq949jqfws" class="article-share-link" data-share="baidu" data-title="Java NIO 概述">分享到</a>
+        <a data-url="http://suqun.github.io/2016/10/18/gitcommands/" data-id="ciuf8ur8r000ocnuq2huc00cg" class="article-share-link" data-share="baidu" data-title="git 常用命令">分享到</a>
       
 
       
-        <a href="http://suqun.github.io/2016/06/25/Java-NIO-Overview/#ds-thread" class="article-comment-link">评论</a>
+        <a href="http://suqun.github.io/2016/10/18/gitcommands/#ds-thread" class="article-comment-link">评论</a>
       
 
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA-NIO/">JAVA NIO</a></li></ul>
-
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2016/06/26/Java-NIO-Channel/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">
-        
-          Java NIO Channel
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/06/25/Java-NIO-Tutorial/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2016/10/17/docker-jenkins/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">Java NIO 教程</div>
+      <div class="article-nav-title">java应用结合Jenkins，docker部署到Kubernetes</div>
     </a>
   
 </nav>
@@ -202,7 +210,7 @@ Channels  and Buffers典型的,NIO中的所有IO都是起始于Channel。Channel
 
 
   <section id="comments">
-    <div id="ds-thread" class="ds-thread" data-thread-key="2016/06/25/Java-NIO-Overview/" data-title="Java NIO 概述" data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/"></div>
+    <div id="ds-thread" class="ds-thread" data-thread-key="2016/10/18/gitcommands/" data-title="git 常用命令" data-url="http://suqun.github.io/2016/10/18/gitcommands/"></div>
   </section>
 </section>
       
