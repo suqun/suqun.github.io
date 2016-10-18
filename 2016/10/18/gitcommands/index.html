@@ -24,7 +24,7 @@
 查看差异：git diff 文件名
 查看历史：git log –pretty=oneline
 查看历史提交commit id：git log –pretty=oneline –abbrev-commit">
-<meta property="og:updated_time" content="2016-10-18T08:50:26.000Z">
+<meta property="og:updated_time" content="2016-10-18T08:50:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git 常用命令">
 <meta name="twitter:description" content="基本命令代码检出：git clone 地址
@@ -116,11 +116,11 @@
       
       <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
-        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#u57FA_u672C_u547D_u4EE4"><span class="toc-number">1.</span> <span class="toc-text">基本命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u5206_u652F_u547D_u4EE4"><span class="toc-number">2.</span> <span class="toc-text">分支命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u6807_u7B7E_u547D_u4EE4"><span class="toc-number">3.</span> <span class="toc-text">标签命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u5176_u4ED6"><span class="toc-number">4.</span> <span class="toc-text">其他</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#u57FA_u672C_u547D_u4EE4"><span class="toc-number">1.</span> <span class="toc-text">基本命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5206_u652F_u547D_u4EE4"><span class="toc-number">2.</span> <span class="toc-text">分支命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u6807_u7B7E_u547D_u4EE4"><span class="toc-number">3.</span> <span class="toc-text">标签命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5176_u4ED6"><span class="toc-number">4.</span> <span class="toc-text">其他</span></a></li></ol>
       </div>
       
 
-      <h4 id="u57FA_u672C_u547D_u4EE4"><a href="#u57FA_u672C_u547D_u4EE4" class="headerlink" title="基本命令"></a>基本命令</h4><p>代码检出：git clone 地址</p>
+      <h3 id="u57FA_u672C_u547D_u4EE4"><a href="#u57FA_u672C_u547D_u4EE4" class="headerlink" title="基本命令"></a>基本命令</h3><p>代码检出：git clone 地址</p>
 <p>文件修改添加到暂存区：git add readme.txt </p>
 <p>文件提交：git commit -m “备注” </p>
 <p>查看工作区当前状态：git status</p>
@@ -135,7 +135,7 @@
 <p>撤销修改：git checkout – readme.txt</p>
 <p>撤销缓存区文件：git reset HEAD readme.txt</p>
 <p>删除文件：git rm test.txt</p>
-<h4 id="u5206_u652F_u547D_u4EE4"><a href="#u5206_u652F_u547D_u4EE4" class="headerlink" title="分支命令"></a>分支命令</h4><p>查看分支：git branch</p>
+<h3 id="u5206_u652F_u547D_u4EE4"><a href="#u5206_u652F_u547D_u4EE4" class="headerlink" title="分支命令"></a>分支命令</h3><p>查看分支：git branch</p>
 <p>创建分支：git branch <name></name></p>
 <p>切换分支：git checkout <name></name></p>
 <p>创建+切换分支：git checkout -b <name></name></p>
@@ -160,7 +160,7 @@
 <p>抓取最新文件：git pull 分支名</p>
 <p>取远程分支：git pull origin 分支名</p>
 <p>指定分支与远程分支链接：git branch –set-upstream dev origin/dev</p>
-<h4 id="u6807_u7B7E_u547D_u4EE4"><a href="#u6807_u7B7E_u547D_u4EE4" class="headerlink" title="标签命令"></a>标签命令</h4><p>创建标签：git tag v1.0</p>
+<h3 id="u6807_u7B7E_u547D_u4EE4"><a href="#u6807_u7B7E_u547D_u4EE4" class="headerlink" title="标签命令"></a>标签命令</h3><p>创建标签：git tag v1.0</p>
 <p>删除本地标签：git tag -d v0.1</p>
 <p>删除远程标签：git push origin :refs/tags0.9</p>
 <p>删除远程标签：git push origin –delete tag <tagname></tagname></p>
@@ -171,7 +171,7 @@
 <p>查看标签信息：git show 标签名</p>
 <p>推送标签到远程：git push origin v1.0</p>
 <p>推送所有标签到远程：git push origin –tags</p>
-<h4 id="u5176_u4ED6"><a href="#u5176_u4ED6" class="headerlink" title="其他"></a>其他</h4><p>配置别名：git config –global alias.st status</p>
+<h3 id="u5176_u4ED6"><a href="#u5176_u4ED6" class="headerlink" title="其他"></a>其他</h3><p>配置别名：git config –global alias.st status</p>
 <p>在Git工作区的根目录下创建一个特殊的.gitignore文件，然后把要忽略的文件名填进去，Git就会自动忽略这些文件。</p>
 <p>撤銷git add . =&gt; git rm -r –cached .</p>
 
@@ -180,7 +180,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/10/18/gitcommands/" data-id="ciuf9266y000ogwuq7s59j73y" class="article-share-link" data-share="baidu" data-title="git 常用命令">分享到</a>
+        <a data-url="http://suqun.github.io/2016/10/18/gitcommands/" data-id="ciuf92x0g000oi7uqioqsdg65" class="article-share-link" data-share="baidu" data-title="git 常用命令">分享到</a>
       
 
       
