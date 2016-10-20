@@ -4,7 +4,7 @@
   <subtitle><![CDATA[成长路上的点滴记录]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://suqun.github.io/"/>
-  <updated>2016-10-18T08:53:34.000Z</updated>
+  <updated>2016-10-20T02:33:32.000Z</updated>
   <id>http://suqun.github.io/</id>
   
   <author>
@@ -13,6 +13,49 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[IntelliJ 使用说明]]></title>
+    <link href="http://suqun.github.io/2016/10/18/IntelliJ/"/>
+    <id>http://suqun.github.io/2016/10/18/IntelliJ/</id>
+    <published>2016-10-18T09:38:43.000Z</published>
+    <updated>2016-10-20T02:33:32.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="u5B89_u88C5"><a href="#u5B89_u88C5" class="headerlink" title="安装"></a>安装</h3><p>Windows下载地址：<a href="https://www.jetbrains.com/idea/download/#section=windows" target="_blank" rel="external">https://www.jetbrains.com/idea/download/#section=windows</a></p>
+<p>版本选择Ultimate</p>
+<p>下载的文件直接双击一路next安装即可。安装结束以后运行起来后，通过Server方式破解</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/%E7%A0%B4%E8%A7%A3.png" alt="破解"></p>
+<p><a href="http://idea.iteblog.com/key.php" target="_blank" rel="external">http://idea.iteblog.com/key.php</a></p>
+<h3 id="u9879_u76EE_u5F15_u5165"><a href="#u9879_u76EE_u5F15_u5165" class="headerlink" title="项目引入"></a>项目引入</h3><p>破解以后，一路默认启动起来。先创建个Project，Intellij里面的project相当于workplace，可以先建一个空的project的，将项目代码检出到project里面（也可以将原有的项目copy到project文件夹下，如果不想copy，直接import也可以），然后在里面import module</p>
+<p>检出代码后的效果：<br><img src="http://7xpk5e.com1.z0.glb.clouddn.com/checkout.png" alt="intellij-checkout"></p>
+<p>import后的效果：<br><img src="http://7xpk5e.com1.z0.glb.clouddn.com/import1.png" alt="import1"><br><img src="http://7xpk5e.com1.z0.glb.clouddn.com/import2.png" alt="import2"><br><img src="http://7xpk5e.com1.z0.glb.clouddn.com/import3.png" alt="import3"><br><img src="http://7xpk5e.com1.z0.glb.clouddn.com/import4.png" alt="import4"></p>
+<h3 id="u914D_u7F6E"><a href="#u914D_u7F6E" class="headerlink" title="配置"></a>配置</h3><p>intellij的所有配置信息都在 File-&gt;Settings里面，请自行摸索。</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/settings.png" alt="intellij-settings"></p>
+<p>这里说说常用的几个配置在哪里。</p>
+<p>1、项目结构</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/structure1.png" alt="structure1"></p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/structure2.png" alt="structure2"><br>这里面可以配置module的语言版本，添加jdk，jar引入等</p>
+<p>2、maven</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/maven1.png" alt="maven1"></p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/maven2.png" alt="maven2"></p>
+<p>3、Server</p>
+<p>以tomcat为例</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/Server1.png" alt="tomcat1"></p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/Server2.png" alt="tomcat2"></p>
+<p>配置好Server的基本信息，完成这一步保存，然后添加具体的Server</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/Server3.png" alt="tomcat3"></p>
+<p>添加本地Server，Server标签页更改端口等配置信息</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/Server4.png" alt="tomcat4"></p>
+<p>Deployment里面部署war包，点击加号，选择</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/Server5.png" alt="tomcat5"></p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/Server6.png" alt="tomcat6"></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h3 id="u5B89_u88C5"><a href="#u5B89_u88C5" class="headerlink" title="安装"></a>安装</h3><p>Windows下载地址：<a href="https://www.jetbrains.com/idea/]]>
+    </summary>
+    
+      <category term="IntelliJ" scheme="http://suqun.github.io/tags/IntelliJ/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[git 常用命令]]></title>
@@ -790,33 +833,6 @@
 ]]></content>
     <summary type="html">
     <![CDATA[<p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/annotations.html" target="_blank" rel="external">Java Reflection Annotations</a>]]>
-    </summary>
-    
-      <category term="JAVA" scheme="http://suqun.github.io/tags/JAVA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Java反射之私有变量和私有方法]]></title>
-    <link href="http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/"/>
-    <id>http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/</id>
-    <published>2016-05-13T16:52:55.000Z</published>
-    <updated>2016-08-06T02:15:42.000Z</updated>
-    <content type="html"><![CDATA[<p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/private-fields-and-methods.html" target="_blank" rel="external">Java Reflection Methods</a></p>
-<p>通常情况下，从对象外部访问私有变量和私有方法是不被允许的，但是通过反射可以很容易获取私有变量和私有方法，在单元测试的时候很有用。</p>
-<h6 id="Accessing_Private_Fields"><a href="#Accessing_Private_Fields" class="headerlink" title="Accessing Private Fields"></a>Accessing Private Fields</h6><p>获取私有变量你需要用到<code>Class.getDeclaredField(String name)</code>或者<code>Class.getDeclaredFields(String name)</code>方法。<code>Class.getField(String name)</code>和<code>Class.getFields(String name)</code>方法只能返回公有变量。下面是通过java的反射获取私有变量代码:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Order privateObject = <span class="keyword">new</span> Order(<span class="string">"2016051901"</span>);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Field privateField = Order.class.getDeclaredField(<span class="string">"orderId"</span>);</span><br><span class="line">    privateField.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">    String orderId = (String) privateField.get(privateObject);</span><br><span class="line">    System.out.println(<span class="string">"orderId:"</span> + orderId);</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这段代码会打印出『orderId:2016051901』，值为Order实例私有变量orderId的值。</p>
-<p><code>Order.class.getDeclaredField(&quot;orderId&quot;)</code>这个方法返回一个私有变量，这个私有变量是Order类中自己定义的变量，而不是继承自其父类的变量。</p>
-<p><code>privateField.setAccessible(true);</code>这个方法会关闭实例类的反射访问检查。现在你可以访问私有的，受保护的和包级访问的变量。</p>
-<h6 id="Accessing_Private_Methods"><a href="#Accessing_Private_Methods" class="headerlink" title="Accessing Private Methods"></a>Accessing Private Methods</h6><p>要获取私有方法你需要使用方法<code>Class.getDeclaredMethod(String name, Class[] parameterTypes)</code>或者<code>Class.getDeclaredMethods()</code>。<code>Class.getMethod()</code>和<code>Class.getMethods()</code>方法只是返回的公有方法。下面是使用java反射访问私有方法的代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Order privateObject = <span class="keyword">new</span> Order(<span class="string">"2016051901"</span>);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Method privateMethod = Order.class.getDeclaredMethod(<span class="string">"getOrderId"</span>);</span><br><span class="line">    privateMethod.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">    String returnValue = (String) privateMethod.invoke(privateObject);</span><br><span class="line">    System.out.println(<span class="string">"returnValue = "</span> + returnValue);</span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这段代码会打印出『returnValue=2016051901』，其值是通过反射调用Order实例的私有方法『getOrderId()』获取到的。</p>
-<p><code>Order.class.getDeclaredMethod(&quot;getOrderId&quot;)</code>,这个方法也之后返回Order类自己的私有方法，而非其继承自父类的私有方法。</p>
-<p><code>privateMethod.setAcessible(true)</code>，这个方法会关闭实例类的私有方法反射访问检查，现在你可以通过反射获取的实例的私有，受保护和包级访问权限的方法。 </p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/private-fields-and-methods.html" target="_blank" rel="external">Java Reflection ]]>
     </summary>
     
       <category term="JAVA" scheme="http://suqun.github.io/tags/JAVA/"/>
