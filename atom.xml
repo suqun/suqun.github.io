@@ -4,7 +4,7 @@
   <subtitle><![CDATA[成长路上的点滴记录]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://suqun.github.io/"/>
-  <updated>2016-10-20T02:47:48.000Z</updated>
+  <updated>2016-10-20T02:49:19.000Z</updated>
   <id>http://suqun.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://suqun.github.io/2016/10/18/IntelliJ/"/>
     <id>http://suqun.github.io/2016/10/18/IntelliJ/</id>
     <published>2016-10-18T09:38:43.000Z</published>
-    <updated>2016-10-20T02:47:48.000Z</updated>
+    <updated>2016-10-20T02:49:19.000Z</updated>
     <content type="html"><![CDATA[<h3 id="u5B89_u88C5"><a href="#u5B89_u88C5" class="headerlink" title="安装"></a>安装</h3><p>Windows下载地址：<a href="https://www.jetbrains.com/idea/download/#section=windows" target="_blank" rel="external">https://www.jetbrains.com/idea/download/#section=windows</a></p>
 <p>版本选择Ultimate</p>
 <p>下载的文件直接双击一路next安装即可。安装结束以后运行起来后，通过Server方式破解</p>
@@ -50,7 +50,7 @@
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/Server6.png" alt="tomcat6"></p>
 <h3 id="u5916_u89C2_u5B57_u4F53_u6837_u5F0F_u4FEE_u6539"><a href="#u5916_u89C2_u5B57_u4F53_u6837_u5F0F_u4FEE_u6539" class="headerlink" title="外观字体样式修改"></a>外观字体样式修改</h3><p>通过File-&gt;Import Setting可以直接导入Intellij的配置信息。我这里有个jar包，直接导入即可</p>
 <p>jar地址：<a href="https://pan.baidu.com/s/1kU6DxZL" target="_blank" rel="external">https://pan.baidu.com/s/1kU6DxZL</a></p>
-<p>导入重启即可，调整了字体大小，文件注释模板，使用了sublime类似的主题。</p>
+<p>导入重启即可，调整了字体大小，文件注释模板，默认UTF-8，使用了sublime类似的主题。</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<h3 id="u5B89_u88C5"><a href="#u5B89_u88C5" class="headerlink" title="安装"></a>安装</h3><p>Windows下载地址：<a href="https://www.jetbrains.com/idea/]]>
