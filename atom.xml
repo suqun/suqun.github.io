@@ -588,7 +588,7 @@
     <link href="http://suqun.github.io/2016/06/28/Java-NIO-Buffer/"/>
     <id>http://suqun.github.io/2016/06/28/Java-NIO-Buffer/</id>
     <published>2016-06-28T14:10:31.000Z</published>
-    <updated>2016-10-27T14:01:09.000Z</updated>
+    <updated>2016-10-28T14:55:34.000Z</updated>
     <content type="html"><![CDATA[<p>原文：<a href="http://tutorials.jenkov.com/java-nio/buffers.html" target="_blank" rel="external">http://tutorials.jenkov.com/java-nio/buffers.html</a></p>
 <p>Java NIO Buffers是和NIO的Channels交互使用的。你知道的，数据是从Channel中读到Buffer里，数据从Buffer里写入到Channel中。 </p>
 <p>Buffer本质上是可以读写数据的内存块。这个内存块被NIO的Buffer对象包裹，然后提供很多方法以便能够简单的操作这个内存块。</p>
@@ -655,19 +655,26 @@
 <p>举个🌰：使用<code>get()</code>方法读取Buffer<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">byte</span> aByte = buf.get();</span><br></pre></td></tr></table></figure></p>
 <p>有不同的版本的<code>get()</code>方法，允许你使用不同的方式写入数据。比如，在特定的位置写入，写入字节或数组。查看JavaDoc获取buffer具体的实现。</p>
 <h4 id="rewind_28_29"><a href="#rewind_28_29" class="headerlink" title="rewind()"></a>rewind()</h4><p><code>Buffer.rewind()</code>重置position为0，这样就可以重新读buffer的数据。limit不受影响，始终可以标记buffer中可读的数据量。</p>
-<h4 id="clear_28_29_and_compact_28_29"><a href="#clear_28_29_and_compact_28_29" class="headerlink" title="clear() and compact()"></a>clear() and compact()</h4><p>Once you are done reading data out of the Buffer you have to make the Buffer ready for writing again. You can do so either by calling clear() or by calling compact().</p>
-<p>If you call clear() the position is set back to 0 and the limit to capacity. In other words, the Buffer is cleared. The data in the Buffer is not cleared. Only the markers telling where you can write data into the Buffer are.</p>
-<p>If there is any unread data in the Buffer when you call clear() that data will be “forgotten”, meaning you no longer have any markers telling what data has been read, and what has not been read.</p>
-<p>If there is still unread data in the Buffer, and you want to read it later, but you need to do some writing first, call compact() instead of clear().</p>
-<p>compact() copies all unread data to the beginning of the Buffer. Then it sets position to right after the last unread element. The limit property is still set to capacity, just like clear() does. Now the Buffer is ready for writing, but you will not overwrite the unread data.</p>
-<h4 id="mark_28_29_and_reset_28_29"><a href="#mark_28_29_and_reset_28_29" class="headerlink" title="mark() and reset()"></a>mark() and reset()</h4><p>You can mark a given position in a Buffer by calling the Buffer.mark() method. You can then later reset the position back to the marked position by calling the Buffer.reset() method. Here is an example:</p>
-<p>buffer.mark();</p>
-<p>//call buffer.get() a couple of times, e.g. during parsing.</p>
-<p>buffer.reset();  //set position back to mark.<br>equals() and compareTo()<br>It is possible to compare two buffers using equals() and compareTo().</p>
-<h4 id="equals_28_29"><a href="#equals_28_29" class="headerlink" title="equals()"></a>equals()</h4><p>Two buffers are equal if:</p>
-<p>They are of the same type (byte, char, int etc.)<br>They have the same amount of remaining bytes, chars etc. in the buffer.<br>All remaining bytes, chars etc. are equal.<br>As you can see, equals only compares part of the Buffer, not every single element inside it. In fact, it just compares the remaining elements in the Buffer.</p>
-<h4 id="compareTo_28_29"><a href="#compareTo_28_29" class="headerlink" title="compareTo()"></a>compareTo()</h4><p>The compareTo() method compares the remaining elements (bytes, chars etc.) of the two buffers, for use in e.g. sorting routines. A buffer is considered “smaller” than another buffer if:</p>
-<p>The first element which is equal to the corresponding element in the other buffer, is smaller than that in the other buffer.<br>All elements are equal, but the first buffer runs out of elements before the second buffer does (it has fewer elements).</p>
+<h4 id="clear_28_29_and_compact_28_29"><a href="#clear_28_29_and_compact_28_29" class="headerlink" title="clear() and compact()"></a>clear() and compact()</h4><p>从Buffer中读完数据以后要做好Buffer写的准备。可以调用<code>clear()</code>方法或者<code>compact()</code>方法。</p>
+<p>调用<code>clear()</code>方法会重置position的值为0，Limit的值为capacity。意思是，Buffer已经清空。Buffer中的数据并没有清楚掉。只是告诉你从Buffer的哪个位置可以写入数据。</p>
+<p>如果存在没有读取的数据，调用<code>clear()</code>方法后，该数据会被标记为’遗忘的’，因为这些数据再也没有什么标记其实被读过的还是没被读过的。</p>
+<p>如果你必须先向Buffer中写入数据，然后还想读那些没有被读过的数据。需要调用<code>compact()</code>方法代替<code>clear()</code>方法。</p>
+<p><code>compact()</code>方法把所有没有读过的数据复制到Buffer的起始处。然后设置position的值为味道数据后面的值。Limit仍然设置为capacity。这样，Buffer就做好写的准备，而不必覆盖掉未读的数据。</p>
+<h4 id="mark_28_29_and_reset_28_29"><a href="#mark_28_29_and_reset_28_29" class="headerlink" title="mark() and reset()"></a>mark() and reset()</h4><p>使用<code>Buffer.mark()</code>方法可以标记一个指定的position。这样再之后调用<code>Buffer.reset()</code>方法重置position到标记的地方。</p>
+<p>举个🌰：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">buffer.mark();</span><br><span class="line"><span class="comment">//call buffer.get() a couple of times, e.g. during parsing.</span></span><br><span class="line">buffer.reset();  <span class="comment">//set position back to mark.</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="equals_28_29_and_compareTo_28_29"><a href="#equals_28_29_and_compareTo_28_29" class="headerlink" title="equals() and compareTo()"></a>equals() and compareTo()</h4><p>比较两个buffers仍然可以使用<code>equals()</code>和<code>compareTo()</code>方法。</p>
+<h5 id="equals_28_29"><a href="#equals_28_29" class="headerlink" title="equals()"></a>equals()</h5><p>两个buffers相等，那么： </p>
+<ul>
+<li>有相同的类型（byte、char、int等）。</li>
+<li>Buffer中剩余的byte、char等的个数相等。</li>
+<li>Buffer中所有剩余的byte、char等都相同。</li>
+</ul>
+<p>就是说：equals只是比较Buffer的一部分，不是每一个在它里面的元素都比较。实际上，它只比较Buffer中的剩余元素。</p>
+<h5 id="compareTo_28_29"><a href="#compareTo_28_29" class="headerlink" title="compareTo()"></a>compareTo()</h5><p>compareTo()方法比较两个Buffer的剩余元素(byte、char等)， 如果满足下列条件，则认为一个Buffer“小于”另一个Buffer：</p>
+<ul>
+<li>第一个不相等的元素小于另一个Buffer中对应的元素 。</li>
+<li>所有元素都相等，但第一个Buffer比另一个先耗尽(第一个Buffer的元素个数比另一个少)。</li>
+</ul>
 ]]></content>
     <summary type="html">
     <![CDATA[<p>原文：<a href="http://tutorials.jenkov.com/java-nio/buffers.html" target="_blank" rel="external">http://tutorials.jenkov.com/java-nio/buffer]]>
