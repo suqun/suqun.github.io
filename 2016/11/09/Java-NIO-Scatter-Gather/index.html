@@ -1,22 +1,29 @@
 
-
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   
-  <title>tags | 入耳箸心</title>
+  <title>Java NIO Scatter / Gather | 入耳箸心</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://suqun.github.io/tags/index.html">
+  <meta name="description" content="原文：http://tutorials.jenkov.com/java-nio/scatter-gather.html
+Java NIO 从一开始就内嵌了scatter/gather的支持。scatter/gather是从channel中读取写入的操作概念。
+scatter：从channel中将数据读到多个buffers中的操作。也就是说，channel的分散器将channel中的数据分散到多个b">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java NIO Scatter / Gather">
+<meta property="og:url" content="http://suqun.github.io/2016/11/09/Java-NIO-Scatter-Gather/index.html">
 <meta property="og:site_name" content="入耳箸心">
-<meta property="og:description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
-<meta property="og:updated_time" content="2015-12-28T13:42:29.000Z">
+<meta property="og:description" content="原文：http://tutorials.jenkov.com/java-nio/scatter-gather.html
+Java NIO 从一开始就内嵌了scatter/gather的支持。scatter/gather是从channel中读取写入的操作概念。
+scatter：从channel中将数据读到多个buffers中的操作。也就是说，channel的分散器将channel中的数据分散到多个b">
+<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/java-nio-scatter-read.png">
+<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/java-nio-gather.png">
+<meta property="og:updated_time" content="2016-11-09T07:45:42.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tags">
-<meta name="twitter:description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
+<meta name="twitter:title" content="Java NIO Scatter / Gather">
+<meta name="twitter:description" content="原文：http://tutorials.jenkov.com/java-nio/scatter-gather.html
+Java NIO 从一开始就内嵌了scatter/gather的支持。scatter/gather是从channel中读取写入的操作概念。
+scatter：从channel中将数据读到多个buffers中的操作。也就是说，channel的分散器将channel中的数据分散到多个b">
   
     <link rel="alternative" href="/atom.xml" title="入耳箸心" type="application/atom+xml">
   
@@ -73,10 +80,10 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main"><article id="page-undefined" class="article article-type-page" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-Java-NIO-Scatter-Gather" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/tags/index.html" class="article-date">
-  <time datetime="2015-12-28T13:42:10.000Z" itemprop="datePublished">2015-12-28</time>
+    <a href="/2016/11/09/Java-NIO-Scatter-Gather/" class="article-date">
+  <time datetime="2016-11-09T15:09:19.000Z" itemprop="datePublished">2016-11-09</time>
 </a>
     
   </div>
@@ -87,7 +94,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      tags
+      Java NIO Scatter / Gather
     </h1>
   
 
@@ -97,31 +104,63 @@
       
       <!-- Table of Contents -->
       
-
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Scattering_Reads"><span class="toc-number">1.</span> <span class="toc-text">Scattering Reads</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Gathering_Writes"><span class="toc-number">2.</span> <span class="toc-text">Gathering Writes</span></a></li></ol>
+      </div>
       
+
+      <p>原文：<a href="http://tutorials.jenkov.com/java-nio/scatter-gather.html" target="_blank" rel="external">http://tutorials.jenkov.com/java-nio/scatter-gather.html</a></p>
+<p>Java NIO 从一开始就内嵌了scatter/gather的支持。scatter/gather是从channel中读取写入的操作概念。</p>
+<p><strong>scatter</strong>：从channel中将数据读到多个buffers中的操作。也就是说，channel的分散器将channel中的数据分散到多个buffers。</p>
+<p><strong>gather</strong>：将多个buffers中的数据写入一个channel中的操作。也就是说，channel的收集器，将多个buffers中的数据收集到channel中。</p>
+<p>scatter/gatter经常用于需要将传输的数据分开处理的场合。比如，一个信息包含head和body，你可能会将消息体和消息头分散到不同的buffer中，这样你可以方便的处理消息头和消息体。</p>
+<h1 id="Scattering_Reads"><a href="#Scattering_Reads" class="headerlink" title="Scattering Reads"></a>Scattering Reads</h1><p>Scattering Reads，将单个channel中的数据读到多个buffers中，下面是原理图示： </p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/java-nio-scatter-read.png" alt="java-nio-scatter-read"></p>
+<p>代码🌰：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ByteBuffer header = ByteBuffer.allocate(<span class="number">128</span>);</span><br><span class="line">ByteBuffer body   = ByteBuffer.allocate(<span class="number">1024</span>);</span><br><span class="line"></span><br><span class="line">ByteBuffer[] bufferArray = &#123; header, body &#125;;</span><br><span class="line">channel.read(bufferArray);</span><br></pre></td></tr></table></figure>
+<p>注意buffer首先被插入到数组，然后再将数组作为channel.read() 的输入参数。read()方法按照buffer在数组中的顺序将从channel中读取的数据写入到buffer，当一个buffer被写满后，channel紧接着向另一个buffer中写。</p>
+<p>Scattering Reads在移动下一个buffer前，必须填满当前的buffer，这也意味着它不适用于动态大小消息。换句话说，如果存在消息头和消息体，消息头必须完成填充（例如填满128byte），Scattering Reads才能正常工作。</p>
+<h1 id="Gathering_Writes"><a href="#Gathering_Writes" class="headerlink" title="Gathering Writes"></a>Gathering Writes</h1><p>Gathering Writes：将多个buffers中的数据写入单个channel，下面是原理图示：</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/java-nio-gather.png" alt="Gathering Write"></p>
+<p>代码🌰：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ByteBuffer header = ByteBuffer.allocate(<span class="number">128</span>);</span><br><span class="line">ByteBuffer body   = ByteBuffer.allocate(<span class="number">1024</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//write data into buffers</span></span><br><span class="line">ByteBuffer[] bufferArray = &#123; header, body &#125;;</span><br><span class="line"></span><br><span class="line">channel.write(bufferArray);</span><br></pre></td></tr></table></figure></p>
+<p>The array of buffers are passed into the write() method, which writes the buffers数组是write()方法的入参，write()方法会按照buffer在数组中的顺序，将数据写入到channel，注意只有position和limit之间的数据才会被写入。因此，如果一个buffer的容量为128byte，但是仅仅包含58byte的数据，那么这58byte的数据将被写入到channel中。因此与Scattering Reads相反，Gathering Writes能较好的处理动态消息。</p>
+
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/tags/index.html" data-id="civameydz0001douqaxra1wag" class="article-share-link" data-share="baidu" data-title="tags">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/09/Java-NIO-Scatter-Gather/" data-id="civameygq003bdouqs5clql49" class="article-share-link" data-share="baidu" data-title="Java NIO Scatter / Gather">分享到</a>
       
 
       
-        <a href="http://suqun.github.io/tags/index.html#ds-thread" class="article-comment-link">评论</a>
+        <a href="http://suqun.github.io/2016/11/09/Java-NIO-Scatter-Gather/#ds-thread" class="article-comment-link">评论</a>
       
 
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-NIO/">Java NIO</a></li></ul>
+
     </footer>
   </div>
   
     
+<nav id="article-nav">
+  
+  
+    <a href="/2016/10/18/IntelliJ/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">IntelliJ 使用说明</div>
+    </a>
+  
+</nav>
+
   
 </article>
 
 
   <section id="comments">
-    <div id="ds-thread" class="ds-thread" data-thread-key="tags/index.html" data-title="tags" data-url="http://suqun.github.io/tags/index.html"></div>
+    <div id="ds-thread" class="ds-thread" data-thread-key="2016/11/09/Java-NIO-Scatter-Gather/" data-title="Java NIO Scatter / Gather" data-url="http://suqun.github.io/2016/11/09/Java-NIO-Scatter-Gather/"></div>
   </section>
 </section>
       
@@ -300,4 +339,3 @@ var duoshuoQuery = {short_name:"suqun"};
 </div>
 </body>
 </html>
-
