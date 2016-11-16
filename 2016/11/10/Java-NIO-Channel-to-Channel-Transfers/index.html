@@ -4,17 +4,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2016/4 | 入耳箸心</title>
+  <title>Java NIO Channel之间的数据传输 | 入耳箸心</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="入耳箸心">
-<meta property="og:url" content="http://suqun.github.io/archives/2016/04/index.html">
+  <meta name="description" content="原文：http://tutorials.jenkov.com/java-nio/channel-to-channel-transfers.html
+在Java NIO 中channel之间可以直接相互传输。比如一个FileChannel类型的channel，FileChannel类提供transferTo()和transferFrom()两个方法做这个事情。
+transferFrom()The F">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java NIO Channel之间的数据传输">
+<meta property="og:url" content="http://suqun.github.io/2016/11/10/Java-NIO-Channel-to-Channel-Transfers/index.html">
 <meta property="og:site_name" content="入耳箸心">
-<meta property="og:description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
+<meta property="og:description" content="原文：http://tutorials.jenkov.com/java-nio/channel-to-channel-transfers.html
+在Java NIO 中channel之间可以直接相互传输。比如一个FileChannel类型的channel，FileChannel类提供transferTo()和transferFrom()两个方法做这个事情。
+transferFrom()The F">
+<meta property="og:updated_time" content="2016-11-16T14:23:06.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="入耳箸心">
-<meta name="twitter:description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
+<meta name="twitter:title" content="Java NIO Channel之间的数据传输">
+<meta name="twitter:description" content="原文：http://tutorials.jenkov.com/java-nio/channel-to-channel-transfers.html
+在Java NIO 中channel之间可以直接相互传输。比如一个FileChannel类型的channel，FileChannel类提供transferTo()和transferFrom()两个方法做这个事情。
+transferFrom()The F">
   
     <link rel="alternative" href="/atom.xml" title="入耳箸心" type="application/atom+xml">
   
@@ -71,39 +78,85 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/04/03/使用Spring-Boot-Jquery-Datatables实现管理平台的表格/" class="archive-article-date">
-  <time datetime="2016-04-03T06:21:46.000Z" itemprop="datePublished">4月 3</time>
+      <section id="main"><article id="post-Java-NIO-Channel-to-Channel-Transfers" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/11/10/Java-NIO-Channel-to-Channel-Transfers/" class="article-date">
+  <time datetime="2016-11-10T03:05:11.000Z" itemprop="datePublished">2016-11-10</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/04/03/使用Spring-Boot-Jquery-Datatables实现管理平台的表格/">使用Spring Boot Jquery Datatables实现管理平台的表格</a>
+    <h1 class="article-title" itemprop="name">
+      Java NIO Channel之间的数据传输
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#transferFrom_28_29"><span class="toc-number">1.</span> <span class="toc-text">transferFrom()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#transferTo_28_29"><span class="toc-number">2.</span> <span class="toc-text">transferTo()</span></a></li></ol>
+      </div>
+      
+
+      <p>原文：<a href="http://tutorials.jenkov.com/java-nio/channel-to-channel-transfers.html" target="_blank" rel="external">http://tutorials.jenkov.com/java-nio/channel-to-channel-transfers.html</a></p>
+<p>在Java NIO 中channel之间可以直接相互传输。比如一个FileChannel类型的channel，FileChannel类提供<code>transferTo()</code>和<code>transferFrom()</code>两个方法做这个事情。</p>
+<h2 id="transferFrom_28_29"><a href="#transferFrom_28_29" class="headerlink" title="transferFrom()"></a>transferFrom()</h2><p>The <code>FileChannel.transferFrom()</code> method transfers data from a source channel into the FileChannel. Here is a simple example:</p>
+<p><code>FileChannel.transferFrom()</code>方法将一个channel的数据传入FileChannel。</p>
+<p>代码🌰：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">RandomAccessFile fromFile = <span class="keyword">new</span> RandomAccessFile(<span class="string">"fromFile.txt"</span>, <span class="string">"rw"</span>);</span><br><span class="line">FileChannel      fromChannel = fromFile.getChannel();</span><br><span class="line"></span><br><span class="line">RandomAccessFile toFile = <span class="keyword">new</span> RandomAccessFile(<span class="string">"toFile.txt"</span>, <span class="string">"rw"</span>);</span><br><span class="line">FileChannel      toChannel = toFile.getChannel();</span><br><span class="line"></span><br><span class="line"><span class="keyword">long</span> position = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">long</span> count    = fromChannel.size();</span><br><span class="line"></span><br><span class="line">toChannel.transferFrom(fromChannel, position, count);</span><br></pre></td></tr></table></figure>
+<p>position参数确定目标文件的传输初始位置，count参数确定传输的最大数量。channel中的字节数若是少于count，就读取全部字节。<br>另外，SocketChannel传输的是其内部此时此处的就绪的数据（SocketChannel后续可能还会有更多的可用数据）。因此，从SocketChannel传输数据时，有可能不能把全部的请求数据（不足count的数据）都传入FileChannel中。<br>Additionally, some SocketChannel implementations may transfer only the data the SocketChannel has ready in its internal buffer here and now - even if the SocketChannel may later have more data available. Thus, it may not transfer the entire data requested (count) from the SocketChannel into FileChannel.</p>
+<h2 id="transferTo_28_29"><a href="#transferTo_28_29" class="headerlink" title="transferTo()"></a>transferTo()</h2><p><code>transferTo()</code>方法将FileChannel数据传入其他的channel中。</p>
+<p>代码🌰：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">RandomAccessFile fromFile = <span class="keyword">new</span> RandomAccessFile(<span class="string">"fromFile.txt"</span>, <span class="string">"rw"</span>);</span><br><span class="line">FileChannel      fromChannel = fromFile.getChannel();</span><br><span class="line"></span><br><span class="line">RandomAccessFile toFile = <span class="keyword">new</span> RandomAccessFile(<span class="string">"toFile.txt"</span>, <span class="string">"rw"</span>);</span><br><span class="line">FileChannel      toChannel = toFile.getChannel();</span><br><span class="line"></span><br><span class="line"><span class="keyword">long</span> position = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">long</span> count    = fromChannel.size();</span><br><span class="line"></span><br><span class="line">fromChannel.transferTo(position, count, toChannel);</span><br></pre></td></tr></table></figure>
+<p>和上面的例子很相似。区别在于调用方法的FileChannel对象不一样。</p>
+<p>关于SocketChannel的问题在transferTo()方法中同样存在。SocketChannel会一直传输数据直到目标buffer被填满。</p>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://suqun.github.io/2016/11/10/Java-NIO-Channel-to-Channel-Transfers/" data-id="civl0q487003hn4uqjhuc4j46" class="article-share-link" data-share="baidu" data-title="Java NIO Channel之间的数据传输">分享到</a>
+      
+
+      
+        <a href="http://suqun.github.io/2016/11/10/Java-NIO-Channel-to-Channel-Transfers/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-NIO/">Java NIO</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/11/09/Java-NIO-Scatter-Gather/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">Java NIO Scatter / Gather</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="2016/11/10/Java-NIO-Channel-to-Channel-Transfers/" data-title="Java NIO Channel之间的数据传输" data-url="http://suqun.github.io/2016/11/10/Java-NIO-Channel-to-Channel-Transfers/"></div>
+  </section>
 </section>
       
       <aside id="sidebar">
