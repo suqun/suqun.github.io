@@ -4,24 +4,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Java NIO 教程 | 入耳箸心</title>
+  <title>Java NIO FileChannel | 入耳箸心</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="原文地址Java Reflection
-Java NIO(New IO) 是java(从java1.4开始) IO API的一个选择,可以代替Java标准IO和Java网络编程API。对于标准的IO来说,Java NIO提供了不同的处理IO的方式。
-Channels and Buffers在标准的IO API中,使用字节流和字符流。在NIO中需要用到channels和buffers。数据总是从ch">
+  <meta name="description" content="原文：[http://tutorials.jenkov.com/java-nio/file-channel.html]{http://tutorials.jenkov.com/java-nio/file-channel.html}
+Java NIO中的FileChannel是一个连接文件的channel，可以使用它从文件中读取数据或向文件中写入数据。Java NIO的FileChannel是NIO">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java NIO 教程">
-<meta property="og:url" content="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/index.html">
+<meta property="og:title" content="Java NIO FileChannel">
+<meta property="og:url" content="http://suqun.github.io/2016/11/22/Java-NIO-FileChannel/index.html">
 <meta property="og:site_name" content="入耳箸心">
-<meta property="og:description" content="原文地址Java Reflection
-Java NIO(New IO) 是java(从java1.4开始) IO API的一个选择,可以代替Java标准IO和Java网络编程API。对于标准的IO来说,Java NIO提供了不同的处理IO的方式。
-Channels and Buffers在标准的IO API中,使用字节流和字符流。在NIO中需要用到channels和buffers。数据总是从ch">
-<meta property="og:updated_time" content="2016-10-24T15:22:39.000Z">
+<meta property="og:description" content="原文：[http://tutorials.jenkov.com/java-nio/file-channel.html]{http://tutorials.jenkov.com/java-nio/file-channel.html}
+Java NIO中的FileChannel是一个连接文件的channel，可以使用它从文件中读取数据或向文件中写入数据。Java NIO的FileChannel是NIO">
+<meta property="og:updated_time" content="2016-11-22T01:35:44.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java NIO 教程">
-<meta name="twitter:description" content="原文地址Java Reflection
-Java NIO(New IO) 是java(从java1.4开始) IO API的一个选择,可以代替Java标准IO和Java网络编程API。对于标准的IO来说,Java NIO提供了不同的处理IO的方式。
-Channels and Buffers在标准的IO API中,使用字节流和字符流。在NIO中需要用到channels和buffers。数据总是从ch">
+<meta name="twitter:title" content="Java NIO FileChannel">
+<meta name="twitter:description" content="原文：[http://tutorials.jenkov.com/java-nio/file-channel.html]{http://tutorials.jenkov.com/java-nio/file-channel.html}
+Java NIO中的FileChannel是一个连接文件的channel，可以使用它从文件中读取数据或向文件中写入数据。Java NIO的FileChannel是NIO">
   
     <link rel="alternative" href="/atom.xml" title="入耳箸心" type="application/atom+xml">
   
@@ -78,10 +75,10 @@ Channels and Buffers在标准的IO API中,使用字节流和字符流。在NIO�
   </div>
 </header>
     <div class="outer">
-      <section id="main"><article id="post-Java-NIO-Tutorial" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-Java-NIO-FileChannel" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/06/25/Java-NIO-Tutorial/" class="article-date">
-  <time datetime="2016-06-25T05:24:25.000Z" itemprop="datePublished">2016-06-25</time>
+    <a href="/2016/11/22/Java-NIO-FileChannel/" class="article-date">
+  <time datetime="2016-11-21T16:14:33.000Z" itemprop="datePublished">2016-11-22</time>
 </a>
     
   </div>
@@ -92,7 +89,7 @@ Channels and Buffers在标准的IO API中,使用字节流和字符流。在NIO�
         
   
     <h1 class="article-title" itemprop="name">
-      Java NIO 教程
+      Java NIO FileChannel
     </h1>
   
 
@@ -104,27 +101,24 @@ Channels and Buffers在标准的IO API中,使用字节流和字符流。在NIO�
       
       <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
-        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Channels_and_Buffers"><span class="toc-number">1.</span> <span class="toc-text">Channels and Buffers</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Non-blocking_IO"><span class="toc-number">2.</span> <span class="toc-text">Non-blocking IO</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Selectors"><span class="toc-number">3.</span> <span class="toc-text">Selectors</span></a></li></ol>
+        
       </div>
       
 
-      <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/classes.html" target="_blank" rel="external">Java Reflection</a></p>
-<p>Java NIO(New IO) 是java(从java1.4开始) IO API的一个选择,可以代替Java标准IO和Java网络编程API。对于标准的IO来说,Java NIO提供了不同的处理IO的方式。</p>
-<h4 id="Channels_and_Buffers"><a href="#Channels_and_Buffers" class="headerlink" title="Channels and Buffers"></a>Channels and Buffers</h4><p>在标准的IO API中,使用字节流和字符流。在NIO中需要用到channels和buffers。数据总是从channel获取读到buffer中,从buffer中获取写入channel。</p>
-<h4 id="Non-blocking_IO"><a href="#Non-blocking_IO" class="headerlink" title="Non-blocking IO"></a>Non-blocking IO</h4><p>Java NIO 可以非阻塞式的处理IO。比如,一个线程将channel的数据读到buffer。在读的过程中,线程可以做其他事情。一旦数据读取完毕放到buffer中,线程在继续处理。写数据也是一样的操作。</p>
-<h4 id="Selectors"><a href="#Selectors" class="headerlink" title="Selectors"></a>Selectors</h4><p>Java NIO 有个 『selectors』的概念,一个selector就是一个对象,通过事件(比如:连接打开,数据到达等等)监控多个channels。这样,一个单独的线程就可以监控多个channel的数据。</p>
-<p>这些都是如何工作的,本系列的下一章 <a href="/">the Java NIO overview</a>会详细描述。</p>
+      <p>原文：[<a href="http://tutorials.jenkov.com/java-nio/file-channel.html]{http://tutorials.jenkov.com/java-nio/file-channel.html}" target="_blank" rel="external">http://tutorials.jenkov.com/java-nio/file-channel.html]{http://tutorials.jenkov.com/java-nio/file-channel.html}</a></p>
+<p>Java NIO中的FileChannel是一个连接文件的channel，可以使用它从文件中读取数据或向文件中写入数据。Java NIO的FileChannel是NIO的一个选择相对标准的Java IO API来说。</p>
+<p>FileChannel可以设置成非阻塞模式，但是仍然会按照阻塞模式运行。</p>
 
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/" data-id="civsty3wi0038nluquqjj799q" class="article-share-link" data-share="baidu" data-title="Java NIO 教程">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/22/Java-NIO-FileChannel/" data-id="civsty3wn003hnluqvl0e60nl" class="article-share-link" data-share="baidu" data-title="Java NIO FileChannel">分享到</a>
       
 
       
-        <a href="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/#ds-thread" class="article-comment-link">评论</a>
+        <a href="http://suqun.github.io/2016/11/22/Java-NIO-FileChannel/#ds-thread" class="article-comment-link">评论</a>
       
 
       
@@ -136,19 +130,10 @@ Channels and Buffers在标准的IO API中,使用字节流和字符流。在NIO�
     
 <nav id="article-nav">
   
-    <a href="/2016/06/25/Java-NIO-Overview/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">
-        
-          Java NIO 概述
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/06/24/JavaReflectionArray/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2016/11/16/Java-NIO-Selector/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">Java反射之数组</div>
+      <div class="article-nav-title">Java NIO Selector</div>
     </a>
   
 </nav>
@@ -158,7 +143,7 @@ Channels and Buffers在标准的IO API中,使用字节流和字符流。在NIO�
 
 
   <section id="comments">
-    <div id="ds-thread" class="ds-thread" data-thread-key="2016/06/25/Java-NIO-Tutorial/" data-title="Java NIO 教程" data-url="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/"></div>
+    <div id="ds-thread" class="ds-thread" data-thread-key="2016/11/22/Java-NIO-FileChannel/" data-title="Java NIO FileChannel" data-url="http://suqun.github.io/2016/11/22/Java-NIO-FileChannel/"></div>
   </section>
 </section>
       

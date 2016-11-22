@@ -4,7 +4,7 @@
   <subtitle><![CDATA[成长路上的点滴记录]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://suqun.github.io/"/>
-  <updated>2016-11-21T16:10:19.000Z</updated>
+  <updated>2016-11-22T01:35:44.000Z</updated>
   <id>http://suqun.github.io/</id>
   
   <author>
@@ -13,6 +13,24 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Java NIO FileChannel]]></title>
+    <link href="http://suqun.github.io/2016/11/22/Java-NIO-FileChannel/"/>
+    <id>http://suqun.github.io/2016/11/22/Java-NIO-FileChannel/</id>
+    <published>2016-11-21T16:14:33.000Z</published>
+    <updated>2016-11-22T01:35:44.000Z</updated>
+    <content type="html"><![CDATA[<p>原文：[<a href="http://tutorials.jenkov.com/java-nio/file-channel.html]{http://tutorials.jenkov.com/java-nio/file-channel.html}" target="_blank" rel="external">http://tutorials.jenkov.com/java-nio/file-channel.html]{http://tutorials.jenkov.com/java-nio/file-channel.html}</a></p>
+<p>Java NIO中的FileChannel是一个连接文件的channel，可以使用它从文件中读取数据或向文件中写入数据。Java NIO的FileChannel是NIO的一个选择相对标准的Java IO API来说。</p>
+<p>FileChannel可以设置成非阻塞模式，但是仍然会按照阻塞模式运行。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>原文：[<a href="http://tutorials.jenkov.com/java-nio/file-channel.html]{http://tutorials.jenkov.com/java-nio/file-channel.html}" target="_bl]]>
+    </summary>
+    
+      <category term="Java NIO" scheme="http://suqun.github.io/tags/Java-NIO/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Java NIO Selector]]></title>
@@ -917,28 +935,6 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
 <li>Selectors</li>
 </ul>
 <p>Java NIO 还有很多其他的类和组件,Channel,Buffer,Selector]]>
-    </summary>
-    
-      <category term="Java NIO" scheme="http://suqun.github.io/tags/Java-NIO/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Java NIO 教程]]></title>
-    <link href="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/"/>
-    <id>http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/</id>
-    <published>2016-06-25T05:24:25.000Z</published>
-    <updated>2016-10-24T15:22:39.000Z</updated>
-    <content type="html"><![CDATA[<p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/classes.html" target="_blank" rel="external">Java Reflection</a></p>
-<p>Java NIO(New IO) 是java(从java1.4开始) IO API的一个选择,可以代替Java标准IO和Java网络编程API。对于标准的IO来说,Java NIO提供了不同的处理IO的方式。</p>
-<h4 id="Channels_and_Buffers"><a href="#Channels_and_Buffers" class="headerlink" title="Channels and Buffers"></a>Channels and Buffers</h4><p>在标准的IO API中,使用字节流和字符流。在NIO中需要用到channels和buffers。数据总是从channel获取读到buffer中,从buffer中获取写入channel。</p>
-<h4 id="Non-blocking_IO"><a href="#Non-blocking_IO" class="headerlink" title="Non-blocking IO"></a>Non-blocking IO</h4><p>Java NIO 可以非阻塞式的处理IO。比如,一个线程将channel的数据读到buffer。在读的过程中,线程可以做其他事情。一旦数据读取完毕放到buffer中,线程在继续处理。写数据也是一样的操作。</p>
-<h4 id="Selectors"><a href="#Selectors" class="headerlink" title="Selectors"></a>Selectors</h4><p>Java NIO 有个 『selectors』的概念,一个selector就是一个对象,通过事件(比如:连接打开,数据到达等等)监控多个channels。这样,一个单独的线程就可以监控多个channel的数据。</p>
-<p>这些都是如何工作的,本系列的下一章 <a href="/">the Java NIO overview</a>会详细描述。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/classes.html" target="_blank" rel="external">Java Reflection</a></p>
-<p>Java NIO]]>
     </summary>
     
       <category term="Java NIO" scheme="http://suqun.github.io/tags/Java-NIO/"/>
