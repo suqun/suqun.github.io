@@ -4,17 +4,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2016/6 | 入耳箸心</title>
+  <title>Java-NIO-SocketChannel | 入耳箸心</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="入耳箸心">
-<meta property="og:url" content="http://suqun.github.io/archives/2016/06/index.html">
+  <meta name="description" content="原文：http://tutorials.jenkov.com/java-nio/socketchannel.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java-NIO-SocketChannel">
+<meta property="og:url" content="http://suqun.github.io/2016/11/27/Java-NIO-SocketChannel/index.html">
 <meta property="og:site_name" content="入耳箸心">
-<meta property="og:description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
+<meta property="og:description" content="原文：http://tutorials.jenkov.com/java-nio/socketchannel.html">
+<meta property="og:updated_time" content="2016-11-27T13:13:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="入耳箸心">
-<meta name="twitter:description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
+<meta name="twitter:title" content="Java-NIO-SocketChannel">
+<meta name="twitter:description" content="原文：http://tutorials.jenkov.com/java-nio/socketchannel.html">
   
     <link rel="alternative" href="/atom.xml" title="入耳箸心" type="application/atom+xml">
   
@@ -71,115 +72,74 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/06/28/Java-NIO-Buffer/" class="archive-article-date">
-  <time datetime="2016-06-28T14:10:31.000Z" itemprop="datePublished">6月 28</time>
+      <section id="main"><article id="post-Java-NIO-SocketChannel" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/11/27/Java-NIO-SocketChannel/" class="article-date">
+  <time datetime="2016-11-27T13:12:38.000Z" itemprop="datePublished">2016-11-27</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/06/28/Java-NIO-Buffer/">Java NIO Buffer</a>
+    <h1 class="article-title" itemprop="name">
+      Java-NIO-SocketChannel
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/06/26/Java-NIO-Channel/" class="archive-article-date">
-  <time datetime="2016-06-26T13:04:43.000Z" itemprop="datePublished">6月 26</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/06/26/Java-NIO-Channel/">Java NIO Channel</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/06/25/Java-NIO-Overview/" class="archive-article-date">
-  <time datetime="2016-06-25T05:27:34.000Z" itemprop="datePublished">6月 25</time>
-</a>
+      <!-- Table of Contents -->
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/06/25/Java-NIO-Overview/">Java NIO 概述</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/06/25/Java-NIO-Tutorial/" class="archive-article-date">
-  <time datetime="2016-06-25T05:24:25.000Z" itemprop="datePublished">6月 25</time>
-</a>
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+      </div>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/06/25/Java-NIO-Tutorial/">Java NIO 教程</a>
-    </h1>
-  
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/06/24/JavaReflectionArray/" class="archive-article-date">
-  <time datetime="2016-06-24T12:52:55.000Z" itemprop="datePublished">6月 24</time>
-</a>
+      <p>原文：<a href="http://tutorials.jenkov.com/java-nio/socketchannel.html" target="_blank" rel="external">http://tutorials.jenkov.com/java-nio/socketchannel.html</a></p>
+
+
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/06/24/JavaReflectionArray/">Java反射之数组</a>
-    </h1>
-  
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://suqun.github.io/2016/11/27/Java-NIO-SocketChannel/" data-id="ciw0o2vdl003bnpuq4314jiqp" class="article-share-link" data-share="baidu" data-title="Java-NIO-SocketChannel">分享到</a>
+      
 
-    </header>
+      
+        <a href="http://suqun.github.io/2016/11/27/Java-NIO-SocketChannel/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-NIO/">Java NIO</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/11/22/Java-NIO-FileChannel/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">Java NIO FileChannel</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="2016/11/27/Java-NIO-SocketChannel/" data-title="Java-NIO-SocketChannel" data-url="http://suqun.github.io/2016/11/27/Java-NIO-SocketChannel/"></div>
+  </section>
 </section>
       
       <aside id="sidebar">

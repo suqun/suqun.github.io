@@ -4,7 +4,7 @@
   <subtitle><![CDATA[成长路上的点滴记录]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://suqun.github.io/"/>
-  <updated>2016-11-22T01:35:44.000Z</updated>
+  <updated>2016-11-27T13:13:36.000Z</updated>
   <id>http://suqun.github.io/</id>
   
   <author>
@@ -15,14 +15,58 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Java-NIO-SocketChannel]]></title>
+    <link href="http://suqun.github.io/2016/11/27/Java-NIO-SocketChannel/"/>
+    <id>http://suqun.github.io/2016/11/27/Java-NIO-SocketChannel/</id>
+    <published>2016-11-27T13:12:38.000Z</published>
+    <updated>2016-11-27T13:13:36.000Z</updated>
+    <content type="html"><![CDATA[<p>原文：<a href="http://tutorials.jenkov.com/java-nio/socketchannel.html" target="_blank" rel="external">http://tutorials.jenkov.com/java-nio/socketchannel.html</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>原文：<a href="http://tutorials.jenkov.com/java-nio/socketchannel.html" target="_blank" rel="external">http://tutorials.jenkov.com/java-nio/]]>
+    </summary>
+    
+      <category term="Java NIO" scheme="http://suqun.github.io/tags/Java-NIO/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Java NIO FileChannel]]></title>
     <link href="http://suqun.github.io/2016/11/22/Java-NIO-FileChannel/"/>
     <id>http://suqun.github.io/2016/11/22/Java-NIO-FileChannel/</id>
     <published>2016-11-21T16:14:33.000Z</published>
-    <updated>2016-11-22T01:35:44.000Z</updated>
+    <updated>2016-11-27T13:11:40.000Z</updated>
     <content type="html"><![CDATA[<p>原文：[<a href="http://tutorials.jenkov.com/java-nio/file-channel.html]{http://tutorials.jenkov.com/java-nio/file-channel.html}" target="_blank" rel="external">http://tutorials.jenkov.com/java-nio/file-channel.html]{http://tutorials.jenkov.com/java-nio/file-channel.html}</a></p>
 <p>Java NIO中的FileChannel是一个连接文件的channel，可以使用它从文件中读取数据或向文件中写入数据。Java NIO的FileChannel是NIO的一个选择相对标准的Java IO API来说。</p>
 <p>FileChannel可以设置成非阻塞模式，但是仍然会按照阻塞模式运行。</p>
+<h2 id="u6253_u5F00FileChannel"><a href="#u6253_u5F00FileChannel" class="headerlink" title="打开FileChannel"></a>打开FileChannel</h2><p>在使用FileChannel时需要先打开它，但是不能直接打开。需要借助InputStream,OutputStream或者是RandomAccessFile。</p>
+<p>举个🌰： </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RandomAccessFile aFile     = <span class="keyword">new</span> RandomAccessFile(<span class="string">"data/nio-data.txt"</span>, <span class="string">"rw"</span>);</span><br><span class="line">FileChannel      inChannel = aFile.getChannel();</span><br></pre></td></tr></table></figure>
+<h2 id="u4ECEFileChannel_u8BFB_u6570_u636E"><a href="#u4ECEFileChannel_u8BFB_u6570_u636E" class="headerlink" title="从FileChannel读数据"></a>从FileChannel读数据</h2><p>从FileChannel读数据可以调用<code>read()</code>方法。</p>
+<p>举个🌰：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ByteBuffer buf = ByteBuffer.allocate(<span class="number">48</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> bytesRead = inChannel.read(buf);</span><br></pre></td></tr></table></figure>
+<p>首先给Buffer分配字节， FileChannel中的数据就是读到Buffer中。</p>
+<p>其次，再调用<code>FileChannel.read()</code>方法。从FileChannel中将数据读入buffer。read()的整型返回值告诉我们已经写入Buffer的字节量。如果返回<code>-1</code>,就是读到了文件的结尾。</p>
+<h2 id="FileChannel_u5199_u5165_u6570_u636E"><a href="#FileChannel_u5199_u5165_u6570_u636E" class="headerlink" title="FileChannel写入数据"></a>FileChannel写入数据</h2><p>Writing data to a FileChannel is done using the FileChannel.write() method, which takes a Buffer as parameter. Here is an example:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">String newData = <span class="string">"New String to write to file..."</span> + System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">ByteBuffer buf = ByteBuffer.allocate(<span class="number">48</span>);</span><br><span class="line">buf.clear();</span><br><span class="line">buf.put(newData.getBytes());</span><br><span class="line"></span><br><span class="line">buf.flip();</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(buf.hasRemaining()) &#123;</span><br><span class="line">    channel.write(buf);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Notice how the FileChannel.write() method is called inside a while-loop. There is no guarantee of how many bytes the write() method writes to the FileChannel. Therefore we repeat the write() call until the Buffer has no further bytes to write.</p>
+<h2 id="u5173_u95EDFileChannel"><a href="#u5173_u95EDFileChannel" class="headerlink" title="关闭FileChannel"></a>关闭FileChannel</h2><p>When you are done using a FileChannel you must close it. Here is how that is done:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">channel.close();</span><br></pre></td></tr></table></figure>
+<h2 id="FileChannel_Position"><a href="#FileChannel_Position" class="headerlink" title="FileChannel Position"></a>FileChannel Position</h2><p>When reading or writing to a FileChannel you do so at a specific position. You can obtain the current position of the FileChannel object by calling the position() method.</p>
+<p>You can also set the position of the FileChannel by calling the position(long pos) method.</p>
+<p>Here are two examples:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> pos channel.position();</span><br><span class="line"></span><br><span class="line">channel.position(pos +<span class="number">123</span>);</span><br></pre></td></tr></table></figure>
+<p>If you set the position after the end of the file, and try to read from the channel, you will get -1 - the end-of-file marker.</p>
+<p>If you set the position after the end of the file, and write to the channel, the file will be expanded to fit the position and written data. This may result in a “file hole”, where the physical file on the disk has gaps in the written data.</p>
+<h2 id="FileChannel_Size"><a href="#FileChannel_Size" class="headerlink" title="FileChannel Size"></a>FileChannel Size</h2><p>The size() method of the FileChannel object returns the file size of the file the channel is connected to. Here is a simple example:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> fileSize = channel.size();</span><br></pre></td></tr></table></figure>
+<h2 id="FileChannel_Truncate"><a href="#FileChannel_Truncate" class="headerlink" title="FileChannel Truncate"></a>FileChannel Truncate</h2><p>You can truncate a file by calling the FileChannel.truncate() method. When you truncate a file, you cut it off at a given length. Here is an example:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">channel.truncate(<span class="number">1024</span>);</span><br></pre></td></tr></table></figure>
+<p>This example truncates the file at 1024 bytes in length.</p>
+<h2 id="FileChannel_Force"><a href="#FileChannel_Force" class="headerlink" title="FileChannel Force"></a>FileChannel Force</h2><p>The FileChannel.force() method flushes all unwritten data from the channel to the disk. An operating system may cache data in memory for performance reasons, so you are not guaranteed that data written to the channel is actually written to disk, until you call the force() method.</p>
+<p>The force() method takes a boolean as parameter, telling whether the file meta data (permission etc.) should be flushed too.</p>
+<p>Here is an example which flushes both data and meta data:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">channel.force(<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
 ]]></content>
     <summary type="html">
     <![CDATA[<p>原文：[<a href="http://tutorials.jenkov.com/java-nio/file-channel.html]{http://tutorials.jenkov.com/java-nio/file-channel.html}" target="_bl]]>
@@ -881,60 +925,6 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
 <li>可以向一个Channel即读又写。流是典型的单向的（写或者读）</li>
 <li>Channels的读写是异步的</li>
 <li>Channels总是读数据到Buffer中，或者将]]>
-    </summary>
-    
-      <category term="Java NIO" scheme="http://suqun.github.io/tags/Java-NIO/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Java NIO 概述]]></title>
-    <link href="http://suqun.github.io/2016/06/25/Java-NIO-Overview/"/>
-    <id>http://suqun.github.io/2016/06/25/Java-NIO-Overview/</id>
-    <published>2016-06-25T05:27:34.000Z</published>
-    <updated>2016-10-24T15:22:41.000Z</updated>
-    <content type="html"><![CDATA[<p>Java NIO 包含下面三个核心组件:</p>
-<ul>
-<li>Channels</li>
-<li>Buffers</li>
-<li>Selectors</li>
-</ul>
-<p>Java NIO 还有很多其他的类和组件,Channel,Buffer,Selector是核心的API。其他的组件,诸如Pipe、FileLock仅仅只是这3个核心组组件的实际应用。</p>
-<h4 id="Channels_and_Buffers"><a href="#Channels_and_Buffers" class="headerlink" title="Channels  and Buffers"></a>Channels  and Buffers</h4><p>典型的,NIO中的所有IO都是起始于Channel。Channel有点像流。可以将Channel中数据读到Buffer里,也可以将Buffer里的数据写入Channel中。说明如下:</p>
-<p><img src="http://tutorials.jenkov.com/images/java-nio/overview-channels-buffers.png" alt="Java NIO: Channels read data into Buffers, and Buffers write data into Channels"><br><strong>Java NIO: Channels read data into Buffers, and Buffers write data into Channels</strong></p>
-<p>Java NIO中主要的Channel实现类有：</p>
-<ul>
-<li>FileChannel</li>
-<li>DatagramChannel</li>
-<li>SocketChannel</li>
-<li>ServerSocketChannel</li>
-</ul>
-<p>可以看出,这些channels覆盖了UDP+TCP的网络IO,以及文件IO。</p>
-<p>Java NIO中主要的Buffer实现类有:</p>
-<ul>
-<li>ByteBuffer</li>
-<li>CharBuffer</li>
-<li>DoubleBuffer</li>
-<li>FloatBuffer</li>
-<li>IntBuffer</li>
-<li>LongBuffer</li>
-<li>ShortBuffer</li>
-</ul>
-<p>这些实现类也包含了通过IO发送数据所需要的基本的数据类型：byte、short、int、long、float、double、Char型。</p>
-<p>Java NIO也有 MappedByteBuffer类型，用于表示内存映射文件。</p>
-<h4 id="Selectors"><a href="#Selectors" class="headerlink" title="Selectors"></a>Selectors</h4><p>一个Selectors允许一个单线程同时处理多个Channel。如果应用中有很多打开的连接（Channels）这么做是很方便的，但是每个连接的流量都很低。比如，聊天服务器。</p>
-<p>下面是一个Selector处理3个Channel的说明：</p>
-<p><img src="http://tutorials.jenkov.com/images/java-nio/overview-selectors.png" alt="Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"><br><strong>Java NIO: A Thread uses a Selector to handle 3 Channel’s</strong></p>
-<p>先将Channels注册到Selector中，然后调用他的select()方法。这个方法会阻塞直到有注册的channel相应的事件触发。一旦这个方法返回，线程就可以处理这个事件。比如正在打开的连接，获取到数据的事件等等。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>Java NIO 包含下面三个核心组件:</p>
-<ul>
-<li>Channels</li>
-<li>Buffers</li>
-<li>Selectors</li>
-</ul>
-<p>Java NIO 还有很多其他的类和组件,Channel,Buffer,Selector]]>
     </summary>
     
       <category term="Java NIO" scheme="http://suqun.github.io/tags/Java-NIO/"/>
