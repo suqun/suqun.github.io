@@ -4,7 +4,7 @@
   <subtitle><![CDATA[成长路上的点滴记录]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://suqun.github.io/"/>
-  <updated>2016-11-27T13:13:36.000Z</updated>
+  <updated>2017-02-14T14:31:58.000Z</updated>
   <id>http://suqun.github.io/</id>
   
   <author>
@@ -15,11 +15,87 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[Java-NIO-SocketChannel]]></title>
+    <title><![CDATA[JVM笔记二：HotSpot虚拟机对象探秘]]></title>
+    <link href="http://suqun.github.io/2017/02/14/JVM-note-2/"/>
+    <id>http://suqun.github.io/2017/02/14/JVM-note-2/</id>
+    <published>2017-02-14T12:42:05.000Z</published>
+    <updated>2017-02-14T14:31:58.000Z</updated>
+    <content type="html"><![CDATA[<p>以常用的虚拟机HotSpot和常用的内存区域Java堆为例，深入探讨HotSpot虚拟机在Java堆中对象分配、布局和访问的全过程。</p>
+<h3 id="u5BF9_u8C61_u7684_u521B_u5EFA"><a href="#u5BF9_u8C61_u7684_u521B_u5EFA" class="headerlink" title="对象的创建"></a>对象的创建</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-new.png" alt="java对象的创建"></p>
+<ul>
+<li>虚拟机遇到一条new指令</li>
+<li><strong>检查</strong>这个指令的参数是否能在常量池中定位到一个类的符号引用。并且检查这个符号引用代表的类是否已被加载、解析、初始化过，没有必须先执行相应的类加载过程。</li>
+<li><strong>指针碰撞</strong>：若干Java堆中内存是绝对规整的，所有用过的内存都放在一边，空闲的内存放在另一边，中间放着一个指针作为分界点的指示器，那所分配的内存就仅仅是把那个指针向空闲空间那边挪动一段与对象大小相等的距离。</li>
+<li><strong>空闲列表</strong>：如果java堆中的内存并不是规整的，已使用的内存和空闲的内存相互交错，JVM必须维护一个空闲列表用来记录哪些内存块是可用的，在分配的时候从列表中找到一块足够大的空间划分给对象实例，并更新列表上的记录</li>
+<li>内存分配完成以后，虚拟机需要将<strong>分配到的内存空间都初始化为零值</strong>（不包括对象头），确保对象的实例字段在Java代码中可以不赋初始值就直接使用，程序能访问到这些字段的数据类型所对应的零值。</li>
+<li>接下来，<strong>JVM对对象进行必要的设置</strong>，例如：这个对象是哪个类的实例、如何才能找到类的元数据信息、对象的哈希值、对象的GC分代年龄等信息。这些信息存放在对象头（Object Header）中。</li>
+<li>上面的工作完成之后，<strong>从JVM的角度，一个新的对象以及产生</strong>了。</li>
+<li><strong>对Java程序来说，对象所有的字段都为零值</strong>，所以一般来说，执行new指令之后会接着执行<init>方法，把对象按照程序员的意愿进行初始化，这样一个真正可用的对象就完全产生出来。</init></li>
+</ul>
+<h3 id="u5BF9_u8C61_u7684_u5185_u5B58_u5E03_u5C40"><a href="#u5BF9_u8C61_u7684_u5185_u5B58_u5E03_u5C40" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-object.png" alt="对象的内存布局"></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>以常用的虚拟机HotSpot和常用的内存区域Java堆为例，深入探讨HotSpot虚拟机在Java堆中对象分配、布局和访问的全过程。</p>
+<h3 id="u5BF9_u8C61_u7684_u521B_u5EFA"><a href="#u5BF9_u8C61_u7684]]>
+    </summary>
+    
+      <category term="JVM" scheme="http://suqun.github.io/tags/JVM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[JVM笔记一：Java内存区域与内存溢出异常]]></title>
+    <link href="http://suqun.github.io/2016/12/25/JVM-note-1/"/>
+    <id>http://suqun.github.io/2016/12/25/JVM-note-1/</id>
+    <published>2016-12-25T06:56:19.000Z</published>
+    <updated>2017-02-08T09:20:06.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="u8FD0_u884C_u65F6_u6570_u636E_u533A_u57DF"><a href="#u8FD0_u884C_u65F6_u6570_u636E_u533A_u57DF" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com//jvm-runtime-illustration.png" alt="Java虚拟机运行时数据区"></p>
+<h3 id="u7A0B_u5E8F_u8BA1_u6570_u5668"><a href="#u7A0B_u5E8F_u8BA1_u6570_u5668" class="headerlink" title="程序计数器"></a>程序计数器</h3><p>程序计数器（Program Counter Register）是一块较小的内存空间，可以看作是线程所执行的字节码的行号指示器。在虚拟机的概念模型里，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。</p>
+<p>由于Java虚拟机的多线程是通过线程轮流切换并分配处理器执行时间的方式来实现的，<strong>在任何一个确定的时刻，一个处理器（多核处理器的一个内核）都只会执行一条线程的指令。因此为了线程切换后能恢复到正确的执行位置，每条线程都需要一个独立的程序计数器，各条线程之间计数器互不影响，独立存储</strong>。我们称这类内存区域为『线程私有』的内存。</p>
+<p>如果线程正在执行一个Java方法，这个计数器记录的就是正在执行的虚拟机字节码指令的地址；如果执行的是一个Native方法，这个计数器值为空（Undefined）。</p>
+<p>此内存区域是唯一一个在Java虚拟机中没有规定任何OutOfMemoryError情况的区域。</p>
+<h3 id="u865A_u62DF_u673A_u6808"><a href="#u865A_u62DF_u673A_u6808" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h3><p>与程序计数器一样，<strong>Java虚拟机栈（Java Virtual Machine Stacks）也是线程私有的。它的生命周期与线程相同</strong>。</p>
+<font color="red">虚拟机栈描述的是Java方法执行的内存模型</font>：<strong>每个方法在执行的同时都会创建一个栈帧（Stack Frame）用于存储局部变量表、操作数栈、动态链接、方法出口等信息。每一个方法从调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中的入栈到出栈的过程</strong>。<br><br><font color="red">局部变量表</font>
+
+<ul>
+<li><strong>存放了编译期可知的各种基本数据类型</strong>（boolean、byte、char、short、int、float、long、double）、<strong>对象引用</strong>（reference类型，它不等同于对象本身，可能是一个指向对象起始地址的引用指针，也可能是指向一个代表对象的句柄或其他与此对象相关的位置）和<strong>returnAddress类型</strong>（指向了一条字节码指令的地址）。</li>
+<li>其中64位长度的long和double类型的数据会占用2个局部变量空间（Slot），其余的数据类型只占用一个。</li>
+<li>局部变量表所需的内存空间在编译期间完成分配，当进入一个方法时，这个方法需要在帧中分配多大的局部变量空间是完全确定的，在方法的运行期间不会改变局部变量的大小。</li>
+</ul>
+<p>在Java虚拟机规范中，对这个区域规定2种异常情况：</p>
+<ul>
+<li>如果线程请求的栈深度大于虚拟机允许的深度，将抛出StackOverflowError异常</li>
+<li>如果虚拟机栈可以动态扩展，扩展申请时无法申请到足够的内存，就会抛出OutOfMemoryError异常</li>
+</ul>
+<h3 id="u672C_u5730_u65B9_u6CD5_u6808"><a href="#u672C_u5730_u65B9_u6CD5_u6808" class="headerlink" title="本地方法栈"></a>本地方法栈</h3><p><font color="red">本地方法栈（Native Method Stack）与虚拟机栈发挥的作用是非常相似的</font>，他们之间的<font color="red">区别</font>：<strong>虚拟机栈为虚拟机执行Java方法（也就是字节码）服务，本地方法栈则为虚拟机使用到的Native方法服务</strong>。</p>
+<p>与虚拟机栈一样，本地方法栈区域也会抛出StackOverflowError和OutOfMemoryError异常。</p>
+<h3 id="Java_u5806"><a href="#Java_u5806" class="headerlink" title="Java堆"></a>Java堆</h3><p><font color="red">Java堆是被所有线程共享的一块内存区域，在虚拟机启动时创建。此内存区域的唯一目的就是存放对象实例，几乎所有的对象实例都在这里分配内存</font>。</p>
+<p>Java堆是垃圾收集器管理的主要区域，也被称为『GC堆』。从内存回收的角度看，由于现在收集器基本上都采用<strong>分代收集算法</strong>，所以java堆还可以细分为：<strong>新生代和老年代</strong>；在细致一点的有Eden空间、From Survivor空间、To Survivor空间等。</p>
+<p>根据Java虚拟机规范的规定，<strong>Java堆</strong>可以处于物理上不连续的内存空间中，只要逻辑上的连续即可，就像我们的磁盘空间一样。在实现时，既可以实现成固定大小的，也可以是可扩展的，不过当前主流的虚拟机都是按照<strong>可扩展来</strong>实现的（<strong>通过-Xmx和-Xms控制</strong>）。如果堆中没有内存完成实例分配，并且堆也无法再扩展时，将会抛出OutOfMemoryError异常。</p>
+<h3 id="u65B9_u6CD5_u533A"><a href="#u65B9_u6CD5_u533A" class="headerlink" title="方法区"></a>方法区</h3><p>方法区（Method Area）与Java堆一样，是<strong>各个线程共享</strong>的内存区域，它用于<strong>存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据</strong>。虽然Java虚拟机规范把方法区描述为堆的一个逻辑部分，但是它有一个别名叫Non-Heap（非堆），目的就是与Java堆区分开来。</p>
+<p>对于习惯在HotSpot虚拟机上开发、部署程序的开发者来说，很多人更愿意把方法区成为『永久代』（Permanent Generation)，本质上两者并不等价，仅仅是因为HotSpot虚拟机的设计团队选择吧GC分代收集扩展至方法区，或者说使用永久代来实现方法区而已，这样HotSpot的垃圾收集器可以像管理Java堆一样管理这部分内存，能够省去单独为方法区编写内存管理代码的工作。在已经发布的JDK1.7的HotSpot中，已经把原本放在永久代的字符串常量池移出。</p>
+<p>Java虚拟机规范对方法区的限制非常宽松，除了和Java堆一样不需要连续的内存和可以选择固定大小或者可扩展外，还可以选择不实现垃圾收集。相对而言，垃圾收集行为在这个区域是比较少出现的，但并非数据进入了方法区就如永久代的名字一样『永久』存在了。这个区域的内存回收目标主要是针对常量池的回收和对类型的卸载，一般来说，这个区域的内存回收成绩比较难以令人满意，尤其是类型的卸载，条件相当苛刻，但是这部分区域的回收确实是必要的。</p>
+<p>根据Java虚拟机规范的规定，方法区无法满足内存分配需求时，将抛出OutOfMemoryError异常。</p>
+<h4 id="u8FD0_u884C_u65F6_u5E38_u91CF_u6C60"><a href="#u8FD0_u884C_u65F6_u5E38_u91CF_u6C60" class="headerlink" title="运行时常量池"></a>运行时常量池</h4><p><strong>运行时常量池（Runtime Constant Pool）是方法区的一部分</strong>。Class文件中除了有类的版本、字段、接口等描述信息外，有一项信息是常量池（Constant Pool Table），<strong>用于存放编译期生成的各种字面量和符合引用，这部分内容将在类加载进入方法区的运行时常量池中存放</strong>。</p>
+<p>既然运行时常量池是方法区的一部分，那么自然受到方法区内存的限制，当常量池无法再申请到内存时会抛出OutOfMemoryError异常。</p>
+<h3 id="u76F4_u63A5_u5185_u5B58"><a href="#u76F4_u63A5_u5185_u5B58" class="headerlink" title="直接内存"></a>直接内存</h3><p>直接内存（Direct Memory）并不是虚拟机运行时数据区的一部分，也不是Java虚拟机规范中定义的内存区域。但是这部分内存也被频繁的使用，而且也可能导致OutOfMemoryError异常出现。所以我们放到一起讲。</p>
+<p>在Jdk1.4中新加入了NIO（New Input/Output)类，引入了一种基于通道（Channel）与缓存区（Buffer）的I/O方式，他可以使用Native函数库直接分配堆外内存，然后通过一个存储在Java堆中的DirectByteBuffer对象作为这块内存的引用进行操作。这样能在一些场景中显著提高内存，因为避免了Java堆和Native堆中来回复制数据。</p>
+<p>显然，本机直接内存的分配不会受到Java堆大小的限制，但是，既然是内存，肯定还是受到本机总内存（包括RAM以及SWAP区或者分页文件）大小以及处理器寻址空间的限制。服务器管理员在配置虚拟机参数时，会根据实际内存设置-Xmx等参数信息，但是<strong>经常忽略直接内存，使得各个内存区域总和大于物理内存限制（包括物理的和操作系统的限制），从而导致OutOfMemoryError异常</strong>。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="u8FD0_u884C_u65F6_u6570_u636E_u533A_u57DF"><a href="#u8FD0_u884C_u65F6_u6570_u636E_u533A_u57DF" class="headerlink" title="运行时数据区域"><]]>
+    </summary>
+    
+      <category term="JVM" scheme="http://suqun.github.io/tags/JVM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Java NIO SocketChannel]]></title>
     <link href="http://suqun.github.io/2016/11/27/Java-NIO-SocketChannel/"/>
     <id>http://suqun.github.io/2016/11/27/Java-NIO-SocketChannel/</id>
     <published>2016-11-27T13:12:38.000Z</published>
-    <updated>2016-11-27T13:13:36.000Z</updated>
+    <updated>2016-11-29T07:16:46.000Z</updated>
     <content type="html"><![CDATA[<p>原文：<a href="http://tutorials.jenkov.com/java-nio/socketchannel.html" target="_blank" rel="external">http://tutorials.jenkov.com/java-nio/socketchannel.html</a></p>
 ]]></content>
     <summary type="html">
@@ -789,145 +865,6 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
       <category term="Spring Boot" scheme="http://suqun.github.io/tags/Spring-Boot/"/>
     
       <category term="Spring Cloud" scheme="http://suqun.github.io/tags/Spring-Cloud/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Java NIO Buffer]]></title>
-    <link href="http://suqun.github.io/2016/06/28/Java-NIO-Buffer/"/>
-    <id>http://suqun.github.io/2016/06/28/Java-NIO-Buffer/</id>
-    <published>2016-06-28T14:10:31.000Z</published>
-    <updated>2016-10-28T15:06:45.000Z</updated>
-    <content type="html"><![CDATA[<p>原文：<a href="http://tutorials.jenkov.com/java-nio/buffers.html" target="_blank" rel="external">http://tutorials.jenkov.com/java-nio/buffers.html</a></p>
-<p>Java NIO Buffers是和NIO的Channels交互使用的。你知道的，数据是从Channel中读到Buffer里，数据从Buffer里写入到Channel中。 </p>
-<p>Buffer本质上是可以读写数据的内存块。这个内存块被NIO的Buffer对象包裹，然后提供很多方法以便能够简单的操作这个内存块。</p>
-<h4 id="Buffer_u57FA_u7840_u7528_u6CD5"><a href="#Buffer_u57FA_u7840_u7528_u6CD5" class="headerlink" title="Buffer基础用法"></a>Buffer基础用法</h4><p>使用Buffer读写数据基本上就4步：</p>
-<ol>
-<li>数据写入Buffer</li>
-<li>调用 <code>buffer.flip()</code></li>
-<li>从Buffer中读出数据</li>
-<li>调用<code>buffer.clear()</code>或者<code>buffer.compact()</code>方法</li>
-</ol>
-<p>当你将数据写入buffer，buffer会一直留意你已经写了多少数据。一旦你需要读数据，你必须调用<code>flip()</code>方法将buffer从写模式切换到读模式中。进入读模式后，buffer允许你读取其中被写入的数据。</p>
-<p>一旦你读完了所有的数据，你需要清空buffer，以备buffer可以继续被写入。这么做有两种方式：调用<code>clear()</code>方法或者调用<code>compact()</code>方法。<code>clear()</code>方法会清空buffer中的所有数据。<code>compact()</code>方法只会清楚掉你已经读过的数据。那些没读的数据会移到buffer的起始处，然后数据会接着这些未读数据后面继续写入。</p>
-<p><strong>栗子</strong></p>
-<p>下面是Buffer用法的🌰，用到的write，flip，read，clear等操作会作注释说明。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaNIOBuffer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        String path = Thread.currentThread().getContextClassLoader().getResource(<span class="string">""</span>).getPath();</span><br><span class="line">        RandomAccessFile aFile = <span class="keyword">new</span> RandomAccessFile(path+<span class="string">"/nio-data.txt"</span>, <span class="string">"rw"</span>);</span><br><span class="line">        FileChannel inChannel = aFile.getChannel();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//create buffer with capacity of 48 bytes</span></span><br><span class="line">        ByteBuffer buf = ByteBuffer.allocate(<span class="number">48</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> bytesRead = inChannel.read(buf); <span class="comment">//read into buffer.</span></span><br><span class="line">        <span class="keyword">while</span> (bytesRead != -<span class="number">1</span>) &#123;</span><br><span class="line"></span><br><span class="line">            buf.flip();  <span class="comment">//make buffer ready for read</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span>(buf.hasRemaining())&#123;</span><br><span class="line">                System.out.print((<span class="keyword">char</span>) buf.get()); <span class="comment">// read 1 byte at a time</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            buf.clear(); <span class="comment">//make buffer ready for writing</span></span><br><span class="line">            bytesRead = inChannel.read(buf);</span><br><span class="line">        &#125;</span><br><span class="line">        aFile.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="Buffer_Capacity_2C_Position_and_Limit"><a href="#Buffer_Capacity_2C_Position_and_Limit" class="headerlink" title="Buffer Capacity, Position and Limit"></a>Buffer Capacity, Position and Limit</h4><p>buffer本质上就是一个你写入数据，然后读取数据的内存块。这个内存块被NIO Buffer对象包裹后，提供了一系列简单操作内存块的方法。</p>
-<p>Buffer有3个你需要了解的属性：</p>
-<ul>
-<li>capacity</li>
-<li>position</li>
-<li>imit</li>
-</ul>
-<p>position和limit的含义取决于Buffer处在读模式还是写模式。capacity含义一直都是一样的，和Buffer模式无关。</p>
-<p>这是一个关于capacity，position和limit的说明，后面会对其进行说明。</p>
-<p><img src="http://tutorials.jenkov.com/images/java-nio/buffers-modes.png" alt="buffers-modes"></p>
-<h5 id="Capacity"><a href="#Capacity" class="headerlink" title="Capacity"></a>Capacity</h5><p>Buffer作为一个内存块是有固定的大小值，称之为『capacity』。你只能向Buffer中写入byte，long，char等类型数据。一旦Buffer满了，在向其写入数据之前你需要清空它（读取数据或者清空数据）</p>
-<h5 id="Position"><a href="#Position" class="headerlink" title="Position"></a>Position</h5><p>向Buffer中写数据是从一个确定的position开始，初始的position是0。当byte，long等数据写入Buffer，position会向前移动到下一个可供插入数据的单元。position最大值为capacity-1。</p>
-<p>从Buffer中读数据也是从一个给定的位置开始。当你将Buffer从写模式切换到读模式后，position的值重置为0。从Buffer中读数据就是从position读，读取后，position会向前移动到下一个可供读取的单元。</p>
-<h5 id="Limit"><a href="#Limit" class="headerlink" title="Limit"></a>Limit</h5><p>写模式中，limit就是写入buffer的数据量。Limit等于buffer的capacity。</p>
-<p>当切换到读模式后，limit就是buffer中可以读取的数据量。就是说，切换到读模式时，limit就是设置为写模式中position的值。也就是说，buffer中写入的数据都可以读取到。</p>
-<h4 id="Buffer_u7684_u7C7B_u578B"><a href="#Buffer_u7684_u7C7B_u578B" class="headerlink" title="Buffer的类型"></a>Buffer的类型</h4><p>伴随Java NIO的Buffer类型有:</p>
-<ul>
-<li>ByteBuffer</li>
-<li>MappedByteBuffer</li>
-<li>CharBuffer</li>
-<li>DoubleBuffer</li>
-<li>FloatBuffer</li>
-<li>IntBuffer</li>
-<li>LongBuffer</li>
-<li>ShortBuffer</li>
-</ul>
-<p>可以看到，这些Buffer类型表示了不同的数据类型。换句话说，就是可以通过char，short，int，long，float 或 double类型来操作缓冲区中的字节。</p>
-<p>MappedByteBuffer有点特殊，在它的专门章节中再描述。</p>
-<h4 id="Buffer_u7684_u5206_u914D"><a href="#Buffer_u7684_u5206_u914D" class="headerlink" title="Buffer的分配"></a>Buffer的分配</h4><p>在获取到Buffer对象后首先要去分配。每个Buffer类都有个<code>allocate()</code>方法。下面的例子是ByteBuffer分配capacity为48字节的例子：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ByteBuffer buf = ByteBuffer.allocate(<span class="number">48</span>);</span><br></pre></td></tr></table></figure>
-<p>Here is an example allocating a CharBuffer with space for 1024 characters:<br>下面是CharBuffer分配1024个字符的例子:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CharBuffer buf = CharBuffer.allocate(<span class="number">1024</span>);</span><br></pre></td></tr></table></figure></p>
-<h4 id="u5411Buffer_u4E2D_u5199_u5165_u6570_u636E"><a href="#u5411Buffer_u4E2D_u5199_u5165_u6570_u636E" class="headerlink" title="向Buffer中写入数据"></a>向Buffer中写入数据</h4><p>向Buffer中写入数据有两种方式：</p>
-<ul>
-<li>从Channel中获取数据写入Buffer</li>
-<li>通过buffer的<code>put()</code>方法写入数据</li>
-</ul>
-<p>从Channel中获取数据写入buffer的例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> bytesRead = inChannel.read(buf);<span class="comment">//read into buffer.</span></span><br></pre></td></tr></table></figure></p>
-<p>使用<code>put()</code>方法写入数据的例子：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">buf.put(<span class="number">127</span>);</span><br></pre></td></tr></table></figure>
-<p>有不同的版本的<code>put()</code>方法，允许你使用不同的方式写入数据。比如，在特定的位置写入，写入字节或数组。查看JavaDoc获取buffer具体的实现。</p>
-<h4 id="flip_28_29"><a href="#flip_28_29" class="headerlink" title="flip()"></a>flip()</h4><p><code>flip()</code>方法用来切换Buffer的读和写模式。调用<code>flip()</code>，设置position为0，设置limit为原来的position值。就是说，position现在用来标记读的位置，Limit用来标记可以读多少。</p>
-<h4 id="u4ECEBuffer_u4E2D_u8BFB_u6570_u636E"><a href="#u4ECEBuffer_u4E2D_u8BFB_u6570_u636E" class="headerlink" title="从Buffer中读数据"></a>从Buffer中读数据</h4><p>从Buffer中读取数据有两种方式：</p>
-<ul>
-<li>将buffer中的数据读入到channel中</li>
-<li>调用buffer自带的<code>get()</code>方法直接读</li>
-</ul>
-<p>举个🌰：将Buffer中的数据读到channel中</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//read from buffer into channel.</span></span><br><span class="line"><span class="keyword">int</span> bytesWritten = inChannel.write(buf);</span><br></pre></td></tr></table></figure>
-<p>举个🌰：使用<code>get()</code>方法读取Buffer<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">byte</span> aByte = buf.get();</span><br></pre></td></tr></table></figure></p>
-<p>有不同的版本的<code>get()</code>方法，允许你使用不同的方式写入数据。比如，在特定的位置写入，写入字节或数组。查看JavaDoc获取buffer具体的实现。</p>
-<h4 id="rewind_28_29"><a href="#rewind_28_29" class="headerlink" title="rewind()"></a>rewind()</h4><p><code>Buffer.rewind()</code>重置position为0，这样就可以重新读buffer的数据。limit不受影响，始终可以标记buffer中可读的数据量。</p>
-<h4 id="clear_28_29_and_compact_28_29"><a href="#clear_28_29_and_compact_28_29" class="headerlink" title="clear() and compact()"></a>clear() and compact()</h4><p>从Buffer中读完数据以后要做好Buffer写的准备。可以调用<code>clear()</code>方法或者<code>compact()</code>方法。</p>
-<p>调用<code>clear()</code>方法会重置position的值为0，Limit的值为capacity。意思是，Buffer已经清空。Buffer中的数据并没有清楚掉。只是告诉你从Buffer的哪个位置可以写入数据。</p>
-<p>如果存在没有读取的数据，调用<code>clear()</code>方法后，该数据会被标记为’遗忘的’，因为这些数据再也没有什么标记其实被读过的还是没被读过的。</p>
-<p>如果你必须先向Buffer中写入数据，然后还想读那些没有被读过的数据。需要调用<code>compact()</code>方法代替<code>clear()</code>方法。</p>
-<p><code>compact()</code>方法把所有没有读过的数据复制到Buffer的起始处。然后设置position的值为味道数据后面的值。Limit仍然设置为capacity。这样，Buffer就做好写的准备，而不必覆盖掉未读的数据。</p>
-<h4 id="mark_28_29_and_reset_28_29"><a href="#mark_28_29_and_reset_28_29" class="headerlink" title="mark() and reset()"></a>mark() and reset()</h4><p>使用<code>Buffer.mark()</code>方法可以标记一个指定的position。这样再之后调用<code>Buffer.reset()</code>方法重置position到标记的地方。</p>
-<p>举个🌰：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">buffer.mark();</span><br><span class="line"><span class="comment">//call buffer.get() a couple of times, e.g. during parsing.</span></span><br><span class="line">buffer.reset();  <span class="comment">//set position back to mark.</span></span><br></pre></td></tr></table></figure></p>
-<h4 id="equals_28_29_and_compareTo_28_29"><a href="#equals_28_29_and_compareTo_28_29" class="headerlink" title="equals() and compareTo()"></a>equals() and compareTo()</h4><p>比较两个buffers仍然可以使用<code>equals()</code>和<code>compareTo()</code>方法。</p>
-<h5 id="equals_28_29"><a href="#equals_28_29" class="headerlink" title="equals()"></a>equals()</h5><p>两个buffers相等，那么： </p>
-<ul>
-<li>有相同的类型（byte、char、int等）。</li>
-<li>Buffer中剩余的byte、char等的个数相等。</li>
-<li>Buffer中所有剩余的byte、char等都相同。</li>
-</ul>
-<p>就是说：equals只是比较Buffer的一部分，不是每一个在它里面的元素都比较。实际上，它只比较Buffer中的剩余元素。</p>
-<h5 id="compareTo_28_29"><a href="#compareTo_28_29" class="headerlink" title="compareTo()"></a>compareTo()</h5><p>compareTo()方法比较两个Buffer的剩余元素(byte、char等)， 如果满足下列条件，则认为一个Buffer“小于”另一个Buffer：</p>
-<ul>
-<li>第一个不相等的元素小于另一个Buffer中对应的元素 。</li>
-<li>所有元素都相等，但第一个Buffer比另一个先耗尽(第一个Buffer的元素个数比另一个少)。</li>
-</ul>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>原文：<a href="http://tutorials.jenkov.com/java-nio/buffers.html" target="_blank" rel="external">http://tutorials.jenkov.com/java-nio/buffer]]>
-    </summary>
-    
-      <category term="Java NIO" scheme="http://suqun.github.io/tags/Java-NIO/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Java NIO Channel]]></title>
-    <link href="http://suqun.github.io/2016/06/26/Java-NIO-Channel/"/>
-    <id>http://suqun.github.io/2016/06/26/Java-NIO-Channel/</id>
-    <published>2016-06-26T13:04:43.000Z</published>
-    <updated>2016-10-25T10:14:56.000Z</updated>
-    <content type="html"><![CDATA[<p>Java NIO 的Channels有些像流，但是也有一些区别：</p>
-<ul>
-<li>可以向一个Channel即读又写。流是典型的单向的（写或者读）</li>
-<li>Channels的读写是异步的</li>
-<li>Channels总是读数据到Buffer中，或者将Buffer中的数据写入Channel</li>
-</ul>
-<p>上面提到的，从channel中读取数据至buffer中，将buffer中的数据写入channel中：</p>
-<p><img src="http://tutorials.jenkov.com/images/java-nio/overview-channels-buffers.png" alt="Java NIO: Channels read data into Buffers, and Buffers write data into Channels"><br><strong>Java NIO: Channels read data into Buffers, and Buffers write data into Channels</strong></p>
-<h4 id="Channel_Implementations"><a href="#Channel_Implementations" class="headerlink" title="Channel Implementations"></a>Channel Implementations</h4><p>在Java NIO中有一些比较重要的channel实现类：</p>
-<ul>
-<li>FileChannel</li>
-<li>DatagramChannel</li>
-<li>SocketChannel</li>
-<li>ServerSocketChannel</li>
-</ul>
-<p><code>FileChannel</code>从文件中读取数据。<br><code>DatagramChannel</code>通过UDP读写网络中的数据。<br><code>SocketChannel</code>通过TCP读写网络中的数据。<br><code>ServerSocketChannel</code>可以监听新进来的TCP连接，像Web服务器那样，对每一个新进来的连接都会创建一个SocketChannel。</p>
-<h4 id="Basic_Channel_Example"><a href="#Basic_Channel_Example" class="headerlink" title="Basic Channel Example"></a>Basic Channel Example</h4><p>下面是一个使用<code>FileChannel</code>读数据到Buffer中的例子：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChannelExample</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        RandomAccessFile accessFile = <span class="keyword">new</span> RandomAccessFile(<span class="string">"nio-data.txt"</span>,<span class="string">"rw"</span>);</span><br><span class="line">        FileChannel fileChannel = accessFile.getChannel();</span><br><span class="line"></span><br><span class="line">        ByteBuffer buffer = ByteBuffer.allocate(<span class="number">48</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> bytesRead = fileChannel.read(buffer);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (bytesRead != -<span class="number">1</span>) &#123;</span><br><span class="line">            System.out.println(<span class="string">"Read "</span> + bytesRead);</span><br><span class="line">            buffer.flip();<span class="comment">//切换读写模式，此处是由写切换到下面的读</span></span><br><span class="line">            <span class="keyword">if</span> (buffer.hasRemaining()) &#123;</span><br><span class="line">                System.out.print((<span class="keyword">char</span>) buffer.get());</span><br><span class="line">            &#125;</span><br><span class="line">            buffer.clear();</span><br><span class="line">            bytesRead = fileChannel.read(buffer);</span><br><span class="line">        &#125;</span><br><span class="line">        accessFile.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>注意 buf.flip() 的调用，首先读取数据到Buffer，然后反转Buffer，接着再从Buffer中读取数据。下一节会深入讲解Buffer的更多细节。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>Java NIO 的Channels有些像流，但是也有一些区别：</p>
-<ul>
-<li>可以向一个Channel即读又写。流是典型的单向的（写或者读）</li>
-<li>Channels的读写是异步的</li>
-<li>Channels总是读数据到Buffer中，或者将]]>
-    </summary>
-    
-      <category term="Java NIO" scheme="http://suqun.github.io/tags/Java-NIO/"/>
     
   </entry>
   
