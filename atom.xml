@@ -4,7 +4,7 @@
   <subtitle><![CDATA[成长路上的点滴记录]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://suqun.github.io/"/>
-  <updated>2017-02-14T14:31:58.000Z</updated>
+  <updated>2017-02-15T14:45:23.000Z</updated>
   <id>http://suqun.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://suqun.github.io/2017/02/14/JVM-note-2/"/>
     <id>http://suqun.github.io/2017/02/14/JVM-note-2/</id>
     <published>2017-02-14T12:42:05.000Z</published>
-    <updated>2017-02-14T14:31:58.000Z</updated>
+    <updated>2017-02-15T14:45:23.000Z</updated>
     <content type="html"><![CDATA[<p>以常用的虚拟机HotSpot和常用的内存区域Java堆为例，深入探讨HotSpot虚拟机在Java堆中对象分配、布局和访问的全过程。</p>
 <h3 id="u5BF9_u8C61_u7684_u521B_u5EFA"><a href="#u5BF9_u8C61_u7684_u521B_u5EFA" class="headerlink" title="对象的创建"></a>对象的创建</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-new.png" alt="java对象的创建"></p>
 <ul>
@@ -33,6 +33,7 @@
 <li><strong>对Java程序来说，对象所有的字段都为零值</strong>，所以一般来说，执行new指令之后会接着执行<init>方法，把对象按照程序员的意愿进行初始化，这样一个真正可用的对象就完全产生出来。</init></li>
 </ul>
 <h3 id="u5BF9_u8C61_u7684_u5185_u5B58_u5E03_u5C40"><a href="#u5BF9_u8C61_u7684_u5185_u5B58_u5E03_u5C40" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-object.png" alt="对象的内存布局"></p>
+<h3 id="u5BF9_u8C61_u7684_u8BBF_u95EE_u5B9A_u4F4D"><a href="#u5BF9_u8C61_u7684_u8BBF_u95EE_u5B9A_u4F4D" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-object-visit.png" alt="对象的访问定位"></p>
 ]]></content>
     <summary type="html">
     <![CDATA[<p>以常用的虚拟机HotSpot和常用的内存区域Java堆为例，深入探讨HotSpot虚拟机在Java堆中对象分配、布局和访问的全过程。</p>

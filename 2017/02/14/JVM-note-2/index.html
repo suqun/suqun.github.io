@@ -24,7 +24,8 @@
 指针碰撞：若干Java堆中内存是绝对规整的，所有用过的内存都放在一边，空闲的">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-new.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-object.png">
-<meta property="og:updated_time" content="2017-02-14T14:31:58.000Z">
+<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-object-visit.png">
+<meta property="og:updated_time" content="2017-02-15T14:45:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM笔记二：HotSpot虚拟机对象探秘">
 <meta name="twitter:description" content="以常用的虚拟机HotSpot和常用的内存区域Java堆为例，深入探讨HotSpot虚拟机在Java堆中对象分配、布局和访问的全过程。
@@ -115,7 +116,7 @@
       
       <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#u5BF9_u8C61_u7684_u521B_u5EFA"><span class="toc-number">1.</span> <span class="toc-text">对象的创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5BF9_u8C61_u7684_u5185_u5B58_u5E03_u5C40"><span class="toc-number">2.</span> <span class="toc-text">对象的内存布局</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#u5BF9_u8C61_u7684_u521B_u5EFA"><span class="toc-number">1.</span> <span class="toc-text">对象的创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5BF9_u8C61_u7684_u5185_u5B58_u5E03_u5C40"><span class="toc-number">2.</span> <span class="toc-text">对象的内存布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5BF9_u8C61_u7684_u8BBF_u95EE_u5B9A_u4F4D"><span class="toc-number">3.</span> <span class="toc-text">对象的访问定位</span></a></li></ol>
       </div>
       
 
@@ -132,13 +133,14 @@
 <li><strong>对Java程序来说，对象所有的字段都为零值</strong>，所以一般来说，执行new指令之后会接着执行<init>方法，把对象按照程序员的意愿进行初始化，这样一个真正可用的对象就完全产生出来。</init></li>
 </ul>
 <h3 id="u5BF9_u8C61_u7684_u5185_u5B58_u5E03_u5C40"><a href="#u5BF9_u8C61_u7684_u5185_u5B58_u5E03_u5C40" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-object.png" alt="对象的内存布局"></p>
+<h3 id="u5BF9_u8C61_u7684_u8BBF_u95EE_u5B9A_u4F4D"><a href="#u5BF9_u8C61_u7684_u8BBF_u95EE_u5B9A_u4F4D" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-object-visit.png" alt="对象的访问定位"></p>
 
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/14/JVM-note-2/" data-id="ciz6bq4u1003r2buqv4g7j1bz" class="article-share-link" data-share="baidu" data-title="JVM笔记二：HotSpot虚拟机对象探秘">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/14/JVM-note-2/" data-id="ciz72r3e5003ruxuqzvlhuxxa" class="article-share-link" data-share="baidu" data-title="JVM笔记二：HotSpot虚拟机对象探秘">分享到</a>
       
 
       
