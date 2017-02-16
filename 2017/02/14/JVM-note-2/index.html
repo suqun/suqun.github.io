@@ -25,7 +25,7 @@
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-new.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-object.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-object-visit.png">
-<meta property="og:updated_time" content="2017-02-15T14:45:23.000Z">
+<meta property="og:updated_time" content="2017-02-16T01:50:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM笔记二：HotSpot虚拟机对象探秘">
 <meta name="twitter:description" content="以常用的虚拟机HotSpot和常用的内存区域Java堆为例，深入探讨HotSpot虚拟机在Java堆中对象分配、布局和访问的全过程。
@@ -134,13 +134,17 @@
 </ul>
 <h3 id="u5BF9_u8C61_u7684_u5185_u5B58_u5E03_u5C40"><a href="#u5BF9_u8C61_u7684_u5185_u5B58_u5E03_u5C40" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-object.png" alt="对象的内存布局"></p>
 <h3 id="u5BF9_u8C61_u7684_u8BBF_u95EE_u5B9A_u4F4D"><a href="#u5BF9_u8C61_u7684_u8BBF_u95EE_u5B9A_u4F4D" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-object-visit.png" alt="对象的访问定位"></p>
+<ul>
+<li>使用<strong>句柄访问</strong>：Java堆中将划分出一块内存来作为句柄池，reference中存储的就是对象的句柄地址，而句柄地址中包含了对象实例数据与类型数据各自的具体地址信息</li>
+<li>使用<strong>直接指针访问</strong>：Java堆对象的布局中必须考虑如何放置访问类型数据相关信息，而reference中存储的直接就是对象地址</li>
+</ul>
 
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/14/JVM-note-2/" data-id="ciz72w3kf003rxcuq3ld2ns0i" class="article-share-link" data-share="baidu" data-title="JVM笔记二：HotSpot虚拟机对象探秘">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/14/JVM-note-2/" data-id="ciz7qbwgb003rjwuqtd2a0df5" class="article-share-link" data-share="baidu" data-title="JVM笔记二：HotSpot虚拟机对象探秘">分享到</a>
       
 
       
@@ -159,7 +163,7 @@
   
     <a href="/2016/12/25/JVM-note-1/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">JVM笔记一：Java内存区域与内存溢出异常</div>
+      <div class="article-nav-title">JVM笔记一：运行时数据区域</div>
     </a>
   
 </nav>
@@ -215,7 +219,7 @@
           </li>
         
           <li>
-            <a href="/2016/12/25/JVM-note-1/">JVM笔记一：Java内存区域与内存溢出异常</a>
+            <a href="/2016/12/25/JVM-note-1/">JVM笔记一：运行时数据区域</a>
           </li>
         
           <li>
