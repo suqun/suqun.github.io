@@ -4,17 +4,33 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2015 | 入耳箸心</title>
+  <title>JVM笔记五：垃圾收集器与内存分配策略——垃圾收集算法 | 入耳箸心</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="入耳箸心">
-<meta property="og:url" content="http://suqun.github.io/archives/2015/index.html">
+  <meta name="description" content="标记-清除算法最基础的垃圾收集算法。
+
+
+参考：http://www.jianshu.com/p/b0f5d21fe031
+复制算法半区复制算法的目的也是为了更好的缓解内存碎片问题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM笔记五：垃圾收集器与内存分配策略——垃圾收集算法">
+<meta property="og:url" content="http://suqun.github.io/2017/02/18/JVM-note-5/index.html">
 <meta property="og:site_name" content="入耳箸心">
-<meta property="og:description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
+<meta property="og:description" content="标记-清除算法最基础的垃圾收集算法。
+
+
+参考：http://www.jianshu.com/p/b0f5d21fe031
+复制算法半区复制算法的目的也是为了更好的缓解内存碎片问题。">
+<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-mark-sweep-1.png">
+<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-mark-sweep.png">
+<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-copying-1.png">
+<meta property="og:updated_time" content="2017-02-18T13:54:09.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="入耳箸心">
-<meta name="twitter:description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
+<meta name="twitter:title" content="JVM笔记五：垃圾收集器与内存分配策略——垃圾收集算法">
+<meta name="twitter:description" content="标记-清除算法最基础的垃圾收集算法。
+
+
+参考：http://www.jianshu.com/p/b0f5d21fe031
+复制算法半区复制算法的目的也是为了更好的缓解内存碎片问题。">
   
     <link rel="alternative" href="/atom.xml" title="入耳箸心" type="application/atom+xml">
   
@@ -71,115 +87,77 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/12/31/2015/" class="archive-article-date">
-  <time datetime="2015-12-31T14:19:57.000Z" itemprop="datePublished">12月 31</time>
+      <section id="main"><article id="post-JVM-note-5" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/02/18/JVM-note-5/" class="article-date">
+  <time datetime="2017-02-18T13:11:15.000Z" itemprop="datePublished">2017-02-18</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/12/31/2015/">2015</a>
+    <h1 class="article-title" itemprop="name">
+      JVM笔记五：垃圾收集器与内存分配策略——垃圾收集算法
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/12/30/Why-Docker/" class="archive-article-date">
-  <time datetime="2015-12-30T15:42:52.000Z" itemprop="datePublished">12月 30</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/12/30/Why-Docker/">Why Docker?</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/12/28/zookeeper客户端命令/" class="archive-article-date">
-  <time datetime="2015-12-28T15:24:14.000Z" itemprop="datePublished">12月 28</time>
-</a>
+      <!-- Table of Contents -->
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/12/28/zookeeper客户端命令/">zookeeper客户端命令</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/12/28/zookeeper环境搭建/" class="archive-article-date">
-  <time datetime="2015-12-28T14:40:00.000Z" itemprop="datePublished">12月 28</time>
-</a>
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#u6807_u8BB0-_u6E05_u9664_u7B97_u6CD5"><span class="toc-number">1.</span> <span class="toc-text">标记-清除算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u590D_u5236_u7B97_u6CD5"><span class="toc-number">2.</span> <span class="toc-text">复制算法</span></a></li></ol>
+      </div>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/12/28/zookeeper环境搭建/">zookeeper环境搭建</a>
-    </h1>
-  
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/12/27/zookeeper概述/" class="archive-article-date">
-  <time datetime="2015-12-27T13:22:49.000Z" itemprop="datePublished">12月 27</time>
-</a>
+      <h3 id="u6807_u8BB0-_u6E05_u9664_u7B97_u6CD5"><a href="#u6807_u8BB0-_u6E05_u9664_u7B97_u6CD5" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h3><p>最基础的垃圾收集算法。</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-mark-sweep-1.png" alt=""></p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-mark-sweep.png" alt=""></p>
+<p>参考：<a href="http://www.jianshu.com/p/b0f5d21fe031" target="_blank" rel="external">http://www.jianshu.com/p/b0f5d21fe031</a></p>
+<h3 id="u590D_u5236_u7B97_u6CD5"><a href="#u590D_u5236_u7B97_u6CD5" class="headerlink" title="复制算法"></a>复制算法</h3><p>半区复制算法的目的也是为了更好的缓解内存碎片问题。</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-copying-1.png" alt=""></p>
+
+
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/12/27/zookeeper概述/">zookeeper概述</a>
-    </h1>
-  
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-5/" data-id="cizbb4csl003r5kuqg4p7rjtm" class="article-share-link" data-share="baidu" data-title="JVM笔记五：垃圾收集器与内存分配策略——垃圾收集算法">分享到</a>
+      
 
-    </header>
+      
+        <a href="http://suqun.github.io/2017/02/18/JVM-note-5/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/02/18/JVM-note-4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">JVM笔记四：垃圾收集器与内存分配策略——对象</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="2017/02/18/JVM-note-5/" data-title="JVM笔记五：垃圾收集器与内存分配策略——垃圾收集算法" data-url="http://suqun.github.io/2017/02/18/JVM-note-5/"></div>
+  </section>
 </section>
       
       <aside id="sidebar">

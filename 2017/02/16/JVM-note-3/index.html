@@ -4,19 +4,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>JVM笔记三：Java内存区域与内存溢出异常之OutOfMemoryError异常 | 入耳箸心</title>
+  <title>JVM笔记三：Java内存区域与内存溢出异常——OutOfMemoryError异常 | 入耳箸心</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Java堆溢出Java堆用于存储对象实例，只要不断地创建对象，并且保证GC Roots到对象之间有可达路径来避免垃圾回收机制清除这些对象，那么在对象数量到达最大的容量限制后就会产生内存溢出异常。
 下面代码限制Java堆的大小为20MB，不可扩展（将堆的最小值-Xms参数与最大值-Xmx参数设置为一样即可避免堆自动扩展），通过参数-XX:+HeapDumpOnOutOfMemoryError可以让虚">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JVM笔记三：Java内存区域与内存溢出异常之OutOfMemoryError异常">
+<meta property="og:title" content="JVM笔记三：Java内存区域与内存溢出异常——OutOfMemoryError异常">
 <meta property="og:url" content="http://suqun.github.io/2017/02/16/JVM-note-3/index.html">
 <meta property="og:site_name" content="入耳箸心">
 <meta property="og:description" content="Java堆溢出Java堆用于存储对象实例，只要不断地创建对象，并且保证GC Roots到对象之间有可达路径来避免垃圾回收机制清除这些对象，那么在对象数量到达最大的容量限制后就会产生内存溢出异常。
 下面代码限制Java堆的大小为20MB，不可扩展（将堆的最小值-Xms参数与最大值-Xmx参数设置为一样即可避免堆自动扩展），通过参数-XX:+HeapDumpOnOutOfMemoryError可以让虚">
-<meta property="og:updated_time" content="2017-02-18T02:36:06.000Z">
+<meta property="og:updated_time" content="2017-02-18T13:13:32.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JVM笔记三：Java内存区域与内存溢出异常之OutOfMemoryError异常">
+<meta name="twitter:title" content="JVM笔记三：Java内存区域与内存溢出异常——OutOfMemoryError异常">
 <meta name="twitter:description" content="Java堆溢出Java堆用于存储对象实例，只要不断地创建对象，并且保证GC Roots到对象之间有可达路径来避免垃圾回收机制清除这些对象，那么在对象数量到达最大的容量限制后就会产生内存溢出异常。
 下面代码限制Java堆的大小为20MB，不可扩展（将堆的最小值-Xms参数与最大值-Xmx参数设置为一样即可避免堆自动扩展），通过参数-XX:+HeapDumpOnOutOfMemoryError可以让虚">
   
@@ -89,7 +89,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      JVM笔记三：Java内存区域与内存溢出异常之OutOfMemoryError异常
+      JVM笔记三：Java内存区域与内存溢出异常——OutOfMemoryError异常
     </h1>
   
 
@@ -129,7 +129,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/16/JVM-note-3/" data-id="cizaq3ixc003uywuqboukr9dz" class="article-share-link" data-share="baidu" data-title="JVM笔记三：Java内存区域与内存溢出异常之OutOfMemoryError异常">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/16/JVM-note-3/" data-id="cizbb4cso003v5kuq6ek9sivk" class="article-share-link" data-share="baidu" data-title="JVM笔记三：Java内存区域与内存溢出异常——OutOfMemoryError异常">分享到</a>
       
 
       
@@ -149,7 +149,7 @@
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title">
         
-          JVM笔记四：垃圾收集器与内存分配策略之对象
+          JVM笔记四：垃圾收集器与内存分配策略——对象
         
       </div>
     </a>
@@ -157,7 +157,7 @@
   
     <a href="/2017/02/14/JVM-note-2/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">JVM笔记二：Java内存区域与内存溢出异常之HotSpot虚拟机对象探秘</div>
+      <div class="article-nav-title">JVM笔记二：Java内存区域与内存溢出异常——HotSpot虚拟机对象探秘</div>
     </a>
   
 </nav>
@@ -167,7 +167,7 @@
 
 
   <section id="comments">
-    <div id="ds-thread" class="ds-thread" data-thread-key="2017/02/16/JVM-note-3/" data-title="JVM笔记三：Java内存区域与内存溢出异常之OutOfMemoryError异常" data-url="http://suqun.github.io/2017/02/16/JVM-note-3/"></div>
+    <div id="ds-thread" class="ds-thread" data-thread-key="2017/02/16/JVM-note-3/" data-title="JVM笔记三：Java内存区域与内存溢出异常——OutOfMemoryError异常" data-url="http://suqun.github.io/2017/02/16/JVM-note-3/"></div>
   </section>
 </section>
       
@@ -197,7 +197,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -209,23 +209,23 @@
       <ul>
         
           <li>
-            <a href="/2017/02/18/JVM-note-4/">JVM笔记四：垃圾收集器与内存分配策略之对象</a>
+            <a href="/2017/02/18/JVM-note-5/">JVM笔记五：垃圾收集器与内存分配策略——垃圾收集算法</a>
           </li>
         
           <li>
-            <a href="/2017/02/16/JVM-note-3/">JVM笔记三：Java内存区域与内存溢出异常之OutOfMemoryError异常</a>
+            <a href="/2017/02/18/JVM-note-4/">JVM笔记四：垃圾收集器与内存分配策略——对象</a>
           </li>
         
           <li>
-            <a href="/2017/02/14/JVM-note-2/">JVM笔记二：Java内存区域与内存溢出异常之HotSpot虚拟机对象探秘</a>
+            <a href="/2017/02/16/JVM-note-3/">JVM笔记三：Java内存区域与内存溢出异常——OutOfMemoryError异常</a>
           </li>
         
           <li>
-            <a href="/2016/12/25/JVM-note-1/">JVM笔记一：Java内存区域与内存溢出异常之运行时数据区域</a>
+            <a href="/2017/02/14/JVM-note-2/">JVM笔记二：Java内存区域与内存溢出异常——HotSpot虚拟机对象探秘</a>
           </li>
         
           <li>
-            <a href="/2016/11/27/Java-NIO-SocketChannel/">Java NIO SocketChannel</a>
+            <a href="/2016/12/25/JVM-note-1/">JVM笔记一：Java内存区域与内存溢出异常——运行时数据区域</a>
           </li>
         
       </ul>

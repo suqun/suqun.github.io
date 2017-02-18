@@ -4,21 +4,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>JVM笔记四：垃圾收集器与内存分配策略之对象 | 入耳箸心</title>
+  <title>JVM笔记四：垃圾收集器与内存分配策略——对象 | 入耳箸心</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="在堆里存放着Java世界中几乎所有的对象实例，垃圾收集器在对堆进行回收前，第一件事情就是要确定这些对象之中哪些还存活着，哪些已经死去（即不可能再被任何途径使用的对象）。
 引用计数法引用计数法（Reference Counting）：给对象中添加一个引用计数器，每当有一个地方引用它时，计数器就加1；当引用失效时，计数器就减1；任何时刻计数器为0的对象是不可能被使用的。主流的Java虚拟机里没有使用引">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JVM笔记四：垃圾收集器与内存分配策略之对象">
+<meta property="og:title" content="JVM笔记四：垃圾收集器与内存分配策略——对象">
 <meta property="og:url" content="http://suqun.github.io/2017/02/18/JVM-note-4/index.html">
 <meta property="og:site_name" content="入耳箸心">
 <meta property="og:description" content="在堆里存放着Java世界中几乎所有的对象实例，垃圾收集器在对堆进行回收前，第一件事情就是要确定这些对象之中哪些还存活着，哪些已经死去（即不可能再被任何途径使用的对象）。
 引用计数法引用计数法（Reference Counting）：给对象中添加一个引用计数器，每当有一个地方引用它时，计数器就加1；当引用失效时，计数器就减1；任何时刻计数器为0的对象是不可能被使用的。主流的Java虚拟机里没有使用引">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com//jvm-reachabilityAnalysis.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com//jvm-reference.png">
-<meta property="og:updated_time" content="2017-02-18T09:39:49.000Z">
+<meta property="og:updated_time" content="2017-02-18T13:13:31.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JVM笔记四：垃圾收集器与内存分配策略之对象">
+<meta name="twitter:title" content="JVM笔记四：垃圾收集器与内存分配策略——对象">
 <meta name="twitter:description" content="在堆里存放着Java世界中几乎所有的对象实例，垃圾收集器在对堆进行回收前，第一件事情就是要确定这些对象之中哪些还存活着，哪些已经死去（即不可能再被任何途径使用的对象）。
 引用计数法引用计数法（Reference Counting）：给对象中添加一个引用计数器，每当有一个地方引用它时，计数器就加1；当引用失效时，计数器就减1；任何时刻计数器为0的对象是不可能被使用的。主流的Java虚拟机里没有使用引">
   
@@ -91,7 +91,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      JVM笔记四：垃圾收集器与内存分配策略之对象
+      JVM笔记四：垃圾收集器与内存分配策略——对象
     </h1>
   
 
@@ -122,7 +122,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-4/" data-id="cizaq3ixa003rywuqz18mls9z" class="article-share-link" data-share="baidu" data-title="JVM笔记四：垃圾收集器与内存分配策略之对象">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-4/" data-id="cizbb4csm003s5kuqaf5a5rxc" class="article-share-link" data-share="baidu" data-title="JVM笔记四：垃圾收集器与内存分配策略——对象">分享到</a>
       
 
       
@@ -138,10 +138,19 @@
     
 <nav id="article-nav">
   
+    <a href="/2017/02/18/JVM-note-5/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          JVM笔记五：垃圾收集器与内存分配策略——垃圾收集算法
+        
+      </div>
+    </a>
+  
   
     <a href="/2017/02/16/JVM-note-3/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">JVM笔记三：Java内存区域与内存溢出异常之OutOfMemoryError异常</div>
+      <div class="article-nav-title">JVM笔记三：Java内存区域与内存溢出异常——OutOfMemoryError异常</div>
     </a>
   
 </nav>
@@ -151,7 +160,7 @@
 
 
   <section id="comments">
-    <div id="ds-thread" class="ds-thread" data-thread-key="2017/02/18/JVM-note-4/" data-title="JVM笔记四：垃圾收集器与内存分配策略之对象" data-url="http://suqun.github.io/2017/02/18/JVM-note-4/"></div>
+    <div id="ds-thread" class="ds-thread" data-thread-key="2017/02/18/JVM-note-4/" data-title="JVM笔记四：垃圾收集器与内存分配策略——对象" data-url="http://suqun.github.io/2017/02/18/JVM-note-4/"></div>
   </section>
 </section>
       
@@ -181,7 +190,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -193,23 +202,23 @@
       <ul>
         
           <li>
-            <a href="/2017/02/18/JVM-note-4/">JVM笔记四：垃圾收集器与内存分配策略之对象</a>
+            <a href="/2017/02/18/JVM-note-5/">JVM笔记五：垃圾收集器与内存分配策略——垃圾收集算法</a>
           </li>
         
           <li>
-            <a href="/2017/02/16/JVM-note-3/">JVM笔记三：Java内存区域与内存溢出异常之OutOfMemoryError异常</a>
+            <a href="/2017/02/18/JVM-note-4/">JVM笔记四：垃圾收集器与内存分配策略——对象</a>
           </li>
         
           <li>
-            <a href="/2017/02/14/JVM-note-2/">JVM笔记二：Java内存区域与内存溢出异常之HotSpot虚拟机对象探秘</a>
+            <a href="/2017/02/16/JVM-note-3/">JVM笔记三：Java内存区域与内存溢出异常——OutOfMemoryError异常</a>
           </li>
         
           <li>
-            <a href="/2016/12/25/JVM-note-1/">JVM笔记一：Java内存区域与内存溢出异常之运行时数据区域</a>
+            <a href="/2017/02/14/JVM-note-2/">JVM笔记二：Java内存区域与内存溢出异常——HotSpot虚拟机对象探秘</a>
           </li>
         
           <li>
-            <a href="/2016/11/27/Java-NIO-SocketChannel/">Java NIO SocketChannel</a>
+            <a href="/2016/12/25/JVM-note-1/">JVM笔记一：Java内存区域与内存溢出异常——运行时数据区域</a>
           </li>
         
       </ul>
