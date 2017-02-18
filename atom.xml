@@ -4,7 +4,7 @@
   <subtitle><![CDATA[成长路上的点滴记录]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://suqun.github.io/"/>
-  <updated>2017-02-18T13:54:09.000Z</updated>
+  <updated>2017-02-18T14:36:57.000Z</updated>
   <id>http://suqun.github.io/</id>
   
   <author>
@@ -19,13 +19,19 @@
     <link href="http://suqun.github.io/2017/02/18/JVM-note-5/"/>
     <id>http://suqun.github.io/2017/02/18/JVM-note-5/</id>
     <published>2017-02-18T13:11:15.000Z</published>
-    <updated>2017-02-18T13:54:09.000Z</updated>
+    <updated>2017-02-18T14:36:57.000Z</updated>
     <content type="html"><![CDATA[<h3 id="u6807_u8BB0-_u6E05_u9664_u7B97_u6CD5"><a href="#u6807_u8BB0-_u6E05_u9664_u7B97_u6CD5" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h3><p>最基础的垃圾收集算法。</p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-mark-sweep-1.png" alt=""></p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-mark-sweep.png" alt=""></p>
 <p>参考：<a href="http://www.jianshu.com/p/b0f5d21fe031" target="_blank" rel="external">http://www.jianshu.com/p/b0f5d21fe031</a></p>
 <h3 id="u590D_u5236_u7B97_u6CD5"><a href="#u590D_u5236_u7B97_u6CD5" class="headerlink" title="复制算法"></a>复制算法</h3><p>半区复制算法的目的也是为了更好的缓解内存碎片问题。</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-copying-1.png" alt=""></p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-copying-2.png" alt=""></p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-copying.jpg" alt=""></p>
+<font color="red">现在的商业虚拟机都是采用这种收集算法来回收<strong>新生代</strong></font>，新生代中的对象98%是朝生夕死的，所以并不需要安装1:1的比例划分内存空间，而是将内存分为一块较大的Eden区，和两块较小的Survivor空间。<br><font color="red">HotSpot虚拟机默认Eden和Survivor的大小比例是8:1</font>，也就是每次新生代可用内存空间为整个新生代容量的90%，只有10%的内存会被浪费。当Servivor空间不够用时，需要依赖其他内存（这里指老年代）进行分担担保。<br><br><font color="green">复制收集算法在对象存活率较高时就要进行较多的复制操作，效率将会降低。更关键的是，如果不想浪费50%的空间，就需要有额外的空间进行担保，以应对被使用的内存中所有对象100%存活的极端情况，所以在老年代一般不能直接选用这种算法。</font>
+
+<h3 id="u6807_u8BB0-_u6574_u7406_u7B97_u6CD5"><a href="#u6807_u8BB0-_u6574_u7406_u7B97_u6CD5" class="headerlink" title="标记-整理算法"></a>标记-整理算法</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-mark-compact.png" alt=""></p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-mark-compact.jpg" alt=""></p>
+<h3 id="u5206_u4EE3_u6536_u96C6_u7B97_u6CD5"><a href="#u5206_u4EE3_u6536_u96C6_u7B97_u6CD5" class="headerlink" title="分代收集算法"></a>分代收集算法</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-generation-collection.png" alt=""></p>
 ]]></content>
     <summary type="html">
     <![CDATA[<h3 id="u6807_u8BB0-_u6E05_u9664_u7B97_u6CD5"><a href="#u6807_u8BB0-_u6E05_u9664_u7B97_u6CD5" class="headerlink" title="标记-清除算法"></a>标记-清除算法]]>
