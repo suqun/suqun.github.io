@@ -4,20 +4,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>JVM笔记一：运行时数据区域 | 入耳箸心</title>
+  <title>JVM笔记一：Java内存区域与内存溢出异常之运行时数据区域 | 入耳箸心</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="程序计数器程序计数器（Program Counter Register）是一块较小的内存空间，可以看作是线程所执行的字节码的行号指示器。在虚拟机的概念模型里，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。
 由于Java虚拟机的多线程是通过线程轮流切换并分配处理器执行时间的方式来实现的，在任何一">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JVM笔记一：运行时数据区域">
+<meta property="og:title" content="JVM笔记一：Java内存区域与内存溢出异常之运行时数据区域">
 <meta property="og:url" content="http://suqun.github.io/2016/12/25/JVM-note-1/index.html">
 <meta property="og:site_name" content="入耳箸心">
 <meta property="og:description" content="程序计数器程序计数器（Program Counter Register）是一块较小的内存空间，可以看作是线程所执行的字节码的行号指示器。在虚拟机的概念模型里，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。
 由于Java虚拟机的多线程是通过线程轮流切换并分配处理器执行时间的方式来实现的，在任何一">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com//jvm-runtime-illustration.png">
-<meta property="og:updated_time" content="2017-02-16T01:50:14.000Z">
+<meta property="og:updated_time" content="2017-02-18T02:31:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JVM笔记一：运行时数据区域">
+<meta name="twitter:title" content="JVM笔记一：Java内存区域与内存溢出异常之运行时数据区域">
 <meta name="twitter:description" content="程序计数器程序计数器（Program Counter Register）是一块较小的内存空间，可以看作是线程所执行的字节码的行号指示器。在虚拟机的概念模型里，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。
 由于Java虚拟机的多线程是通过线程轮流切换并分配处理器执行时间的方式来实现的，在任何一">
   
@@ -90,7 +90,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      JVM笔记一：运行时数据区域
+      JVM笔记一：Java内存区域与内存溢出异常之运行时数据区域
     </h1>
   
 
@@ -144,7 +144,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/12/25/JVM-note-1/" data-id="ciz9w7bg0003wnzuq6yvmdmkq" class="article-share-link" data-share="baidu" data-title="JVM笔记一：运行时数据区域">分享到</a>
+        <a data-url="http://suqun.github.io/2016/12/25/JVM-note-1/" data-id="cizaq3ixm003yywuq0aa50f2b" class="article-share-link" data-share="baidu" data-title="JVM笔记一：Java内存区域与内存溢出异常之运行时数据区域">分享到</a>
       
 
       
@@ -164,7 +164,7 @@
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title">
         
-          JVM笔记二：HotSpot虚拟机对象探秘
+          JVM笔记二：Java内存区域与内存溢出异常之HotSpot虚拟机对象探秘
         
       </div>
     </a>
@@ -182,7 +182,7 @@
 
 
   <section id="comments">
-    <div id="ds-thread" class="ds-thread" data-thread-key="2016/12/25/JVM-note-1/" data-title="JVM笔记一：运行时数据区域" data-url="http://suqun.github.io/2016/12/25/JVM-note-1/"></div>
+    <div id="ds-thread" class="ds-thread" data-thread-key="2016/12/25/JVM-note-1/" data-title="JVM笔记一：Java内存区域与内存溢出异常之运行时数据区域" data-url="http://suqun.github.io/2016/12/25/JVM-note-1/"></div>
   </section>
 </section>
       
@@ -194,7 +194,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CQRS/">CQRS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka/">Eureka</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event-Sourcing/">Event-Sourcing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Feign/">Feign</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/">Hystrix</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IntelliJ/">IntelliJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-NIO/">Java NIO</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-SE/">Java SE</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/K8s/">K8s</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Netflix/">Netflix</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ribbon/">Ribbon</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/">Spring Cloud</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CQRS/">CQRS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka/">Eureka</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event-Sourcing/">Event-Sourcing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Feign/">Feign</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/">Hystrix</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IntelliJ/">IntelliJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-NIO/">Java NIO</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-SE/">Java SE</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/K8s/">K8s</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Netflix/">Netflix</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ribbon/">Ribbon</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/">Spring Cloud</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -203,7 +203,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CQRS/" style="font-size: 10px;">CQRS</a> <a href="/tags/Docker/" style="font-size: 17.14px;">Docker</a> <a href="/tags/Eureka/" style="font-size: 14.29px;">Eureka</a> <a href="/tags/Event-Sourcing/" style="font-size: 10px;">Event-Sourcing</a> <a href="/tags/Feign/" style="font-size: 10px;">Feign</a> <a href="/tags/Hystrix/" style="font-size: 10px;">Hystrix</a> <a href="/tags/IntelliJ/" style="font-size: 10px;">IntelliJ</a> <a href="/tags/JVM/" style="font-size: 12.86px;">JVM</a> <a href="/tags/Java-NIO/" style="font-size: 18.57px;">Java NIO</a> <a href="/tags/Java-SE/" style="font-size: 17.14px;">Java SE</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/K8s/" style="font-size: 14.29px;">K8s</a> <a href="/tags/Linux/" style="font-size: 14.29px;">Linux</a> <a href="/tags/Netflix/" style="font-size: 14.29px;">Netflix</a> <a href="/tags/Ribbon/" style="font-size: 11.43px;">Ribbon</a> <a href="/tags/Shell/" style="font-size: 14.29px;">Shell</a> <a href="/tags/Spring-Boot/" style="font-size: 20px;">Spring Boot</a> <a href="/tags/Spring-Cloud/" style="font-size: 15.71px;">Spring Cloud</a> <a href="/tags/Zookeeper/" style="font-size: 12.86px;">Zookeeper</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+      <a href="/tags/CQRS/" style="font-size: 10px;">CQRS</a> <a href="/tags/Docker/" style="font-size: 17.14px;">Docker</a> <a href="/tags/Eureka/" style="font-size: 14.29px;">Eureka</a> <a href="/tags/Event-Sourcing/" style="font-size: 10px;">Event-Sourcing</a> <a href="/tags/Feign/" style="font-size: 10px;">Feign</a> <a href="/tags/Hystrix/" style="font-size: 10px;">Hystrix</a> <a href="/tags/IntelliJ/" style="font-size: 10px;">IntelliJ</a> <a href="/tags/JVM/" style="font-size: 14.29px;">JVM</a> <a href="/tags/Java-NIO/" style="font-size: 18.57px;">Java NIO</a> <a href="/tags/Java-SE/" style="font-size: 17.14px;">Java SE</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/K8s/" style="font-size: 14.29px;">K8s</a> <a href="/tags/Linux/" style="font-size: 14.29px;">Linux</a> <a href="/tags/Netflix/" style="font-size: 14.29px;">Netflix</a> <a href="/tags/Ribbon/" style="font-size: 11.43px;">Ribbon</a> <a href="/tags/Shell/" style="font-size: 14.29px;">Shell</a> <a href="/tags/Spring-Boot/" style="font-size: 20px;">Spring Boot</a> <a href="/tags/Spring-Cloud/" style="font-size: 15.71px;">Spring Cloud</a> <a href="/tags/Zookeeper/" style="font-size: 12.86px;">Zookeeper</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
     </div>
   </div>
 
@@ -212,7 +212,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -224,23 +224,23 @@
       <ul>
         
           <li>
-            <a href="/2017/02/16/JVM-note-3/">JVM笔记三：OutOfMemoryError异常</a>
+            <a href="/2017/02/18/JVM-note-4/">JVM笔记四：垃圾收集器与内存分配策略之对象</a>
           </li>
         
           <li>
-            <a href="/2017/02/14/JVM-note-2/">JVM笔记二：HotSpot虚拟机对象探秘</a>
+            <a href="/2017/02/16/JVM-note-3/">JVM笔记三：Java内存区域与内存溢出异常之OutOfMemoryError异常</a>
           </li>
         
           <li>
-            <a href="/2016/12/25/JVM-note-1/">JVM笔记一：运行时数据区域</a>
+            <a href="/2017/02/14/JVM-note-2/">JVM笔记二：Java内存区域与内存溢出异常之HotSpot虚拟机对象探秘</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/25/JVM-note-1/">JVM笔记一：Java内存区域与内存溢出异常之运行时数据区域</a>
           </li>
         
           <li>
             <a href="/2016/11/27/Java-NIO-SocketChannel/">Java NIO SocketChannel</a>
-          </li>
-        
-          <li>
-            <a href="/2016/11/22/Java-NIO-FileChannel/">Java NIO FileChannel</a>
           </li>
         
       </ul>

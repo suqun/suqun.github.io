@@ -4,30 +4,23 @@
 <head>
   <meta charset="utf-8">
   
-  <title>基于Docker的java微服务(三) Kubernetes服务发现之环境变量 | 入耳箸心</title>
+  <title>JVM笔记四：垃圾收集器与内存分配策略之对象 | 入耳箸心</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="创建两个服务
-将服务打包成镜像
-k8s的service
-k8s的deployment
-简单测试">
+  <meta name="description" content="在堆里存放着Java世界中几乎所有的对象实例，垃圾收集器在对堆进行回收前，第一件事情就是要确定这些对象之中哪些还存活着，哪些已经死去（即不可能再被任何途径使用的对象）。
+引用计数法引用计数法（Reference Counting）：给对象中添加一个引用计数器，每当有一个地方引用它时，计数器就加1；当引用失效时，计数器就减1；任何时刻计数器为0的对象是不可能被使用的。主流的Java虚拟机里没有使用引">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基于Docker的java微服务(三) Kubernetes服务发现之环境变量">
-<meta property="og:url" content="http://suqun.github.io/2016/09/26/dockerjavamicroservice3/index.html">
+<meta property="og:title" content="JVM笔记四：垃圾收集器与内存分配策略之对象">
+<meta property="og:url" content="http://suqun.github.io/2017/02/18/JVM-note-4/index.html">
 <meta property="og:site_name" content="入耳箸心">
-<meta property="og:description" content="创建两个服务
-将服务打包成镜像
-k8s的service
-k8s的deployment
-简单测试">
-<meta property="og:updated_time" content="2016-10-24T15:23:40.000Z">
+<meta property="og:description" content="在堆里存放着Java世界中几乎所有的对象实例，垃圾收集器在对堆进行回收前，第一件事情就是要确定这些对象之中哪些还存活着，哪些已经死去（即不可能再被任何途径使用的对象）。
+引用计数法引用计数法（Reference Counting）：给对象中添加一个引用计数器，每当有一个地方引用它时，计数器就加1；当引用失效时，计数器就减1；任何时刻计数器为0的对象是不可能被使用的。主流的Java虚拟机里没有使用引">
+<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com//jvm-reachabilityAnalysis.png">
+<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com//jvm-reference.png">
+<meta property="og:updated_time" content="2017-02-18T09:39:49.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="基于Docker的java微服务(三) Kubernetes服务发现之环境变量">
-<meta name="twitter:description" content="创建两个服务
-将服务打包成镜像
-k8s的service
-k8s的deployment
-简单测试">
+<meta name="twitter:title" content="JVM笔记四：垃圾收集器与内存分配策略之对象">
+<meta name="twitter:description" content="在堆里存放着Java世界中几乎所有的对象实例，垃圾收集器在对堆进行回收前，第一件事情就是要确定这些对象之中哪些还存活着，哪些已经死去（即不可能再被任何途径使用的对象）。
+引用计数法引用计数法（Reference Counting）：给对象中添加一个引用计数器，每当有一个地方引用它时，计数器就加1；当引用失效时，计数器就减1；任何时刻计数器为0的对象是不可能被使用的。主流的Java虚拟机里没有使用引">
   
     <link rel="alternative" href="/atom.xml" title="入耳箸心" type="application/atom+xml">
   
@@ -84,10 +77,10 @@ k8s的deployment
   </div>
 </header>
     <div class="outer">
-      <section id="main"><article id="post-dockerjavamicroservice3" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-JVM-note-4" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/09/26/dockerjavamicroservice3/" class="article-date">
-  <time datetime="2016-09-26T09:14:49.000Z" itemprop="datePublished">2016-09-26</time>
+    <a href="/2017/02/18/JVM-note-4/" class="article-date">
+  <time datetime="2017-02-18T02:27:59.000Z" itemprop="datePublished">2017-02-18</time>
 </a>
     
   </div>
@@ -98,7 +91,7 @@ k8s的deployment
         
   
     <h1 class="article-title" itemprop="name">
-      基于Docker的java微服务(三) Kubernetes服务发现之环境变量
+      JVM笔记四：垃圾收集器与内存分配策略之对象
     </h1>
   
 
@@ -110,32 +103,34 @@ k8s的deployment
       
       <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
-        
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#u5F15_u7528_u8BA1_u6570_u6CD5"><span class="toc-number">1.</span> <span class="toc-text">引用计数法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u53EF_u8FBE_u6027_u5206_u6790_u7B97_u6CD5"><span class="toc-number">2.</span> <span class="toc-text">可达性分析算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u518D_u8C08_u5F15_u7528"><span class="toc-number">3.</span> <span class="toc-text">再谈引用</span></a></li></ol>
       </div>
       
 
-      <ol>
-<li>创建两个服务</li>
-<li>将服务打包成镜像</li>
-<li>k8s的service</li>
-<li>k8s的deployment</li>
-<li>简单测试</li>
-</ol>
+      <p>在堆里存放着Java世界中几乎所有的对象实例，垃圾收集器在对堆进行回收前，第一件事情就是要确定这些对象之中哪些还存活着，哪些已经死去（即不可能再被任何途径使用的对象）。</p>
+<h3 id="u5F15_u7528_u8BA1_u6570_u6CD5"><a href="#u5F15_u7528_u8BA1_u6570_u6CD5" class="headerlink" title="引用计数法"></a>引用计数法</h3><p>引用计数法（Reference Counting）：给对象中添加一个引用计数器，每当有一个地方引用它时，计数器就加1；当引用失效时，计数器就减1；任何时刻计数器为0的对象是不可能被使用的。主流的Java虚拟机里没有使用引用计数法来管理内存，主要原因是它很难解决对象之间的相互循环引用的问题。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * 引用计数器算法的缺陷</span><br><span class="line"> * VM Args：-XX:+PrintGCDetails</span><br><span class="line"> * JDK1.6</span><br><span class="line"> * Created by larry.su on 2017/2/18.</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReferenceCountingGC</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> Object instance = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> _1M = <span class="number">1024</span> * <span class="number">1024</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//这个成员属性的唯一意义就是占用点内存，以便能在GC中看清楚是否被回收过</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">byte</span>[] bigSize = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">2</span> * _1M];</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ReferenceCountingGC objA = <span class="keyword">new</span> ReferenceCountingGC();</span><br><span class="line">        ReferenceCountingGC objB = <span class="keyword">new</span> ReferenceCountingGC();</span><br><span class="line"></span><br><span class="line">        objA.instance = objB;</span><br><span class="line">        objB.instance = objA;</span><br><span class="line"></span><br><span class="line">        objA = <span class="keyword">null</span>;</span><br><span class="line">        objB = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//假设此时发生GC，objA和objB是否会被回收</span></span><br><span class="line">        System.gc();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[<span class="function">Full <span class="title">GC</span> <span class="params">(System)</span> [CMS: 0K-&gt;423<span class="title">K</span><span class="params">(<span class="number">63872</span>K)</span>, 0.0099285 secs] **6167K-&gt;423K**<span class="params">(<span class="number">83008</span>K)</span>, [CMS Perm : 4749K-&gt;4747<span class="title">K</span><span class="params">(<span class="number">21248</span>K)</span>], 0.0107293 secs] [Times: user</span>=<span class="number">0.01</span> sys=<span class="number">0.00</span>, real=<span class="number">0.01</span> secs] </span><br><span class="line">Heap</span><br><span class="line"> par <span class="keyword">new</span> generation   total <span class="number">19136</span>K, used <span class="number">1021</span>K [<span class="number">7f</span>3000000, <span class="number">7f</span>44c0000, <span class="number">7f</span>44c0000)</span><br><span class="line">  eden space <span class="number">17024</span>K,   <span class="number">6</span>% used [<span class="number">7f</span>3000000, <span class="number">7f</span>30ff670, <span class="number">7f</span>40a0000)</span><br><span class="line">  from space <span class="number">2112</span>K,   <span class="number">0</span>% used [<span class="number">7f</span>40a0000, <span class="number">7f</span>40a0000, <span class="number">7f</span>42b0000)</span><br><span class="line">  to   space <span class="number">2112</span>K,   <span class="number">0</span>% used [<span class="number">7f</span>42b0000, <span class="number">7f</span>42b0000, <span class="number">7f</span>44c0000)</span><br><span class="line"> concurrent mark-sweep generation total <span class="number">63872</span>K, used <span class="number">423</span>K [<span class="number">7f</span>44c0000, <span class="number">7f</span>8320000, <span class="number">7f</span>ae00000)</span><br><span class="line"> concurrent-mark-sweep perm gen total <span class="number">21248</span>K, used <span class="number">4880</span>K [<span class="number">7f</span>ae00000, <span class="number">7f</span>c2c0000, <span class="number">800000000</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>6167K-&gt;423K(83008K)</strong>意味着虚拟机并没有因为这两个对象并相互引用就不回收他们，也从侧面说明虚拟机并不是通过引用计数法来判断对象是否存活的。</p>
+<h3 id="u53EF_u8FBE_u6027_u5206_u6790_u7B97_u6CD5"><a href="#u53EF_u8FBE_u6027_u5206_u6790_u7B97_u6CD5" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com//jvm-reachabilityAnalysis.png" alt="可达性分析算法"></p>
+<h3 id="u518D_u8C08_u5F15_u7528"><a href="#u518D_u8C08_u5F15_u7528" class="headerlink" title="再谈引用"></a>再谈引用</h3><p>在JDK1.2之后，Java对引用的概念进行了扩充，分为强引用（Strong Reference）、软引用（Soft Reference）、弱引用（Weak Reference）、虚引用（Phantom Reference）4种，这4种引用强度依次逐渐减弱</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com//jvm-reference.png" alt="reference"></p>
 
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/09/26/dockerjavamicroservice3/" data-id="cizaq3iuf000yywuqecj99vc2" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(三) Kubernetes服务发现之环境变量">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-4/" data-id="cizaq3ixa003rywuqz18mls9z" class="article-share-link" data-share="baidu" data-title="JVM笔记四：垃圾收集器与内存分配策略之对象">分享到</a>
       
 
       
-        <a href="http://suqun.github.io/2016/09/26/dockerjavamicroservice3/#ds-thread" class="article-comment-link">评论</a>
+        <a href="http://suqun.github.io/2017/02/18/JVM-note-4/#ds-thread" class="article-comment-link">评论</a>
       
 
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/K8s/">K8s</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/">JVM</a></li></ul>
 
     </footer>
   </div>
@@ -143,19 +138,10 @@ k8s的deployment
     
 <nav id="article-nav">
   
-    <a href="/2016/09/27/dockerjavamicroservice4/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">
-        
-          使用kubeadm在CentOS7上安装Kubernetes集群
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/09/07/dockerjavamicroservice2/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/02/16/JVM-note-3/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">基于Docker的java微服务(二) CentOS7部署Kubernetes集群</div>
+      <div class="article-nav-title">JVM笔记三：Java内存区域与内存溢出异常之OutOfMemoryError异常</div>
     </a>
   
 </nav>
@@ -165,7 +151,7 @@ k8s的deployment
 
 
   <section id="comments">
-    <div id="ds-thread" class="ds-thread" data-thread-key="2016/09/26/dockerjavamicroservice3/" data-title="基于Docker的java微服务(三) Kubernetes服务发现之环境变量" data-url="http://suqun.github.io/2016/09/26/dockerjavamicroservice3/"></div>
+    <div id="ds-thread" class="ds-thread" data-thread-key="2017/02/18/JVM-note-4/" data-title="JVM笔记四：垃圾收集器与内存分配策略之对象" data-url="http://suqun.github.io/2017/02/18/JVM-note-4/"></div>
   </section>
 </section>
       
