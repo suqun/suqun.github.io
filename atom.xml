@@ -4,7 +4,7 @@
   <subtitle><![CDATA[成长路上的点滴记录]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://suqun.github.io/"/>
-  <updated>2017-02-18T14:36:57.000Z</updated>
+  <updated>2017-02-21T09:31:31.000Z</updated>
   <id>http://suqun.github.io/</id>
   
   <author>
@@ -13,6 +13,60 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[垃圾收集器与内存分配策略——内存分配与回收策略]]></title>
+    <link href="http://suqun.github.io/2017/02/21/JVM-note-7/"/>
+    <id>http://suqun.github.io/2017/02/21/JVM-note-7/</id>
+    <published>2017-02-21T02:31:45.000Z</published>
+    <updated>2017-02-21T09:31:31.000Z</updated>
+    <content type="html"><![CDATA[<p>对象的内存分配，往大方向讲，就是在堆上分配（也可能经过JIT编译后被拆散为标量类型并间接的在栈上分配），对象主要分配在新生代的Eden区上，如果启动了本地线程分配缓冲，将按线程优先在TLAB上分配。少数情况下分配在老生代上，分配的规则并不是百分百固定的，其细节取决于当前使用的哪种垃圾收集器组合，还有虚拟机内存相关参数的设置。</p>
+<p>以下都是在Serial/Serial Old收集器下的内存分配和回收策略。</p>
+<h2 id="u5BF9_u8C61_u4F18_u5148_u5728Eden_u533A_u5206_u914D"><a href="#u5BF9_u8C61_u4F18_u5148_u5728Eden_u533A_u5206_u914D" class="headerlink" title="对象优先在Eden区分配"></a>对象优先在Eden区分配</h2>]]></content>
+    <summary type="html">
+    <![CDATA[<p>对象的内存分配，往大方向讲，就是在堆上分配（也可能经过JIT编译后被拆散为标量类型并间接的在栈上分配），对象主要分配在新生代的Eden区上，如果启动了本地线程分配缓冲，将按线程优先在TLAB上分配。少数情况下分配在老生代上，分配的规则并不是百分百固定的，其细节取决于当前使用]]>
+    </summary>
+    
+      <category term="JVM" scheme="http://suqun.github.io/tags/JVM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[垃圾收集器与内存分配策略——垃圾收集器]]></title>
+    <link href="http://suqun.github.io/2017/02/19/JVM-note-6/"/>
+    <id>http://suqun.github.io/2017/02/19/JVM-note-6/</id>
+    <published>2017-02-19T01:37:38.000Z</published>
+    <updated>2017-02-21T14:22:03.000Z</updated>
+    <content type="html"><![CDATA[<p>基于JDK1.7 Update 14之后的HotSpot虚拟机的垃圾收集器。</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-collector.png" alt=""></p>
+<p>两个收集器之间有连线，说明他们可以搭配使用。收集器所处的区域，则表示他是属于新生代收集器还是老生代收集器。</p>
+<h2 id="Serial_u6536_u96C6_u5668"><a href="#Serial_u6536_u96C6_u5668" class="headerlink" title="Serial收集器"></a>Serial收集器</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-serial.png" alt=""></p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-serial-1.png" alt="Serial / Serial Old收集器运行示意图"></p>
+<p><strong>新生代收集（Minor GC）</strong></p>
+<p>下面代码尝试分配3个2MB大小和1个4MB大小的对象</p>
+<ul>
+<li>运行通过<strong>-Xms20M</strong>（堆初始大小）、<strong>-Xmx20M</strong>（堆最大值）、<strong>-Xmn10M</strong>（新生代值）这3个参数限制了Java堆大小为20MB，不可扩展，其中10MB分配给新生代，剩下的10MB分配给老年代</li>
+<li><strong>-XX:SurvivorRatio=8</strong> 决定了新生代中Eden区与一个Survivor区的空间比例为 8:1</li>
+<li><strong>新生代总可用空间：9216KB（Eden区+1个Survivor区的总容量）</strong></li>
+<li><strong>-XX:+PrintGCDetail</strong>，在发生垃圾收集时打印内存回收日志</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * MinorGC</span><br><span class="line"> * VM Args: -XX:+UseSerialGC -Xms20M -Xmx20M -Xmn10M -XX:+PrintGCDetails -XX:SurvivorRatio=8</span><br><span class="line"> * Created by larry.su on 2017/2/21.</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MinorGC</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> _1M = <span class="number">1024</span> * <span class="number">1024</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">byte</span>[] allocation1,allocation2,allocation3,allocation4;</span><br><span class="line">        allocation1 = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">2</span> * _1M];</span><br><span class="line">        allocation2 = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">2</span> * _1M];</span><br><span class="line">        allocation3 = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">2</span> * _1M];</span><br><span class="line">        allocation4 = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4</span> * _1M]; <span class="comment">//出现一次MinorGC</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[<span class="constant">GC</span> (<span class="constant">Allocation</span> <span class="constant">Failure</span>) [<span class="constant">DefNew</span><span class="symbol">:</span> <span class="number">7814</span>K-&gt;<span class="number">423</span>K(<span class="number">9216</span>K), <span class="number">0</span>.<span class="number">0051201</span> secs] <span class="number">7814</span>K-&gt;<span class="number">6567</span>K(<span class="number">19456</span>K), <span class="number">0</span>.<span class="number">00513</span>87 secs] [<span class="constant">Times</span><span class="symbol">:</span> user=<span class="number">0</span>.<span class="number">00</span> sys=<span class="number">0</span>.<span class="number">00</span>, real=<span class="number">0</span>.<span class="number">00</span> secs]</span><br><span class="line">        <span class="constant">Heap</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">new</span> <span class="title">generation</span>   <span class="title">total</span> 9216<span class="title">K</span>, <span class="title">used</span> 4656<span class="title">K</span> [0<span class="title">x00000007bec00000</span>, 0<span class="title">x00000007bf600000</span>, 0<span class="title">x00000007bf600000</span>)</span></span><br><span class="line">        eden space <span class="number">8192</span>K,  <span class="number">51</span>% used [<span class="number">0x00000007bec00000</span>, <span class="number">0x00000007bf022408</span>, <span class="number">0x00000007bf400000</span>)</span><br><span class="line">        from space <span class="number">1024</span>K,  <span class="number">41</span>% used [<span class="number">0x00000007bf500000</span>, <span class="number">0x00000007bf569ca8</span>, <span class="number">0x00000007bf600000</span>)</span><br><span class="line">        to   space <span class="number">1024</span>K,   <span class="number">0</span>% used [<span class="number">0x00000007bf400000</span>, <span class="number">0x00000007bf400000</span>, <span class="number">0x00000007bf500000</span>)</span><br><span class="line">        tenured generation   total <span class="number">10240</span>K, used <span class="number">6144</span>K [<span class="number">0x00000007bf600000</span>, <span class="number">0x00000007c0000000</span>, <span class="number">0x00000007c0000000</span>)</span><br><span class="line">        the space <span class="number">10240</span>K,  <span class="number">60</span>% used [<span class="number">0x00000007bf600000</span>, <span class="number">0x00000007bfc00030</span>, <span class="number">0x00000007bfc00200</span>, <span class="number">0x00000007c0000000</span>)</span><br><span class="line">        <span class="constant">Metaspace</span>       used <span class="number">2917</span>K, capacity <span class="number">4494</span>K, committed <span class="number">4864</span>K, reserved <span class="number">1056768</span>K</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">space</span>    <span class="title">used</span> 318<span class="title">K</span>, <span class="title">capacity</span> 386<span class="title">K</span>, <span class="title">committed</span> 512<span class="title">K</span>, <span class="title">reserved</span> 1048576<span class="title">K</span></span></span><br></pre></td></tr></table></figure>
+<p>上面main方法执行后，在分配allocation4对象时，发生一次Minor GC，这次GC的结果是新生代7814K变为423K，而总内存占用量（7814K-&gt;6567K(19456K)）几乎没有减少（因为allocation1、allocation2、allocation3三个对象都是存活的，虚拟机几乎没有找到可回收的对象）。</p>
+<p>这次GC的原因是给allocation4分配所需的4MB内存的时候，发现Eden已经被占用了6MB，剩余空间已不足分配allocation4对象所需的4MB，因此发生Minor GC。</p>
+<p>GC期间虚拟机又发现已有的3个2MB的对象无法全部放入Survivor空间（Survivor空间只有1MB大小），所以只好通过分配担保机制提前转移到老年代去。</p>
+<p>这次GC结束后，4MB的allocation4对象顺利分配在Eden中，因此程序执行完成的结果是Eden占用4MB，Servivor空闲，老年代被占用6MB</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>基于JDK1.7 Update 14之后的HotSpot虚拟机的垃圾收集器。</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-collector.png" alt=""></p>
+<p>两个收集器之间有连]]>
+    </summary>
+    
+      <category term="JVM" scheme="http://suqun.github.io/tags/JVM/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[JVM笔记五：垃圾收集器与内存分配策略——垃圾收集算法]]></title>
@@ -806,75 +860,6 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     <![CDATA[<p>原文 : <a href="http://blog.didispace.com/springcloud5/" target="_blank" rel="external">Spring Cloud构建微服务架构（五）服务网关</a></p>
 ]]>
     </summary>
-    
-      <category term="Spring Boot" scheme="http://suqun.github.io/tags/Spring-Boot/"/>
-    
-      <category term="Spring Cloud" scheme="http://suqun.github.io/tags/Spring-Cloud/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Spring Cloud构建微服务架构（五）分布式配置中心]]></title>
-    <link href="http://suqun.github.io/2016/08/09/SpringCloud5/"/>
-    <id>http://suqun.github.io/2016/08/09/SpringCloud5/</id>
-    <published>2016-08-09T02:38:46.000Z</published>
-    <updated>2016-10-24T15:31:50.000Z</updated>
-    <content type="html"><![CDATA[<p>原文 : <a href="http://blog.didispace.com/springcloud4/" target="_blank" rel="external">Spring Cloud构建微服务架构（四）分布式配置中心</a></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>原文 : <a href="http://blog.didispace.com/springcloud4/" target="_blank" rel="external">Spring Cloud构建微服务架构（四）分布式配置中心</a></p>
-]]>
-    </summary>
-    
-      <category term="Spring Boot" scheme="http://suqun.github.io/tags/Spring-Boot/"/>
-    
-      <category term="Spring Cloud" scheme="http://suqun.github.io/tags/Spring-Cloud/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Spring Cloud构建微服务架构（四）集群]]></title>
-    <link href="http://suqun.github.io/2016/08/05/Spring-Cloud%E6%9E%84%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%EF%BC%88%E5%9B%9B%EF%BC%89%E9%9B%86%E7%BE%A4/"/>
-    <id>http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四）集群/</id>
-    <published>2016-08-05T02:07:59.000Z</published>
-    <updated>2016-10-24T15:30:37.000Z</updated>
-    <content type="html"><![CDATA[<p>前面三篇都分享自<a href="http://blog.didispace.com/" target="_blank" rel="external">程序猿DD</a>的博客,暂时(2016年08月05日)还没有更新关于Eureka集群的博客。<br>这里参考了<a href="https://segmentfault.com/blog/mumubin" target="_blank" rel="external">木木彬</a>的<a href="https://segmentfault.com/a/1190000006149891" target="_blank" rel="external">Spring Cloud实战(二)-Spring Cloud Eureka</a>博客内容。<br>对集群配置简单记录下,方便以后查阅。同时也期待<code>程序猿DD</code>更新更多更精彩的博客。</p>
-<p>本文代码基于<a href="https://git.oschina.net/didispace/SpringBoot-Learning/tree/master/Chapter9-1-3?dir=1&amp;filepath=Chapter9-1-3&amp;oid=cc93af44af30b42320041332790d071ed72a2450&amp;sha=4329c564d673b6cf7a53893ad9770abb7a67b328" target="_blank" rel="external">程序猿DD / SpringBoot-Learning / Chapter9-1-3</a>进行集群配置。</p>
-<p>Spring Cloud 官方文档上对集群配置介绍的非常简单，对Eureka Server进行<a href="http://cloud.spring.io/spring-cloud-static/docs/1.0.x/spring-cloud.html#_peer_awareness" target="_blank" rel="external">Peer Awareness</a>配置，这样多个服务端就可以关联到一起。好了，下面看看具体的配置。</p>
-<h4 id="hosts_u4FEE_u6539"><a href="#hosts_u4FEE_u6539" class="headerlink" title="hosts修改"></a>hosts修改</h4><p>在hosts（路径：/etc/hosts）文件中添加</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1       eureka-primary&#10;127.0.0.1       eureka-secondary&#10;127.0.0.1       eureka-tertiary</span><br></pre></td></tr></table></figure>
-<h4 id="u670D_u52A1_u7AEF_u914D_u7F6E"><a href="#u670D_u52A1_u7AEF_u914D_u7F6E" class="headerlink" title="服务端配置"></a>服务端配置</h4><p>先注释掉application.properties中的配置，添加application.yml，在yml添加多个profiles,和instanceId，此时Eureka Server 同时也是个Eureka Client,需要设置eureka.client.serviceUrl.defaultZone,值是另外两个（这就是官网所说的<code>Peer Awareness</code>）:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">---&#10;spring:&#10;  application:&#10;    name: eureka-server-clustered&#10;  profiles: primary&#10;server:&#10;  port: 1111&#10;eureka:&#10;  instance:&#10;    hostname: eureka-primary&#10;  client:&#10;    registerWithEureka: true&#10;    fetchRegistry: true&#10;    serviceUrl:&#10;      defaultZone: http://eureka-secondary:1112/eureka/,http://eureka-tertiary:1113/eureka/&#10;---&#10;spring:&#10;  application:&#10;    name: eureka-server-clustered&#10;  profiles: secondary&#10;server:&#10;  port: 1112&#10;eureka:&#10;  instance:&#10;    hostname: eureka-secondary&#10;  client:&#10;    registerWithEureka: true&#10;    fetchRegistry: true&#10;    serviceUrl:&#10;      defaultZone: http://eureka-secondary:1111/eureka/,http://eureka-tertiary:1113/eureka/&#10;---&#10;spring:&#10;  application:&#10;    name: eureka-server-clustered&#10;  profiles: tertiary&#10;server:&#10;  port: 1113&#10;eureka:&#10;  instance:&#10;    hostname: eureka-tertiary&#10;  client:&#10;    registerWithEureka: true&#10;    fetchRegistry: true&#10;    serviceUrl:&#10;      defaultZone: http://eureka-secondary:1111/eureka/,http://eureka-tertiary:1112/eureka/</span><br></pre></td></tr></table></figure>
-<h4 id="u670D_u52A1_u7AEF_u542F_u52A8"><a href="#u670D_u52A1_u7AEF_u542F_u52A8" class="headerlink" title="服务端启动"></a>服务端启动</h4><p>配置完成，要分别启动3个Server，分别执行下面的命令即可：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  eureka-server git:(master) ✗ mvn clean &amp;&amp; mvn install</span><br><span class="line">➜  eureka-server git:(master) ✗ <span class="built_in">cd</span> target</span><br><span class="line">➜  target git:(master) ✗ java -Dspring.profiles.active=primary -jar eureka-server-<span class="number">0.0</span>.<span class="number">1</span>-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  target git:(master) ✗ java -Dspring.profiles.active=secondary -jar eureka-server-<span class="number">0.0</span>.<span class="number">1</span>-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  target git:(master) ✗ java -Dspring.profiles.active=tertiary -jar eureka-server-<span class="number">0.0</span>.<span class="number">1</span>-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
-<p>我们访问其中一个服务地址<a href="http://localhost:1111/" target="_blank" rel="external">http://localhost:1111/</a> 可以看到如下内容，说明服务启动成功：</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/eureka-server-1.png" alt="Eureka Server"></p>
-<h4 id="u5BA2_u6237_u7AEF_u914D_u7F6E"><a href="#u5BA2_u6237_u7AEF_u914D_u7F6E" class="headerlink" title="客户端配置"></a>客户端配置</h4><p>服务端已准备就绪，客户端如何注册到多个服务地址呢？其实在服务端配置defaultZone时，指定多个地址，就告诉我们客户端也这么指定就可以啦。</p>
-<p>修改compute-service的application.properties中的defaultZone值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#25351;&#23450;&#24494;&#26381;&#21153;&#30340;&#21517;&#31216;&#21518;&#32493;&#22312;&#35843;&#29992;&#30340;&#26102;&#20505;&#21482;&#38656;&#35201;&#20351;&#29992;&#35813;&#21517;&#31216;&#23601;&#21487;&#20197;&#36827;&#34892;&#26381;&#21153;&#30340;&#35775;&#38382;&#10;spring.application.name=compute-service&#10;#&#24212;&#29992;&#31471;&#21475;&#10;server.port=2222&#10;#&#25351;&#23450;&#26381;&#21153;&#27880;&#20876;&#20013;&#24515;&#30340;&#20301;&#32622;&#10;#eureka.client.serviceUrl.defaultZone=http://localhost:1111/eureka/&#10;eureka.client.serviceUrl.defaultZone=http://eureka-primary:1111/eureka/,http://eureka-secondary:1112/eureka/,http://eureka-tertiary:1113/eureka/</span><br></pre></td></tr></table></figure>
-<h4 id="u542F_u52A8_u5BA2_u6237_u7AEF"><a href="#u542F_u52A8_u5BA2_u6237_u7AEF" class="headerlink" title="启动客户端"></a>启动客户端</h4><p>客户端默认端口是2222，我们启动2个客户端，另一个端口用2223好了。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  compute-service git:(master) ✗ mvn clean &amp;&amp; mvn insatll</span><br><span class="line">➜  compute-service git:(master) ✗ <span class="built_in">cd</span> target</span><br><span class="line">➜  target git:(master) ✗ java -jar compute-service-<span class="number">0.0</span>.<span class="number">1</span>-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  target git:(master) ✗ java -DServer.port=<span class="number">2223</span> -jar compute-service-<span class="number">0.0</span>.<span class="number">1</span>-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
-<p>重新查看下<a href="http://localhost:1111/" target="_blank" rel="external">http://localhost:1111/</a></p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/eureka-server-2.png" alt="client starting"></p>
-<p>2个客户端启动成功了。</p>
-<h4 id="u6D4B_u8BD5"><a href="#u6D4B_u8BD5" class="headerlink" title="测试"></a>测试</h4><p>启动消费者eureka-ribbon成功后，简单测试下</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ curl localhost:<span class="number">3333</span>/add</span><br><span class="line"><span class="number">30</span>%</span><br></pre></td></tr></table></figure>
-<p>一个客户端也打出了日志</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2016</span>-<span class="number">08</span>-<span class="number">05</span> <span class="number">11</span>:<span class="number">18</span>:<span class="number">23.554</span>  INFO <span class="number">5127</span> --- [nio-<span class="number">2223</span>-exec-<span class="number">1</span>] com.ow.wises.web.ComputeController       : /add, host:<span class="number">192.168</span>.<span class="number">1.145</span>, service_id:compute-service, result:<span class="number">30</span></span><br></pre></td></tr></table></figure>
-<p>好了，就先这样了。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>前面三篇都分享自<a href="http://blog.didispace.com/" target="_blank" rel="external">程序猿DD</a>的博客,暂时(2016年08月05日)还没有更新关于Eureka集群的博客。<br>这里参考了<a hr]]>
-    </summary>
-    
-      <category term="Eureka" scheme="http://suqun.github.io/tags/Eureka/"/>
-    
-      <category term="Netflix" scheme="http://suqun.github.io/tags/Netflix/"/>
-    
-      <category term="Ribbon" scheme="http://suqun.github.io/tags/Ribbon/"/>
     
       <category term="Spring Boot" scheme="http://suqun.github.io/tags/Spring-Boot/"/>
     
