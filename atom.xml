@@ -36,7 +36,7 @@
     <link href="http://suqun.github.io/2017/02/19/JVM-note-6/"/>
     <id>http://suqun.github.io/2017/02/19/JVM-note-6/</id>
     <published>2017-02-19T01:37:38.000Z</published>
-    <updated>2017-02-23T14:49:13.000Z</updated>
+    <updated>2017-02-23T15:41:55.000Z</updated>
     <content type="html"><![CDATA[<p>基于JDK1.7 Update 14之后的HotSpot虚拟机的垃圾收集器。</p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-gc.png" alt=""></p>
 <p>两个收集器之间有连线，说明他们可以搭配使用。收集器所处的区域，则表示他是属于新生代收集器还是老生代收集器。</p>
@@ -73,7 +73,10 @@
 <li><strong>并行（Parallel）</strong>：指多条垃圾收集线程并行工作，但此时用户线程仍然处于等待状态</li>
 <li><strong>并发（Concurrent）</strong>：指用户线程与垃圾收集线程同时执行（但不一定是并行的，可能会交替执行），用户程序在继续运行，而垃圾收集程序运行在另一个cpu上</li>
 </ul>
-<h2 id="Parallel_Scavenge_u6536_u96C6_u5668"><a href="#Parallel_Scavenge_u6536_u96C6_u5668" class="headerlink" title="Parallel Scavenge收集器"></a>Parallel Scavenge收集器</h2>]]></content>
+<h2 id="Parallel_Scavenge_u6536_u96C6_u5668"><a href="#Parallel_Scavenge_u6536_u96C6_u5668" class="headerlink" title="Parallel Scavenge收集器"></a>Parallel Scavenge收集器</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parallel-scavenge.png" alt=""></p>
+<h2 id="Serial_Old_u6536_u96C6_u5668"><a href="#Serial_Old_u6536_u96C6_u5668" class="headerlink" title="Serial Old收集器"></a>Serial Old收集器</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-serial-old.png" alt=""></p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-serial-1.png" alt="Serial / Serial Old收集器运行示意图"></p>
+]]></content>
     <summary type="html">
     <![CDATA[<p>基于JDK1.7 Update 14之后的HotSpot虚拟机的垃圾收集器。</p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-gc.png" alt=""></p>

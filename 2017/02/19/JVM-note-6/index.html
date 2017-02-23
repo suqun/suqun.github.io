@@ -33,7 +33,10 @@ Serial收集器
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-serial-1.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parnew.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parnew-1.png">
-<meta property="og:updated_time" content="2017-02-23T14:49:13.000Z">
+<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parallel-scavenge.png">
+<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-serial-old.png">
+<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-serial-1.png">
+<meta property="og:updated_time" content="2017-02-23T15:41:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="垃圾收集器与内存分配策略——垃圾收集器">
 <meta name="twitter:description" content="基于JDK1.7 Update 14之后的HotSpot虚拟机的垃圾收集器。
@@ -127,7 +130,7 @@ Serial收集器
       
       <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Serial_u6536_u96C6_u5668"><span class="toc-number">1.</span> <span class="toc-text">Serial收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ParNew_u6536_u96C6_u5668"><span class="toc-number">2.</span> <span class="toc-text">ParNew收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Parallel_Scavenge_u6536_u96C6_u5668"><span class="toc-number">3.</span> <span class="toc-text">Parallel Scavenge收集器</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Serial_u6536_u96C6_u5668"><span class="toc-number">1.</span> <span class="toc-text">Serial收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ParNew_u6536_u96C6_u5668"><span class="toc-number">2.</span> <span class="toc-text">ParNew收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Parallel_Scavenge_u6536_u96C6_u5668"><span class="toc-number">3.</span> <span class="toc-text">Parallel Scavenge收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Serial_Old_u6536_u96C6_u5668"><span class="toc-number">4.</span> <span class="toc-text">Serial Old收集器</span></a></li></ol>
       </div>
       
 
@@ -167,13 +170,16 @@ Serial收集器
 <li><strong>并行（Parallel）</strong>：指多条垃圾收集线程并行工作，但此时用户线程仍然处于等待状态</li>
 <li><strong>并发（Concurrent）</strong>：指用户线程与垃圾收集线程同时执行（但不一定是并行的，可能会交替执行），用户程序在继续运行，而垃圾收集程序运行在另一个cpu上</li>
 </ul>
-<h2 id="Parallel_Scavenge_u6536_u96C6_u5668"><a href="#Parallel_Scavenge_u6536_u96C6_u5668" class="headerlink" title="Parallel Scavenge收集器"></a>Parallel Scavenge收集器</h2>
+<h2 id="Parallel_Scavenge_u6536_u96C6_u5668"><a href="#Parallel_Scavenge_u6536_u96C6_u5668" class="headerlink" title="Parallel Scavenge收集器"></a>Parallel Scavenge收集器</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parallel-scavenge.png" alt=""></p>
+<h2 id="Serial_Old_u6536_u96C6_u5668"><a href="#Serial_Old_u6536_u96C6_u5668" class="headerlink" title="Serial Old收集器"></a>Serial Old收集器</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-serial-old.png" alt=""></p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-serial-1.png" alt="Serial / Serial Old收集器运行示意图"></p>
+
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/19/JVM-note-6/" data-id="ciziia3hh003uyxuqg7qc27xr" class="article-share-link" data-share="baidu" data-title="垃圾收集器与内存分配策略——垃圾收集器">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/19/JVM-note-6/" data-id="cizik9ocb003uicuqm5f3nqen" class="article-share-link" data-share="baidu" data-title="垃圾收集器与内存分配策略——垃圾收集器">分享到</a>
       
 
       
