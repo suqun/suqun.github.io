@@ -106,7 +106,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/21/JVM-note-7/" data-id="cizfmkbx4003rvzuq7yif5ia7" class="article-share-link" data-share="baidu" data-title="垃圾收集器与内存分配策略——内存分配与回收策略">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/21/JVM-note-7/" data-id="cizihhctp003rhyuqyi152g2u" class="article-share-link" data-share="baidu" data-title="垃圾收集器与内存分配策略——内存分配与回收策略">分享到</a>
       
 
       
@@ -174,13 +174,16 @@
 </ol>
 <p>GC日志：</p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[<span class="constant">GC</span> (<span class="constant">Allocation</span> <span class="constant">Failure</span>) [<span class="constant">DefNew</span><span class="symbol">:</span> <span class="number">7814</span>K-&gt;<span class="number">423</span>K(<span class="number">9216</span>K), <span class="number">0</span>.<span class="number">0051201</span> secs] <span class="number">7814</span>K-&gt;<span class="number">6567</span>K(<span class="number">19456</span>K), <span class="number">0</span>.<span class="number">00513</span>87 secs] [<span class="constant">Times</span><span class="symbol">:</span> user=<span class="number">0</span>.<span class="number">00</span> sys=<span class="number">0</span>.<span class="number">00</span>, real=<span class="number">0</span>.<span class="number">00</span> secs]</span><br><span class="line">        <span class="constant">Heap</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">new</span> <span class="title">generation</span>   <span class="title">total</span> 9216<span class="title">K</span>, <span class="title">used</span> 4656<span class="title">K</span> [0<span class="title">x00000007bec00000</span>, 0<span class="title">x00000007bf600000</span>, 0<span class="title">x00000007bf600000</span>)</span></span><br><span class="line">        eden space <span class="number">8192</span>K,  <span class="number">51</span>% used [<span class="number">0x00000007bec00000</span>, <span class="number">0x00000007bf022408</span>, <span class="number">0x00000007bf400000</span>)</span><br><span class="line">        from space <span class="number">1024</span>K,  <span class="number">41</span>% used [<span class="number">0x00000007bf500000</span>, <span class="number">0x00000007bf569ca8</span>, <span class="number">0x00000007bf600000</span>)</span><br><span class="line">        to   space <span class="number">1024</span>K,   <span class="number">0</span>% used [<span class="number">0x00000007bf400000</span>, <span class="number">0x00000007bf400000</span>, <span class="number">0x00000007bf500000</span>)</span><br><span class="line">        tenured generation   total <span class="number">10240</span>K, used <span class="number">6144</span>K [<span class="number">0x00000007bf600000</span>, <span class="number">0x00000007c0000000</span>, <span class="number">0x00000007c0000000</span>)</span><br><span class="line">        the space <span class="number">10240</span>K,  <span class="number">60</span>% used [<span class="number">0x00000007bf600000</span>, <span class="number">0x00000007bfc00030</span>, <span class="number">0x00000007bfc00200</span>, <span class="number">0x00000007c0000000</span>)</span><br><span class="line">        <span class="constant">Metaspace</span>       used <span class="number">2917</span>K, capacity <span class="number">4494</span>K, committed <span class="number">4864</span>K, reserved <span class="number">1056768</span>K</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">space</span>    <span class="title">used</span> 318<span class="title">K</span>, <span class="title">capacity</span> 386<span class="title">K</span>, <span class="title">committed</span> 512<span class="title">K</span>, <span class="title">reserved</span> 1048576<span class="title">K</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="ParNew_u6536_u96C6_u5668"><a href="#ParNew_u6536_u96C6_u5668" class="headerlink" title="ParNew收集器"></a>ParNew收集器</h2><p>ParNew收集器其实就是Serial收集器的多线程版本，使用多条线程进行垃圾收集。</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parnew.png" alt=""></p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parnew-1.png" alt="ParNew / Serial Old收集器运行示意图"></p>
 
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/19/JVM-note-6/" data-id="cizfmkbx5003uvzuqsnhrbi7n" class="article-share-link" data-share="baidu" data-title="垃圾收集器与内存分配策略——垃圾收集器">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/19/JVM-note-6/" data-id="cizihhctq003uhyuq5os9w5kd" class="article-share-link" data-share="baidu" data-title="垃圾收集器与内存分配策略——垃圾收集器">分享到</a>
       
 
       
@@ -240,7 +243,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-5/" data-id="cizfmkbx7003wvzuqomk7xltx" class="article-share-link" data-share="baidu" data-title="JVM笔记五：垃圾收集器与内存分配策略——垃圾收集算法">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-5/" data-id="cizihhcty003whyuqb28e2zza" class="article-share-link" data-share="baidu" data-title="JVM笔记五：垃圾收集器与内存分配策略——垃圾收集算法">分享到</a>
       
 
       
@@ -295,7 +298,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-4/" data-id="cizfmkbx9003xvzuq8dqap8o0" class="article-share-link" data-share="baidu" data-title="JVM笔记四：垃圾收集器与内存分配策略——对象">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-4/" data-id="cizihhcu0003xhyuq7u5pdlaf" class="article-share-link" data-share="baidu" data-title="JVM笔记四：垃圾收集器与内存分配策略——对象">分享到</a>
       
 
       
@@ -361,7 +364,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/16/JVM-note-3/" data-id="cizfmkbxb003zvzuq0iyokbck" class="article-share-link" data-share="baidu" data-title="JVM笔记三：Java内存区域与内存溢出异常——OutOfMemoryError异常">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/16/JVM-note-3/" data-id="cizihhcu3003zhyuqq23xyg1u" class="article-share-link" data-share="baidu" data-title="JVM笔记三：Java内存区域与内存溢出异常——OutOfMemoryError异常">分享到</a>
       
 
       
@@ -427,7 +430,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/14/JVM-note-2/" data-id="cizfmkbxc0041vzuqz7vq20l6" class="article-share-link" data-share="baidu" data-title="JVM笔记二：Java内存区域与内存溢出异常——HotSpot虚拟机对象探秘">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/14/JVM-note-2/" data-id="cizihhcu60041hyuq0sflkjk8" class="article-share-link" data-share="baidu" data-title="JVM笔记二：Java内存区域与内存溢出异常——HotSpot虚拟机对象探秘">分享到</a>
       
 
       
@@ -507,7 +510,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/12/25/JVM-note-1/" data-id="cizfmkbxd0043vzuqiqmzt1si" class="article-share-link" data-share="baidu" data-title="JVM笔记一：Java内存区域与内存溢出异常——运行时数据区域">分享到</a>
+        <a data-url="http://suqun.github.io/2016/12/25/JVM-note-1/" data-id="cizihhcu80043hyuq6x4knypu" class="article-share-link" data-share="baidu" data-title="JVM笔记一：Java内存区域与内存溢出异常——运行时数据区域">分享到</a>
       
 
       
@@ -556,7 +559,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/11/27/Java-NIO-SocketChannel/" data-id="cizfmkbwr003bvzuquk07en8l" class="article-share-link" data-share="baidu" data-title="Java NIO SocketChannel">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/27/Java-NIO-SocketChannel/" data-id="cizihhcta003bhyuqjwloen2z" class="article-share-link" data-share="baidu" data-title="Java NIO SocketChannel">分享到</a>
       
 
       
@@ -635,7 +638,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/11/22/Java-NIO-FileChannel/" data-id="cizfmkbwx003jvzuqd5kyqq3v" class="article-share-link" data-share="baidu" data-title="Java NIO FileChannel">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/22/Java-NIO-FileChannel/" data-id="cizihhcti003jhyuqam82g5mc" class="article-share-link" data-share="baidu" data-title="Java NIO FileChannel">分享到</a>
       
 
       
@@ -759,7 +762,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/11/16/Java-NIO-Selector/" data-id="cizfmkbwt003dvzuqm6qg22hd" class="article-share-link" data-share="baidu" data-title="Java NIO Selector">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/16/Java-NIO-Selector/" data-id="cizihhctc003dhyuq027xvs16" class="article-share-link" data-share="baidu" data-title="Java NIO Selector">分享到</a>
       
 
       
@@ -818,7 +821,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/11/10/Java-NIO-Channel-to-Channel-Transfers/" data-id="cizfmkbx0003nvzuqn00g5cis" class="article-share-link" data-share="baidu" data-title="Java NIO Channel之间的数据传输">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/10/Java-NIO-Channel-to-Channel-Transfers/" data-id="cizihhctl003nhyuqa9dtt1ux" class="article-share-link" data-share="baidu" data-title="Java NIO Channel之间的数据传输">分享到</a>
       
 
       
@@ -881,7 +884,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/11/09/Java-NIO-Scatter-Gather/" data-id="cizfmkbwu003fvzuqj7rgsl63" class="article-share-link" data-share="baidu" data-title="Java NIO Scatter / Gather">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/09/Java-NIO-Scatter-Gather/" data-id="cizihhcte003fhyuqvsgeqk1w" class="article-share-link" data-share="baidu" data-title="Java NIO Scatter / Gather">分享到</a>
       
 
       
@@ -960,7 +963,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/10/18/IntelliJ/" data-id="cizfmkbxf0045vzuq98hmj0y6" class="article-share-link" data-share="baidu" data-title="IntelliJ 使用说明">分享到</a>
+        <a data-url="http://suqun.github.io/2016/10/18/IntelliJ/" data-id="cizihhcua0045hyuqswl4pq59" class="article-share-link" data-share="baidu" data-title="IntelliJ 使用说明">分享到</a>
       
 
       
@@ -1062,7 +1065,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/10/18/gitcommands/" data-id="cizfmkbuw000ovzuqa5ta97vg" class="article-share-link" data-share="baidu" data-title="git 常用命令">分享到</a>
+        <a data-url="http://suqun.github.io/2016/10/18/gitcommands/" data-id="cizihhcrg000ohyuqj7ccyzla" class="article-share-link" data-share="baidu" data-title="git 常用命令">分享到</a>
       
 
       
@@ -1137,7 +1140,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/10/17/docker-jenkins/" data-id="cizfmkbvc001bvzuqz038lgui" class="article-share-link" data-share="baidu" data-title="java应用结合Jenkins，docker部署到Kubernetes">分享到</a>
+        <a data-url="http://suqun.github.io/2016/10/17/docker-jenkins/" data-id="cizihhcru001bhyuq3ypxlq1u" class="article-share-link" data-share="baidu" data-title="java应用结合Jenkins，docker部署到Kubernetes">分享到</a>
       
 
       
@@ -1200,7 +1203,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/09/27/dockerjavamicroservice4/" data-id="cizfmkbv1000uvzuqe23dzx3c" class="article-share-link" data-share="baidu" data-title="使用kubeadm在CentOS7上安装Kubernetes集群">分享到</a>
+        <a data-url="http://suqun.github.io/2016/09/27/dockerjavamicroservice4/" data-id="cizihhcrk000uhyuqsdmn0q24" class="article-share-link" data-share="baidu" data-title="使用kubeadm在CentOS7上安装Kubernetes集群">分享到</a>
       
 
       
@@ -1255,7 +1258,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/09/26/dockerjavamicroservice3/" data-id="cizfmkbv3000yvzuqv8gpew7u" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(三) Kubernetes服务发现之环境变量">分享到</a>
+        <a data-url="http://suqun.github.io/2016/09/26/dockerjavamicroservice3/" data-id="cizihhcrm000yhyuq905tt1e9" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(三) Kubernetes服务发现之环境变量">分享到</a>
       
 
       
@@ -1386,7 +1389,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/09/07/dockerjavamicroservice2/" data-id="cizfmkbv50011vzuq0h4e5y6s" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(二) CentOS7部署Kubernetes集群">分享到</a>
+        <a data-url="http://suqun.github.io/2016/09/07/dockerjavamicroservice2/" data-id="cizihhcrp0011hyuqtcb0c357" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(二) CentOS7部署Kubernetes集群">分享到</a>
       
 
       
@@ -1494,7 +1497,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/24/dockerjavamicroservice1/" data-id="cizfmkbv90014vzuqijup5nuy" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(一) 部署Chris Richardson的转账案例">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/24/dockerjavamicroservice1/" data-id="cizihhcrr0014hyuqep54bljn" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(一) 部署Chris Richardson的转账案例">分享到</a>
       
 
       
@@ -1543,7 +1546,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/09/springcloud6/" data-id="cizfmkbut000fvzuqkwok8fak" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（六）服务网关">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/09/springcloud6/" data-id="cizihhcrc000fhyuqd6fyex3d" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（六）服务网关">分享到</a>
       
 
       
@@ -1592,7 +1595,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/09/SpringCloud5/" data-id="cizfmkbvi001kvzuqupts9z0j" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（五）分布式配置中心">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/09/SpringCloud5/" data-id="cizihhcs0001khyuqp8qedx1i" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（五）分布式配置中心">分享到</a>
       
 
       
@@ -1667,7 +1670,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四）集群/" data-id="cizfmkbvk001nvzuql25zi99s" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（四）集群">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四）集群/" data-id="cizihhcs2001nhyuqyaimjp81" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（四）集群">分享到</a>
       
 
       
@@ -1716,7 +1719,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/" data-id="cizfmkbvr0024vzuqbqlrbrgg" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（三）断路器">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/" data-id="cizihhcs90024hyuqrs6rs5ku" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（三）断路器">分享到</a>
       
 
       
@@ -1765,7 +1768,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（二）服务消费者/" data-id="cizfmkbvn001wvzuq1ewx6c5f" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（二）服务消费者">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（二）服务消费者/" data-id="cizihhcs7001whyuqk69t2mc2" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（二）服务消费者">分享到</a>
       
 
       
@@ -1814,7 +1817,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（一）服务注册与发现/" data-id="cizfmkbvt002bvzuq0a2f19c5" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（一）服务注册与发现">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（一）服务注册与发现/" data-id="cizihhcsb002bhyuqp0to8pru" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（一）服务注册与发现">分享到</a>
       
 
       
@@ -1948,7 +1951,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/28/Java-NIO-Buffer/" data-id="cizfmkbx2003pvzuqfs68iluk" class="article-share-link" data-share="baidu" data-title="Java NIO Buffer">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/28/Java-NIO-Buffer/" data-id="cizihhcto003phyuq0j6jr9vh" class="article-share-link" data-share="baidu" data-title="Java NIO Buffer">分享到</a>
       
 
       
@@ -2015,7 +2018,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/26/Java-NIO-Channel/" data-id="cizfmkbwy003lvzuqne20ojm5" class="article-share-link" data-share="baidu" data-title="Java NIO Channel">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/26/Java-NIO-Channel/" data-id="cizihhctk003lhyuq3ihzst76" class="article-share-link" data-share="baidu" data-title="Java NIO Channel">分享到</a>
       
 
       
@@ -2096,7 +2099,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/" data-id="cizfmkbwv003hvzuqgepp7ldb" class="article-share-link" data-share="baidu" data-title="Java NIO 概述">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/" data-id="cizihhctg003hhyuq7x9bc4i3" class="article-share-link" data-share="baidu" data-title="Java NIO 概述">分享到</a>
       
 
       
@@ -2150,7 +2153,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/" data-id="cizfmkbwp0038vzuqxxkcfkh5" class="article-share-link" data-share="baidu" data-title="Java NIO 教程">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/" data-id="cizihhct90038hyuqv3k15609" class="article-share-link" data-share="baidu" data-title="Java NIO 教程">分享到</a>
       
 
       
@@ -2225,7 +2228,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/24/JavaReflectionArray/" data-id="cizfmkbwl0034vzuqxphb03j2" class="article-share-link" data-share="baidu" data-title="Java反射之数组">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/24/JavaReflectionArray/" data-id="cizihhct40034hyuq38mofwog" class="article-share-link" data-share="baidu" data-title="Java反射之数组">分享到</a>
       
 
       
@@ -2288,7 +2291,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/21/JavaReflectionGenerics/" data-id="cizfmkbwa002wvzuqv2bubsh6" class="article-share-link" data-share="baidu" data-title="Java反射之泛型">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/21/JavaReflectionGenerics/" data-id="cizihhcsq002whyuqlwy3s8au" class="article-share-link" data-share="baidu" data-title="Java反射之泛型">分享到</a>
       
 
       
@@ -2367,7 +2370,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/18/JavaReflectionAnnotations/" data-id="cizfmkbwn0036vzuqg2wdiqtr" class="article-share-link" data-share="baidu" data-title="Java反射之注解">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/18/JavaReflectionAnnotations/" data-id="cizihhct60036hyuqbguqusju" class="article-share-link" data-share="baidu" data-title="Java反射之注解">分享到</a>
       
 
       
@@ -2427,7 +2430,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/" data-id="cizfmkbw6002rvzuq8jmigbo5" class="article-share-link" data-share="baidu" data-title="Java反射之私有变量和私有方法">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/" data-id="cizihhcsl002rhyuqye7lxmoz" class="article-share-link" data-share="baidu" data-title="Java反射之私有变量和私有方法">分享到</a>
       
 
       
@@ -2492,7 +2495,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/13/JavaReflectionMethods/" data-id="cizfmkbw8002uvzuqhxtptrm0" class="article-share-link" data-share="baidu" data-title="Java反射之方法">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/13/JavaReflectionMethods/" data-id="cizihhcsn002uhyuqlwunexnp" class="article-share-link" data-share="baidu" data-title="Java反射之方法">分享到</a>
       
 
       
@@ -2548,7 +2551,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/12/JavaReflectionFields/" data-id="cizfmkbwd002yvzuqttzsa1jf" class="article-share-link" data-share="baidu" data-title="Java反射之变量">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/12/JavaReflectionFields/" data-id="cizihhcsu002yhyuq6j7ka449" class="article-share-link" data-share="baidu" data-title="Java反射之变量">分享到</a>
       
 
       
@@ -2604,7 +2607,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/11/JavaReflectionConstructors/" data-id="cizfmkbwh0030vzuq244zcsft" class="article-share-link" data-share="baidu" data-title="Java反射之构造函数">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/11/JavaReflectionConstructors/" data-id="cizihhcsy0030hyuqw8qod14m" class="article-share-link" data-share="baidu" data-title="Java反射之构造函数">分享到</a>
       
 
       
@@ -2678,7 +2681,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/09/JavaReflectionClasses/" data-id="cizfmkbwk0032vzuqzjemyc26" class="article-share-link" data-share="baidu" data-title="Java反射之对象">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/09/JavaReflectionClasses/" data-id="cizihhct10032hyuqnif196bs" class="article-share-link" data-share="baidu" data-title="Java反射之对象">分享到</a>
       
 
       
@@ -2757,7 +2760,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/04/03/使用Spring-Boot-Jquery-Datatables实现管理平台的表格/" data-id="cizfmkbum0006vzuq9zru29qv" class="article-share-link" data-share="baidu" data-title="使用Spring Boot Jquery Datatables实现管理平台的表格">分享到</a>
+        <a data-url="http://suqun.github.io/2016/04/03/使用Spring-Boot-Jquery-Datatables实现管理平台的表格/" data-id="cizihhcr50006hyuqydmu40mu" class="article-share-link" data-share="baidu" data-title="使用Spring Boot Jquery Datatables实现管理平台的表格">分享到</a>
       
 
       
@@ -2810,7 +2813,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/02/17/第一个Spring-Boot应用/" data-id="cizfmkbug0003vzuqb5vbw98l" class="article-share-link" data-share="baidu" data-title="第一个Spring Boot应用">分享到</a>
+        <a data-url="http://suqun.github.io/2016/02/17/第一个Spring-Boot应用/" data-id="cizihhcqx0003hyuqhln8fhe5" class="article-share-link" data-share="baidu" data-title="第一个Spring Boot应用">分享到</a>
       
 
       
@@ -2863,7 +2866,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/02/16/Spring-Boot安装/" data-id="cizfmkbvy002gvzuqnkyjx8rg" class="article-share-link" data-share="baidu" data-title="Spring Boot安装">分享到</a>
+        <a data-url="http://suqun.github.io/2016/02/16/Spring-Boot安装/" data-id="cizihhcsf002ghyuq6d26r4wp" class="article-share-link" data-share="baidu" data-title="Spring Boot安装">分享到</a>
       
 
       
@@ -2913,7 +2916,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/30/docker容器的操作/" data-id="cizfmkbuz000rvzuqflves6bh" class="article-share-link" data-share="baidu" data-title="docker容器的操作">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/30/docker容器的操作/" data-id="cizihhcri000rhyuq6f60vdoy" class="article-share-link" data-share="baidu" data-title="docker容器的操作">分享到</a>
       
 
       
@@ -2962,7 +2965,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/13/Shell编程之正则表达式/" data-id="cizfmkbvz002ivzuq3p0vkc1m" class="article-share-link" data-share="baidu" data-title="Shell编程之正则表达式">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/13/Shell编程之正则表达式/" data-id="cizihhcsg002ihyuqkwzgdzll" class="article-share-link" data-share="baidu" data-title="Shell编程之正则表达式">分享到</a>
       
 
       
@@ -3012,7 +3015,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/09/shell编程之运算符/" data-id="cizfmkbuu000jvzuqm7ba38q3" class="article-share-link" data-share="baidu" data-title="shell编程之运算符">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/09/shell编程之运算符/" data-id="cizihhcre000jhyuqu05m43uf" class="article-share-link" data-share="baidu" data-title="shell编程之运算符">分享到</a>
       
 
       
@@ -3078,7 +3081,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/04/Shell编程之变量/" data-id="cizfmkbw2002lvzuqhxv26wkl" class="article-share-link" data-share="baidu" data-title="Shell编程之变量">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/04/Shell编程之变量/" data-id="cizihhcsi002lhyuqpck0ob5j" class="article-share-link" data-share="baidu" data-title="Shell编程之变量">分享到</a>
       
 
       
@@ -3129,7 +3132,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/02/Shell基础/" data-id="cizfmkbw4002ovzuquqsgvibw" class="article-share-link" data-share="baidu" data-title="Shell基础">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/02/Shell基础/" data-id="cizihhcsj002ohyuqewmuly4t" class="article-share-link" data-share="baidu" data-title="Shell基础">分享到</a>
       
 
       
@@ -3182,7 +3185,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/01/What-is-Docker/" data-id="cizfmkbvh001ivzuqq6hgr63c" class="article-share-link" data-share="baidu" data-title="What is Docker?">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/01/What-is-Docker/" data-id="cizihhcry001ihyuqys6midu4" class="article-share-link" data-share="baidu" data-title="What is Docker?">分享到</a>
       
 
       
@@ -3233,7 +3236,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/31/2015/" data-id="cizfmkbxg0048vzuqi18g8zkj" class="article-share-link" data-share="baidu" data-title="2015">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/31/2015/" data-id="cizihhcuc0048hyuqcf4un3ra" class="article-share-link" data-share="baidu" data-title="2015">分享到</a>
       
 
       
@@ -3292,7 +3295,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/30/Why-Docker/" data-id="cizfmkbve001gvzuq3pcvczui" class="article-share-link" data-share="baidu" data-title="Why Docker?">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/30/Why-Docker/" data-id="cizihhcrw001ghyuq56fikj1c" class="article-share-link" data-share="baidu" data-title="Why Docker?">分享到</a>
       
 
       
@@ -3366,7 +3369,7 @@ connect host:port
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/28/zookeeper客户端命令/" data-id="cizfmkbur000dvzuqhzjwsdvx" class="article-share-link" data-share="baidu" data-title="zookeeper客户端命令">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/28/zookeeper客户端命令/" data-id="cizihhcra000dhyuq6x76y069" class="article-share-link" data-share="baidu" data-title="zookeeper客户端命令">分享到</a>
       
 
       
@@ -3424,7 +3427,7 @@ connect host:port
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/28/zookeeper环境搭建/" data-id="cizfmkbuo0008vzuqt5grcxc8" class="article-share-link" data-share="baidu" data-title="zookeeper环境搭建">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/28/zookeeper环境搭建/" data-id="cizihhcr70008hyuq5lt7sg7t" class="article-share-link" data-share="baidu" data-title="zookeeper环境搭建">分享到</a>
       
 
       
