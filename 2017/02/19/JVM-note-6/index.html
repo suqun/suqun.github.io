@@ -33,7 +33,7 @@ Serial收集器
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-serial-1.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parnew.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parnew-1.png">
-<meta property="og:updated_time" content="2017-02-23T14:40:23.000Z">
+<meta property="og:updated_time" content="2017-02-23T14:49:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="垃圾收集器与内存分配策略——垃圾收集器">
 <meta name="twitter:description" content="基于JDK1.7 Update 14之后的HotSpot虚拟机的垃圾收集器。
@@ -127,7 +127,7 @@ Serial收集器
       
       <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Serial_u6536_u96C6_u5668"><span class="toc-number">1.</span> <span class="toc-text">Serial收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ParNew_u6536_u96C6_u5668"><span class="toc-number">2.</span> <span class="toc-text">ParNew收集器</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Serial_u6536_u96C6_u5668"><span class="toc-number">1.</span> <span class="toc-text">Serial收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ParNew_u6536_u96C6_u5668"><span class="toc-number">2.</span> <span class="toc-text">ParNew收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Parallel_Scavenge_u6536_u96C6_u5668"><span class="toc-number">3.</span> <span class="toc-text">Parallel Scavenge收集器</span></a></li></ol>
       </div>
       
 
@@ -162,13 +162,18 @@ Serial收集器
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parnew-1.png" alt="ParNew / Serial Old收集器运行示意图"></p>
 <p>MinorGC示例在JDK1.6下使用ParNew收集器的GC日志：</p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[<span class="constant">GC</span> (<span class="constant">Allocation</span> <span class="constant">Failure</span>) [<span class="constant">ParNew</span><span class="symbol">:</span> <span class="number">7814</span>K-&gt;<span class="number">467</span>K(<span class="number">9216</span>K), <span class="number">0</span>.<span class="number">0056367</span> secs] <span class="number">7814</span>K-&gt;<span class="number">6611</span>K(<span class="number">19456</span>K), <span class="number">0</span>.<span class="number">00565</span>88 secs] [<span class="constant">Times</span><span class="symbol">:</span> user=<span class="number">0</span>.<span class="number">01</span> sys=<span class="number">0</span>.<span class="number">00</span>, real=<span class="number">0</span>.<span class="number">00</span> secs]</span><br><span class="line">        <span class="constant">Heap</span></span><br><span class="line">        par new generation   total <span class="number">9216</span>K, used <span class="number">4700</span>K [<span class="number">0x00000007bec00000</span>, <span class="number">0x00000007bf600000</span>, <span class="number">0x00000007bf600000</span>)</span><br><span class="line">        eden space <span class="number">8192</span>K,  <span class="number">51</span>% used [<span class="number">0x00000007bec00000</span>, <span class="number">0x00000007bf022408</span>, <span class="number">0x00000007bf400000</span>)</span><br><span class="line">        from space <span class="number">1024</span>K,  <span class="number">45</span>% used [<span class="number">0x00000007bf500000</span>, <span class="number">0x00000007bf574ed8</span>, <span class="number">0x00000007bf600000</span>)</span><br><span class="line">        to   space <span class="number">1024</span>K,   <span class="number">0</span>% used [<span class="number">0x00000007bf400000</span>, <span class="number">0x00000007bf400000</span>, <span class="number">0x00000007bf500000</span>)</span><br><span class="line">        tenured generation   total <span class="number">10240</span>K, used <span class="number">6144</span>K [<span class="number">0x00000007bf600000</span>, <span class="number">0x00000007c0000000</span>, <span class="number">0x00000007c0000000</span>)</span><br><span class="line">        the space <span class="number">10240</span>K,  <span class="number">60</span>% used [<span class="number">0x00000007bf600000</span>, <span class="number">0x00000007bfc00030</span>, <span class="number">0x00000007bfc00200</span>, <span class="number">0x00000007c0000000</span>)</span><br><span class="line">        <span class="constant">Metaspace</span>       used <span class="number">2946</span>K, capacity <span class="number">4494</span>K, committed <span class="number">4864</span>K, reserved <span class="number">1056768</span>K</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">space</span>    <span class="title">used</span> 319<span class="title">K</span>, <span class="title">capacity</span> 386<span class="title">K</span>, <span class="title">committed</span> 512<span class="title">K</span>, <span class="title">reserved</span> 1048576<span class="title">K</span></span></span><br></pre></td></tr></table></figure>
-
+<p>后面还会接触几款并行和并发的收集器。在谈垃圾收集的上下文语境下，可以解释如下：</p>
+<ul>
+<li><strong>并行（Parallel）</strong>：指多条垃圾收集线程并行工作，但此时用户线程仍然处于等待状态</li>
+<li><strong>并发（Concurrent）</strong>：指用户线程与垃圾收集线程同时执行（但不一定是并行的，可能会交替执行），用户程序在继续运行，而垃圾收集程序运行在另一个cpu上</li>
+</ul>
+<h2 id="Parallel_Scavenge_u6536_u96C6_u5668"><a href="#Parallel_Scavenge_u6536_u96C6_u5668" class="headerlink" title="Parallel Scavenge收集器"></a>Parallel Scavenge收集器</h2>
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/19/JVM-note-6/" data-id="cizihxr9t003uzguq0mnm97g8" class="article-share-link" data-share="baidu" data-title="垃圾收集器与内存分配策略——垃圾收集器">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/19/JVM-note-6/" data-id="ciziia3hh003uyxuqg7qc27xr" class="article-share-link" data-share="baidu" data-title="垃圾收集器与内存分配策略——垃圾收集器">分享到</a>
       
 
       
