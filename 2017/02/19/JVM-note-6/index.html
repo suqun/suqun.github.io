@@ -39,7 +39,7 @@ Serial收集器
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parallel-old.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-cms.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-cms-1.png">
-<meta property="og:updated_time" content="2017-02-24T07:14:50.000Z">
+<meta property="og:updated_time" content="2017-02-24T07:17:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="垃圾收集器与内存分配策略——垃圾收集器">
 <meta name="twitter:description" content="基于JDK1.7 Update 14之后的HotSpot虚拟机的垃圾收集器。
@@ -133,7 +133,7 @@ Serial收集器
       
       <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Serial_u6536_u96C6_u5668"><span class="toc-number">1.</span> <span class="toc-text">Serial收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ParNew_u6536_u96C6_u5668"><span class="toc-number">2.</span> <span class="toc-text">ParNew收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Parallel_Scavenge_u6536_u96C6_u5668"><span class="toc-number">3.</span> <span class="toc-text">Parallel Scavenge收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Serial_Old_u6536_u96C6_u5668"><span class="toc-number">4.</span> <span class="toc-text">Serial Old收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Parallel_Old_u6536_u96C6_u5668"><span class="toc-number">5.</span> <span class="toc-text">Parallel Old收集器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CMS_u6536_u96C6_u5668"><span class="toc-number">5.1.</span> <span class="toc-text">CMS收集器</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Serial_u6536_u96C6_u5668"><span class="toc-number">1.</span> <span class="toc-text">Serial收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ParNew_u6536_u96C6_u5668"><span class="toc-number">2.</span> <span class="toc-text">ParNew收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Parallel_Scavenge_u6536_u96C6_u5668"><span class="toc-number">3.</span> <span class="toc-text">Parallel Scavenge收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Serial_Old_u6536_u96C6_u5668"><span class="toc-number">4.</span> <span class="toc-text">Serial Old收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Parallel_Old_u6536_u96C6_u5668"><span class="toc-number">5.</span> <span class="toc-text">Parallel Old收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CMS_u6536_u96C6_u5668"><span class="toc-number">6.</span> <span class="toc-text">CMS收集器</span></a></li></ol>
       </div>
       
 
@@ -178,7 +178,7 @@ Serial收集器
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-serial-1.png" alt="Serial / Serial Old收集器运行示意图"></p>
 <h2 id="Parallel_Old_u6536_u96C6_u5668"><a href="#Parallel_Old_u6536_u96C6_u5668" class="headerlink" title="Parallel Old收集器"></a>Parallel Old收集器</h2><p>Parallel Old收集器是Parallel Scavenge收集器的老年代版本，使用多线程和标记-整理算法。</p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parallel-old.png" alt=""></p>
-<h3 id="CMS_u6536_u96C6_u5668"><a href="#CMS_u6536_u96C6_u5668" class="headerlink" title="CMS收集器"></a>CMS收集器</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-cms.png" alt=""></p>
+<h2 id="CMS_u6536_u96C6_u5668"><a href="#CMS_u6536_u96C6_u5668" class="headerlink" title="CMS收集器"></a>CMS收集器</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-cms.png" alt=""></p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-cms-1.png" alt="Concurrent Mark Sweep 收集器运行示意图"></p>
 
 
@@ -186,7 +186,7 @@ Serial收集器
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/19/JVM-note-6/" data-id="cizjhhta5003uimuq2kt016q6" class="article-share-link" data-share="baidu" data-title="垃圾收集器与内存分配策略——垃圾收集器">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/19/JVM-note-6/" data-id="cizjhjc7l003unquqexsuxkur" class="article-share-link" data-share="baidu" data-title="垃圾收集器与内存分配策略——垃圾收集器">分享到</a>
       
 
       

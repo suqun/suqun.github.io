@@ -36,7 +36,7 @@
     <link href="http://suqun.github.io/2017/02/19/JVM-note-6/"/>
     <id>http://suqun.github.io/2017/02/19/JVM-note-6/</id>
     <published>2017-02-19T01:37:38.000Z</published>
-    <updated>2017-02-24T07:14:50.000Z</updated>
+    <updated>2017-02-24T07:17:20.000Z</updated>
     <content type="html"><![CDATA[<p>基于JDK1.7 Update 14之后的HotSpot虚拟机的垃圾收集器。</p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-gc.png" alt=""></p>
 <p>两个收集器之间有连线，说明他们可以搭配使用。收集器所处的区域，则表示他是属于新生代收集器还是老生代收集器。</p>
@@ -78,7 +78,7 @@
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-serial-1.png" alt="Serial / Serial Old收集器运行示意图"></p>
 <h2 id="Parallel_Old_u6536_u96C6_u5668"><a href="#Parallel_Old_u6536_u96C6_u5668" class="headerlink" title="Parallel Old收集器"></a>Parallel Old收集器</h2><p>Parallel Old收集器是Parallel Scavenge收集器的老年代版本，使用多线程和标记-整理算法。</p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parallel-old.png" alt=""></p>
-<h3 id="CMS_u6536_u96C6_u5668"><a href="#CMS_u6536_u96C6_u5668" class="headerlink" title="CMS收集器"></a>CMS收集器</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-cms.png" alt=""></p>
+<h2 id="CMS_u6536_u96C6_u5668"><a href="#CMS_u6536_u96C6_u5668" class="headerlink" title="CMS收集器"></a>CMS收集器</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-cms.png" alt=""></p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-cms-1.png" alt="Concurrent Mark Sweep 收集器运行示意图"></p>
 ]]></content>
     <summary type="html">
