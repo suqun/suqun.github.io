@@ -39,7 +39,7 @@ Serial收集器
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parallel-old.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-cms.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-cms-1.png">
-<meta property="og:updated_time" content="2017-02-24T07:17:20.000Z">
+<meta property="og:updated_time" content="2017-02-25T02:36:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="垃圾收集器与内存分配策略——垃圾收集器">
 <meta name="twitter:description" content="基于JDK1.7 Update 14之后的HotSpot虚拟机的垃圾收集器。
@@ -166,7 +166,15 @@ Serial收集器
 <h2 id="ParNew_u6536_u96C6_u5668"><a href="#ParNew_u6536_u96C6_u5668" class="headerlink" title="ParNew收集器"></a>ParNew收集器</h2><p>ParNew收集器其实就是Serial收集器的多线程版本，使用多条线程进行垃圾收集。</p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parnew.png" alt=""></p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parnew-1.png" alt="ParNew / Serial Old收集器运行示意图"></p>
-<p>MinorGC示例在JDK1.6下使用ParNew收集器的GC日志：</p>
+<p>MinorGC示例使用ParNew收集器的GC日志：</p>
+<p>JDK8虚拟机参数：</p>
+<ul>
+<li>-Xms20M</li>
+<li>-Xmx20M</li>
+<li>-Xmn10M</li>
+<li>-XX:+PrintGCDetails</li>
+<li><strong>-XX:+UseParNewGC</strong></li>
+</ul>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[<span class="constant">GC</span> (<span class="constant">Allocation</span> <span class="constant">Failure</span>) [<span class="constant">ParNew</span><span class="symbol">:</span> <span class="number">7814</span>K-&gt;<span class="number">467</span>K(<span class="number">9216</span>K), <span class="number">0</span>.<span class="number">0056367</span> secs] <span class="number">7814</span>K-&gt;<span class="number">6611</span>K(<span class="number">19456</span>K), <span class="number">0</span>.<span class="number">00565</span>88 secs] [<span class="constant">Times</span><span class="symbol">:</span> user=<span class="number">0</span>.<span class="number">01</span> sys=<span class="number">0</span>.<span class="number">00</span>, real=<span class="number">0</span>.<span class="number">00</span> secs]</span><br><span class="line">        <span class="constant">Heap</span></span><br><span class="line">        par new generation   total <span class="number">9216</span>K, used <span class="number">4700</span>K [<span class="number">0x00000007bec00000</span>, <span class="number">0x00000007bf600000</span>, <span class="number">0x00000007bf600000</span>)</span><br><span class="line">        eden space <span class="number">8192</span>K,  <span class="number">51</span>% used [<span class="number">0x00000007bec00000</span>, <span class="number">0x00000007bf022408</span>, <span class="number">0x00000007bf400000</span>)</span><br><span class="line">        from space <span class="number">1024</span>K,  <span class="number">45</span>% used [<span class="number">0x00000007bf500000</span>, <span class="number">0x00000007bf574ed8</span>, <span class="number">0x00000007bf600000</span>)</span><br><span class="line">        to   space <span class="number">1024</span>K,   <span class="number">0</span>% used [<span class="number">0x00000007bf400000</span>, <span class="number">0x00000007bf400000</span>, <span class="number">0x00000007bf500000</span>)</span><br><span class="line">        tenured generation   total <span class="number">10240</span>K, used <span class="number">6144</span>K [<span class="number">0x00000007bf600000</span>, <span class="number">0x00000007c0000000</span>, <span class="number">0x00000007c0000000</span>)</span><br><span class="line">        the space <span class="number">10240</span>K,  <span class="number">60</span>% used [<span class="number">0x00000007bf600000</span>, <span class="number">0x00000007bfc00030</span>, <span class="number">0x00000007bfc00200</span>, <span class="number">0x00000007c0000000</span>)</span><br><span class="line">        <span class="constant">Metaspace</span>       used <span class="number">2946</span>K, capacity <span class="number">4494</span>K, committed <span class="number">4864</span>K, reserved <span class="number">1056768</span>K</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">space</span>    <span class="title">used</span> 319<span class="title">K</span>, <span class="title">capacity</span> 386<span class="title">K</span>, <span class="title">committed</span> 512<span class="title">K</span>, <span class="title">reserved</span> 1048576<span class="title">K</span></span></span><br></pre></td></tr></table></figure>
 <p>后面还会接触几款并行和并发的收集器。在谈垃圾收集的上下文语境下，可以解释如下：</p>
 <ul>
@@ -178,15 +186,38 @@ Serial收集器
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-serial-1.png" alt="Serial / Serial Old收集器运行示意图"></p>
 <h2 id="Parallel_Old_u6536_u96C6_u5668"><a href="#Parallel_Old_u6536_u96C6_u5668" class="headerlink" title="Parallel Old收集器"></a>Parallel Old收集器</h2><p>Parallel Old收集器是Parallel Scavenge收集器的老年代版本，使用多线程和标记-整理算法。</p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parallel-old.png" alt=""></p>
+<p>MinorGC示例使用Parallel Scavenge + Parallel Old收集器的GC日志：</p>
+<p>JDK8虚拟机参数：</p>
+<ul>
+<li>-Xms20M</li>
+<li>-Xmx20M</li>
+<li>-Xmn10M</li>
+<li>-XX:+PrintGCDetails</li>
+<li><strong>-XX:+UseParallelOldGC</strong></li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="constant">Heap</span></span><br><span class="line">        <span class="constant">PSYoungGen</span>      total <span class="number">9216</span>K, used <span class="number">7979</span>K [<span class="number">0x00000007bf600000</span>, <span class="number">0x00000007c0000000</span>, <span class="number">0x00000007c0000000</span>)</span><br><span class="line">        eden space <span class="number">8192</span>K, <span class="number">97</span>% used [<span class="number">0x00000007bf600000</span>,<span class="number">0x00000007bfdcac90</span>,<span class="number">0x00000007bfe00000</span>)</span><br><span class="line">        from space <span class="number">1024</span>K, <span class="number">0</span>% used [<span class="number">0x00000007bff00000</span>,<span class="number">0x00000007bff00000</span>,<span class="number">0x00000007c0000000</span>)</span><br><span class="line">        to   space <span class="number">1024</span>K, <span class="number">0</span>% used [<span class="number">0x00000007bfe00000</span>,<span class="number">0x00000007bfe00000</span>,<span class="number">0x00000007bff00000</span>)</span><br><span class="line">        <span class="constant">ParOldGen</span>       total <span class="number">10240</span>K, used <span class="number">4096</span>K [<span class="number">0x00000007bec00000</span>, <span class="number">0x00000007bf600000</span>, <span class="number">0x00000007bf600000</span>)</span><br><span class="line">        object space <span class="number">10240</span>K, <span class="number">40</span>% used [<span class="number">0x00000007bec00000</span>,<span class="number">0x00000007bf000010</span>,<span class="number">0x00000007bf600000</span>)</span><br><span class="line">        <span class="constant">Metaspace</span>       used <span class="number">2967</span>K, capacity <span class="number">4494</span>K, committed <span class="number">4864</span>K, reserved <span class="number">1056768</span>K</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">space</span>    <span class="title">used</span> 322<span class="title">K</span>, <span class="title">capacity</span> 386<span class="title">K</span>, <span class="title">committed</span> 512<span class="title">K</span>, <span class="title">reserved</span> 1048576<span class="title">K</span></span></span><br></pre></td></tr></table></figure>
+<p>『ParOldGen       total 10240K, used 4096K』看出allocation4直接被分配到老年代中。</p>
 <h2 id="CMS_u6536_u96C6_u5668"><a href="#CMS_u6536_u96C6_u5668" class="headerlink" title="CMS收集器"></a>CMS收集器</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-cms.png" alt=""></p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-cms-1.png" alt="Concurrent Mark Sweep 收集器运行示意图"></p>
+<p>MinorGC示例使用ParNew + CMS + Serial Old(后备)收集器的GC日志：</p>
+<p>JDK8虚拟机参数：</p>
+<ul>
+<li>-Xms20M</li>
+<li>-Xmx20M</li>
+<li>-Xmn10M</li>
+<li>-XX:+PrintGCDetails</li>
+<li><strong>-XX:+UseConcMarkSweepGC</strong></li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[GC (Allocation Failure) [ParNew: 8144K-&gt;455K(9216K), 0.0054356 secs] 8144K-&gt;6601K(19456K), 0.0054911 secs] [Times: user=0.03 sys=0.00, real=0.00 secs] </span><br><span class="line">[GC (CMS Initial Mark) [1 CMS-initial-mark: 6146K(10240K)] 10697K(19456K), 0.0002332 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[CMS-concurrent-mark-start]</span><br><span class="line">[CMS-concurrent-mark: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[CMS-concurrent-preclean-start]</span><br><span class="line">[CMS-concurrent-preclean: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[CMS-concurrent-abortable-preclean-start]</span><br><span class="line">[CMS-concurrent-abortable-preclean: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[GC (CMS Final Remark) [YG occupancy: 4551 K (9216 K)][Rescan (parallel) , 0.0002916 secs][weak refs processing, 0.0000330 secs][class unloading, 0.0001571 secs][scrub symbol table, 0.0003754 secs][scrub string table, 0.0001245 secs][1 CMS-remark: 6146K(10240K)] 10697K(19456K), 0.0010223 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[CMS-concurrent-sweep-start]</span><br><span class="line">[CMS-concurrent-sweep: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[CMS-concurrent-reset-start]</span><br><span class="line">[CMS-concurrent-reset: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">Heap</span><br><span class="line"> par new generation   total 9216K, used 4634K [0x00000007bec00000, 0x00000007bf600000, 0x00000007bf600000)</span><br><span class="line">  eden space 8192K,  51% used [0x00000007bec00000, 0x00000007bf014930, 0x00000007bf400000)</span><br><span class="line">  from space 1024K,  44% used [0x00000007bf500000, 0x00000007bf571f58, 0x00000007bf600000)</span><br><span class="line">  to   space 1024K,   0% used [0x00000007bf400000, 0x00000007bf400000, 0x00000007bf500000)</span><br><span class="line"> concurrent mark-sweep generation total 10240K, used 6146K [0x00000007bf600000, 0x00000007c0000000, 0x00000007c0000000)</span><br><span class="line"> Metaspace       used 2811K, capacity 4490K, committed 4864K, reserved 1056768K</span><br><span class="line">  class space    used 305K, capacity 386K, committed 512K, reserved 1048576K</span><br></pre></td></tr></table></figure>
+<p>新生代使用的ParNew收集器，allocation4分配时新生代已没有足够的空间分配。Survivior只有1M不能够存放allocation1，2，3三个对象，所以这三个对象会分配到concurrent mark-sweep generation 中。最终allocation4分配到par new generation中。</p>
+<p>从GC日志可以看出老年代GC的步骤：CMS-initial-mark -&gt; CMS-concurrent-mark -&gt; CMS-remark -&gt; CMS-concurrent-sweep -&gt; CMS-concurrent-reset(重置状态等待下一次触发GC)</p>
 
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/19/JVM-note-6/" data-id="cizjhjc7l003unquqexsuxkur" class="article-share-link" data-share="baidu" data-title="垃圾收集器与内存分配策略——垃圾收集器">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/19/JVM-note-6/" data-id="cizkmxs64003uqguq5kfebon4" class="article-share-link" data-share="baidu" data-title="垃圾收集器与内存分配策略——垃圾收集器">分享到</a>
       
 
       
