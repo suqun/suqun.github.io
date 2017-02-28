@@ -4,7 +4,7 @@
   <subtitle><![CDATA[成长路上的点滴记录]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://suqun.github.io/"/>
-  <updated>2017-02-21T09:31:31.000Z</updated>
+  <updated>2017-02-27T01:39:05.000Z</updated>
   <id>http://suqun.github.io/</id>
   
   <author>
@@ -15,14 +15,44 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[一些想法]]></title>
+    <link href="http://suqun.github.io/2017/02/25/thinking-1/"/>
+    <id>http://suqun.github.io/2017/02/25/thinking-1/</id>
+    <published>2017-02-25T14:32:05.000Z</published>
+    <updated>2017-02-27T01:39:05.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="u9700_u6C42"><a href="#u9700_u6C42" class="headerlink" title="需求"></a>需求</h2><p>通过词根词缀记单词，和扇贝单词一样的东西。<br>扇贝里面的词根需要花钱买，扇贝的做法：在记单词的时候，显示该单词的词根词缀进行记忆单词。这里也保留这种方式，并能够提供通过分析记忆词根来记忆多个单词的这种方式（主要功能，优先提供，参考《英语词汇的奥秘》。</p>
+<h2 id="u5927_u6982_u60F3_u8981_u7684_u4E1C_u897F_u63CF_u8FF0"><a href="#u5927_u6982_u60F3_u8981_u7684_u4E1C_u897F_u63CF_u8FF0" class="headerlink" title="大概想要的东西描述"></a>大概想要的东西描述</h2><h3 id="u540E_u7AEF"><a href="#u540E_u7AEF" class="headerlink" title="后端"></a>后端</h3><ol>
+<li>用户管理：登录</li>
+<li>单词管理<br> 用户创建单词书，创建章节，在章节中输入词根内容</li>
+<li>系统设置：设置每天记忆的单词量，每个单词每天记忆过程显示次数（默认5次）</li>
+</ol>
+<h3 id="u524D_u7AEF"><a href="#u524D_u7AEF" class="headerlink" title="前端"></a>前端</h3><ol>
+<li>前端提供网页（开始浏览器，最好APP）记词根及单词<ul>
+<li>根据设置的任务量，随机选出新的单词供记忆</li>
+<li>单词可发音（英语，美语）</li>
+<li>显示单词注释 </li>
+<li>认识/不认识 选择</li>
+<li>记录单词熟悉程度，5个等级，5级以后就不在显示在当天的任务里</li>
+</ul>
+</li>
+</ol>
+<h2 id="u6280_u672F_u6846_u67B6"><a href="#u6280_u672F_u6846_u67B6" class="headerlink" title="技术框架"></a>技术框架</h2><p>前端：nodejs + react + webpack<br>后端：springboot + mysql + Elasticsearch</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="u9700_u6C42"><a href="#u9700_u6C42" class="headerlink" title="需求"></a>需求</h2><p>通过词根词缀记单词，和扇贝单词一样的东西。<br>扇贝里面的词根需要花钱买，扇贝的做法：在记单词的时候，]]>
+    </summary>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[垃圾收集器与内存分配策略——内存分配与回收策略]]></title>
     <link href="http://suqun.github.io/2017/02/21/JVM-note-7/"/>
     <id>http://suqun.github.io/2017/02/21/JVM-note-7/</id>
     <published>2017-02-21T02:31:45.000Z</published>
-    <updated>2017-02-21T09:31:31.000Z</updated>
+    <updated>2017-02-25T02:46:51.000Z</updated>
     <content type="html"><![CDATA[<p>对象的内存分配，往大方向讲，就是在堆上分配（也可能经过JIT编译后被拆散为标量类型并间接的在栈上分配），对象主要分配在新生代的Eden区上，如果启动了本地线程分配缓冲，将按线程优先在TLAB上分配。少数情况下分配在老生代上，分配的规则并不是百分百固定的，其细节取决于当前使用的哪种垃圾收集器组合，还有虚拟机内存相关参数的设置。</p>
-<p>以下都是在Serial/Serial Old收集器下的内存分配和回收策略。</p>
-<h2 id="u5BF9_u8C61_u4F18_u5148_u5728Eden_u533A_u5206_u914D"><a href="#u5BF9_u8C61_u4F18_u5148_u5728Eden_u533A_u5206_u914D" class="headerlink" title="对象优先在Eden区分配"></a>对象优先在Eden区分配</h2>]]></content>
+<h2 id="u5BF9_u8C61_u4F18_u5148_u5728Eden_u533A_u5206_u914D"><a href="#u5BF9_u8C61_u4F18_u5148_u5728Eden_u533A_u5206_u914D" class="headerlink" title="对象优先在Eden区分配"></a>对象优先在Eden区分配</h2><p>上一篇垃圾收集器的GC示例已经把各个收集器的内存分配测试做了一遍，可以回顾上篇内容。</p>
+<h2 id="u5927_u5BF9_u8C61_u76F4_u63A5_u8FDB_u5165_u8001_u5E74_u4EE3"><a href="#u5927_u5BF9_u8C61_u76F4_u63A5_u8FDB_u5165_u8001_u5E74_u4EE3" class="headerlink" title="大对象直接进入老年代"></a>大对象直接进入老年代</h2><h2 id="u957F_u671F_u5B58_u6D3B_u7684_u5BF9_u8C61_u5C06_u8FDB_u5165_u8001_u5E74_u4EE3"><a href="#u957F_u671F_u5B58_u6D3B_u7684_u5BF9_u8C61_u5C06_u8FDB_u5165_u8001_u5E74_u4EE3" class="headerlink" title="长期存活的对象将进入老年代"></a>长期存活的对象将进入老年代</h2><h2 id="u52A8_u6001_u5BF9_u8C61_u5E74_u9F84_u5224_u5B9A"><a href="#u52A8_u6001_u5BF9_u8C61_u5E74_u9F84_u5224_u5B9A" class="headerlink" title="动态对象年龄判定"></a>动态对象年龄判定</h2><h2 id="u7A7A_u95F4_u5206_u914D_u62C5_u4FDD"><a href="#u7A7A_u95F4_u5206_u914D_u62C5_u4FDD" class="headerlink" title="空间分配担保"></a>空间分配担保</h2>]]></content>
     <summary type="html">
     <![CDATA[<p>对象的内存分配，往大方向讲，就是在堆上分配（也可能经过JIT编译后被拆散为标量类型并间接的在栈上分配），对象主要分配在新生代的Eden区上，如果启动了本地线程分配缓冲，将按线程优先在TLAB上分配。少数情况下分配在老生代上，分配的规则并不是百分百固定的，其细节取决于当前使用]]>
     </summary>
@@ -36,7 +66,7 @@
     <link href="http://suqun.github.io/2017/02/19/JVM-note-6/"/>
     <id>http://suqun.github.io/2017/02/19/JVM-note-6/</id>
     <published>2017-02-19T01:37:38.000Z</published>
-    <updated>2017-02-25T02:36:06.000Z</updated>
+    <updated>2017-02-25T14:21:45.000Z</updated>
     <content type="html"><![CDATA[<p>基于JDK1.7 Update 14之后的HotSpot虚拟机的垃圾收集器。</p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-gc.png" alt=""></p>
 <p>两个收集器之间有连线，说明他们可以搭配使用。收集器所处的区域，则表示他是属于新生代收集器还是老生代收集器。</p>
@@ -109,9 +139,9 @@
 <li><strong>-XX:+UseConcMarkSweepGC</strong></li>
 </ul>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[GC (Allocation Failure) [ParNew: 8144K-&gt;455K(9216K), 0.0054356 secs] 8144K-&gt;6601K(19456K), 0.0054911 secs] [Times: user=0.03 sys=0.00, real=0.00 secs] </span><br><span class="line">[GC (CMS Initial Mark) [1 CMS-initial-mark: 6146K(10240K)] 10697K(19456K), 0.0002332 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[CMS-concurrent-mark-start]</span><br><span class="line">[CMS-concurrent-mark: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[CMS-concurrent-preclean-start]</span><br><span class="line">[CMS-concurrent-preclean: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[CMS-concurrent-abortable-preclean-start]</span><br><span class="line">[CMS-concurrent-abortable-preclean: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[GC (CMS Final Remark) [YG occupancy: 4551 K (9216 K)][Rescan (parallel) , 0.0002916 secs][weak refs processing, 0.0000330 secs][class unloading, 0.0001571 secs][scrub symbol table, 0.0003754 secs][scrub string table, 0.0001245 secs][1 CMS-remark: 6146K(10240K)] 10697K(19456K), 0.0010223 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[CMS-concurrent-sweep-start]</span><br><span class="line">[CMS-concurrent-sweep: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[CMS-concurrent-reset-start]</span><br><span class="line">[CMS-concurrent-reset: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">Heap</span><br><span class="line"> par new generation   total 9216K, used 4634K [0x00000007bec00000, 0x00000007bf600000, 0x00000007bf600000)</span><br><span class="line">  eden space 8192K,  51% used [0x00000007bec00000, 0x00000007bf014930, 0x00000007bf400000)</span><br><span class="line">  from space 1024K,  44% used [0x00000007bf500000, 0x00000007bf571f58, 0x00000007bf600000)</span><br><span class="line">  to   space 1024K,   0% used [0x00000007bf400000, 0x00000007bf400000, 0x00000007bf500000)</span><br><span class="line"> concurrent mark-sweep generation total 10240K, used 6146K [0x00000007bf600000, 0x00000007c0000000, 0x00000007c0000000)</span><br><span class="line"> Metaspace       used 2811K, capacity 4490K, committed 4864K, reserved 1056768K</span><br><span class="line">  class space    used 305K, capacity 386K, committed 512K, reserved 1048576K</span><br></pre></td></tr></table></figure>
-<p>新生代使用的ParNew收集器，allocation4分配时新生代已没有足够的空间分配。Survivior只有1M不能够存放allocation1，2，3三个对象，所以这三个对象会分配到concurrent mark-sweep generation 中。最终allocation4分配到par new generation中。</p>
+<p>新生代使用的ParNew收集器，allocation4分配时新生代已没有足够的空间分配。Survivior只有1M不能够存放allocation1，2，3三个对象，所以这三个对象会复制到concurrent mark-sweep generation 中。最终allocation4分配到par new generation中。</p>
 <p>从GC日志可以看出老年代GC的步骤：CMS-initial-mark -&gt; CMS-concurrent-mark -&gt; CMS-remark -&gt; CMS-concurrent-sweep -&gt; CMS-concurrent-reset(重置状态等待下一次触发GC)</p>
-]]></content>
+<h2 id="G1_u6536_u96C6_u5668"><a href="#G1_u6536_u96C6_u5668" class="headerlink" title="G1收集器"></a>G1收集器</h2><h2 id="u5783_u573E_u6536_u96C6_u5668_u53C2_u6570_u603B_u7ED3"><a href="#u5783_u573E_u6536_u96C6_u5668_u53C2_u6570_u603B_u7ED3" class="headerlink" title="垃圾收集器参数总结"></a>垃圾收集器参数总结</h2>]]></content>
     <summary type="html">
     <![CDATA[<p>基于JDK1.7 Update 14之后的HotSpot虚拟机的垃圾收集器。</p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-gc.png" alt=""></p>
@@ -244,8 +274,9 @@
     <link href="http://suqun.github.io/2016/12/25/JVM-note-1/"/>
     <id>http://suqun.github.io/2016/12/25/JVM-note-1/</id>
     <published>2016-12-25T06:56:19.000Z</published>
-    <updated>2017-02-18T13:13:18.000Z</updated>
-    <content type="html"><![CDATA[<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com//jvm-runtime-illustration.png" alt="Java虚拟机运行时数据区"></p>
+    <updated>2017-02-25T02:49:17.000Z</updated>
+    <content type="html"><![CDATA[<p>该系列学习笔记均来自《深入理解Java虚拟机》一书。</p>
+<h3 id="u6982_u8FF0"><a href="#u6982_u8FF0" class="headerlink" title="概述"></a>概述</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com//jvm-runtime-illustration.png" alt="Java虚拟机运行时数据区"></p>
 <h3 id="u7A0B_u5E8F_u8BA1_u6570_u5668"><a href="#u7A0B_u5E8F_u8BA1_u6570_u5668" class="headerlink" title="程序计数器"></a>程序计数器</h3><p>程序计数器（Program Counter Register）是一块较小的内存空间，可以看作是线程所执行的字节码的行号指示器。在虚拟机的概念模型里，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。</p>
 <p>由于Java虚拟机的多线程是通过线程轮流切换并分配处理器执行时间的方式来实现的，<strong>在任何一个确定的时刻，一个处理器（多核处理器的一个内核）都只会执行一条线程的指令。因此为了线程切换后能恢复到正确的执行位置，每条线程都需要一个独立的程序计数器，各条线程之间计数器互不影响，独立存储</strong>。我们称这类内存区域为『线程私有』的内存。</p>
 <p>如果线程正在执行一个Java方法，这个计数器记录的就是正在执行的虚拟机字节码指令的地址；如果执行的是一个Native方法，这个计数器值为空（Undefined）。</p>
@@ -279,8 +310,8 @@
 <p>显然，本机直接内存的分配不会受到Java堆大小的限制，但是，既然是内存，肯定还是受到本机总内存（包括RAM以及SWAP区或者分页文件）大小以及处理器寻址空间的限制。服务器管理员在配置虚拟机参数时，会根据实际内存设置-Xmx等参数信息，但是<strong>经常忽略直接内存，使得各个内存区域总和大于物理内存限制（包括物理的和操作系统的限制），从而导致OutOfMemoryError异常</strong>。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com//jvm-runtime-illustration.png" alt="Java虚拟机运行时数据区"></p>
-<h3 id="u7A0B_u5E8F_u8BA1_u6570_u]]>
+    <![CDATA[<p>该系列学习笔记均来自《深入理解Java虚拟机》一书。</p>
+<h3 id="u6982_u8FF0"><a href="#u6982_u8FF0" class="headerlink" title="概述"></a>概述</h3><p><img src="http://7]]>
     </summary>
     
       <category term="JVM" scheme="http://suqun.github.io/tags/JVM/"/>
@@ -899,25 +930,6 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
       <category term="Event-Sourcing" scheme="http://suqun.github.io/tags/Event-Sourcing/"/>
     
       <category term="Spring Boot" scheme="http://suqun.github.io/tags/Spring-Boot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Spring Cloud构建微服务架构（六）服务网关]]></title>
-    <link href="http://suqun.github.io/2016/08/09/springcloud6/"/>
-    <id>http://suqun.github.io/2016/08/09/springcloud6/</id>
-    <published>2016-08-09T07:47:33.000Z</published>
-    <updated>2016-10-24T15:31:50.000Z</updated>
-    <content type="html"><![CDATA[<p>原文 : <a href="http://blog.didispace.com/springcloud5/" target="_blank" rel="external">Spring Cloud构建微服务架构（五）服务网关</a></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>原文 : <a href="http://blog.didispace.com/springcloud5/" target="_blank" rel="external">Spring Cloud构建微服务架构（五）服务网关</a></p>
-]]>
-    </summary>
-    
-      <category term="Spring Boot" scheme="http://suqun.github.io/tags/Spring-Boot/"/>
-    
-      <category term="Spring Cloud" scheme="http://suqun.github.io/tags/Spring-Cloud/"/>
     
   </entry>
   

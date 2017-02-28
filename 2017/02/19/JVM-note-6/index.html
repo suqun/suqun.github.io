@@ -39,7 +39,7 @@ Serial收集器
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parallel-old.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-cms.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-cms-1.png">
-<meta property="og:updated_time" content="2017-02-25T02:36:06.000Z">
+<meta property="og:updated_time" content="2017-02-25T14:21:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="垃圾收集器与内存分配策略——垃圾收集器">
 <meta name="twitter:description" content="基于JDK1.7 Update 14之后的HotSpot虚拟机的垃圾收集器。
@@ -133,7 +133,7 @@ Serial收集器
       
       <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Serial_u6536_u96C6_u5668"><span class="toc-number">1.</span> <span class="toc-text">Serial收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ParNew_u6536_u96C6_u5668"><span class="toc-number">2.</span> <span class="toc-text">ParNew收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Parallel_Scavenge_u6536_u96C6_u5668"><span class="toc-number">3.</span> <span class="toc-text">Parallel Scavenge收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Serial_Old_u6536_u96C6_u5668"><span class="toc-number">4.</span> <span class="toc-text">Serial Old收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Parallel_Old_u6536_u96C6_u5668"><span class="toc-number">5.</span> <span class="toc-text">Parallel Old收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CMS_u6536_u96C6_u5668"><span class="toc-number">6.</span> <span class="toc-text">CMS收集器</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Serial_u6536_u96C6_u5668"><span class="toc-number">1.</span> <span class="toc-text">Serial收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ParNew_u6536_u96C6_u5668"><span class="toc-number">2.</span> <span class="toc-text">ParNew收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Parallel_Scavenge_u6536_u96C6_u5668"><span class="toc-number">3.</span> <span class="toc-text">Parallel Scavenge收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Serial_Old_u6536_u96C6_u5668"><span class="toc-number">4.</span> <span class="toc-text">Serial Old收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Parallel_Old_u6536_u96C6_u5668"><span class="toc-number">5.</span> <span class="toc-text">Parallel Old收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CMS_u6536_u96C6_u5668"><span class="toc-number">6.</span> <span class="toc-text">CMS收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#G1_u6536_u96C6_u5668"><span class="toc-number">7.</span> <span class="toc-text">G1收集器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5783_u573E_u6536_u96C6_u5668_u53C2_u6570_u603B_u7ED3"><span class="toc-number">8.</span> <span class="toc-text">垃圾收集器参数总结</span></a></li></ol>
       </div>
       
 
@@ -209,15 +209,15 @@ Serial收集器
 <li><strong>-XX:+UseConcMarkSweepGC</strong></li>
 </ul>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[GC (Allocation Failure) [ParNew: 8144K-&gt;455K(9216K), 0.0054356 secs] 8144K-&gt;6601K(19456K), 0.0054911 secs] [Times: user=0.03 sys=0.00, real=0.00 secs] </span><br><span class="line">[GC (CMS Initial Mark) [1 CMS-initial-mark: 6146K(10240K)] 10697K(19456K), 0.0002332 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[CMS-concurrent-mark-start]</span><br><span class="line">[CMS-concurrent-mark: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[CMS-concurrent-preclean-start]</span><br><span class="line">[CMS-concurrent-preclean: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[CMS-concurrent-abortable-preclean-start]</span><br><span class="line">[CMS-concurrent-abortable-preclean: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[GC (CMS Final Remark) [YG occupancy: 4551 K (9216 K)][Rescan (parallel) , 0.0002916 secs][weak refs processing, 0.0000330 secs][class unloading, 0.0001571 secs][scrub symbol table, 0.0003754 secs][scrub string table, 0.0001245 secs][1 CMS-remark: 6146K(10240K)] 10697K(19456K), 0.0010223 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[CMS-concurrent-sweep-start]</span><br><span class="line">[CMS-concurrent-sweep: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[CMS-concurrent-reset-start]</span><br><span class="line">[CMS-concurrent-reset: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">Heap</span><br><span class="line"> par new generation   total 9216K, used 4634K [0x00000007bec00000, 0x00000007bf600000, 0x00000007bf600000)</span><br><span class="line">  eden space 8192K,  51% used [0x00000007bec00000, 0x00000007bf014930, 0x00000007bf400000)</span><br><span class="line">  from space 1024K,  44% used [0x00000007bf500000, 0x00000007bf571f58, 0x00000007bf600000)</span><br><span class="line">  to   space 1024K,   0% used [0x00000007bf400000, 0x00000007bf400000, 0x00000007bf500000)</span><br><span class="line"> concurrent mark-sweep generation total 10240K, used 6146K [0x00000007bf600000, 0x00000007c0000000, 0x00000007c0000000)</span><br><span class="line"> Metaspace       used 2811K, capacity 4490K, committed 4864K, reserved 1056768K</span><br><span class="line">  class space    used 305K, capacity 386K, committed 512K, reserved 1048576K</span><br></pre></td></tr></table></figure>
-<p>新生代使用的ParNew收集器，allocation4分配时新生代已没有足够的空间分配。Survivior只有1M不能够存放allocation1，2，3三个对象，所以这三个对象会分配到concurrent mark-sweep generation 中。最终allocation4分配到par new generation中。</p>
+<p>新生代使用的ParNew收集器，allocation4分配时新生代已没有足够的空间分配。Survivior只有1M不能够存放allocation1，2，3三个对象，所以这三个对象会复制到concurrent mark-sweep generation 中。最终allocation4分配到par new generation中。</p>
 <p>从GC日志可以看出老年代GC的步骤：CMS-initial-mark -&gt; CMS-concurrent-mark -&gt; CMS-remark -&gt; CMS-concurrent-sweep -&gt; CMS-concurrent-reset(重置状态等待下一次触发GC)</p>
-
+<h2 id="G1_u6536_u96C6_u5668"><a href="#G1_u6536_u96C6_u5668" class="headerlink" title="G1收集器"></a>G1收集器</h2><h2 id="u5783_u573E_u6536_u96C6_u5668_u53C2_u6570_u603B_u7ED3"><a href="#u5783_u573E_u6536_u96C6_u5668_u53C2_u6570_u603B_u7ED3" class="headerlink" title="垃圾收集器参数总结"></a>垃圾收集器参数总结</h2>
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/19/JVM-note-6/" data-id="cizkmxs64003uqguq5kfebon4" class="article-share-link" data-share="baidu" data-title="垃圾收集器与内存分配策略——垃圾收集器">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/19/JVM-note-6/" data-id="cizp9gt0y003v99uqxhvs9q4p" class="article-share-link" data-share="baidu" data-title="垃圾收集器与内存分配策略——垃圾收集器">分享到</a>
       
 
       
@@ -285,7 +285,7 @@ Serial收集器
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -295,6 +295,10 @@ Serial收集器
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/02/25/thinking-1/">一些想法</a>
+          </li>
         
           <li>
             <a href="/2017/02/21/JVM-note-7/">垃圾收集器与内存分配策略——内存分配与回收策略</a>
@@ -310,10 +314,6 @@ Serial收集器
         
           <li>
             <a href="/2017/02/18/JVM-note-4/">JVM笔记四：垃圾收集器与内存分配策略——对象</a>
-          </li>
-        
-          <li>
-            <a href="/2017/02/16/JVM-note-3/">JVM笔记三：Java内存区域与内存溢出异常——OutOfMemoryError异常</a>
           </li>
         
       </ul>

@@ -7,18 +7,18 @@
   <title>垃圾收集器与内存分配策略——内存分配与回收策略 | 入耳箸心</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="对象的内存分配，往大方向讲，就是在堆上分配（也可能经过JIT编译后被拆散为标量类型并间接的在栈上分配），对象主要分配在新生代的Eden区上，如果启动了本地线程分配缓冲，将按线程优先在TLAB上分配。少数情况下分配在老生代上，分配的规则并不是百分百固定的，其细节取决于当前使用的哪种垃圾收集器组合，还有虚拟机内存相关参数的设置。
-以下都是在Serial/Serial Old收集器下的内存分配和回收策略">
+对象优先在Eden区分配上一篇垃圾收集器的GC示例已经把各个收集器的内存">
 <meta property="og:type" content="article">
 <meta property="og:title" content="垃圾收集器与内存分配策略——内存分配与回收策略">
 <meta property="og:url" content="http://suqun.github.io/2017/02/21/JVM-note-7/index.html">
 <meta property="og:site_name" content="入耳箸心">
 <meta property="og:description" content="对象的内存分配，往大方向讲，就是在堆上分配（也可能经过JIT编译后被拆散为标量类型并间接的在栈上分配），对象主要分配在新生代的Eden区上，如果启动了本地线程分配缓冲，将按线程优先在TLAB上分配。少数情况下分配在老生代上，分配的规则并不是百分百固定的，其细节取决于当前使用的哪种垃圾收集器组合，还有虚拟机内存相关参数的设置。
-以下都是在Serial/Serial Old收集器下的内存分配和回收策略">
-<meta property="og:updated_time" content="2017-02-21T09:31:31.000Z">
+对象优先在Eden区分配上一篇垃圾收集器的GC示例已经把各个收集器的内存">
+<meta property="og:updated_time" content="2017-02-25T02:46:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="垃圾收集器与内存分配策略——内存分配与回收策略">
 <meta name="twitter:description" content="对象的内存分配，往大方向讲，就是在堆上分配（也可能经过JIT编译后被拆散为标量类型并间接的在栈上分配），对象主要分配在新生代的Eden区上，如果启动了本地线程分配缓冲，将按线程优先在TLAB上分配。少数情况下分配在老生代上，分配的规则并不是百分百固定的，其细节取决于当前使用的哪种垃圾收集器组合，还有虚拟机内存相关参数的设置。
-以下都是在Serial/Serial Old收集器下的内存分配和回收策略">
+对象优先在Eden区分配上一篇垃圾收集器的GC示例已经把各个收集器的内存">
   
     <link rel="alternative" href="/atom.xml" title="入耳箸心" type="application/atom+xml">
   
@@ -101,19 +101,19 @@
       
       <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u5BF9_u8C61_u4F18_u5148_u5728Eden_u533A_u5206_u914D"><span class="toc-number">1.</span> <span class="toc-text">对象优先在Eden区分配</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u5BF9_u8C61_u4F18_u5148_u5728Eden_u533A_u5206_u914D"><span class="toc-number">1.</span> <span class="toc-text">对象优先在Eden区分配</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5927_u5BF9_u8C61_u76F4_u63A5_u8FDB_u5165_u8001_u5E74_u4EE3"><span class="toc-number">2.</span> <span class="toc-text">大对象直接进入老年代</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u957F_u671F_u5B58_u6D3B_u7684_u5BF9_u8C61_u5C06_u8FDB_u5165_u8001_u5E74_u4EE3"><span class="toc-number">3.</span> <span class="toc-text">长期存活的对象将进入老年代</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u52A8_u6001_u5BF9_u8C61_u5E74_u9F84_u5224_u5B9A"><span class="toc-number">4.</span> <span class="toc-text">动态对象年龄判定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u7A7A_u95F4_u5206_u914D_u62C5_u4FDD"><span class="toc-number">5.</span> <span class="toc-text">空间分配担保</span></a></li></ol>
       </div>
       
 
       <p>对象的内存分配，往大方向讲，就是在堆上分配（也可能经过JIT编译后被拆散为标量类型并间接的在栈上分配），对象主要分配在新生代的Eden区上，如果启动了本地线程分配缓冲，将按线程优先在TLAB上分配。少数情况下分配在老生代上，分配的规则并不是百分百固定的，其细节取决于当前使用的哪种垃圾收集器组合，还有虚拟机内存相关参数的设置。</p>
-<p>以下都是在Serial/Serial Old收集器下的内存分配和回收策略。</p>
-<h2 id="u5BF9_u8C61_u4F18_u5148_u5728Eden_u533A_u5206_u914D"><a href="#u5BF9_u8C61_u4F18_u5148_u5728Eden_u533A_u5206_u914D" class="headerlink" title="对象优先在Eden区分配"></a>对象优先在Eden区分配</h2>
+<h2 id="u5BF9_u8C61_u4F18_u5148_u5728Eden_u533A_u5206_u914D"><a href="#u5BF9_u8C61_u4F18_u5148_u5728Eden_u533A_u5206_u914D" class="headerlink" title="对象优先在Eden区分配"></a>对象优先在Eden区分配</h2><p>上一篇垃圾收集器的GC示例已经把各个收集器的内存分配测试做了一遍，可以回顾上篇内容。</p>
+<h2 id="u5927_u5BF9_u8C61_u76F4_u63A5_u8FDB_u5165_u8001_u5E74_u4EE3"><a href="#u5927_u5BF9_u8C61_u76F4_u63A5_u8FDB_u5165_u8001_u5E74_u4EE3" class="headerlink" title="大对象直接进入老年代"></a>大对象直接进入老年代</h2><h2 id="u957F_u671F_u5B58_u6D3B_u7684_u5BF9_u8C61_u5C06_u8FDB_u5165_u8001_u5E74_u4EE3"><a href="#u957F_u671F_u5B58_u6D3B_u7684_u5BF9_u8C61_u5C06_u8FDB_u5165_u8001_u5E74_u4EE3" class="headerlink" title="长期存活的对象将进入老年代"></a>长期存活的对象将进入老年代</h2><h2 id="u52A8_u6001_u5BF9_u8C61_u5E74_u9F84_u5224_u5B9A"><a href="#u52A8_u6001_u5BF9_u8C61_u5E74_u9F84_u5224_u5B9A" class="headerlink" title="动态对象年龄判定"></a>动态对象年龄判定</h2><h2 id="u7A7A_u95F4_u5206_u914D_u62C5_u4FDD"><a href="#u7A7A_u95F4_u5206_u914D_u62C5_u4FDD" class="headerlink" title="空间分配担保"></a>空间分配担保</h2>
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/21/JVM-note-7/" data-id="cizkmxs63003rqguqr1gdubcy" class="article-share-link" data-share="baidu" data-title="垃圾收集器与内存分配策略——内存分配与回收策略">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/21/JVM-note-7/" data-id="cizp9gt0p003s99uqhnvg9wya" class="article-share-link" data-share="baidu" data-title="垃圾收集器与内存分配策略——内存分配与回收策略">分享到</a>
       
 
       
@@ -128,6 +128,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2017/02/25/thinking-1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          一些想法
+        
+      </div>
+    </a>
   
   
     <a href="/2017/02/19/JVM-note-6/" id="article-nav-older" class="article-nav-link-wrap">
@@ -172,7 +181,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -182,6 +191,10 @@
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/02/25/thinking-1/">一些想法</a>
+          </li>
         
           <li>
             <a href="/2017/02/21/JVM-note-7/">垃圾收集器与内存分配策略——内存分配与回收策略</a>
@@ -197,10 +210,6 @@
         
           <li>
             <a href="/2017/02/18/JVM-note-4/">JVM笔记四：垃圾收集器与内存分配策略——对象</a>
-          </li>
-        
-          <li>
-            <a href="/2017/02/16/JVM-note-3/">JVM笔记三：Java内存区域与内存溢出异常——OutOfMemoryError异常</a>
           </li>
         
       </ul>
