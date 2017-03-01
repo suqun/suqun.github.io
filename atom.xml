@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title><![CDATA[入耳箸心]]></title>
-  <subtitle><![CDATA[成长路上的点滴记录]]></subtitle>
+  <title><![CDATA[Hexo]]></title>
+  
   <link href="/atom.xml" rel="self"/>
   <link href="http://suqun.github.io/"/>
   <updated>2017-02-27T01:39:05.000Z</updated>
   <id>http://suqun.github.io/</id>
   
   <author>
-    <name><![CDATA[Larry]]></name>
+    <name><![CDATA[John Doe]]></name>
     
   </author>
   
