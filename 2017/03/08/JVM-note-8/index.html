@@ -4,18 +4,84 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Spring Cloud构建微服务架构（三）断路器 | 入耳箸心</title>
+  <title>虚拟机性能监控与故障处理工具 | 入耳箸心</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="原文 : Spring Cloud构建微服务架构（三）断路器">
+  <meta name="description" content="Sun JDK监控和故障处理工具
+
+
+名称
+主要作用
+
+
+
+
+jps
+JVM Process Status Tool，显示指定系统内所有HotSpot虚拟机进程
+
+
+jstat
+JVM Statistics Monitoring Tool，用于收集HotSpot虚拟机各方面的运行数据
+
+
+jinfo
+Configuration Info for Java，显示虚拟机配置信息
+
+
+jmap
+Memo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring Cloud构建微服务架构（三）断路器">
-<meta property="og:url" content="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/index.html">
+<meta property="og:title" content="虚拟机性能监控与故障处理工具">
+<meta property="og:url" content="http://suqun.github.io/2017/03/08/JVM-note-8/index.html">
 <meta property="og:site_name" content="入耳箸心">
-<meta property="og:description" content="原文 : Spring Cloud构建微服务架构（三）断路器">
-<meta property="og:updated_time" content="2016-10-24T15:29:33.000Z">
+<meta property="og:description" content="Sun JDK监控和故障处理工具
+
+
+名称
+主要作用
+
+
+
+
+jps
+JVM Process Status Tool，显示指定系统内所有HotSpot虚拟机进程
+
+
+jstat
+JVM Statistics Monitoring Tool，用于收集HotSpot虚拟机各方面的运行数据
+
+
+jinfo
+Configuration Info for Java，显示虚拟机配置信息
+
+
+jmap
+Memo">
+<meta property="og:updated_time" content="2017-03-08T14:31:03.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring Cloud构建微服务架构（三）断路器">
-<meta name="twitter:description" content="原文 : Spring Cloud构建微服务架构（三）断路器">
+<meta name="twitter:title" content="虚拟机性能监控与故障处理工具">
+<meta name="twitter:description" content="Sun JDK监控和故障处理工具
+
+
+名称
+主要作用
+
+
+
+
+jps
+JVM Process Status Tool，显示指定系统内所有HotSpot虚拟机进程
+
+
+jstat
+JVM Statistics Monitoring Tool，用于收集HotSpot虚拟机各方面的运行数据
+
+
+jinfo
+Configuration Info for Java，显示虚拟机配置信息
+
+
+jmap
+Memo">
   
     <link rel="alternative" href="/atom.xml" title="入耳箸心" type="application/atom+xml">
   
@@ -72,10 +138,10 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main"><article id="post-Spring-Cloud构建微服务架构（三）断路器" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-JVM-note-8" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/" class="article-date">
-  <time datetime="2016-08-05T02:02:21.000Z" itemprop="datePublished">2016-08-05</time>
+    <a href="/2017/03/08/JVM-note-8/" class="article-date">
+  <time datetime="2017-03-08T14:14:36.000Z" itemprop="datePublished">2017-03-08</time>
 </a>
     
   </div>
@@ -86,7 +152,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Spring Cloud构建微服务架构（三）断路器
+      虚拟机性能监控与故障处理工具
     </h1>
   
 
@@ -98,26 +164,59 @@
       
       <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Sun_JDK_u76D1_u63A7_u548C_u6545_u969C_u5904_u7406_u5DE5_u5177"><span class="toc-number">1.</span> <span class="toc-text">Sun JDK监控和故障处理工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#jps_3A_u865A_u62DF_u673A_u7EBF_u7A0B_u72B6_u51B5_u5DE5_u5177"><span class="toc-number">1.1.</span> <span class="toc-text">jps:虚拟机线程状况工具</span></a></li></ol></li></ol>
       </div>
       
 
-      <p>原文 : <a href="http://blog.didispace.com/springcloud3/" target="_blank" rel="external">Spring Cloud构建微服务架构（三）断路器</a></p>
-
+      <h2 id="Sun_JDK_u76D1_u63A7_u548C_u6545_u969C_u5904_u7406_u5DE5_u5177"><a href="#Sun_JDK_u76D1_u63A7_u548C_u6545_u969C_u5904_u7406_u5DE5_u5177" class="headerlink" title="Sun JDK监控和故障处理工具"></a>Sun JDK监控和故障处理工具</h2><table>
+<thead>
+<tr>
+<th>名称</th>
+<th style="text-align:center">主要作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>jps</td>
+<td style="text-align:center">JVM Process Status Tool，显示指定系统内所有HotSpot虚拟机进程</td>
+</tr>
+<tr>
+<td>jstat</td>
+<td style="text-align:center">JVM Statistics Monitoring Tool，用于收集HotSpot虚拟机各方面的运行数据</td>
+</tr>
+<tr>
+<td>jinfo</td>
+<td style="text-align:center">Configuration Info for Java，显示虚拟机配置信息</td>
+</tr>
+<tr>
+<td>jmap</td>
+<td style="text-align:center">Memory Map for Java,生成虚拟机的内存转出快照(heapdump)文件</td>
+</tr>
+<tr>
+<td>jhat</td>
+<td style="text-align:center">JVM Heap Dump Browser,用于分析heapdump文件，它会建立一个HTTP/HTML服务器，让用户在浏览器上查看分析结果</td>
+</tr>
+<tr>
+<td>jstack</td>
+<td style="text-align:center">Stack Trace for Java,显示虚拟机的线程快照</td>
+</tr>
+</tbody>
+</table>
+<h3 id="jps_3A_u865A_u62DF_u673A_u7EBF_u7A0B_u72B6_u51B5_u5DE5_u5177"><a href="#jps_3A_u865A_u62DF_u673A_u7EBF_u7A0B_u72B6_u51B5_u5DE5_u5177" class="headerlink" title="jps:虚拟机线程状况工具"></a>jps:虚拟机线程状况工具</h3>
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/" data-id="cj013j8xu002576uq9ie0cm3b" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（三）断路器">分享到</a>
+        <a data-url="http://suqun.github.io/2017/03/08/JVM-note-8/" data-id="cj013j8z5003s76uq2g4jx9ju" class="article-share-link" data-share="baidu" data-title="虚拟机性能监控与故障处理工具">分享到</a>
       
 
       
-        <a href="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/#ds-thread" class="article-comment-link">评论</a>
+        <a href="http://suqun.github.io/2017/03/08/JVM-note-8/#ds-thread" class="article-comment-link">评论</a>
       
 
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Eureka/">Eureka</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hystrix/">Hystrix</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Netflix/">Netflix</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring-Cloud/">Spring Cloud</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/">JVM</a></li></ul>
 
     </footer>
   </div>
@@ -125,19 +224,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/08/05/Spring-Cloud构建微服务架构（四）集群/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">
-        
-          Spring Cloud构建微服务架构（四）集群
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/08/05/Spring-Cloud构建微服务架构（二）服务消费者/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/02/25/thinking-1/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">Spring Cloud构建微服务架构（二）服务消费者</div>
+      <div class="article-nav-title">一些想法</div>
     </a>
   
 </nav>
@@ -147,7 +237,7 @@
 
 
   <section id="comments">
-    <div id="ds-thread" class="ds-thread" data-thread-key="2016/08/05/Spring-Cloud构建微服务架构（三）断路器/" data-title="Spring Cloud构建微服务架构（三）断路器" data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/"></div>
+    <div id="ds-thread" class="ds-thread" data-thread-key="2017/03/08/JVM-note-8/" data-title="虚拟机性能监控与故障处理工具" data-url="http://suqun.github.io/2017/03/08/JVM-note-8/"></div>
   </section>
 </section>
       
