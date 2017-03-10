@@ -4,7 +4,7 @@
   <subtitle><![CDATA[成长路上的点滴记录]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://suqun.github.io/"/>
-  <updated>2017-03-10T08:05:48.000Z</updated>
+  <updated>2017-03-10T08:33:54.000Z</updated>
   <id>http://suqun.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://suqun.github.io/2017/03/08/JVM-note-8/"/>
     <id>http://suqun.github.io/2017/03/08/JVM-note-8/</id>
     <published>2017-03-08T14:14:36.000Z</published>
-    <updated>2017-03-10T08:05:48.000Z</updated>
+    <updated>2017-03-10T08:33:54.000Z</updated>
     <content type="html"><![CDATA[<h2 id="Sun_JDK_u76D1_u63A7_u548C_u6545_u969C_u5904_u7406_u5DE5_u5177"><a href="#Sun_JDK_u76D1_u63A7_u548C_u6545_u969C_u5904_u7406_u5DE5_u5177" class="headerlink" title="Sun JDK监控和故障处理工具"></a>Sun JDK监控和故障处理工具</h2><table>
 <thead>
 <tr>
@@ -56,8 +56,145 @@
 </table>
 <h3 id="jps_3A_u865A_u62DF_u673A_u7EBF_u7A0B_u72B6_u51B5_u5DE5_u5177"><a href="#jps_3A_u865A_u62DF_u673A_u7EBF_u7A0B_u72B6_u51B5_u5DE5_u5177" class="headerlink" title="jps:虚拟机线程状况工具"></a>jps:虚拟机线程状况工具</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-jps.png" alt=""></p>
 <h3 id="jstat_3A_u865A_u62DF_u673A_u7EDF_u8BA1_u4FE1_u606F_u76D1_u89C6_u5DE5_u5177"><a href="#jstat_3A_u865A_u62DF_u673A_u7EDF_u8BA1_u4FE1_u606F_u76D1_u89C6_u5DE5_u5177" class="headerlink" title="jstat:虚拟机统计信息监视工具"></a>jstat:虚拟机统计信息监视工具</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-jstat.png" alt=""></p>
-<p>🌰</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ jstat -gc <span class="number">51710</span> <span class="number">250</span> <span class="number">5</span></span><br><span class="line"> S0C    S1C    S0U    S1U      EC       EU        OC         OU       MC     MU    CCSC   CCSU   YGC     YGCT    FGC    FGCT     GCT</span><br><span class="line"><span class="number">24576.0</span> <span class="number">46592.0</span> <span class="number">24077.9</span>  <span class="number">0.0</span>   <span class="number">773632.0</span> <span class="number">109440.9</span>  <span class="number">139776.0</span>   <span class="number">50009.5</span>   <span class="number">34560.0</span> <span class="number">33710.1</span> <span class="number">4096.0</span> <span class="number">3911.8</span>     <span class="number">10</span>    <span class="number">0.191</span>   <span class="number">1</span>      <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"><span class="number">24576.0</span> <span class="number">46592.0</span> <span class="number">24077.9</span>  <span class="number">0.0</span>   <span class="number">773632.0</span> <span class="number">109440.9</span>  <span class="number">139776.0</span>   <span class="number">50009.5</span>   <span class="number">34560.0</span> <span class="number">33710.1</span> <span class="number">4096.0</span> <span class="number">3911.8</span>     <span class="number">10</span>    <span class="number">0.191</span>   <span class="number">1</span>      <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"><span class="number">24576.0</span> <span class="number">46592.0</span> <span class="number">24077.9</span>  <span class="number">0.0</span>   <span class="number">773632.0</span> <span class="number">109440.9</span>  <span class="number">139776.0</span>   <span class="number">50009.5</span>   <span class="number">34560.0</span> <span class="number">33710.1</span> <span class="number">4096.0</span> <span class="number">3911.8</span>     <span class="number">10</span>    <span class="number">0.191</span>   <span class="number">1</span>      <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"><span class="number">24576.0</span> <span class="number">46592.0</span> <span class="number">24077.9</span>  <span class="number">0.0</span>   <span class="number">773632.0</span> <span class="number">109440.9</span>  <span class="number">139776.0</span>   <span class="number">50009.5</span>   <span class="number">34560.0</span> <span class="number">33710.1</span> <span class="number">4096.0</span> <span class="number">3911.8</span>     <span class="number">10</span>    <span class="number">0.191</span>   <span class="number">1</span>      <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"><span class="number">24576.0</span> <span class="number">46592.0</span> <span class="number">24077.9</span>  <span class="number">0.0</span>   <span class="number">773632.0</span> <span class="number">109440.9</span>  <span class="number">139776.0</span>   <span class="number">50009.5</span>   <span class="number">34560.0</span> <span class="number">33710.1</span> <span class="number">4096.0</span> <span class="number">3911.8</span>     <span class="number">10</span>    <span class="number">0.191</span>   <span class="number">1</span>      <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line">➜  ~ jstat -gcutil <span class="number">51710</span> <span class="number">250</span> <span class="number">5</span></span><br><span class="line">  S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT</span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">14.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">14.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">14.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">14.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">14.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span></span><br></pre></td></tr></table></figure>
+<p>🌰 查看线程51710线程垃圾收集情况：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ jstat -gc <span class="number">51710</span> <span class="number">250</span> <span class="number">5</span></span><br><span class="line"> S0C    S1C    S0U    S1U      EC       EU        OC         OU       MC     MU    CCSC   CCSU   YGC     YGCT    FGC    FGCT     GCT</span><br><span class="line"><span class="number">24576.0</span> <span class="number">46592.0</span> <span class="number">24077.9</span>  <span class="number">0.0</span>   <span class="number">773632.0</span> <span class="number">109440.9</span>  <span class="number">139776.0</span>   <span class="number">50009.5</span>   <span class="number">34560.0</span> <span class="number">33710.1</span> <span class="number">4096.0</span> <span class="number">3911.8</span>     <span class="number">10</span>    <span class="number">0.191</span>   <span class="number">1</span>      <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"><span class="number">24576.0</span> <span class="number">46592.0</span> <span class="number">24077.9</span>  <span class="number">0.0</span>   <span class="number">773632.0</span> <span class="number">109440.9</span>  <span class="number">139776.0</span>   <span class="number">50009.5</span>   <span class="number">34560.0</span> <span class="number">33710.1</span> <span class="number">4096.0</span> <span class="number">3911.8</span>     <span class="number">10</span>    <span class="number">0.191</span>   <span class="number">1</span>      <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"><span class="number">24576.0</span> <span class="number">46592.0</span> <span class="number">24077.9</span>  <span class="number">0.0</span>   <span class="number">773632.0</span> <span class="number">109440.9</span>  <span class="number">139776.0</span>   <span class="number">50009.5</span>   <span class="number">34560.0</span> <span class="number">33710.1</span> <span class="number">4096.0</span> <span class="number">3911.8</span>     <span class="number">10</span>    <span class="number">0.191</span>   <span class="number">1</span>      <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"><span class="number">24576.0</span> <span class="number">46592.0</span> <span class="number">24077.9</span>  <span class="number">0.0</span>   <span class="number">773632.0</span> <span class="number">109440.9</span>  <span class="number">139776.0</span>   <span class="number">50009.5</span>   <span class="number">34560.0</span> <span class="number">33710.1</span> <span class="number">4096.0</span> <span class="number">3911.8</span>     <span class="number">10</span>    <span class="number">0.191</span>   <span class="number">1</span>      <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"><span class="number">24576.0</span> <span class="number">46592.0</span> <span class="number">24077.9</span>  <span class="number">0.0</span>   <span class="number">773632.0</span> <span class="number">109440.9</span>  <span class="number">139776.0</span>   <span class="number">50009.5</span>   <span class="number">34560.0</span> <span class="number">33710.1</span> <span class="number">4096.0</span> <span class="number">3911.8</span>     <span class="number">10</span>    <span class="number">0.191</span>   <span class="number">1</span>      <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line">➜  ~ jstat -gcutil <span class="number">51710</span> <span class="number">250</span> <span class="number">5</span></span><br><span class="line">  S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT</span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">14.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">14.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">14.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">14.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">14.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line">➜  ~ jstat -gccause <span class="number">51710</span> <span class="number">250</span> <span class="number">5</span></span><br><span class="line">  S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT    LGCC                 GCC</span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">15.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span> Allocation Failure   No GC</span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">15.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span> Allocation Failure   No GC</span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">15.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span> Allocation Failure   No GC</span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">15.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span> Allocation Failure   No GC</span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">15.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span> Allocation Failure   No GC</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>列</th>
+<th>说明</th>
+<th>jstat参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S0C</td>
+<td>输出Survivor0空间的大小,单位KB</td>
+<td>-gc<br>-gccapacity<br>-gcnew<br>-gcnewcapacity</td>
+</tr>
+<tr>
+<td>S1C</td>
+<td>输出Survivor1空间的大小。单位KB。</td>
+<td>-gc<br> -gccapacity <br>-gcnew <br>-gcnewcapacity</td>
+</tr>
+<tr>
+<td>S0U</td>
+<td>输出Survivor0已用空间的大小。单位KB。</td>
+<td>-gc<br> -gcnew</td>
+</tr>
+<tr>
+<td>S1U</td>
+<td>输出Survivor1已用空间的大小。单位KB。</td>
+<td>-gc<br>-gcnew</td>
+</tr>
+<tr>
+<td>EC</td>
+<td>输出Eden空间的大小。单位KB。</td>
+<td>-gc<br> -gccapacity <br>-gcnew <br>-gcnewcapacity</td>
+</tr>
+<tr>
+<td>EU</td>
+<td>输出Eden已用空间的大小。单位KB。</td>
+<td>-gc<br> -gcnew</td>
+</tr>
+<tr>
+<td>OC</td>
+<td>输出老年代空间的大小。单位KB。</td>
+<td>-gc <br>-gccapacity <br>-gcold <br>-gcoldcapacity</td>
+</tr>
+<tr>
+<td>OU</td>
+<td>输出老年代已用空间的大小。单位KB。</td>
+<td>-gc <br>-gcold</td>
+</tr>
+<tr>
+<td>PC</td>
+<td>输出持久代空间的大小。单位KB。</td>
+<td>-gc <br>-gccapacity <br>-gcold <br>-gcoldcapacity <br>-gcpermcapacity</td>
+</tr>
+<tr>
+<td>PU</td>
+<td>输出持久代已用空间的大小。单位KB。</td>
+<td>-gc <br>-gcold</td>
+</tr>
+<tr>
+<td>YGC</td>
+<td>新生代空间GC时间发生的次数</td>
+<td>-gc <br>-gccapacity <br>-gcnew <br>-gcnewcapacity <br>-gcold <br>-gcoldcapacity <br>-gcpermcapacity <br>-gcutil <br>-gccause</td>
+</tr>
+<tr>
+<td>YGCT</td>
+<td>新生代GC处理花费的时间。</td>
+<td><br>-gc <br>-gcnew <br>-gcutil <br>-gccause</td>
+</tr>
+<tr>
+<td>FGC</td>
+<td>full GC发生的次数。</td>
+<td>-gc <br>-gccapacity <br>-gcnew <br>-gcnewcapacity <br>-gcold <br>-gcoldcapacity <br>-gcpermcapacity <br>-gcutil <br>-gccause</td>
+</tr>
+<tr>
+<td>FGCT</td>
+<td>full GC操作花费的时间</td>
+<td>-gc <br>-gcold <br>-gcoldcapacity <br>-gcpermcapacity <br>-gcutil <br>-gccause</td>
+</tr>
+<tr>
+<td>GCT</td>
+<td>GC操作花费的总时间。</td>
+<td>-gc <br>-gcold <br>-gcoldcapacity <br>-gcpermcapacity <br>-gcutil <br>-gccause</td>
+</tr>
+<tr>
+<td>NGCMN</td>
+<td>新生代最小空间容量，单位KB</td>
+<td>-gccapacity <br>-gcnewcapacity</td>
+</tr>
+<tr>
+<td>NGCMX</td>
+<td>新生代最大空间容量，单位KB</td>
+<td>-gccapacity <br>-gcnewcapacity</td>
+</tr>
+<tr>
+<td>NGC</td>
+<td>新生代当前空间容量，单位KB</td>
+<td>-gccapacity <br>-gcnewcapacity</td>
+</tr>
+<tr>
+<td>OGCMN</td>
+<td>老年代最小空间容量，单位KB</td>
+<td>-gccapacity <br>-gcoldcapacity</td>
+</tr>
+<tr>
+<td>OGCMX</td>
+<td>老年代最大空间容量，单位KB</td>
+<td>-gccapacity <br>-gcoldcapacity</td>
+</tr>
+<tr>
+<td>OGC</td>
+<td>老年代当前空间容量制，单位KB</td>
+<td>-gccapacity <br>-gcoldcapacity</td>
+</tr>
+<tr>
+<td>PGCMN</td>
+<td>持久代最小空间容量，单位KB</td>
+<td>-gccapacity <br>-gcpermcapacity</td>
+</tr>
+<tr>
+<td>PGCMX</td>
+<td>持久代最大空间容量，单位KB</td>
+<td>-gccapacity <br>-gcpermcapacity</td>
+</tr>
+<tr>
+<td>PGC</td>
+<td>持久代当前空间容量，单位KB</td>
+<td>-gccapacity <br>-gcpermcapacity</td>
+</tr>
+<tr>
+<td>PC</td>
+<td>持久代当前空间大小，单位KB</td>
+<td>-gccapacity<br>-gcpermcapacity</td>
+</tr>
+</tbody>
+</table>
+<p>PU  持久代当前已用空间大小，单位KB|    -gc<br>-gcold|<br>|LGCC    |最后一次GC发生的原因 |-gccause|<br>|GCC |当前GC发生的原因|   -gccause|<br>|TT  |老年化阈值。被移动到老年代之前，在新生代空存活的次数。 |-gcnew|<br>|MTT |最大老年化阈值。被移动到老年代之前，在新生代空存活的次数。|   -gcnew|<br>|DSS |幸存者区所需空间大小，单位KB|    -gcnew|</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<h2 id="Sun_JDK_u76D1_u63A7_u548C_u6545_u969C_u5904_u7406_u5DE5_u5177"><a href="#Sun_JDK_u76D1_u63A7_u548C_u6545_u969C_u5904_u7406_u5DE5_u51]]>
