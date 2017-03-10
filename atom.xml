@@ -4,7 +4,7 @@
   <subtitle><![CDATA[成长路上的点滴记录]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://suqun.github.io/"/>
-  <updated>2017-03-10T08:33:54.000Z</updated>
+  <updated>2017-03-10T08:35:45.000Z</updated>
   <id>http://suqun.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://suqun.github.io/2017/03/08/JVM-note-8/"/>
     <id>http://suqun.github.io/2017/03/08/JVM-note-8/</id>
     <published>2017-03-08T14:14:36.000Z</published>
-    <updated>2017-03-10T08:33:54.000Z</updated>
+    <updated>2017-03-10T08:35:45.000Z</updated>
     <content type="html"><![CDATA[<h2 id="Sun_JDK_u76D1_u63A7_u548C_u6545_u969C_u5904_u7406_u5DE5_u5177"><a href="#Sun_JDK_u76D1_u63A7_u548C_u6545_u969C_u5904_u7406_u5DE5_u5177" class="headerlink" title="Sun JDK监控和故障处理工具"></a>Sun JDK监控和故障处理工具</h2><table>
 <thead>
 <tr>
@@ -192,9 +192,38 @@
 <td>持久代当前空间大小，单位KB</td>
 <td>-gccapacity<br>-gcpermcapacity</td>
 </tr>
+<tr>
+<td>PU</td>
+<td>持久代当前已用空间大小，单位KB</td>
+<td>-gc<br>-gcold</td>
+</tr>
+<tr>
+<td>LGCC</td>
+<td>最后一次GC发生的原因</td>
+<td>-gccause</td>
+</tr>
+<tr>
+<td>GCC</td>
+<td>当前GC发生的原因</td>
+<td>-gccause</td>
+</tr>
+<tr>
+<td>TT</td>
+<td>老年化阈值。被移动到老年代之前，在新生代空存活的次数。</td>
+<td>-gcnew</td>
+</tr>
+<tr>
+<td>MTT</td>
+<td>最大老年化阈值。被移动到老年代之前，在新生代空存活的次数。</td>
+<td>-gcnew</td>
+</tr>
+<tr>
+<td>DSS</td>
+<td>幸存者区所需空间大小，单位KB</td>
+<td>-gcnew</td>
+</tr>
 </tbody>
 </table>
-<p>PU  持久代当前已用空间大小，单位KB|    -gc<br>-gcold|<br>|LGCC    |最后一次GC发生的原因 |-gccause|<br>|GCC |当前GC发生的原因|   -gccause|<br>|TT  |老年化阈值。被移动到老年代之前，在新生代空存活的次数。 |-gcnew|<br>|MTT |最大老年化阈值。被移动到老年代之前，在新生代空存活的次数。|   -gcnew|<br>|DSS |幸存者区所需空间大小，单位KB|    -gcnew|</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<h2 id="Sun_JDK_u76D1_u63A7_u548C_u6545_u969C_u5904_u7406_u5DE5_u5177"><a href="#Sun_JDK_u76D1_u63A7_u548C_u6545_u969C_u5904_u7406_u5DE5_u51]]>
