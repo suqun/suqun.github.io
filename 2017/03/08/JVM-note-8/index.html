@@ -4,9 +4,10 @@
 <head>
   <meta charset="utf-8">
   
-  <title>虚拟机性能监控与故障处理工具 | 入耳箸心</title>
+  <title>JVM笔记八：Sun JDK监控和故障处理工具 | 入耳箸心</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Sun JDK监控和故障处理工具
+  <meta name="description" content="Sun JDK监控和故障处理工具:
+
 
 
 名称
@@ -28,12 +29,13 @@ Configuration Info for Java，显示虚拟机配置信息
 
 
 jmap
-Memo">
+Me">
 <meta property="og:type" content="article">
-<meta property="og:title" content="虚拟机性能监控与故障处理工具">
+<meta property="og:title" content="JVM笔记八：Sun JDK监控和故障处理工具">
 <meta property="og:url" content="http://suqun.github.io/2017/03/08/JVM-note-8/index.html">
 <meta property="og:site_name" content="入耳箸心">
-<meta property="og:description" content="Sun JDK监控和故障处理工具
+<meta property="og:description" content="Sun JDK监控和故障处理工具:
+
 
 
 名称
@@ -55,13 +57,16 @@ Configuration Info for Java，显示虚拟机配置信息
 
 
 jmap
-Memo">
-<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-jps.png">
+Me">
+<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-jps-1.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-jstat.png">
-<meta property="og:updated_time" content="2017-03-10T08:35:45.000Z">
+<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-jinfo-1.png">
+<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-jmap.png">
+<meta property="og:updated_time" content="2017-03-13T07:37:22.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="虚拟机性能监控与故障处理工具">
-<meta name="twitter:description" content="Sun JDK监控和故障处理工具
+<meta name="twitter:title" content="JVM笔记八：Sun JDK监控和故障处理工具">
+<meta name="twitter:description" content="Sun JDK监控和故障处理工具:
+
 
 
 名称
@@ -83,7 +88,7 @@ Configuration Info for Java，显示虚拟机配置信息
 
 
 jmap
-Memo">
+Me">
   
     <link rel="alternative" href="/atom.xml" title="入耳箸心" type="application/atom+xml">
   
@@ -154,7 +159,7 @@ Memo">
         
   
     <h1 class="article-title" itemprop="name">
-      虚拟机性能监控与故障处理工具
+      JVM笔记八：Sun JDK监控和故障处理工具
     </h1>
   
 
@@ -166,11 +171,12 @@ Memo">
       
       <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Sun_JDK_u76D1_u63A7_u548C_u6545_u969C_u5904_u7406_u5DE5_u5177"><span class="toc-number">1.</span> <span class="toc-text">Sun JDK监控和故障处理工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#jps_3A_u865A_u62DF_u673A_u7EBF_u7A0B_u72B6_u51B5_u5DE5_u5177"><span class="toc-number">1.1.</span> <span class="toc-text">jps:虚拟机线程状况工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jstat_3A_u865A_u62DF_u673A_u7EDF_u8BA1_u4FE1_u606F_u76D1_u89C6_u5DE5_u5177"><span class="toc-number">1.2.</span> <span class="toc-text">jstat:虚拟机统计信息监视工具</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#jps_3A_u865A_u62DF_u673A_u7EBF_u7A0B_u72B6_u51B5_u5DE5_u5177"><span class="toc-number">1.</span> <span class="toc-text">jps:虚拟机线程状况工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jstat_3A_u865A_u62DF_u673A_u7EDF_u8BA1_u4FE1_u606F_u76D1_u89C6_u5DE5_u5177"><span class="toc-number">2.</span> <span class="toc-text">jstat:虚拟机统计信息监视工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jinfo_uFF1AJava_u914D_u7F6E_u4FE1_u606F_u5DE5_u5177"><span class="toc-number">3.</span> <span class="toc-text">jinfo：Java配置信息工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jmap_uFF1AJava_u5185_u5B58_u6620_u50CF_u5DE5_u5177"><span class="toc-number">4.</span> <span class="toc-text">jmap：Java内存映像工具</span></a></li></ol>
       </div>
       
 
-      <h2 id="Sun_JDK_u76D1_u63A7_u548C_u6545_u969C_u5904_u7406_u5DE5_u5177"><a href="#Sun_JDK_u76D1_u63A7_u548C_u6545_u969C_u5904_u7406_u5DE5_u5177" class="headerlink" title="Sun JDK监控和故障处理工具"></a>Sun JDK监控和故障处理工具</h2><table>
+      <p>Sun JDK监控和故障处理工具:</p>
+<table>
 <thead>
 <tr>
 <th>名称</th>
@@ -204,8 +210,8 @@ Memo">
 </tr>
 </tbody>
 </table>
-<h3 id="jps_3A_u865A_u62DF_u673A_u7EBF_u7A0B_u72B6_u51B5_u5DE5_u5177"><a href="#jps_3A_u865A_u62DF_u673A_u7EBF_u7A0B_u72B6_u51B5_u5DE5_u5177" class="headerlink" title="jps:虚拟机线程状况工具"></a>jps:虚拟机线程状况工具</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-jps.png" alt=""></p>
-<h3 id="jstat_3A_u865A_u62DF_u673A_u7EDF_u8BA1_u4FE1_u606F_u76D1_u89C6_u5DE5_u5177"><a href="#jstat_3A_u865A_u62DF_u673A_u7EDF_u8BA1_u4FE1_u606F_u76D1_u89C6_u5DE5_u5177" class="headerlink" title="jstat:虚拟机统计信息监视工具"></a>jstat:虚拟机统计信息监视工具</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-jstat.png" alt=""></p>
+<h2 id="jps_3A_u865A_u62DF_u673A_u7EBF_u7A0B_u72B6_u51B5_u5DE5_u5177"><a href="#jps_3A_u865A_u62DF_u673A_u7EBF_u7A0B_u72B6_u51B5_u5DE5_u5177" class="headerlink" title="jps:虚拟机线程状况工具"></a>jps:虚拟机线程状况工具</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-jps-1.png" alt=""></p>
+<h2 id="jstat_3A_u865A_u62DF_u673A_u7EDF_u8BA1_u4FE1_u606F_u76D1_u89C6_u5DE5_u5177"><a href="#jstat_3A_u865A_u62DF_u673A_u7EDF_u8BA1_u4FE1_u606F_u76D1_u89C6_u5DE5_u5177" class="headerlink" title="jstat:虚拟机统计信息监视工具"></a>jstat:虚拟机统计信息监视工具</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-jstat.png" alt=""></p>
 <p>🌰 查看线程51710线程垃圾收集情况：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ jstat -gc <span class="number">51710</span> <span class="number">250</span> <span class="number">5</span></span><br><span class="line"> S0C    S1C    S0U    S1U      EC       EU        OC         OU       MC     MU    CCSC   CCSU   YGC     YGCT    FGC    FGCT     GCT</span><br><span class="line"><span class="number">24576.0</span> <span class="number">46592.0</span> <span class="number">24077.9</span>  <span class="number">0.0</span>   <span class="number">773632.0</span> <span class="number">109440.9</span>  <span class="number">139776.0</span>   <span class="number">50009.5</span>   <span class="number">34560.0</span> <span class="number">33710.1</span> <span class="number">4096.0</span> <span class="number">3911.8</span>     <span class="number">10</span>    <span class="number">0.191</span>   <span class="number">1</span>      <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"><span class="number">24576.0</span> <span class="number">46592.0</span> <span class="number">24077.9</span>  <span class="number">0.0</span>   <span class="number">773632.0</span> <span class="number">109440.9</span>  <span class="number">139776.0</span>   <span class="number">50009.5</span>   <span class="number">34560.0</span> <span class="number">33710.1</span> <span class="number">4096.0</span> <span class="number">3911.8</span>     <span class="number">10</span>    <span class="number">0.191</span>   <span class="number">1</span>      <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"><span class="number">24576.0</span> <span class="number">46592.0</span> <span class="number">24077.9</span>  <span class="number">0.0</span>   <span class="number">773632.0</span> <span class="number">109440.9</span>  <span class="number">139776.0</span>   <span class="number">50009.5</span>   <span class="number">34560.0</span> <span class="number">33710.1</span> <span class="number">4096.0</span> <span class="number">3911.8</span>     <span class="number">10</span>    <span class="number">0.191</span>   <span class="number">1</span>      <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"><span class="number">24576.0</span> <span class="number">46592.0</span> <span class="number">24077.9</span>  <span class="number">0.0</span>   <span class="number">773632.0</span> <span class="number">109440.9</span>  <span class="number">139776.0</span>   <span class="number">50009.5</span>   <span class="number">34560.0</span> <span class="number">33710.1</span> <span class="number">4096.0</span> <span class="number">3911.8</span>     <span class="number">10</span>    <span class="number">0.191</span>   <span class="number">1</span>      <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"><span class="number">24576.0</span> <span class="number">46592.0</span> <span class="number">24077.9</span>  <span class="number">0.0</span>   <span class="number">773632.0</span> <span class="number">109440.9</span>  <span class="number">139776.0</span>   <span class="number">50009.5</span>   <span class="number">34560.0</span> <span class="number">33710.1</span> <span class="number">4096.0</span> <span class="number">3911.8</span>     <span class="number">10</span>    <span class="number">0.191</span>   <span class="number">1</span>      <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line">➜  ~ jstat -gcutil <span class="number">51710</span> <span class="number">250</span> <span class="number">5</span></span><br><span class="line">  S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT</span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">14.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">14.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">14.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">14.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">14.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line">➜  ~ jstat -gccause <span class="number">51710</span> <span class="number">250</span> <span class="number">5</span></span><br><span class="line">  S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT    LGCC                 GCC</span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">15.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span> Allocation Failure   No GC</span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">15.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span> Allocation Failure   No GC</span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">15.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span> Allocation Failure   No GC</span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">15.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span> Allocation Failure   No GC</span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">15.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span> Allocation Failure   No GC</span><br></pre></td></tr></table></figure>
 <table>
@@ -224,17 +230,17 @@ Memo">
 </tr>
 <tr>
 <td>S1C</td>
-<td>输出Survivor1空间的大小。单位KB。</td>
+<td>输出Survivor1空间的大小。单位KB</td>
 <td>-gc<br> -gccapacity <br>-gcnew <br>-gcnewcapacity</td>
 </tr>
 <tr>
 <td>S0U</td>
-<td>输出Survivor0已用空间的大小。单位KB。</td>
+<td>输出Survivor0已用空间的大小。单位KB</td>
 <td>-gc<br> -gcnew</td>
 </tr>
 <tr>
 <td>S1U</td>
-<td>输出Survivor1已用空间的大小。单位KB。</td>
+<td>输出Survivor1已用空间的大小。单位KB</td>
 <td>-gc<br>-gcnew</td>
 </tr>
 <tr>
@@ -244,27 +250,27 @@ Memo">
 </tr>
 <tr>
 <td>EU</td>
-<td>输出Eden已用空间的大小。单位KB。</td>
+<td>输出Eden已用空间的大小。单位KB</td>
 <td>-gc<br> -gcnew</td>
 </tr>
 <tr>
 <td>OC</td>
-<td>输出老年代空间的大小。单位KB。</td>
+<td>输出老年代空间的大小。单位KB</td>
 <td>-gc <br>-gccapacity <br>-gcold <br>-gcoldcapacity</td>
 </tr>
 <tr>
 <td>OU</td>
-<td>输出老年代已用空间的大小。单位KB。</td>
+<td>输出老年代已用空间的大小。单位KB</td>
 <td>-gc <br>-gcold</td>
 </tr>
 <tr>
 <td>PC</td>
-<td>输出持久代空间的大小。单位KB。</td>
+<td>输出持久代空间的大小。单位KB</td>
 <td>-gc <br>-gccapacity <br>-gcold <br>-gcoldcapacity <br>-gcpermcapacity</td>
 </tr>
 <tr>
 <td>PU</td>
-<td>输出持久代已用空间的大小。单位KB。</td>
+<td>输出持久代已用空间的大小。单位KB</td>
 <td>-gc <br>-gcold</td>
 </tr>
 <tr>
@@ -374,13 +380,17 @@ Memo">
 </tr>
 </tbody>
 </table>
+<h2 id="jinfo_uFF1AJava_u914D_u7F6E_u4FE1_u606F_u5DE5_u5177"><a href="#jinfo_uFF1AJava_u914D_u7F6E_u4FE1_u606F_u5DE5_u5177" class="headerlink" title="jinfo：Java配置信息工具"></a>jinfo：Java配置信息工具</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-jinfo-1.png" alt="jinfo"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ jinfo -flag CICompilerCount  <span class="number">51710</span></span><br><span class="line">-XX:CICompilerCount=<span class="number">4</span></span><br><span class="line"></span><br><span class="line">➜  ~ jinfo -sysprops <span class="number">51710</span></span><br><span class="line">Attaching to process ID <span class="number">51710</span>, please wait...</span><br><span class="line">Debugger attached successfully.</span><br><span class="line">Server compiler detected.</span><br><span class="line">JVM version is <span class="number">25.65</span>-b01</span><br><span class="line">java.vendor = Oracle CorporationUnnamed_LJS-<span class="number">2</span></span><br><span class="line">sun.management.compiler = HotSpot <span class="number">64</span>-Bit Tiered Compilers</span><br><span class="line">catalina.useNaming = <span class="literal">true</span></span><br><span class="line">os.name = Mac OS X</span><br><span class="line">...</span><br><span class="line">java.vm.name = Java HotSpot(TM) <span class="number">64</span>-Bit Server VM</span><br><span class="line">file.encoding = US-ASCII</span><br><span class="line">java.specification.version = <span class="number">1.8</span></span><br></pre></td></tr></table></figure>
+<h2 id="jmap_uFF1AJava_u5185_u5B58_u6620_u50CF_u5DE5_u5177"><a href="#jmap_uFF1AJava_u5185_u5B58_u6620_u50CF_u5DE5_u5177" class="headerlink" title="jmap：Java内存映像工具"></a>jmap：Java内存映像工具</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-jmap.png" alt=""></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ jmap -heap <span class="number">51710</span></span><br><span class="line">Attaching to process ID <span class="number">51710</span>, please wait...</span><br><span class="line">Debugger attached successfully.</span><br><span class="line">Server compiler detected.</span><br><span class="line">JVM version is <span class="number">25.65</span>-b01</span><br><span class="line"></span><br><span class="line">using thread-local object allocation.</span><br><span class="line">Parallel GC with <span class="number">8</span> thread(s)</span><br><span class="line"></span><br><span class="line">Heap Configuration:</span><br><span class="line">   M<span class="keyword">in</span>HeapFreeRatio         = <span class="number">0</span></span><br><span class="line">   MaxHeapFreeRatio         = <span class="number">100</span></span><br><span class="line">   MaxHeapSize              = <span class="number">4294967296</span> (<span class="number">4096.0</span>MB)</span><br><span class="line">   NewSize                  = <span class="number">89128960</span> (<span class="number">85.0</span>MB)</span><br><span class="line">   MaxNewSize               = <span class="number">1431306240</span> (<span class="number">1365.0</span>MB)</span><br><span class="line">   OldSize                  = <span class="number">179306496</span> (<span class="number">171.0</span>MB)</span><br><span class="line">   NewRatio                 = <span class="number">2</span></span><br><span class="line">   SurvivorRatio            = <span class="number">8</span></span><br><span class="line">   MetaspaceSize            = <span class="number">21807104</span> (<span class="number">20.796875</span>MB)</span><br><span class="line">   CompressedClassSpaceSize = <span class="number">1073741824</span> (<span class="number">1024.0</span>MB)</span><br><span class="line">   MaxMetaspaceSize         = <span class="number">17592186044415</span> MB</span><br><span class="line">   G1HeapRegionSize         = <span class="number">0</span> (<span class="number">0.0</span>MB)</span><br><span class="line"></span><br><span class="line">Heap Usage:</span><br><span class="line">PS Young Generation</span><br><span class="line">Eden Space:</span><br><span class="line">   capacity = <span class="number">819462144</span> (<span class="number">781.5</span>MB)</span><br><span class="line">   used     = <span class="number">155157104</span> (<span class="number">147.96934509277344</span>MB)</span><br><span class="line">   free     = <span class="number">664305040</span> (<span class="number">633.5306549072266</span>MB)</span><br><span class="line">   <span class="number">18.93401728634337</span>% used</span><br><span class="line">From Space:</span><br><span class="line">   capacity = <span class="number">47710208</span> (<span class="number">45.5</span>MB)</span><br><span class="line">   used     = <span class="number">0</span> (<span class="number">0.0</span>MB)</span><br><span class="line">   free     = <span class="number">47710208</span> (<span class="number">45.5</span>MB)</span><br><span class="line">   <span class="number">0.0</span>% used</span><br><span class="line">To Space:</span><br><span class="line">   capacity = <span class="number">49283072</span> (<span class="number">47.0</span>MB)</span><br><span class="line">   used     = <span class="number">0</span> (<span class="number">0.0</span>MB)</span><br><span class="line">   free     = <span class="number">49283072</span> (<span class="number">47.0</span>MB)</span><br><span class="line">   <span class="number">0.0</span>% used</span><br><span class="line">PS Old Generation</span><br><span class="line">   capacity = <span class="number">131072000</span> (<span class="number">125.0</span>MB)</span><br><span class="line">   used     = <span class="number">30525568</span> (<span class="number">29.1114501953125</span>MB)</span><br><span class="line">   free     = <span class="number">100546432</span> (<span class="number">95.8885498046875</span>MB)</span><br><span class="line">   <span class="number">23.28916015625</span>% used</span><br><span class="line"></span><br><span class="line"><span class="number">18359</span> interned Strings occupying <span class="number">2261944</span> bytes.</span><br></pre></td></tr></table></figure>
 
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/03/08/JVM-note-8/" data-id="cj03kk5pz003s8guqaibsbhrn" class="article-share-link" data-share="baidu" data-title="虚拟机性能监控与故障处理工具">分享到</a>
+        <a data-url="http://suqun.github.io/2017/03/08/JVM-note-8/" data-id="cj07swjgi003s7suqo3dj260l" class="article-share-link" data-share="baidu" data-title="JVM笔记八：Sun JDK监控和故障处理工具">分享到</a>
       
 
       
@@ -409,7 +419,7 @@ Memo">
 
 
   <section id="comments">
-    <div id="ds-thread" class="ds-thread" data-thread-key="2017/03/08/JVM-note-8/" data-title="虚拟机性能监控与故障处理工具" data-url="http://suqun.github.io/2017/03/08/JVM-note-8/"></div>
+    <div id="ds-thread" class="ds-thread" data-thread-key="2017/03/08/JVM-note-8/" data-title="JVM笔记八：Sun JDK监控和故障处理工具" data-url="http://suqun.github.io/2017/03/08/JVM-note-8/"></div>
   </section>
 </section>
       
@@ -451,7 +461,7 @@ Memo">
       <ul>
         
           <li>
-            <a href="/2017/03/08/JVM-note-8/">虚拟机性能监控与故障处理工具</a>
+            <a href="/2017/03/08/JVM-note-8/">JVM笔记八：Sun JDK监控和故障处理工具</a>
           </li>
         
           <li>
@@ -459,11 +469,11 @@ Memo">
           </li>
         
           <li>
-            <a href="/2017/02/21/JVM-note-7/">垃圾收集器与内存分配策略——内存分配与回收策略</a>
+            <a href="/2017/02/21/JVM-note-7/">JVM笔记七：垃圾收集器与内存分配策略——内存分配与回收策略</a>
           </li>
         
           <li>
-            <a href="/2017/02/19/JVM-note-6/">垃圾收集器与内存分配策略——垃圾收集器</a>
+            <a href="/2017/02/19/JVM-note-6/">JVM笔记六：垃圾收集器与内存分配策略——垃圾收集器</a>
           </li>
         
           <li>
