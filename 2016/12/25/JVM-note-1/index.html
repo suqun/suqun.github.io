@@ -24,7 +24,7 @@
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-nativestack.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-heap.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-method-area-1.png">
-<meta property="og:updated_time" content="2017-03-16T08:05:10.000Z">
+<meta property="og:updated_time" content="2017-03-20T02:59:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM笔记一：Java内存区域与内存溢出异常——运行时数据区域">
 <meta name="twitter:description" content="该系列学习笔记均来自《深入理解Java虚拟机》一书。
@@ -149,7 +149,7 @@
 <p>对于习惯在HotSpot虚拟机上开发、部署程序的开发者来说，很多人更愿意把方法区成为『永久代』（Permanent Generation)，本质上两者并不等价，仅仅是因为HotSpot虚拟机的设计团队选择把GC分代收集扩展至方法区，或者说使用永久代来实现方法区而已，这样HotSpot的垃圾收集器可以像管理Java堆一样管理这部分内存，能够省去单独为方法区编写内存管理代码的工作。在已经发布的JDK1.7的HotSpot中，已经把原本放在永久代的字符串常量池移出。</p>
 <p>Java虚拟机规范对方法区的限制非常宽松，除了和Java堆一样不需要连续的内存和可以选择固定大小或者可扩展外，还可以选择不实现垃圾收集。相对而言，垃圾收集行为在这个区域是比较少出现的，但并非数据进入了方法区就如永久代的名字一样『永久』存在了。这个区域的内存回收目标主要是针对常量池的回收和对类型的卸载，一般来说，这个区域的内存回收成绩比较难以令人满意，尤其是类型的卸载，条件相当苛刻，但是这部分区域的回收确实是必要的。</p>
 <p>根据Java虚拟机规范的规定，方法区无法满足内存分配需求时，将抛出OutOfMemoryError异常。</p>
-<h4 id="u8FD0_u884C_u65F6_u5E38_u91CF_u6C60"><a href="#u8FD0_u884C_u65F6_u5E38_u91CF_u6C60" class="headerlink" title="运行时常量池"></a>运行时常量池</h4><p><strong>运行时常量池（Runtime Constant Pool）是方法区的一部分</strong>。Class文件中除了有类的版本、字段、接口等描述信息外，有一项信息是常量池（Constant Pool Table），<strong>用于存放编译期生成的各种字面量和符合引用，这部分内容将在类加载进入方法区的运行时常量池中存放</strong>。</p>
+<h4 id="u8FD0_u884C_u65F6_u5E38_u91CF_u6C60"><a href="#u8FD0_u884C_u65F6_u5E38_u91CF_u6C60" class="headerlink" title="运行时常量池"></a>运行时常量池</h4><p><strong>运行时常量池（Runtime Constant Pool）是方法区的一部分</strong>。Class文件中除了有类的版本、字段、接口等描述信息外，有一项信息是常量池（Constant Pool Table），<strong>用于存放编译期生成的各种字面量和符号引用，这部分内容将在类加载进入方法区的运行时常量池中存放</strong>。</p>
 <p>既然运行时常量池是方法区的一部分，那么自然受到方法区内存的限制，当常量池无法再申请到内存时会抛出OutOfMemoryError异常。</p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-method-area-1.png" alt=""></p>
 <h3 id="u76F4_u63A5_u5185_u5B58"><a href="#u76F4_u63A5_u5185_u5B58" class="headerlink" title="直接内存"></a>直接内存</h3><p>直接内存（Direct Memory）并不是虚拟机运行时数据区的一部分，也不是Java虚拟机规范中定义的内存区域。但是这部分内存也被频繁的使用，而且也可能导致OutOfMemoryError异常出现。所以我们放到一起讲。</p>
@@ -161,7 +161,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/12/25/JVM-note-1/" data-id="cj0c49hzm003e5kuqu6nqqyaz" class="article-share-link" data-share="baidu" data-title="JVM笔记一：Java内存区域与内存溢出异常——运行时数据区域">分享到</a>
+        <a data-url="http://suqun.github.io/2016/12/25/JVM-note-1/" data-id="cj0hjls89003eueuqywk36c81" class="article-share-link" data-share="baidu" data-title="JVM笔记一：Java内存区域与内存溢出异常——运行时数据区域">分享到</a>
       
 
       
