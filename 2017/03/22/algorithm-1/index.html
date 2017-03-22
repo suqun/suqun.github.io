@@ -4,17 +4,25 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: Docker | 入耳箸心</title>
+  <title>算法之数组： 二维数组中的查找 | 入耳箸心</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="知之者不如好之者，好之者不如乐之者。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="入耳箸心">
-<meta property="og:url" content="http://suqun.github.io/tags/Docker/index.html">
+  <meta name="description" content="题目在一个二维数组中，每一行按照从左到右递增顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
+解决方法当我们要解决一个复杂的问题时，一个很有效的方法就是从一个具体的问题入手，通过分析简单的例子，试图寻找普遍的规律。
+具体的🌰：例如下面的数组就是每行每列递增排序。如果在这个数组中查找到数字7则返回true；如果查找数字5，则">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法之数组： 二维数组中的查找">
+<meta property="og:url" content="http://suqun.github.io/2017/03/22/algorithm-1/index.html">
 <meta property="og:site_name" content="入耳箸心">
-<meta property="og:description" content="知之者不如好之者，好之者不如乐之者。">
+<meta property="og:description" content="题目在一个二维数组中，每一行按照从左到右递增顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
+解决方法当我们要解决一个复杂的问题时，一个很有效的方法就是从一个具体的问题入手，通过分析简单的例子，试图寻找普遍的规律。
+具体的🌰：例如下面的数组就是每行每列递增排序。如果在这个数组中查找到数字7则返回true；如果查找数字5，则">
+<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/algoritm-array-1.png">
+<meta property="og:updated_time" content="2017-03-22T03:07:09.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="入耳箸心">
-<meta name="twitter:description" content="知之者不如好之者，好之者不如乐之者。">
+<meta name="twitter:title" content="算法之数组： 二维数组中的查找">
+<meta name="twitter:description" content="题目在一个二维数组中，每一行按照从左到右递增顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
+解决方法当我们要解决一个复杂的问题时，一个很有效的方法就是从一个具体的问题入手，通过分析简单的例子，试图寻找普遍的规律。
+具体的🌰：例如下面的数组就是每行每列递增排序。如果在这个数组中查找到数字7则返回true；如果查找数字5，则">
   
     <link rel="alternative" href="/atom.xml" title="入耳箸心" type="application/atom+xml">
   
@@ -71,182 +79,78 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/10/17/docker-jenkins/" class="archive-article-date">
-  <time datetime="2016-10-17T08:44:51.000Z" itemprop="datePublished">10月 17</time>
+      <section id="main"><article id="post-algorithm-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/22/algorithm-1/" class="article-date">
+  <time datetime="2017-03-22T02:25:07.000Z" itemprop="datePublished">2017-03-22</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/10/17/docker-jenkins/">java应用结合Jenkins，docker部署到Kubernetes</a>
+    <h1 class="article-title" itemprop="name">
+      算法之数组： 二维数组中的查找
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/09/27/dockerjavamicroservice4/" class="archive-article-date">
-  <time datetime="2016-09-27T02:52:03.000Z" itemprop="datePublished">9月 27</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/27/dockerjavamicroservice4/">使用kubeadm在CentOS7上安装Kubernetes集群</a>
-    </h1>
-  
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#u9898_u76EE"><span class="toc-number">1.</span> <span class="toc-text">题目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u89E3_u51B3_u65B9_u6CD5"><span class="toc-number">2.</span> <span class="toc-text">解决方法</span></a></li></ol>
+      </div>
+      
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/09/26/dockerjavamicroservice3/" class="archive-article-date">
-  <time datetime="2016-09-26T09:14:49.000Z" itemprop="datePublished">9月 26</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/26/dockerjavamicroservice3/">基于Docker的java微服务(三) Kubernetes服务发现之环境变量</a>
-    </h1>
-  
+      <h3 id="u9898_u76EE"><a href="#u9898_u76EE" class="headerlink" title="题目"></a>题目</h3><p>在一个二维数组中，每一行按照从左到右递增顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
+<h3 id="u89E3_u51B3_u65B9_u6CD5"><a href="#u89E3_u51B3_u65B9_u6CD5" class="headerlink" title="解决方法"></a>解决方法</h3><p>当我们要解决一个复杂的问题时，一个很有效的方法就是从一个具体的问题入手，通过分析简单的例子，试图寻找普遍的规律。</p>
+<p><strong>具体的🌰</strong>：例如下面的数组就是每行每列递增排序。如果在这个数组中查找到数字7则返回true；如果查找数字5，则返回false。</p>
+<p><strong>解决方法</strong>：从数组的一个角上选取数字来和要查找的数字做比较。情况会变的简单</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/algoritm-array-1.png" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isNumberExist</span><span class="params">(<span class="keyword">int</span> rows, <span class="keyword">int</span> columns, <span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span>[][] arrays = generalArray();</span><br><span class="line">    <span class="keyword">boolean</span> flag = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">int</span> row = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> column = columns-<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (column &gt;= <span class="number">0</span> &amp;&amp; row &lt; rows) &#123;</span><br><span class="line">        <span class="keyword">if</span> (arrays[row][column] &gt; number) &#123;</span><br><span class="line">            column--;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (arrays[row][column] &lt; number) &#123;</span><br><span class="line">            row++;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            flag = <span class="keyword">true</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> flag;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span>[][] generalArray() &#123;</span><br><span class="line">    <span class="keyword">int</span>[][] arrays = &#123;&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">9</span>&#125;, &#123;<span class="number">2</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">12</span>&#125;, &#123;<span class="number">4</span>, <span class="number">7</span>, <span class="number">10</span>, <span class="number">13</span>&#125;, &#123;<span class="number">6</span>, <span class="number">8</span>, <span class="number">11</span>, <span class="number">15</span>&#125;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> arrays;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/09/07/dockerjavamicroservice2/" class="archive-article-date">
-  <time datetime="2016-09-07T11:23:15.000Z" itemprop="datePublished">9月 7</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/07/dockerjavamicroservice2/">基于Docker的java微服务(二) CentOS7部署Kubernetes集群</a>
-    </h1>
-  
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://suqun.github.io/2017/03/22/algorithm-1/" data-id="cj0ke2nah001evyuqpqqx0697" class="article-share-link" data-share="baidu" data-title="算法之数组： 二维数组中的查找">分享到</a>
+      
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/08/24/dockerjavamicroservice1/" class="archive-article-date">
-  <time datetime="2016-08-24T11:23:15.000Z" itemprop="datePublished">8月 24</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/08/24/dockerjavamicroservice1/">基于Docker的java微服务(一) 部署Chris Richardson的转账案例</a>
-    </h1>
-  
+        <a href="http://suqun.github.io/2017/03/22/algorithm-1/#ds-thread" class="article-comment-link">评论</a>
+      
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/01/30/docker容器的操作/" class="archive-article-date">
-  <time datetime="2016-01-29T16:06:23.000Z" itemprop="datePublished">1月 30</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/01/30/docker容器的操作/">docker容器的操作</a>
-    </h1>
-  
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algorithm/">Algorithm</a></li></ul>
 
-    </header>
+    </footer>
   </div>
-</article>
   
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/01/01/What-is-Docker/" class="archive-article-date">
-  <time datetime="2016-01-01T11:43:48.000Z" itemprop="datePublished">1月 1</time>
-</a>
-      
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/01/01/What-is-Docker/">What is Docker?</a>
-    </h1>
   
+    <a href="/2017/03/08/JVM-note-8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">JVM笔记八：Sun JDK监控和故障处理工具</div>
+    </a>
+  
+</nav>
 
-    </header>
-  </div>
+  
 </article>
-  
-    
-    
-      
-        </div></section>
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/12/30/Why-Docker/" class="archive-article-date">
-  <time datetime="2015-12-30T15:42:52.000Z" itemprop="datePublished">12月 30</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/12/30/Why-Docker/">Why Docker?</a>
-    </h1>
-  
 
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="2017/03/22/algorithm-1/" data-title="算法之数组： 二维数组中的查找" data-url="http://suqun.github.io/2017/03/22/algorithm-1/"></div>
+  </section>
 </section>
       
       <aside id="sidebar">
