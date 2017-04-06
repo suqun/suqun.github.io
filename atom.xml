@@ -339,36 +339,6 @@
   </entry>
   
   <entry>
-    <title><![CDATA[一些想法]]></title>
-    <link href="http://suqun.github.io/2017/02/25/thinking-1/"/>
-    <id>http://suqun.github.io/2017/02/25/thinking-1/</id>
-    <published>2017-02-25T14:32:05.000Z</published>
-    <updated>2017-04-06T02:53:16.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="u9700_u6C42"><a href="#u9700_u6C42" class="headerlink" title="需求"></a>需求</h2><p>通过词根词缀记单词，和扇贝单词一样的东西。<br>扇贝里面的词根需要花钱买，扇贝的做法：在记单词的时候，显示该单词的词根词缀进行记忆单词。这里也保留这种方式，并能够提供通过分析记忆词根来记忆多个单词的这种方式（主要功能，优先提供，参考《英语词汇的奥秘》。</p>
-<h2 id="u5927_u6982_u60F3_u8981_u7684_u4E1C_u897F_u63CF_u8FF0"><a href="#u5927_u6982_u60F3_u8981_u7684_u4E1C_u897F_u63CF_u8FF0" class="headerlink" title="大概想要的东西描述"></a>大概想要的东西描述</h2><h3 id="u540E_u7AEF"><a href="#u540E_u7AEF" class="headerlink" title="后端"></a>后端</h3><ol>
-<li>用户管理：登录</li>
-<li>单词管理<br> 用户创建单词书，创建章节，在章节中输入词根内容</li>
-<li>系统设置：设置每天记忆的单词量，每个单词每天记忆过程显示次数（默认5次）</li>
-</ol>
-<h3 id="u524D_u7AEF"><a href="#u524D_u7AEF" class="headerlink" title="前端"></a>前端</h3><ol>
-<li>前端提供网页（开始浏览器，最好APP）记词根及单词<ul>
-<li>根据设置的任务量，随机选出新的单词供记忆</li>
-<li>单词可发音（英语，美语）</li>
-<li>显示单词注释 </li>
-<li>认识/不认识 选择</li>
-<li>记录单词熟悉程度，5个等级，5级以后就不在显示在当天的任务里</li>
-</ul>
-</li>
-</ol>
-<h2 id="u6280_u672F_u6846_u67B6"><a href="#u6280_u672F_u6846_u67B6" class="headerlink" title="技术框架"></a>技术框架</h2><p>前端：nodejs + react + webpack<br>后端：springboot + mysql + Elasticsearch</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="u9700_u6C42"><a href="#u9700_u6C42" class="headerlink" title="需求"></a>需求</h2><p>通过词根词缀记单词，和扇贝单词一样的东西。<br>扇贝里面的词根需要花钱买，扇贝的做法：在记单词的时候，]]>
-    </summary>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[JVM笔记七：垃圾收集器与内存分配策略——内存分配与回收策略]]></title>
     <link href="http://suqun.github.io/2017/02/21/JVM-note-7/"/>
     <id>http://suqun.github.io/2017/02/21/JVM-note-7/</id>
@@ -1171,6 +1141,37 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
 ]]></content>
     <summary type="html">
     <![CDATA[<p>Kubernetes1.4版本提供kubeadm命令进行简化k8s集群的安装，只要使用2个简单命令就可以完成安装。 安装kubernetes以后，使用<code>kubeadm init</code>启动master，使用<code>kubeadm joins</code>]]>
+    </summary>
+    
+      <category term="Docker" scheme="http://suqun.github.io/tags/Docker/"/>
+    
+      <category term="K8s" scheme="http://suqun.github.io/tags/K8s/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[基于Docker的java微服务(三) Kubernetes服务发现之环境变量]]></title>
+    <link href="http://suqun.github.io/2016/09/26/dockerjavamicroservice3/"/>
+    <id>http://suqun.github.io/2016/09/26/dockerjavamicroservice3/</id>
+    <published>2016-09-26T09:14:49.000Z</published>
+    <updated>2017-04-06T02:53:16.000Z</updated>
+    <content type="html"><![CDATA[<ol>
+<li>创建两个服务</li>
+<li>将服务打包成镜像</li>
+<li>k8s的service</li>
+<li>k8s的deployment</li>
+<li>简单测试</li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<ol>
+<li>创建两个服务</li>
+<li>将服务打包成镜像</li>
+<li>k8s的service</li>
+<li>k8s的deployment</li>
+<li>简单测试</li>
+</ol>
+]]>
     </summary>
     
       <category term="Docker" scheme="http://suqun.github.io/tags/Docker/"/>
