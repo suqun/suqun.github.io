@@ -7,30 +7,24 @@
   <title>JVM笔记一：Java内存区域与内存溢出异常——运行时数据区域 | 入耳箸心</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="该系列学习笔记均来自《深入理解Java虚拟机》一书。
-概述
-程序计数器程序计数器（Program Counter Register）是一块较小的内存空间，可以看作是线程所执行的字节码的行号指示器。在虚拟机的概念模型里，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。
-由于Java虚拟机的多线程是">
+概述">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM笔记一：Java内存区域与内存溢出异常——运行时数据区域">
 <meta property="og:url" content="http://suqun.github.io/2016/12/25/JVM-note-1/index.html">
 <meta property="og:site_name" content="入耳箸心">
 <meta property="og:description" content="该系列学习笔记均来自《深入理解Java虚拟机》一书。
-概述
-程序计数器程序计数器（Program Counter Register）是一块较小的内存空间，可以看作是线程所执行的字节码的行号指示器。在虚拟机的概念模型里，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。
-由于Java虚拟机的多线程是">
+概述">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com//jvm-runtime-3.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jmv-pcr.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-vmstack.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-nativestack.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-heap.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-method-area-1.png">
-<meta property="og:updated_time" content="2017-03-20T02:59:40.000Z">
+<meta property="og:updated_time" content="2017-04-06T02:55:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM笔记一：Java内存区域与内存溢出异常——运行时数据区域">
 <meta name="twitter:description" content="该系列学习笔记均来自《深入理解Java虚拟机》一书。
-概述
-程序计数器程序计数器（Program Counter Register）是一块较小的内存空间，可以看作是线程所执行的字节码的行号指示器。在虚拟机的概念模型里，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。
-由于Java虚拟机的多线程是">
+概述">
   
     <link rel="alternative" href="/atom.xml" title="入耳箸心" type="application/atom+xml">
   
@@ -119,6 +113,7 @@
 
       <p>该系列学习笔记均来自《深入理解Java虚拟机》一书。</p>
 <h3 id="u6982_u8FF0"><a href="#u6982_u8FF0" class="headerlink" title="概述"></a>概述</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com//jvm-runtime-3.png" alt="Java虚拟机运行时数据区"></p>
+<a id="more"></a>
 <h3 id="u7A0B_u5E8F_u8BA1_u6570_u5668"><a href="#u7A0B_u5E8F_u8BA1_u6570_u5668" class="headerlink" title="程序计数器"></a>程序计数器</h3><p>程序计数器（Program Counter Register）是一块较小的内存空间，可以看作是线程所执行的字节码的行号指示器。在虚拟机的概念模型里，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。</p>
 <p>由于Java虚拟机的多线程是通过线程轮流切换并分配处理器执行时间的方式来实现的，<strong>在任何一个确定的时刻，一个处理器（多核处理器的一个内核）都只会执行一条线程的指令。因此为了线程切换后能恢复到正确的执行位置，每条线程都需要一个独立的程序计数器，各条线程之间计数器互不影响，独立存储</strong>。我们称这类内存区域为『线程私有』的内存。</p>
 <p>如果线程正在执行一个Java方法，这个计数器记录的就是正在执行的虚拟机字节码指令的地址；如果执行的是一个Native方法，这个计数器值为空（Undefined）。</p>
@@ -161,7 +156,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/12/25/JVM-note-1/" data-id="cj152ftzy003j94uqwi4mp74p" class="article-share-link" data-share="baidu" data-title="JVM笔记一：Java内存区域与内存溢出异常——运行时数据区域">分享到</a>
+        <a data-url="http://suqun.github.io/2016/12/25/JVM-note-1/" data-id="cj15t9piy003jkcuq8qssfk1r" class="article-share-link" data-share="baidu" data-title="JVM笔记一：Java内存区域与内存溢出异常——运行时数据区域">分享到</a>
       
 
       

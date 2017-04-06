@@ -25,7 +25,7 @@
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-new.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-object.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-object-visit.png">
-<meta property="og:updated_time" content="2017-02-18T13:13:23.000Z">
+<meta property="og:updated_time" content="2017-04-06T02:55:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM笔记二：Java内存区域与内存溢出异常——HotSpot虚拟机对象探秘">
 <meta name="twitter:description" content="以常用的虚拟机HotSpot和常用的内存区域Java堆为例，深入探讨HotSpot虚拟机在Java堆中对象分配、布局和访问的全过程。
@@ -132,6 +132,7 @@
 <li>上面的工作完成之后，<strong>从JVM的角度，一个新的对象以及产生</strong>了。</li>
 <li><strong>对Java程序来说，对象所有的字段都为零值</strong>，所以一般来说，执行new指令之后会接着执行<init>方法，把对象按照程序员的意愿进行初始化，这样一个真正可用的对象就完全产生出来。</init></li>
 </ul>
+<a id="more"></a>
 <h3 id="u5BF9_u8C61_u7684_u5185_u5B58_u5E03_u5C40"><a href="#u5BF9_u8C61_u7684_u5185_u5B58_u5E03_u5C40" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-object.png" alt="对象的内存布局"></p>
 <h3 id="u5BF9_u8C61_u7684_u8BBF_u95EE_u5B9A_u4F4D"><a href="#u5BF9_u8C61_u7684_u8BBF_u95EE_u5B9A_u4F4D" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-object-visit.png" alt="对象的访问定位"></p>
 <ul>
@@ -144,7 +145,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/14/JVM-note-2/" data-id="cj152ftzx003h94uqu2e6769j" class="article-share-link" data-share="baidu" data-title="JVM笔记二：Java内存区域与内存溢出异常——HotSpot虚拟机对象探秘">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/14/JVM-note-2/" data-id="cj15t9pix003hkcuq31jr4gb4" class="article-share-link" data-share="baidu" data-title="JVM笔记二：Java内存区域与内存溢出异常——HotSpot虚拟机对象探秘">分享到</a>
       
 
       

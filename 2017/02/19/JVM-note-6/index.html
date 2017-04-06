@@ -41,7 +41,7 @@ Serial收集器
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-cms-1.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-g1.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-g1-1.png">
-<meta property="og:updated_time" content="2017-03-10T08:41:42.000Z">
+<meta property="og:updated_time" content="2017-04-06T02:56:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM笔记六：垃圾收集器与内存分配策略——垃圾收集器">
 <meta name="twitter:description" content="基于JDK1.7 Update 14之后的HotSpot虚拟机的垃圾收集器。
@@ -152,6 +152,7 @@ Serial收集器
 <li><strong>新生代总可用空间：9216KB（Eden区+1个Survivor区的总容量）</strong></li>
 <li><strong>-XX:+PrintGCDetail</strong>，在发生垃圾收集时打印内存回收日志</li>
 </ul>
+<a id="more"></a>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * MinorGC</span><br><span class="line"> * VM Args: -XX:+UseSerialGC -Xms20M -Xmx20M -Xmn10M -XX:+PrintGCDetails -XX:SurvivorRatio=8</span><br><span class="line"> * Created by larry.su on 2017/2/21.</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MinorGC</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> _1M = <span class="number">1024</span> * <span class="number">1024</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">byte</span>[] allocation1,allocation2,allocation3,allocation4;</span><br><span class="line">        allocation1 = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">2</span> * _1M];</span><br><span class="line">        allocation2 = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">2</span> * _1M];</span><br><span class="line">        allocation3 = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">2</span> * _1M];</span><br><span class="line">        allocation4 = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4</span> * _1M]; <span class="comment">//出现一次MinorGC</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ol>
 <li><p>main方法执行后，在分配allocation4对象时，发生一次Minor GC，这次GC的结果是新生代7814K变为423K，而总内存占用量（7814K-&gt;6567K(19456K)）几乎没有减少（因为allocation1、allocation2、allocation3三个对象都是存活的，虚拟机几乎没有找到可回收的对象）。</p>
@@ -296,7 +297,7 @@ Serial收集器
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/19/JVM-note-6/" data-id="cj152ftzs003a94uqg397nsyi" class="article-share-link" data-share="baidu" data-title="JVM笔记六：垃圾收集器与内存分配策略——垃圾收集器">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/19/JVM-note-6/" data-id="cj15t9pit003akcuqa4j583un" class="article-share-link" data-share="baidu" data-title="JVM笔记六：垃圾收集器与内存分配策略——垃圾收集器">分享到</a>
       
 
       

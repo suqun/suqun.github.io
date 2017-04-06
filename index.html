@@ -6,15 +6,15 @@
   
   <title>入耳箸心</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="知之者不如好之者，好之者不如乐之者。">
+  <meta name="description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="入耳箸心">
 <meta property="og:url" content="http://suqun.github.io/index.html">
 <meta property="og:site_name" content="入耳箸心">
-<meta property="og:description" content="知之者不如好之者，好之者不如乐之者。">
+<meta property="og:description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="入耳箸心">
-<meta name="twitter:description" content="知之者不如好之者，好之者不如乐之者。">
+<meta name="twitter:description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
   
     <link rel="alternative" href="/atom.xml" title="入耳箸心" type="application/atom+xml">
   
@@ -95,31 +95,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-      <!-- Table of Contents -->
-      
-
-      <h2 id="u5355_u94FE_u8868_u7684_u521B_u5EFA_u548C_u5220_u9664"><a href="#u5355_u94FE_u8868_u7684_u521B_u5EFA_u548C_u5220_u9664" class="headerlink" title="单链表的创建和删除"></a>单链表的创建和删除</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> lombok.AllArgsConstructor;</span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="keyword">import</span> lombok.ToString;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * LinkList java单向链表实现及基础操作</span><br><span class="line"> * Created by larry.su on 2017/4/3.</span><br><span class="line"> */</span></span><br><span class="line"><span class="annotation">@ToString</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkList</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">transient</span> <span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 指向头结点</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">transient</span> Node&lt;E&gt; first;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 指向尾节点</span><br><span class="line">     * 需要根据尾节点操作时就不用每次都从头结点循环得到尾节点</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">transient</span> Node&lt;E&gt; last;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 添加元素到链表尾端</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> value 添加的数据</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addToTail</span><span class="params">(E value)</span> </span>&#123;</span><br><span class="line">        Node node = <span class="keyword">new</span> Node(value, <span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//        if (null == first) &#123;</span></span><br><span class="line"><span class="comment">//            first = node;</span></span><br><span class="line"><span class="comment">//        &#125; else &#123;</span></span><br><span class="line"><span class="comment">//            Node pNode = first;</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//            while (null != pNode.next) &#123;</span></span><br><span class="line"><span class="comment">//                pNode = pNode.next;</span></span><br><span class="line"><span class="comment">//            &#125;</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//            pNode.next = node;</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == first) &#123;</span><br><span class="line">            first = node;</span><br><span class="line">            last = node;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            last.next = node;</span><br><span class="line">            last = node;<span class="comment">//使用last 可以减少循环获取最后节点步骤</span></span><br><span class="line">        &#125;</span><br><span class="line">        size++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 删除第一个含有该值的节点</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> object</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">(Object object)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != first) &#123;</span><br><span class="line">            <span class="keyword">if</span> (first.getValue().equals(object)) &#123;</span><br><span class="line">                first.next = <span class="keyword">null</span>;</span><br><span class="line">                first.value = <span class="keyword">null</span>;</span><br><span class="line">                size--;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            Node preDeleteNode = first;<span class="comment">//待删除的前一个节点</span></span><br><span class="line">            Node deleteNode;<span class="comment">//待删除的节点</span></span><br><span class="line">            <span class="keyword">while</span> (preDeleteNode.next != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (preDeleteNode.next.getValue() == object) &#123;</span><br><span class="line">                    deleteNode = preDeleteNode.next;</span><br><span class="line">                    preDeleteNode.next = deleteNode.next;</span><br><span class="line">                    deleteNode.next = <span class="keyword">null</span>;</span><br><span class="line">                    deleteNode.value = <span class="keyword">null</span>;</span><br><span class="line">                    size--;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    preDeleteNode = preDeleteNode.getNext();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@AllArgsConstructor</span></span><br><span class="line">    <span class="annotation">@ToString</span></span><br><span class="line">    <span class="annotation">@Data</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">        E value;</span><br><span class="line">        Node next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        LinkList linkList = <span class="keyword">new</span> LinkList();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">6</span>; i++) &#123;</span><br><span class="line">            linkList.addToTail(i);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        linkList.remove(<span class="number">5</span>);</span><br><span class="line">        System.out.println(linkList);</span><br><span class="line">        linkList.remove(<span class="number">3</span>);</span><br><span class="line">        System.out.println(linkList);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LinkList(size=<span class="number">6</span>, first=LinkList.Node(value=<span class="number">0</span>, next=LinkList.Node(value=<span class="number">1</span>, next=LinkList.Node(value=<span class="number">2</span>, next=LinkList.Node(value=<span class="number">3</span>, next=LinkList.Node(value=<span class="number">4</span>, next=<span class="keyword">null</span>))))), last=LinkList.Node(value=<span class="keyword">null</span>, next=<span class="keyword">null</span>))</span><br><span class="line">LinkList(size=<span class="number">6</span>, first=LinkList.Node(value=<span class="number">0</span>, next=LinkList.Node(value=<span class="number">1</span>, next=LinkList.Node(value=<span class="number">2</span>, next=LinkList.Node(value=<span class="number">4</span>, next=<span class="keyword">null</span>)))), last=LinkList.Node(value=<span class="keyword">null</span>, next=<span class="keyword">null</span>))</span><br></pre></td></tr></table></figure>
-<h2 id="u4ECE_u5C3E_u5230_u5934_u6253_u5370_u5355_u94FE_u8868"><a href="#u4ECE_u5C3E_u5230_u5934_u6253_u5370_u5355_u94FE_u8868" class="headerlink" title="从尾到头打印单链表"></a>从尾到头打印单链表</h2><h3 id="u6808_u5B9E_u73B0"><a href="#u6808_u5B9E_u73B0" class="headerlink" title="栈实现"></a>栈实现</h3><p>遍历的顺序是从头到尾的顺序，输出的顺序是从尾到头，也就是说第一个遍历的节点最后一个输出，这个是典型的『后进先出』。可以使用栈实现这种顺序。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">     * 使用栈的方式反向输出单链表</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> linkList 单向链表</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printListByStack</span><span class="params">(LinkList linkList)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (linkList.first != <span class="keyword">null</span>) &#123;</span><br><span class="line">            LinkList.Node node = linkList.first;</span><br><span class="line">            Stack&lt;LinkList.Node&gt; stack = <span class="keyword">new</span> Stack&lt;LinkList.Node&gt;();</span><br><span class="line">            <span class="keyword">while</span> (node != <span class="keyword">null</span>) &#123;</span><br><span class="line">                stack.push(node);</span><br><span class="line">                node = node.next;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (stack.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                LinkList.Node node2 = stack.pop();</span><br><span class="line">                System.out.print(node2.getValue() + <span class="string">" "</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="u9012_u5F52_u5B9E_u73B0"><a href="#u9012_u5F52_u5B9E_u73B0" class="headerlink" title="递归实现"></a>递归实现</h3><p>既然想到了栈实现，而递归本质上也是个栈结构。要实现反过来输出链表，我们每访问到一个节点的时候，先递归输出他后面的节点，再输出该节点自身。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * 递归方式反向输出单链表</span><br><span class="line"> *</span><br><span class="line"> * <span class="doctag">@param</span> node 单向链表中的节点</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printListByRecursion</span><span class="params">(LinkList.Node node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">null</span> != node) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != node.next) &#123;</span><br><span class="line">            printListByRecursion(node.next);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.print(node.getValue() + <span class="string">" "</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="u533A_u522B"><a href="#u533A_u522B" class="headerlink" title="区别"></a>区别</h3><p>递归的代码看起来简洁，但是有个问题，当链表非常长的时候，就会导致函数调用层级很深，从而导致栈溢出。基于栈实现的代码鲁棒性更好一些。</p>
-<p>我们来测试下两种方式的性能及异常，测试代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">testProfile</span><span class="params">(<span class="keyword">int</span> size)</span></span>&#123;</span><br><span class="line">    LinkList linkList = <span class="keyword">new</span> LinkList();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">        linkList.addToTail(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Profiler.begin();</span><br><span class="line">    printListByStack(linkList);</span><br><span class="line">    System.out.println(<span class="string">"========"</span>);</span><br><span class="line">    System.out.println(<span class="string">"Stack Cost: "</span> + Profiler.end() + <span class="string">" mills"</span>);</span><br><span class="line"></span><br><span class="line">    Profiler.begin();</span><br><span class="line">    printListByRecursion(linkList.first);</span><br><span class="line">    System.out.println(<span class="string">"========"</span>);</span><br><span class="line">    System.out.println(<span class="string">"Rescursion Cost: "</span> + Profiler.end() + <span class="string">" mills"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>首先测试下10000个节点的单链表反向输出，结果如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Stack Cost: <span class="number">30</span> mills</span><br><span class="line">Rescursion Cost: <span class="number">47</span> mills</span><br></pre></td></tr></table></figure>
-<p>再测试下50000个：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Stack Cost: <span class="number">117</span> mills</span><br><span class="line"></span><br><span class="line">Exception in thread <span class="string">"main"</span> java.lang.StackOverflowError</span><br></pre></td></tr></table></figure>
-<p>可以看到，性能上使用栈反向输出要更好一些，当节点过多时，使用递归的方式会导致栈溢出。</p>
-
-
+        <h2 id="u5355_u94FE_u8868_u7684_u521B_u5EFA_u548C_u5220_u9664"><a href="#u5355_u94FE_u8868_u7684_u521B_u5EFA_u548C_u5220_u9664" class="headerlink" title="单链表的创建和删除"></a>单链表的创建和删除</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> lombok.AllArgsConstructor;</span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="keyword">import</span> lombok.ToString;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * LinkList java单向链表实现及基础操作</span><br><span class="line"> * Created by larry.su on 2017/4/3.</span><br><span class="line"> */</span></span><br><span class="line"><span class="annotation">@ToString</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkList</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">transient</span> <span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 指向头结点</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">transient</span> Node&lt;E&gt; first;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 指向尾节点</span><br><span class="line">     * 需要根据尾节点操作时就不用每次都从头结点循环得到尾节点</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">transient</span> Node&lt;E&gt; last;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 添加元素到链表尾端</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> value 添加的数据</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addToTail</span><span class="params">(E value)</span> </span>&#123;</span><br><span class="line">        Node node = <span class="keyword">new</span> Node(value, <span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//        if (null == first) &#123;</span></span><br><span class="line"><span class="comment">//            first = node;</span></span><br><span class="line"><span class="comment">//        &#125; else &#123;</span></span><br><span class="line"><span class="comment">//            Node pNode = first;</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//            while (null != pNode.next) &#123;</span></span><br><span class="line"><span class="comment">//                pNode = pNode.next;</span></span><br><span class="line"><span class="comment">//            &#125;</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//            pNode.next = node;</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == first) &#123;</span><br><span class="line">            first = node;</span><br><span class="line">            last = node;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            last.next = node;</span><br><span class="line">            last = node;<span class="comment">//使用last 可以减少循环获取最后节点步骤</span></span><br><span class="line">        &#125;</span><br><span class="line">        size++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 删除第一个含有该值的节点</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> object</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">(Object object)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != first) &#123;</span><br><span class="line">            <span class="keyword">if</span> (first.getValue().equals(object)) &#123;</span><br><span class="line">                first.next = <span class="keyword">null</span>;</span><br><span class="line">                first.value = <span class="keyword">null</span>;</span><br><span class="line">                size--;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            Node preDeleteNode = first;<span class="comment">//待删除的前一个节点</span></span><br><span class="line">            Node deleteNode;<span class="comment">//待删除的节点</span></span><br><span class="line">            <span class="keyword">while</span> (preDeleteNode.next != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (preDeleteNode.next.getValue() == object) &#123;</span><br><span class="line">                    deleteNode = preDeleteNode.next;</span><br><span class="line">                    preDeleteNode.next = deleteNode.next;</span><br><span class="line">                    deleteNode.next = <span class="keyword">null</span>;</span><br><span class="line">                    deleteNode.value = <span class="keyword">null</span>;</span><br><span class="line">                    size--;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    preDeleteNode = preDeleteNode.getNext();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@AllArgsConstructor</span></span><br><span class="line">    <span class="annotation">@ToString</span></span><br><span class="line">    <span class="annotation">@Data</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">        E value;</span><br><span class="line">        Node next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        LinkList linkList = <span class="keyword">new</span> LinkList();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">6</span>; i++) &#123;</span><br><span class="line">            linkList.addToTail(i);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        linkList.remove(<span class="number">5</span>);</span><br><span class="line">        System.out.println(linkList);</span><br><span class="line">        linkList.remove(<span class="number">3</span>);</span><br><span class="line">        System.out.println(linkList);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2017/04/03/algorithm-2/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/03/algorithm-2/" data-id="cj152ftxz001e94uqm70nxd90" class="article-share-link" data-share="baidu" data-title="算法之链表">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/03/algorithm-2/" data-id="cj15t9ph4001ekcuqoz0w5gj1" class="article-share-link" data-share="baidu" data-title="算法之链表">分享到</a>
       
 
       
@@ -158,21 +144,22 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-      <!-- Table of Contents -->
-      
-
-      <h3 id="u9898_u76EE"><a href="#u9898_u76EE" class="headerlink" title="题目"></a>题目</h3><p>在一个二维数组中，每一行按照从左到右递增顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
+        <h3 id="u9898_u76EE"><a href="#u9898_u76EE" class="headerlink" title="题目"></a>题目</h3><p>在一个二维数组中，每一行按照从左到右递增顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
 <h3 id="u89E3_u51B3_u65B9_u6CD5"><a href="#u89E3_u51B3_u65B9_u6CD5" class="headerlink" title="解决方法"></a>解决方法</h3><p>当我们要解决一个复杂的问题时，一个很有效的方法就是从一个具体的问题入手，通过分析简单的例子，试图寻找普遍的规律。</p>
 <p><strong>具体的🌰</strong>：例如下面的数组就是每行每列递增排序。如果在这个数组中查找到数字7则返回true；如果查找数字5，则返回false。</p>
 <p><strong>解决方法</strong>：从数组的一个角上选取数字来和要查找的数字做比较。情况会变的简单</p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/algoritm-array-1.png" alt=""></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isNumberExist</span><span class="params">(<span class="keyword">int</span> rows, <span class="keyword">int</span> columns, <span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span>[][] arrays = generalArray();</span><br><span class="line">    <span class="keyword">boolean</span> flag = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">int</span> row = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> column = columns-<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (column &gt;= <span class="number">0</span> &amp;&amp; row &lt; rows) &#123;</span><br><span class="line">        <span class="keyword">if</span> (arrays[row][column] &gt; number) &#123;</span><br><span class="line">            column--;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (arrays[row][column] &lt; number) &#123;</span><br><span class="line">            row++;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            flag = <span class="keyword">true</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> flag;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span>[][] generalArray() &#123;</span><br><span class="line">    <span class="keyword">int</span>[][] arrays = &#123;&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">9</span>&#125;, &#123;<span class="number">2</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">12</span>&#125;, &#123;<span class="number">4</span>, <span class="number">7</span>, <span class="number">10</span>, <span class="number">13</span>&#125;, &#123;<span class="number">6</span>, <span class="number">8</span>, <span class="number">11</span>, <span class="number">15</span>&#125;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> arrays;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+        
+          <p class="article-more-link">
+            <a href="/2017/03/22/algorithm-1/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/03/22/algorithm-1/" data-id="cj152fty1001h94uqghg12wit" class="article-share-link" data-share="baidu" data-title="算法之数组： 二维数组中的查找">分享到</a>
+        <a data-url="http://suqun.github.io/2017/03/22/algorithm-1/" data-id="cj15t9ph6001hkcuq0jaumto1" class="article-share-link" data-share="baidu" data-title="算法之数组： 二维数组中的查找">分享到</a>
       
 
       
@@ -211,10 +198,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-      <!-- Table of Contents -->
-      
-
-      <p>Sun JDK监控和故障处理工具:</p>
+        <p>Sun JDK监控和故障处理工具:</p>
 <table>
 <thead>
 <tr>
@@ -249,192 +233,16 @@
 </tr>
 </tbody>
 </table>
-<h2 id="jps_3A_u865A_u62DF_u673A_u7EBF_u7A0B_u72B6_u51B5_u5DE5_u5177"><a href="#jps_3A_u865A_u62DF_u673A_u7EBF_u7A0B_u72B6_u51B5_u5DE5_u5177" class="headerlink" title="jps:虚拟机线程状况工具"></a>jps:虚拟机线程状况工具</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-jps-1.png" alt=""></p>
-<h2 id="jstat_3A_u865A_u62DF_u673A_u7EDF_u8BA1_u4FE1_u606F_u76D1_u89C6_u5DE5_u5177"><a href="#jstat_3A_u865A_u62DF_u673A_u7EDF_u8BA1_u4FE1_u606F_u76D1_u89C6_u5DE5_u5177" class="headerlink" title="jstat:虚拟机统计信息监视工具"></a>jstat:虚拟机统计信息监视工具</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-jstat.png" alt=""></p>
-<p>🌰 查看线程51710线程垃圾收集情况：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ jstat -gc <span class="number">51710</span> <span class="number">250</span> <span class="number">5</span></span><br><span class="line"> S0C    S1C    S0U    S1U      EC       EU        OC         OU       MC     MU    CCSC   CCSU   YGC     YGCT    FGC    FGCT     GCT</span><br><span class="line"><span class="number">24576.0</span> <span class="number">46592.0</span> <span class="number">24077.9</span>  <span class="number">0.0</span>   <span class="number">773632.0</span> <span class="number">109440.9</span>  <span class="number">139776.0</span>   <span class="number">50009.5</span>   <span class="number">34560.0</span> <span class="number">33710.1</span> <span class="number">4096.0</span> <span class="number">3911.8</span>     <span class="number">10</span>    <span class="number">0.191</span>   <span class="number">1</span>      <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"><span class="number">24576.0</span> <span class="number">46592.0</span> <span class="number">24077.9</span>  <span class="number">0.0</span>   <span class="number">773632.0</span> <span class="number">109440.9</span>  <span class="number">139776.0</span>   <span class="number">50009.5</span>   <span class="number">34560.0</span> <span class="number">33710.1</span> <span class="number">4096.0</span> <span class="number">3911.8</span>     <span class="number">10</span>    <span class="number">0.191</span>   <span class="number">1</span>      <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"><span class="number">24576.0</span> <span class="number">46592.0</span> <span class="number">24077.9</span>  <span class="number">0.0</span>   <span class="number">773632.0</span> <span class="number">109440.9</span>  <span class="number">139776.0</span>   <span class="number">50009.5</span>   <span class="number">34560.0</span> <span class="number">33710.1</span> <span class="number">4096.0</span> <span class="number">3911.8</span>     <span class="number">10</span>    <span class="number">0.191</span>   <span class="number">1</span>      <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"><span class="number">24576.0</span> <span class="number">46592.0</span> <span class="number">24077.9</span>  <span class="number">0.0</span>   <span class="number">773632.0</span> <span class="number">109440.9</span>  <span class="number">139776.0</span>   <span class="number">50009.5</span>   <span class="number">34560.0</span> <span class="number">33710.1</span> <span class="number">4096.0</span> <span class="number">3911.8</span>     <span class="number">10</span>    <span class="number">0.191</span>   <span class="number">1</span>      <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"><span class="number">24576.0</span> <span class="number">46592.0</span> <span class="number">24077.9</span>  <span class="number">0.0</span>   <span class="number">773632.0</span> <span class="number">109440.9</span>  <span class="number">139776.0</span>   <span class="number">50009.5</span>   <span class="number">34560.0</span> <span class="number">33710.1</span> <span class="number">4096.0</span> <span class="number">3911.8</span>     <span class="number">10</span>    <span class="number">0.191</span>   <span class="number">1</span>      <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line">➜  ~ jstat -gcutil <span class="number">51710</span> <span class="number">250</span> <span class="number">5</span></span><br><span class="line">  S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT</span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">14.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">14.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">14.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">14.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">14.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span></span><br><span class="line">➜  ~ jstat -gccause <span class="number">51710</span> <span class="number">250</span> <span class="number">5</span></span><br><span class="line">  S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT    LGCC                 GCC</span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">15.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span> Allocation Failure   No GC</span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">15.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span> Allocation Failure   No GC</span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">15.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span> Allocation Failure   No GC</span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">15.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span> Allocation Failure   No GC</span><br><span class="line"> <span class="number">97.97</span>   <span class="number">0.00</span>  <span class="number">15.15</span>  <span class="number">35.78</span>  <span class="number">97.54</span>  <span class="number">95.50</span>     <span class="number">10</span>    <span class="number">0.191</span>     <span class="number">1</span>    <span class="number">0.052</span>    <span class="number">0.243</span> Allocation Failure   No GC</span><br></pre></td></tr></table></figure>
-<table>
-<thead>
-<tr>
-<th>列</th>
-<th>说明</th>
-<th>jstat参数</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>S0C</td>
-<td>输出Survivor0空间的大小,单位KB</td>
-<td>-gc<br>-gccapacity<br>-gcnew<br>-gcnewcapacity</td>
-</tr>
-<tr>
-<td>S1C</td>
-<td>输出Survivor1空间的大小。单位KB</td>
-<td>-gc<br> -gccapacity <br>-gcnew <br>-gcnewcapacity</td>
-</tr>
-<tr>
-<td>S0U</td>
-<td>输出Survivor0已用空间的大小。单位KB</td>
-<td>-gc<br> -gcnew</td>
-</tr>
-<tr>
-<td>S1U</td>
-<td>输出Survivor1已用空间的大小。单位KB</td>
-<td>-gc<br>-gcnew</td>
-</tr>
-<tr>
-<td>EC</td>
-<td>输出Eden空间的大小。单位KB。</td>
-<td>-gc<br> -gccapacity <br>-gcnew <br>-gcnewcapacity</td>
-</tr>
-<tr>
-<td>EU</td>
-<td>输出Eden已用空间的大小。单位KB</td>
-<td>-gc<br> -gcnew</td>
-</tr>
-<tr>
-<td>OC</td>
-<td>输出老年代空间的大小。单位KB</td>
-<td>-gc <br>-gccapacity <br>-gcold <br>-gcoldcapacity</td>
-</tr>
-<tr>
-<td>OU</td>
-<td>输出老年代已用空间的大小。单位KB</td>
-<td>-gc <br>-gcold</td>
-</tr>
-<tr>
-<td>PC</td>
-<td>输出持久代空间的大小。单位KB</td>
-<td>-gc <br>-gccapacity <br>-gcold <br>-gcoldcapacity <br>-gcpermcapacity</td>
-</tr>
-<tr>
-<td>PU</td>
-<td>输出持久代已用空间的大小。单位KB</td>
-<td>-gc <br>-gcold</td>
-</tr>
-<tr>
-<td>YGC</td>
-<td>新生代空间GC时间发生的次数</td>
-<td>-gc <br>-gccapacity <br>-gcnew <br>-gcnewcapacity <br>-gcold <br>-gcoldcapacity <br>-gcpermcapacity <br>-gcutil <br>-gccause</td>
-</tr>
-<tr>
-<td>YGCT</td>
-<td>新生代GC处理花费的时间。</td>
-<td><br>-gc <br>-gcnew <br>-gcutil <br>-gccause</td>
-</tr>
-<tr>
-<td>FGC</td>
-<td>full GC发生的次数。</td>
-<td>-gc <br>-gccapacity <br>-gcnew <br>-gcnewcapacity <br>-gcold <br>-gcoldcapacity <br>-gcpermcapacity <br>-gcutil <br>-gccause</td>
-</tr>
-<tr>
-<td>FGCT</td>
-<td>full GC操作花费的时间</td>
-<td>-gc <br>-gcold <br>-gcoldcapacity <br>-gcpermcapacity <br>-gcutil <br>-gccause</td>
-</tr>
-<tr>
-<td>GCT</td>
-<td>GC操作花费的总时间。</td>
-<td>-gc <br>-gcold <br>-gcoldcapacity <br>-gcpermcapacity <br>-gcutil <br>-gccause</td>
-</tr>
-<tr>
-<td>NGCMN</td>
-<td>新生代最小空间容量，单位KB</td>
-<td>-gccapacity <br>-gcnewcapacity</td>
-</tr>
-<tr>
-<td>NGCMX</td>
-<td>新生代最大空间容量，单位KB</td>
-<td>-gccapacity <br>-gcnewcapacity</td>
-</tr>
-<tr>
-<td>NGC</td>
-<td>新生代当前空间容量，单位KB</td>
-<td>-gccapacity <br>-gcnewcapacity</td>
-</tr>
-<tr>
-<td>OGCMN</td>
-<td>老年代最小空间容量，单位KB</td>
-<td>-gccapacity <br>-gcoldcapacity</td>
-</tr>
-<tr>
-<td>OGCMX</td>
-<td>老年代最大空间容量，单位KB</td>
-<td>-gccapacity <br>-gcoldcapacity</td>
-</tr>
-<tr>
-<td>OGC</td>
-<td>老年代当前空间容量制，单位KB</td>
-<td>-gccapacity <br>-gcoldcapacity</td>
-</tr>
-<tr>
-<td>PGCMN</td>
-<td>持久代最小空间容量，单位KB</td>
-<td>-gccapacity <br>-gcpermcapacity</td>
-</tr>
-<tr>
-<td>PGCMX</td>
-<td>持久代最大空间容量，单位KB</td>
-<td>-gccapacity <br>-gcpermcapacity</td>
-</tr>
-<tr>
-<td>PGC</td>
-<td>持久代当前空间容量，单位KB</td>
-<td>-gccapacity <br>-gcpermcapacity</td>
-</tr>
-<tr>
-<td>PC</td>
-<td>持久代当前空间大小，单位KB</td>
-<td>-gccapacity<br>-gcpermcapacity</td>
-</tr>
-<tr>
-<td>PU</td>
-<td>持久代当前已用空间大小，单位KB</td>
-<td>-gc<br>-gcold</td>
-</tr>
-<tr>
-<td>LGCC</td>
-<td>最后一次GC发生的原因</td>
-<td>-gccause</td>
-</tr>
-<tr>
-<td>GCC</td>
-<td>当前GC发生的原因</td>
-<td>-gccause</td>
-</tr>
-<tr>
-<td>TT</td>
-<td>老年化阈值。被移动到老年代之前，在新生代空存活的次数。</td>
-<td>-gcnew</td>
-</tr>
-<tr>
-<td>MTT</td>
-<td>最大老年化阈值。被移动到老年代之前，在新生代空存活的次数。</td>
-<td>-gcnew</td>
-</tr>
-<tr>
-<td>DSS</td>
-<td>幸存者区所需空间大小，单位KB</td>
-<td>-gcnew</td>
-</tr>
-</tbody>
-</table>
-<h2 id="jinfo_uFF1AJava_u914D_u7F6E_u4FE1_u606F_u5DE5_u5177"><a href="#jinfo_uFF1AJava_u914D_u7F6E_u4FE1_u606F_u5DE5_u5177" class="headerlink" title="jinfo：Java配置信息工具"></a>jinfo：Java配置信息工具</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-jinfo-1.png" alt=""></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ jinfo -flag CICompilerCount  <span class="number">51710</span></span><br><span class="line">-XX:CICompilerCount=<span class="number">4</span></span><br><span class="line"></span><br><span class="line">➜  ~ jinfo -sysprops <span class="number">51710</span></span><br><span class="line">Attaching to process ID <span class="number">51710</span>, please wait...</span><br><span class="line">Debugger attached successfully.</span><br><span class="line">Server compiler detected.</span><br><span class="line">JVM version is <span class="number">25.65</span>-b01</span><br><span class="line">java.vendor = Oracle CorporationUnnamed_LJS-<span class="number">2</span></span><br><span class="line">sun.management.compiler = HotSpot <span class="number">64</span>-Bit Tiered Compilers</span><br><span class="line">catalina.useNaming = <span class="literal">true</span></span><br><span class="line">os.name = Mac OS X</span><br><span class="line">...</span><br><span class="line">java.vm.name = Java HotSpot(TM) <span class="number">64</span>-Bit Server VM</span><br><span class="line">file.encoding = US-ASCII</span><br><span class="line">java.specification.version = <span class="number">1.8</span></span><br></pre></td></tr></table></figure>
-<h2 id="jmap_uFF1AJava_u5185_u5B58_u6620_u50CF_u5DE5_u5177"><a href="#jmap_uFF1AJava_u5185_u5B58_u6620_u50CF_u5DE5_u5177" class="headerlink" title="jmap：Java内存映像工具"></a>jmap：Java内存映像工具</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-jmap.png" alt=""></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ jmap -dump:format=b,file=idea.bin <span class="number">51710</span></span><br><span class="line">Dumping heap to /Users/larry/idea.bin ...</span><br><span class="line">Heap dump file created</span><br><span class="line"></span><br><span class="line">➜  ~ jmap -heap <span class="number">51710</span></span><br><span class="line">...</span><br><span class="line">using thread-local object allocation.</span><br><span class="line">Parallel GC with <span class="number">8</span> thread(s)</span><br><span class="line"></span><br><span class="line">Heap Configuration:</span><br><span class="line">   M<span class="keyword">in</span>HeapFreeRatio         = <span class="number">0</span></span><br><span class="line">   MaxHeapFreeRatio         = <span class="number">100</span></span><br><span class="line">   MaxHeapSize              = <span class="number">4294967296</span> (<span class="number">4096.0</span>MB)</span><br><span class="line">   NewSize                  = <span class="number">89128960</span> (<span class="number">85.0</span>MB)</span><br><span class="line">   MaxNewSize               = <span class="number">1431306240</span> (<span class="number">1365.0</span>MB)</span><br><span class="line">   OldSize                  = <span class="number">179306496</span> (<span class="number">171.0</span>MB)</span><br><span class="line">   NewRatio                 = <span class="number">2</span></span><br><span class="line">   SurvivorRatio            = <span class="number">8</span></span><br><span class="line">   MetaspaceSize            = <span class="number">21807104</span> (<span class="number">20.796875</span>MB)</span><br><span class="line">   CompressedClassSpaceSize = <span class="number">1073741824</span> (<span class="number">1024.0</span>MB)</span><br><span class="line">   MaxMetaspaceSize         = <span class="number">17592186044415</span> MB</span><br><span class="line">   G1HeapRegionSize         = <span class="number">0</span> (<span class="number">0.0</span>MB)</span><br><span class="line"></span><br><span class="line">Heap Usage:</span><br><span class="line">PS Young Generation</span><br><span class="line">Eden Space:</span><br><span class="line">   capacity = <span class="number">819462144</span> (<span class="number">781.5</span>MB)</span><br><span class="line">   used     = <span class="number">155157104</span> (<span class="number">147.96934509277344</span>MB)</span><br><span class="line">   free     = <span class="number">664305040</span> (<span class="number">633.5306549072266</span>MB)</span><br><span class="line">   <span class="number">18.93401728634337</span>% used</span><br><span class="line">From Space:</span><br><span class="line">   capacity = <span class="number">47710208</span> (<span class="number">45.5</span>MB)</span><br><span class="line">   used     = <span class="number">0</span> (<span class="number">0.0</span>MB)</span><br><span class="line">   free     = <span class="number">47710208</span> (<span class="number">45.5</span>MB)</span><br><span class="line">   <span class="number">0.0</span>% used</span><br><span class="line">To Space:</span><br><span class="line">   capacity = <span class="number">49283072</span> (<span class="number">47.0</span>MB)</span><br><span class="line">   used     = <span class="number">0</span> (<span class="number">0.0</span>MB)</span><br><span class="line">   free     = <span class="number">49283072</span> (<span class="number">47.0</span>MB)</span><br><span class="line">   <span class="number">0.0</span>% used</span><br><span class="line">PS Old Generation</span><br><span class="line">   capacity = <span class="number">131072000</span> (<span class="number">125.0</span>MB)</span><br><span class="line">   used     = <span class="number">30525568</span> (<span class="number">29.1114501953125</span>MB)</span><br><span class="line">   free     = <span class="number">100546432</span> (<span class="number">95.8885498046875</span>MB)</span><br><span class="line">   <span class="number">23.28916015625</span>% used</span><br><span class="line"></span><br><span class="line"><span class="number">18359</span> interned Strings occupying <span class="number">2261944</span> bytes.</span><br></pre></td></tr></table></figure>
-<h2 id="jhat_uFF1A_u865A_u62DF_u673A_u5806_u8F6C_u50A8_u5FEB_u7167_u5206_u6790_u5DE5_u5177"><a href="#jhat_uFF1A_u865A_u62DF_u673A_u5806_u8F6C_u50A8_u5FEB_u7167_u5206_u6790_u5DE5_u5177" class="headerlink" title="jhat：虚拟机堆转储快照分析工具"></a>jhat：虚拟机堆转储快照分析工具</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-jhat.png" alt=""></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ jhat idea.bin</span><br><span class="line">Reading from idea.bin...</span><br><span class="line">Dump file created Mon Mar <span class="number">13</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">15</span> CST <span class="number">2017</span></span><br><span class="line">Snapshot <span class="built_in">read</span>, resolving...</span><br><span class="line">Resolving <span class="number">968447</span> objects...</span><br><span class="line">Chasing references, expect <span class="number">193</span> dots.................................................................................................................................................................................................</span><br><span class="line">Eliminating duplicate references.................................................................................................................................................................................................</span><br><span class="line">Snapshot resolved.</span><br><span class="line">Started HTTP server on port <span class="number">7000</span></span><br><span class="line">Server is ready.</span><br></pre></td></tr></table></figure>
-<p>分析结果默认是以包为单位进行分组显示，分析内存漏洞问题主要会用到其中的『Heap Histogram』（与jmap -histo功能一样）与OQL页签的功能。</p>
-<h2 id="jstack_uFF1AJava_u5806_u6808_u8DDF_u8E2A_u5DE5_u5177"><a href="#jstack_uFF1AJava_u5806_u6808_u8DDF_u8E2A_u5DE5_u5177" class="headerlink" title="jstack：Java堆栈跟踪工具"></a>jstack：Java堆栈跟踪工具</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-jstack-1.png" alt="Java堆栈跟踪工具"></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">➜ </span><br><span class="line">jstack <span class="operator">-l</span> <span class="number">72980</span></span><br><span class="line"><span class="number">2017</span>-<span class="number">03</span>-<span class="number">20</span> <span class="number">11</span>:<span class="number">16</span>:<span class="number">49</span></span><br><span class="line">Full thread dump Java HotSpot(TM) <span class="number">64</span>-Bit Server VM (<span class="number">25.65</span>-b01 mixed mode):</span><br><span class="line"></span><br><span class="line"><span class="string">"Attach Listener"</span> <span class="comment">#52 daemon prio=9 os_prio=31 tid=0x00007fc9ae8bc800 nid=0x9303 waiting on condition [0x0000000000000000]</span></span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line"></span><br><span class="line">   Locked ownable synchronizers:</span><br><span class="line">        - None</span><br><span class="line"></span><br><span class="line"><span class="string">"http-nio-8080-exec-7"</span> <span class="comment">#51 daemon prio=5 os_prio=31 tid=0x00007fc9cc1ac000 nid=0x9103 waiting on condition [0x0000700005057000]</span></span><br><span class="line">   java.lang.Thread.State: WAITING (parking)</span><br><span class="line">        at sun.misc.Unsafe.park(Native Method)</span><br><span class="line">        - parking to <span class="built_in">wait</span> <span class="keyword">for</span>  &lt;<span class="number">0</span>x00000006c0913a10&gt; (a java.util.concurrent.locks.AbstractQueuedSynchronizer<span class="variable">$ConditionObject</span>)</span><br><span class="line">        at java.util.concurrent.locks.LockSupport.park(LockSupport.java:<span class="number">175</span>)</span><br><span class="line">        at java.util.concurrent.locks.AbstractQueuedSynchronizer<span class="variable">$ConditionObject</span>.await(AbstractQueuedSynchronizer.java:<span class="number">2039</span>)</span><br><span class="line">        at java.util.concurrent.LinkedBlockingQueue.take(LinkedBlockingQueue.java:<span class="number">442</span>)</span><br><span class="line">        at org.apache.tomcat.util.threads.TaskQueue.take(TaskQueue.java:<span class="number">103</span>)</span><br><span class="line">        at org.apache.tomcat.util.threads.TaskQueue.take(TaskQueue.java:<span class="number">31</span>)</span><br><span class="line">        at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:<span class="number">1067</span>)</span><br><span class="line">        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:<span class="number">1127</span>)</span><br><span class="line">        at java.util.concurrent.ThreadPoolExecutor<span class="variable">$Worker</span>.run(ThreadPoolExecutor.java:<span class="number">617</span>)</span><br><span class="line">        at org.apache.tomcat.util.threads.TaskThread<span class="variable">$WrappingRunnable</span>.run(TaskThread.java:<span class="number">61</span>)</span><br><span class="line">        at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br><span class="line"></span><br><span class="line">   Locked ownable synchronizers:</span><br><span class="line">        - None</span><br></pre></td></tr></table></figure>
-
-
+        
+          <p class="article-more-link">
+            <a href="/2017/03/08/JVM-note-8/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/03/08/JVM-note-8/" data-id="cj152ftzi003594uqz6y0nw4a" class="article-share-link" data-share="baidu" data-title="JVM笔记八：Sun JDK监控和故障处理工具">分享到</a>
+        <a data-url="http://suqun.github.io/2017/03/08/JVM-note-8/" data-id="cj15t9pij0035kcuqx8ir4bxk" class="article-share-link" data-share="baidu" data-title="JVM笔记八：Sun JDK监控和故障处理工具">分享到</a>
       
 
       
@@ -499,7 +307,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/25/thinking-1/" data-id="cj152ftxg000f94uqhbzlymqa" class="article-share-link" data-share="baidu" data-title="一些想法">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/25/thinking-1/" data-id="cj15t9pgj000fkcuq7cejfn2a" class="article-share-link" data-share="baidu" data-title="一些想法">分享到</a>
       
 
       
@@ -536,18 +344,18 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-      <!-- Table of Contents -->
-      
-
-      <p>对象的内存分配，往大方向讲，就是在堆上分配（也可能经过JIT编译后被拆散为标量类型并间接的在栈上分配），对象主要分配在新生代的Eden区上，如果启动了本地线程分配缓冲，将按线程优先在TLAB上分配。少数情况下分配在老生代上，分配的规则并不是百分百固定的，其细节取决于当前使用的哪种垃圾收集器组合，还有虚拟机内存相关参数的设置。</p>
+        <p>对象的内存分配，往大方向讲，就是在堆上分配（也可能经过JIT编译后被拆散为标量类型并间接的在栈上分配），对象主要分配在新生代的Eden区上，如果启动了本地线程分配缓冲，将按线程优先在TLAB上分配。少数情况下分配在老生代上，分配的规则并不是百分百固定的，其细节取决于当前使用的哪种垃圾收集器组合，还有虚拟机内存相关参数的设置。</p>
 <h2 id="u5BF9_u8C61_u4F18_u5148_u5728Eden_u533A_u5206_u914D"><a href="#u5BF9_u8C61_u4F18_u5148_u5728Eden_u533A_u5206_u914D" class="headerlink" title="对象优先在Eden区分配"></a>对象优先在Eden区分配</h2><p>上一篇垃圾收集器的GC示例已经把各个收集器的内存分配测试做了一遍，可以回顾上篇内容。</p>
-<h2 id="u5927_u5BF9_u8C61_u76F4_u63A5_u8FDB_u5165_u8001_u5E74_u4EE3"><a href="#u5927_u5BF9_u8C61_u76F4_u63A5_u8FDB_u5165_u8001_u5E74_u4EE3" class="headerlink" title="大对象直接进入老年代"></a>大对象直接进入老年代</h2><h2 id="u957F_u671F_u5B58_u6D3B_u7684_u5BF9_u8C61_u5C06_u8FDB_u5165_u8001_u5E74_u4EE3"><a href="#u957F_u671F_u5B58_u6D3B_u7684_u5BF9_u8C61_u5C06_u8FDB_u5165_u8001_u5E74_u4EE3" class="headerlink" title="长期存活的对象将进入老年代"></a>长期存活的对象将进入老年代</h2><h2 id="u52A8_u6001_u5BF9_u8C61_u5E74_u9F84_u5224_u5B9A"><a href="#u52A8_u6001_u5BF9_u8C61_u5E74_u9F84_u5224_u5B9A" class="headerlink" title="动态对象年龄判定"></a>动态对象年龄判定</h2><h2 id="u7A7A_u95F4_u5206_u914D_u62C5_u4FDD"><a href="#u7A7A_u95F4_u5206_u914D_u62C5_u4FDD" class="headerlink" title="空间分配担保"></a>空间分配担保</h2>
-
+        
+          <p class="article-more-link">
+            <a href="/2017/02/21/JVM-note-7/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/21/JVM-note-7/" data-id="cj152ftzj003894uqxhd1xfss" class="article-share-link" data-share="baidu" data-title="JVM笔记七：垃圾收集器与内存分配策略——内存分配与回收策略">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/21/JVM-note-7/" data-id="cj15t9pil0038kcuqc7nul3mr" class="article-share-link" data-share="baidu" data-title="JVM笔记七：垃圾收集器与内存分配策略——内存分配与回收策略">分享到</a>
       
 
       
@@ -586,10 +394,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-      <!-- Table of Contents -->
-      
-
-      <p>基于JDK1.7 Update 14之后的HotSpot虚拟机的垃圾收集器。</p>
+        <p>基于JDK1.7 Update 14之后的HotSpot虚拟机的垃圾收集器。</p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-gc.png" alt=""></p>
 <p>两个收集器之间有连线，说明他们可以搭配使用。收集器所处的区域，则表示他是属于新生代收集器还是老生代收集器。</p>
 <h2 id="Serial_u6536_u96C6_u5668"><a href="#Serial_u6536_u96C6_u5668" class="headerlink" title="Serial收集器"></a>Serial收集器</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-serial.png" alt=""></p>
@@ -602,151 +407,16 @@
 <li><strong>新生代总可用空间：9216KB（Eden区+1个Survivor区的总容量）</strong></li>
 <li><strong>-XX:+PrintGCDetail</strong>，在发生垃圾收集时打印内存回收日志</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * MinorGC</span><br><span class="line"> * VM Args: -XX:+UseSerialGC -Xms20M -Xmx20M -Xmn10M -XX:+PrintGCDetails -XX:SurvivorRatio=8</span><br><span class="line"> * Created by larry.su on 2017/2/21.</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MinorGC</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> _1M = <span class="number">1024</span> * <span class="number">1024</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">byte</span>[] allocation1,allocation2,allocation3,allocation4;</span><br><span class="line">        allocation1 = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">2</span> * _1M];</span><br><span class="line">        allocation2 = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">2</span> * _1M];</span><br><span class="line">        allocation3 = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">2</span> * _1M];</span><br><span class="line">        allocation4 = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4</span> * _1M]; <span class="comment">//出现一次MinorGC</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
-<li><p>main方法执行后，在分配allocation4对象时，发生一次Minor GC，这次GC的结果是新生代7814K变为423K，而总内存占用量（7814K-&gt;6567K(19456K)）几乎没有减少（因为allocation1、allocation2、allocation3三个对象都是存活的，虚拟机几乎没有找到可回收的对象）。</p>
-</li>
-<li><p>这次GC的原因是给allocation4分配所需的4MB内存的时候，发现Eden已经被占用了6MB，剩余空间已不足分配allocation4对象所需的4MB，因此发生Minor GC。</p>
-</li>
-<li><p>GC期间虚拟机又发现已有的3个2MB的对象无法全部放入Survivor空间（Survivor空间只有1MB大小），所以只好通过分配担保机制提前转移到老年代去。</p>
-</li>
-<li><p>这次GC结束后，4MB的allocation4对象顺利分配在Eden中，因此程序执行完成的结果是Eden占用4MB，Servivor空闲，老年代被占用6MB。</p>
-</li>
-</ol>
-<p>JDK1.6使用Serial收集器的GC日志：</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[<span class="constant">GC</span> (<span class="constant">Allocation</span> <span class="constant">Failure</span>) [<span class="constant">DefNew</span><span class="symbol">:</span> <span class="number">7814</span>K-&gt;<span class="number">423</span>K(<span class="number">9216</span>K), <span class="number">0</span>.<span class="number">0051201</span> secs] <span class="number">7814</span>K-&gt;<span class="number">6567</span>K(<span class="number">19456</span>K), <span class="number">0</span>.<span class="number">00513</span>87 secs] [<span class="constant">Times</span><span class="symbol">:</span> user=<span class="number">0</span>.<span class="number">00</span> sys=<span class="number">0</span>.<span class="number">00</span>, real=<span class="number">0</span>.<span class="number">00</span> secs]</span><br><span class="line">        <span class="constant">Heap</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">new</span> <span class="title">generation</span>   <span class="title">total</span> 9216<span class="title">K</span>, <span class="title">used</span> 4656<span class="title">K</span> [0<span class="title">x00000007bec00000</span>, 0<span class="title">x00000007bf600000</span>, 0<span class="title">x00000007bf600000</span>)</span></span><br><span class="line">        eden space <span class="number">8192</span>K,  <span class="number">51</span>% used [<span class="number">0x00000007bec00000</span>, <span class="number">0x00000007bf022408</span>, <span class="number">0x00000007bf400000</span>)</span><br><span class="line">        from space <span class="number">1024</span>K,  <span class="number">41</span>% used [<span class="number">0x00000007bf500000</span>, <span class="number">0x00000007bf569ca8</span>, <span class="number">0x00000007bf600000</span>)</span><br><span class="line">        to   space <span class="number">1024</span>K,   <span class="number">0</span>% used [<span class="number">0x00000007bf400000</span>, <span class="number">0x00000007bf400000</span>, <span class="number">0x00000007bf500000</span>)</span><br><span class="line">        tenured generation   total <span class="number">10240</span>K, used <span class="number">6144</span>K [<span class="number">0x00000007bf600000</span>, <span class="number">0x00000007c0000000</span>, <span class="number">0x00000007c0000000</span>)</span><br><span class="line">        the space <span class="number">10240</span>K,  <span class="number">60</span>% used [<span class="number">0x00000007bf600000</span>, <span class="number">0x00000007bfc00030</span>, <span class="number">0x00000007bfc00200</span>, <span class="number">0x00000007c0000000</span>)</span><br><span class="line">        <span class="constant">Metaspace</span>       used <span class="number">2917</span>K, capacity <span class="number">4494</span>K, committed <span class="number">4864</span>K, reserved <span class="number">1056768</span>K</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">space</span>    <span class="title">used</span> 318<span class="title">K</span>, <span class="title">capacity</span> 386<span class="title">K</span>, <span class="title">committed</span> 512<span class="title">K</span>, <span class="title">reserved</span> 1048576<span class="title">K</span></span></span><br></pre></td></tr></table></figure>
-<h2 id="ParNew_u6536_u96C6_u5668"><a href="#ParNew_u6536_u96C6_u5668" class="headerlink" title="ParNew收集器"></a>ParNew收集器</h2><p>ParNew收集器其实就是Serial收集器的多线程版本，使用多条线程进行垃圾收集。</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parnew.png" alt=""></p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parnew-1.png" alt="ParNew / Serial Old收集器运行示意图"></p>
-<p>MinorGC示例使用ParNew收集器的GC日志：</p>
-<p>JDK8虚拟机参数：</p>
-<ul>
-<li>-Xms20M</li>
-<li>-Xmx20M</li>
-<li>-Xmn10M</li>
-<li>-XX:+PrintGCDetails</li>
-<li><strong>-XX:+UseParNewGC</strong></li>
-</ul>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[<span class="constant">GC</span> (<span class="constant">Allocation</span> <span class="constant">Failure</span>) [<span class="constant">ParNew</span><span class="symbol">:</span> <span class="number">7814</span>K-&gt;<span class="number">467</span>K(<span class="number">9216</span>K), <span class="number">0</span>.<span class="number">0056367</span> secs] <span class="number">7814</span>K-&gt;<span class="number">6611</span>K(<span class="number">19456</span>K), <span class="number">0</span>.<span class="number">00565</span>88 secs] [<span class="constant">Times</span><span class="symbol">:</span> user=<span class="number">0</span>.<span class="number">01</span> sys=<span class="number">0</span>.<span class="number">00</span>, real=<span class="number">0</span>.<span class="number">00</span> secs]</span><br><span class="line">        <span class="constant">Heap</span></span><br><span class="line">        par new generation   total <span class="number">9216</span>K, used <span class="number">4700</span>K [<span class="number">0x00000007bec00000</span>, <span class="number">0x00000007bf600000</span>, <span class="number">0x00000007bf600000</span>)</span><br><span class="line">        eden space <span class="number">8192</span>K,  <span class="number">51</span>% used [<span class="number">0x00000007bec00000</span>, <span class="number">0x00000007bf022408</span>, <span class="number">0x00000007bf400000</span>)</span><br><span class="line">        from space <span class="number">1024</span>K,  <span class="number">45</span>% used [<span class="number">0x00000007bf500000</span>, <span class="number">0x00000007bf574ed8</span>, <span class="number">0x00000007bf600000</span>)</span><br><span class="line">        to   space <span class="number">1024</span>K,   <span class="number">0</span>% used [<span class="number">0x00000007bf400000</span>, <span class="number">0x00000007bf400000</span>, <span class="number">0x00000007bf500000</span>)</span><br><span class="line">        tenured generation   total <span class="number">10240</span>K, used <span class="number">6144</span>K [<span class="number">0x00000007bf600000</span>, <span class="number">0x00000007c0000000</span>, <span class="number">0x00000007c0000000</span>)</span><br><span class="line">        the space <span class="number">10240</span>K,  <span class="number">60</span>% used [<span class="number">0x00000007bf600000</span>, <span class="number">0x00000007bfc00030</span>, <span class="number">0x00000007bfc00200</span>, <span class="number">0x00000007c0000000</span>)</span><br><span class="line">        <span class="constant">Metaspace</span>       used <span class="number">2946</span>K, capacity <span class="number">4494</span>K, committed <span class="number">4864</span>K, reserved <span class="number">1056768</span>K</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">space</span>    <span class="title">used</span> 319<span class="title">K</span>, <span class="title">capacity</span> 386<span class="title">K</span>, <span class="title">committed</span> 512<span class="title">K</span>, <span class="title">reserved</span> 1048576<span class="title">K</span></span></span><br></pre></td></tr></table></figure>
-<p>后面还会接触几款并行和并发的收集器。在谈垃圾收集的上下文语境下，可以解释如下：</p>
-<ul>
-<li><strong>并行（Parallel）</strong>：指多条垃圾收集线程并行工作，但此时用户线程仍然处于等待状态</li>
-<li><strong>并发（Concurrent）</strong>：指用户线程与垃圾收集线程同时执行（但不一定是并行的，可能会交替执行），用户程序在继续运行，而垃圾收集程序运行在另一个cpu上</li>
-</ul>
-<h2 id="Parallel_Scavenge_u6536_u96C6_u5668"><a href="#Parallel_Scavenge_u6536_u96C6_u5668" class="headerlink" title="Parallel Scavenge收集器"></a>Parallel Scavenge收集器</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parallel-scavenge.png" alt=""></p>
-<h2 id="Serial_Old_u6536_u96C6_u5668"><a href="#Serial_Old_u6536_u96C6_u5668" class="headerlink" title="Serial Old收集器"></a>Serial Old收集器</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-serial-old.png" alt=""></p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-serial-1.png" alt="Serial / Serial Old收集器运行示意图"></p>
-<h2 id="Parallel_Old_u6536_u96C6_u5668"><a href="#Parallel_Old_u6536_u96C6_u5668" class="headerlink" title="Parallel Old收集器"></a>Parallel Old收集器</h2><p>Parallel Old收集器是Parallel Scavenge收集器的老年代版本，使用多线程和标记-整理算法。</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-parallel-old.png" alt=""></p>
-<p>MinorGC示例使用Parallel Scavenge + Parallel Old收集器的GC日志：</p>
-<p>JDK8虚拟机参数：</p>
-<ul>
-<li>-Xms20M</li>
-<li>-Xmx20M</li>
-<li>-Xmn10M</li>
-<li>-XX:+PrintGCDetails</li>
-<li><strong>-XX:+UseParallelOldGC</strong></li>
-</ul>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="constant">Heap</span></span><br><span class="line">        <span class="constant">PSYoungGen</span>      total <span class="number">9216</span>K, used <span class="number">7979</span>K [<span class="number">0x00000007bf600000</span>, <span class="number">0x00000007c0000000</span>, <span class="number">0x00000007c0000000</span>)</span><br><span class="line">        eden space <span class="number">8192</span>K, <span class="number">97</span>% used [<span class="number">0x00000007bf600000</span>,<span class="number">0x00000007bfdcac90</span>,<span class="number">0x00000007bfe00000</span>)</span><br><span class="line">        from space <span class="number">1024</span>K, <span class="number">0</span>% used [<span class="number">0x00000007bff00000</span>,<span class="number">0x00000007bff00000</span>,<span class="number">0x00000007c0000000</span>)</span><br><span class="line">        to   space <span class="number">1024</span>K, <span class="number">0</span>% used [<span class="number">0x00000007bfe00000</span>,<span class="number">0x00000007bfe00000</span>,<span class="number">0x00000007bff00000</span>)</span><br><span class="line">        <span class="constant">ParOldGen</span>       total <span class="number">10240</span>K, used <span class="number">4096</span>K [<span class="number">0x00000007bec00000</span>, <span class="number">0x00000007bf600000</span>, <span class="number">0x00000007bf600000</span>)</span><br><span class="line">        object space <span class="number">10240</span>K, <span class="number">40</span>% used [<span class="number">0x00000007bec00000</span>,<span class="number">0x00000007bf000010</span>,<span class="number">0x00000007bf600000</span>)</span><br><span class="line">        <span class="constant">Metaspace</span>       used <span class="number">2967</span>K, capacity <span class="number">4494</span>K, committed <span class="number">4864</span>K, reserved <span class="number">1056768</span>K</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">space</span>    <span class="title">used</span> 322<span class="title">K</span>, <span class="title">capacity</span> 386<span class="title">K</span>, <span class="title">committed</span> 512<span class="title">K</span>, <span class="title">reserved</span> 1048576<span class="title">K</span></span></span><br></pre></td></tr></table></figure>
-<p>『ParOldGen       total 10240K, used 4096K』看出allocation4直接被分配到老年代中。</p>
-<h2 id="CMS_u6536_u96C6_u5668"><a href="#CMS_u6536_u96C6_u5668" class="headerlink" title="CMS收集器"></a>CMS收集器</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-cms-2.png" alt=""></p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-cms-1.png" alt="Concurrent Mark Sweep 收集器运行示意图"></p>
-<p>MinorGC示例使用ParNew + CMS + Serial Old(后备)收集器的GC日志：</p>
-<p>JDK8虚拟机参数：</p>
-<ul>
-<li>-Xms20M</li>
-<li>-Xmx20M</li>
-<li>-Xmn10M</li>
-<li>-XX:+PrintGCDetails</li>
-<li><strong>-XX:+UseConcMarkSweepGC</strong></li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[GC (Allocation Failure) [ParNew: 8144K-&gt;455K(9216K), 0.0054356 secs] 8144K-&gt;6601K(19456K), 0.0054911 secs] [Times: user=0.03 sys=0.00, real=0.00 secs] </span><br><span class="line">[GC (CMS Initial Mark) [1 CMS-initial-mark: 6146K(10240K)] 10697K(19456K), 0.0002332 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[CMS-concurrent-mark-start]</span><br><span class="line">[CMS-concurrent-mark: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[CMS-concurrent-preclean-start]</span><br><span class="line">[CMS-concurrent-preclean: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[CMS-concurrent-abortable-preclean-start]</span><br><span class="line">[CMS-concurrent-abortable-preclean: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[GC (CMS Final Remark) [YG occupancy: 4551 K (9216 K)][Rescan (parallel) , 0.0002916 secs][weak refs processing, 0.0000330 secs][class unloading, 0.0001571 secs][scrub symbol table, 0.0003754 secs][scrub string table, 0.0001245 secs][1 CMS-remark: 6146K(10240K)] 10697K(19456K), 0.0010223 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[CMS-concurrent-sweep-start]</span><br><span class="line">[CMS-concurrent-sweep: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">[CMS-concurrent-reset-start]</span><br><span class="line">[CMS-concurrent-reset: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] </span><br><span class="line">Heap</span><br><span class="line"> par new generation   total 9216K, used 4634K [0x00000007bec00000, 0x00000007bf600000, 0x00000007bf600000)</span><br><span class="line">  eden space 8192K,  51% used [0x00000007bec00000, 0x00000007bf014930, 0x00000007bf400000)</span><br><span class="line">  from space 1024K,  44% used [0x00000007bf500000, 0x00000007bf571f58, 0x00000007bf600000)</span><br><span class="line">  to   space 1024K,   0% used [0x00000007bf400000, 0x00000007bf400000, 0x00000007bf500000)</span><br><span class="line"> concurrent mark-sweep generation total 10240K, used 6146K [0x00000007bf600000, 0x00000007c0000000, 0x00000007c0000000)</span><br><span class="line"> Metaspace       used 2811K, capacity 4490K, committed 4864K, reserved 1056768K</span><br><span class="line">  class space    used 305K, capacity 386K, committed 512K, reserved 1048576K</span><br></pre></td></tr></table></figure>
-<p>新生代使用的ParNew收集器，allocation4分配时新生代已没有足够的空间分配。Survivior只有1M不能够存放allocation1，2，3三个对象，所以这三个对象会复制到concurrent mark-sweep generation 中。最终allocation4分配到par new generation中。</p>
-<p>从GC日志可以看出老年代GC的步骤：CMS-initial-mark -&gt; CMS-concurrent-mark -&gt; CMS-remark -&gt; CMS-concurrent-sweep -&gt; CMS-concurrent-reset(重置状态等待下一次触发GC)</p>
-<h2 id="G1_u6536_u96C6_u5668"><a href="#G1_u6536_u96C6_u5668" class="headerlink" title="G1收集器"></a>G1收集器</h2><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-g1.png" alt=""></p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-g1-1.png" alt="G1收集器运行示意图"></p>
-<h2 id="u5783_u573E_u6536_u96C6_u5668_u53C2_u6570_u603B_u7ED3"><a href="#u5783_u573E_u6536_u96C6_u5668_u53C2_u6570_u603B_u7ED3" class="headerlink" title="垃圾收集器参数总结"></a>垃圾收集器参数总结</h2><p>垃圾收集相关的常用参数：</p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th style="text-align:center">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>UseSerialGC</td>
-<td style="text-align:center">虚拟机运行在Client模式下的默认值，打开此开关后，使用 <strong>Serial + Serial Old</strong>的收集器组合进行内存回收</td>
-</tr>
-<tr>
-<td>UseParNewGC</td>
-<td style="text-align:center">打开此开关后，使用<strong>ParNew + Serial Old</strong>的收集器组合进行内存回收</td>
-</tr>
-<tr>
-<td>UseConcMarkSweepGC</td>
-<td style="text-align:center">打开此开关后，使用<strong>ParNew + CMS + Serial Old</strong>的收集器组合进行内存回收。Serial Old作为CMS出现Concurrent Mode Failure失败后的后备收集器使用</td>
-</tr>
-<tr>
-<td>UseParallelGC</td>
-<td style="text-align:center">虚拟机运行在Server模式下的默认值，打开此开关后，使用<strong>Parallel Scanvenge + Serial Old</strong> (PS MarkSweep)的收集器组合进行内存回收</td>
-</tr>
-<tr>
-<td>UseParallelOldGC</td>
-<td style="text-align:center">打开此开关后，使用 <strong>Parallel Scavenge + Parallel Old</strong>的收集器组合进行内存回收</td>
-</tr>
-<tr>
-<td>SurvivorRatio</td>
-<td style="text-align:center">新生代中Eden区域与Survivor区域的容量比值，<strong>默认为8</strong>，代表<strong>Eden:Survivor = 8:1</strong></td>
-</tr>
-<tr>
-<td>PretenureSizeThreshold</td>
-<td style="text-align:center"><strong>直接晋级到老年代的对象大小</strong>，设置后，大于这个参数的对象将直接在老年代中分配</td>
-</tr>
-<tr>
-<td>MaxTenuringThreshold</td>
-<td style="text-align:center"><strong>晋升到老年代的对象年龄</strong>。每个对象坚持过一次Minor GC之后，年龄就增加1，当超过这个参数值以后就进入老年代</td>
-</tr>
-<tr>
-<td>UseAdaptiveSizePolicy</td>
-<td style="text-align:center"><strong>动态调整Java堆中各个区域的大小以及进入老年代的年龄</strong></td>
-</tr>
-<tr>
-<td>HandlePromotionFailure</td>
-<td style="text-align:center"><strong>是否允许担保失败</strong>，即老年代的剩余空间不足以应付新生代的整个Eden和Survivor区所有对象都存活的极端情况</td>
-</tr>
-<tr>
-<td>ParallelGCThreads</td>
-<td style="text-align:center">设置<strong>并行GC时进行内存回收的线程数</strong></td>
-</tr>
-<tr>
-<td>GCTimeRatio</td>
-<td style="text-align:center"><strong>GC时间占总时间的比率</strong>，默认值99，即允许1%的GC时间。仅在使用Parallel Scavenge收集器时生效</td>
-</tr>
-<tr>
-<td>MaxGCPauseMillis</td>
-<td style="text-align:center"><strong>设置GC的最大停顿时间</strong>。仅在使用Parallel Scavenge收集器时生效</td>
-</tr>
-<tr>
-<td>CMSInitiatingOccupancyFraction</td>
-<td style="text-align:center">设置<strong>CMS收集器在老年代空间被使用多少后触发垃圾收集</strong>。默认值为<strong>68%</strong>，仅在CMS收集器时生效</td>
-</tr>
-<tr>
-<td>UseCMSCompactAtFullCollection</td>
-<td style="text-align:center">设置<strong>CMS收集器在完成垃圾收集后是否要进行一次内存碎片整理</strong>。仅在CMS收集器时生效</td>
-</tr>
-<tr>
-<td>CMSFullGCsBeforeCompaction</td>
-<td style="text-align:center">设置<strong>CMS收集器在进行若干次垃圾收集后再启动一次碎片整理</strong>。仅在CMS收集器时生效</td>
-</tr>
-</tbody>
-</table>
-
-
+        
+          <p class="article-more-link">
+            <a href="/2017/02/19/JVM-note-6/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/19/JVM-note-6/" data-id="cj152ftzs003a94uqg397nsyi" class="article-share-link" data-share="baidu" data-title="JVM笔记六：垃圾收集器与内存分配策略——垃圾收集器">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/19/JVM-note-6/" data-id="cj15t9pit003akcuqa4j583un" class="article-share-link" data-share="baidu" data-title="JVM笔记六：垃圾收集器与内存分配策略——垃圾收集器">分享到</a>
       
 
       
@@ -785,28 +455,20 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-      <!-- Table of Contents -->
-      
-
-      <h3 id="u6807_u8BB0-_u6E05_u9664_u7B97_u6CD5"><a href="#u6807_u8BB0-_u6E05_u9664_u7B97_u6CD5" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h3><p>最基础的垃圾收集算法。</p>
+        <h3 id="u6807_u8BB0-_u6E05_u9664_u7B97_u6CD5"><a href="#u6807_u8BB0-_u6E05_u9664_u7B97_u6CD5" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h3><p>最基础的垃圾收集算法。</p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-mark-sweep-1.png" alt=""></p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-mark-sweep.png" alt=""></p>
-<p>参考：<a href="http://www.jianshu.com/p/b0f5d21fe031" target="_blank" rel="external">http://www.jianshu.com/p/b0f5d21fe031</a></p>
-<h3 id="u590D_u5236_u7B97_u6CD5"><a href="#u590D_u5236_u7B97_u6CD5" class="headerlink" title="复制算法"></a>复制算法</h3><p>半区复制算法的目的也是为了更好的缓解内存碎片问题。</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-copying-2.png" alt=""></p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-copying.jpg" alt=""></p>
-<font color="red">现在的商业虚拟机都是采用这种收集算法来回收<strong>新生代</strong></font>，新生代中的对象98%是朝生夕死的，所以并不需要安装1:1的比例划分内存空间，而是将内存分为一块较大的Eden区，和两块较小的Survivor空间。<br><font color="red">HotSpot虚拟机默认Eden和Survivor的大小比例是8:1</font>，也就是每次新生代可用内存空间为整个新生代容量的90%，只有10%的内存会被浪费。当Servivor空间不够用时，需要依赖其他内存（这里指老年代）进行分担担保。<br><br><font color="green">复制收集算法在对象存活率较高时就要进行较多的复制操作，效率将会降低。更关键的是，如果不想浪费50%的空间，就需要有额外的空间进行担保，以应对被使用的内存中所有对象100%存活的极端情况，所以在老年代一般不能直接选用这种算法。</font>
-
-<h3 id="u6807_u8BB0-_u6574_u7406_u7B97_u6CD5"><a href="#u6807_u8BB0-_u6574_u7406_u7B97_u6CD5" class="headerlink" title="标记-整理算法"></a>标记-整理算法</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-mark-compact.png" alt=""></p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-mark-compact.jpg" alt=""></p>
-<h3 id="u5206_u4EE3_u6536_u96C6_u7B97_u6CD5"><a href="#u5206_u4EE3_u6536_u96C6_u7B97_u6CD5" class="headerlink" title="分代收集算法"></a>分代收集算法</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-generation-collection.png" alt=""></p>
-
-
+<p>参考：<a href="http://www.jianshu.com/p/b0f5d21fe031">http://www.jianshu.com/p/b0f5d21fe031</a></p>
+        
+          <p class="article-more-link">
+            <a href="/2017/02/18/JVM-note-5/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-5/" data-id="cj152ftzt003c94uq2kst2hvp" class="article-share-link" data-share="baidu" data-title="JVM笔记五：垃圾收集器与内存分配策略——垃圾收集算法">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-5/" data-id="cj15t9pit003ckcuq64yu4a0h" class="article-share-link" data-share="baidu" data-title="JVM笔记五：垃圾收集器与内存分配策略——垃圾收集算法">分享到</a>
       
 
       
@@ -843,25 +505,22 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-      <!-- Table of Contents -->
-      
-
-      <p>在堆里存放着Java世界中几乎所有的对象实例，垃圾收集器在对堆进行回收前，第一件事情就是要确定这些对象之中哪些还存活着，哪些已经死去（即不可能再被任何途径使用的对象）。</p>
+        <p>在堆里存放着Java世界中几乎所有的对象实例，垃圾收集器在对堆进行回收前，第一件事情就是要确定这些对象之中哪些还存活着，哪些已经死去（即不可能再被任何途径使用的对象）。</p>
 <h3 id="u5F15_u7528_u8BA1_u6570_u6CD5"><a href="#u5F15_u7528_u8BA1_u6570_u6CD5" class="headerlink" title="引用计数法"></a>引用计数法</h3><p>引用计数法（Reference Counting）：给对象中添加一个引用计数器，每当有一个地方引用它时，计数器就加1；当引用失效时，计数器就减1；任何时刻计数器为0的对象是不可能被使用的。主流的Java虚拟机里没有使用引用计数法来管理内存，主要原因是它很难解决对象之间的相互循环引用的问题。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * 引用计数器算法的缺陷</span><br><span class="line"> * VM Args：-XX:+PrintGCDetails</span><br><span class="line"> * JDK1.6</span><br><span class="line"> * Created by larry.su on 2017/2/18.</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReferenceCountingGC</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> Object instance = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> _1M = <span class="number">1024</span> * <span class="number">1024</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//这个成员属性的唯一意义就是占用点内存，以便能在GC中看清楚是否被回收过</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">byte</span>[] bigSize = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">2</span> * _1M];</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ReferenceCountingGC objA = <span class="keyword">new</span> ReferenceCountingGC();</span><br><span class="line">        ReferenceCountingGC objB = <span class="keyword">new</span> ReferenceCountingGC();</span><br><span class="line"></span><br><span class="line">        objA.instance = objB;</span><br><span class="line">        objB.instance = objA;</span><br><span class="line"></span><br><span class="line">        objA = <span class="keyword">null</span>;</span><br><span class="line">        objB = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//假设此时发生GC，objA和objB是否会被回收</span></span><br><span class="line">        System.gc();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>运行结果：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[<span class="function">Full <span class="title">GC</span> <span class="params">(System)</span> [CMS: 0K-&gt;423<span class="title">K</span><span class="params">(<span class="number">63872</span>K)</span>, 0.0099285 secs] **6167K-&gt;423K**<span class="params">(<span class="number">83008</span>K)</span>, [CMS Perm : 4749K-&gt;4747<span class="title">K</span><span class="params">(<span class="number">21248</span>K)</span>], 0.0107293 secs] [Times: user</span>=<span class="number">0.01</span> sys=<span class="number">0.00</span>, real=<span class="number">0.01</span> secs] </span><br><span class="line">Heap</span><br><span class="line"> par <span class="keyword">new</span> generation   total <span class="number">19136</span>K, used <span class="number">1021</span>K [<span class="number">7f</span>3000000, <span class="number">7f</span>44c0000, <span class="number">7f</span>44c0000)</span><br><span class="line">  eden space <span class="number">17024</span>K,   <span class="number">6</span>% used [<span class="number">7f</span>3000000, <span class="number">7f</span>30ff670, <span class="number">7f</span>40a0000)</span><br><span class="line">  from space <span class="number">2112</span>K,   <span class="number">0</span>% used [<span class="number">7f</span>40a0000, <span class="number">7f</span>40a0000, <span class="number">7f</span>42b0000)</span><br><span class="line">  to   space <span class="number">2112</span>K,   <span class="number">0</span>% used [<span class="number">7f</span>42b0000, <span class="number">7f</span>42b0000, <span class="number">7f</span>44c0000)</span><br><span class="line"> concurrent mark-sweep generation total <span class="number">63872</span>K, used <span class="number">423</span>K [<span class="number">7f</span>44c0000, <span class="number">7f</span>8320000, <span class="number">7f</span>ae00000)</span><br><span class="line"> concurrent-mark-sweep perm gen total <span class="number">21248</span>K, used <span class="number">4880</span>K [<span class="number">7f</span>ae00000, <span class="number">7f</span>c2c0000, <span class="number">800000000</span>)</span><br></pre></td></tr></table></figure>
 <p><strong>6167K-&gt;423K(83008K)</strong>意味着虚拟机并没有因为这两个对象并相互引用就不回收他们，也从侧面说明虚拟机并不是通过引用计数法来判断对象是否存活的。</p>
-<h3 id="u53EF_u8FBE_u6027_u5206_u6790_u7B97_u6CD5"><a href="#u53EF_u8FBE_u6027_u5206_u6790_u7B97_u6CD5" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com//jvm-reachabilityAnalysis.png" alt="可达性分析算法"></p>
-<h3 id="u518D_u8C08_u5F15_u7528"><a href="#u518D_u8C08_u5F15_u7528" class="headerlink" title="再谈引用"></a>再谈引用</h3><p>在JDK1.2之后，Java对引用的概念进行了扩充，分为强引用（Strong Reference）、软引用（Soft Reference）、弱引用（Weak Reference）、虚引用（Phantom Reference）4种，这4种引用强度依次逐渐减弱</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com//jvm-reference.png" alt="reference"></p>
-
-
+        
+          <p class="article-more-link">
+            <a href="/2017/02/18/JVM-note-4/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-4/" data-id="cj152ftzu003d94uqf6mjhzdg" class="article-share-link" data-share="baidu" data-title="JVM笔记四：垃圾收集器与内存分配策略——对象">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-4/" data-id="cj15t9piu003dkcuqnehmitxw" class="article-share-link" data-share="baidu" data-title="JVM笔记四：垃圾收集器与内存分配策略——对象">分享到</a>
       
 
       
@@ -900,34 +559,21 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-      <!-- Table of Contents -->
-      
-
-      <h2 id="Java_u5806_u6EA2_u51FA"><a href="#Java_u5806_u6EA2_u51FA" class="headerlink" title="Java堆溢出"></a>Java堆溢出</h2><p>Java堆用于存储对象实例，只要不断地创建对象，并且保证GC Roots到对象之间有可达路径来避免垃圾回收机制清除这些对象，那么在对象数量到达最大的容量限制后就会产生内存溢出异常。</p>
+        <h2 id="Java_u5806_u6EA2_u51FA"><a href="#Java_u5806_u6EA2_u51FA" class="headerlink" title="Java堆溢出"></a>Java堆溢出</h2><p>Java堆用于存储对象实例，只要不断地创建对象，并且保证GC Roots到对象之间有可达路径来避免垃圾回收机制清除这些对象，那么在对象数量到达最大的容量限制后就会产生内存溢出异常。</p>
 <p>下面代码限制Java堆的大小为20MB，不可扩展（将堆的最小值-Xms参数与最大值-Xmx参数设置为一样即可避免堆自动扩展），通过参数-XX:+HeapDumpOnOutOfMemoryError可以让虚拟机在出现内存溢出时Dump出当前的内存堆转储快照以便事后进行分析。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * HeapOOM</span><br><span class="line"> * Created by larry.su on 2017/2/7.</span><br><span class="line"> * -Xms20m -Xmx20m -XX:+HeapDumpOnOutOfMemoryError</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HeapOOM</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">OOMObject</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;OOMObject&gt; list = <span class="keyword">new</span> ArrayList&lt;OOMObject&gt;();</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            list.add(<span class="keyword">new</span> OOMObject());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>运行结果：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">java.lang.OutOfMemoryError: Java heap space</span><br><span class="line">Dumping heap to java_pid65766.hprof ...</span><br><span class="line">Heap dump file created [<span class="number">27784157</span> bytes in <span class="number">0.137</span> secs]</span><br><span class="line">Exception in thread <span class="string">"main"</span> java.lang.OutOfMemoryError: Java heap space</span><br></pre></td></tr></table></figure>
-<h3 id="u865A_u62DF_u673A_u6808_u548C_u672C_u5730_u65B9_u6CD5_u6808_u6EA2_u51FA"><a href="#u865A_u62DF_u673A_u6808_u548C_u672C_u5730_u65B9_u6CD5_u6808_u6EA2_u51FA" class="headerlink" title="虚拟机栈和本地方法栈溢出"></a>虚拟机栈和本地方法栈溢出</h3><p>HotSpot虚拟机中并不区分虚拟机栈和本地方法栈，对于HotSpot来说，虽然-Xoss参数（设置本地方法栈大小）存在，但实际上是无效的。栈容量只由-Xss参数设定。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * VM Args: -Xss160k</span><br><span class="line"> * Created by larry.su on 2017/2/17.</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaVMStackSOF</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> stackLength = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stackLeak</span><span class="params">()</span></span>&#123;</span><br><span class="line">        stackLength ++ ;</span><br><span class="line">        stackLeak();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        JavaVMStackSOF oom = <span class="keyword">new</span> JavaVMStackSOF();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            oom.stackLeak();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">            System.out.println(<span class="string">"stackLength:"</span> + oom.stackLength);</span><br><span class="line">            <span class="keyword">throw</span>  e;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>运行结果：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread <span class="string">"main"</span> java.lang.StackOverflowError</span><br><span class="line">stackLength:<span class="number">744</span></span><br><span class="line">    at com.jvm.JavaVMStackSOF.stackLeak(JavaVMStackSOF.java:<span class="number">14</span>)</span><br><span class="line">    at com.jvm.JavaVMStackSOF.stackLeak(JavaVMStackSOF.java:<span class="number">15</span>)</span><br><span class="line">    at com.jvm.JavaVMStackSOF.stackLeak(JavaVMStackSOF.java:<span class="number">15</span>)</span><br></pre></td></tr></table></figure>
-<p>在单线程下，无论是由于栈帧太大还是虚拟机栈帧容量太小，当内存无法分配的时候，虚拟机抛出的都是StackOverFlowError异常。</p>
-<h3 id="u65B9_u6CD5_u533A_u548C_u8FD0_u884C_u65F6_u5E38_u91CF_u6C60_u6EA2_u51FA"><a href="#u65B9_u6CD5_u533A_u548C_u8FD0_u884C_u65F6_u5E38_u91CF_u6C60_u6EA2_u51FA" class="headerlink" title="方法区和运行时常量池溢出"></a>方法区和运行时常量池溢出</h3><p>由于运行时常量池是方法区的一部分，因此这两个区域的溢出测试就放在一起进行。<strong>方法区用于存放Class的相关信息，如类名、访问修饰符、常量池、字段描述、方法描述等。</strong></p>
-<p><code>String.intern()</code>。在JDK1.6之前版本中由于常量池分配在永久内存中，我们可以通过-XX:PermSize和-XX:MaxPermSize限制方法区的大小，从而间接限制其中常量池的容量。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Returns a canonical representation for the string object.</span><br><span class="line"> * &lt;p&gt;</span><br><span class="line"> * A pool of strings, initially empty, is maintained privately by the</span><br><span class="line"> * class &#123;<span class="doctag">@code</span> String&#125;.</span><br><span class="line"> * &lt;p&gt;</span><br><span class="line"> * When the intern method is invoked, if the pool already contains a</span><br><span class="line"> * string equal to this &#123;<span class="doctag">@code</span> String&#125; object as determined by</span><br><span class="line"> * the &#123;<span class="doctag">@link</span> #equals(Object)&#125; method, then the string from the pool is</span><br><span class="line"> * returned. Otherwise, this &#123;<span class="doctag">@code</span> String&#125; object is added to the</span><br><span class="line"> * pool and a reference to this &#123;<span class="doctag">@code</span> String&#125; object is returned.</span><br><span class="line"> * &lt;p&gt;</span><br><span class="line"> * It follows that for any two strings &#123;<span class="doctag">@code</span> s&#125; and &#123;<span class="doctag">@code</span> t&#125;,</span><br><span class="line"> * &#123;<span class="doctag">@code</span> s.intern() == t.intern()&#125; is &#123;<span class="doctag">@code</span> true&#125;</span><br><span class="line"> * if and only if &#123;<span class="doctag">@code</span> s.equals(t)&#125; is &#123;<span class="doctag">@code</span> true&#125;.</span><br><span class="line"> * &lt;p&gt;</span><br><span class="line"> * All literal strings and string-valued constant expressions are</span><br><span class="line"> * interned. String literals are defined in section 3.10.5 of the</span><br><span class="line"> * &lt;cite&gt;The Java&amp;trade; Language Specification&lt;/cite&gt;.</span><br><span class="line"> *</span><br><span class="line"> * <span class="doctag">@return</span>  a string that has the same contents as this string, but is</span><br><span class="line"> *          guaranteed to be from a pool of unique strings.</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> String <span class="title">intern</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * VM Args: -XX:PermSize=10M -XX:MaxPermSize=10M</span><br><span class="line"> * Created by larry.su on 2017/2/17.</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RuntimeConstantsPoolOOM</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        <span class="comment">//使用List保持常量池的引用，避免Full GC回收常量池行为</span></span><br><span class="line">        List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">        <span class="comment">//10M 的PermSize在Integer范围内足够产生OOM</span></span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                list.add(String.valueOf(i++).intern());</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">                System.out.println(i);</span><br><span class="line">                <span class="keyword">throw</span> e;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>运行结果：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">86889</span></span><br><span class="line">Exception in thread <span class="string">"main"</span> java.lang.OutOfMemoryError: PermGen space</span><br><span class="line">at java.lang.String.intern(Native Method)</span><br><span class="line">at com.jvm.RuntimeConstantsPoolOOM.main(RuntimeConstantsPoolOOM.java:<span class="number">21</span>)</span><br></pre></td></tr></table></figure>
-<p>在JDK1.7中运行这段代码就不会得到相同的接口，while会一直循环下去。</p>
-<p>在JDK8中，while同样一直循环下去，同时控制台打印如下信息：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Java <span class="title">HotSpot</span><span class="params">(TM)</span> 64-Bit Server VM warning: ignoring option PermSize</span>=<span class="number">10</span>M; support was removed in <span class="number">8.0</span></span><br><span class="line"><span class="function">Java <span class="title">HotSpot</span><span class="params">(TM)</span> 64-Bit Server VM warning: ignoring option MaxPermSize</span>=<span class="number">10</span>M; support was removed in <span class="number">8.0</span></span><br></pre></td></tr></table></figure></p>
-
-
+        
+          <p class="article-more-link">
+            <a href="/2017/02/16/JVM-note-3/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/16/JVM-note-3/" data-id="cj152ftzw003f94uqxtwwmi4a" class="article-share-link" data-share="baidu" data-title="JVM笔记三：Java内存区域与内存溢出异常——OutOfMemoryError异常">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/16/JVM-note-3/" data-id="cj15t9piw003fkcuq9bo4zdol" class="article-share-link" data-share="baidu" data-title="JVM笔记三：Java内存区域与内存溢出异常——OutOfMemoryError异常">分享到</a>
       
 
       
@@ -966,10 +612,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-      <!-- Table of Contents -->
-      
-
-      <p>以常用的虚拟机HotSpot和常用的内存区域Java堆为例，深入探讨HotSpot虚拟机在Java堆中对象分配、布局和访问的全过程。</p>
+        <p>以常用的虚拟机HotSpot和常用的内存区域Java堆为例，深入探讨HotSpot虚拟机在Java堆中对象分配、布局和访问的全过程。</p>
 <h3 id="u5BF9_u8C61_u7684_u521B_u5EFA"><a href="#u5BF9_u8C61_u7684_u521B_u5EFA" class="headerlink" title="对象的创建"></a>对象的创建</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-new.png" alt="java对象的创建"></p>
 <ul>
 <li>虚拟机遇到一条new指令</li>
@@ -979,21 +622,18 @@
 <li>内存分配完成以后，虚拟机需要将<strong>分配到的内存空间都初始化为零值</strong>（不包括对象头），确保对象的实例字段在Java代码中可以不赋初始值就直接使用，程序能访问到这些字段的数据类型所对应的零值。</li>
 <li>接下来，<strong>JVM对对象进行必要的设置</strong>，例如：这个对象是哪个类的实例、如何才能找到类的元数据信息、对象的哈希值、对象的GC分代年龄等信息。这些信息存放在对象头（Object Header）中。</li>
 <li>上面的工作完成之后，<strong>从JVM的角度，一个新的对象以及产生</strong>了。</li>
-<li><strong>对Java程序来说，对象所有的字段都为零值</strong>，所以一般来说，执行new指令之后会接着执行<init>方法，把对象按照程序员的意愿进行初始化，这样一个真正可用的对象就完全产生出来。</init></li>
+<li><strong>对Java程序来说，对象所有的字段都为零值</strong>，所以一般来说，执行new指令之后会接着执行<init>方法，把对象按照程序员的意愿进行初始化，这样一个真正可用的对象就完全产生出来。</li>
 </ul>
-<h3 id="u5BF9_u8C61_u7684_u5185_u5B58_u5E03_u5C40"><a href="#u5BF9_u8C61_u7684_u5185_u5B58_u5E03_u5C40" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-object.png" alt="对象的内存布局"></p>
-<h3 id="u5BF9_u8C61_u7684_u8BBF_u95EE_u5B9A_u4F4D"><a href="#u5BF9_u8C61_u7684_u8BBF_u95EE_u5B9A_u4F4D" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-object-visit.png" alt="对象的访问定位"></p>
-<ul>
-<li>使用<strong>句柄访问</strong>：Java堆中将划分出一块内存来作为句柄池，reference中存储的就是对象的句柄地址，而句柄地址中包含了对象实例数据与类型数据各自的具体地址信息</li>
-<li>使用<strong>直接指针访问</strong>：Java堆对象的布局中必须考虑如何放置访问类型数据相关信息，而reference中存储的直接就是对象地址</li>
-</ul>
-
-
+        
+          <p class="article-more-link">
+            <a href="/2017/02/14/JVM-note-2/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/14/JVM-note-2/" data-id="cj152ftzx003h94uqu2e6769j" class="article-share-link" data-share="baidu" data-title="JVM笔记二：Java内存区域与内存溢出异常——HotSpot虚拟机对象探秘">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/14/JVM-note-2/" data-id="cj15t9pix003hkcuq31jr4gb4" class="article-share-link" data-share="baidu" data-title="JVM笔记二：Java内存区域与内存溢出异常——HotSpot虚拟机对象探秘">分享到</a>
       
 
       
@@ -1032,54 +672,18 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-      <!-- Table of Contents -->
-      
-
-      <p>该系列学习笔记均来自《深入理解Java虚拟机》一书。</p>
+        <p>该系列学习笔记均来自《深入理解Java虚拟机》一书。</p>
 <h3 id="u6982_u8FF0"><a href="#u6982_u8FF0" class="headerlink" title="概述"></a>概述</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com//jvm-runtime-3.png" alt="Java虚拟机运行时数据区"></p>
-<h3 id="u7A0B_u5E8F_u8BA1_u6570_u5668"><a href="#u7A0B_u5E8F_u8BA1_u6570_u5668" class="headerlink" title="程序计数器"></a>程序计数器</h3><p>程序计数器（Program Counter Register）是一块较小的内存空间，可以看作是线程所执行的字节码的行号指示器。在虚拟机的概念模型里，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。</p>
-<p>由于Java虚拟机的多线程是通过线程轮流切换并分配处理器执行时间的方式来实现的，<strong>在任何一个确定的时刻，一个处理器（多核处理器的一个内核）都只会执行一条线程的指令。因此为了线程切换后能恢复到正确的执行位置，每条线程都需要一个独立的程序计数器，各条线程之间计数器互不影响，独立存储</strong>。我们称这类内存区域为『线程私有』的内存。</p>
-<p>如果线程正在执行一个Java方法，这个计数器记录的就是正在执行的虚拟机字节码指令的地址；如果执行的是一个Native方法，这个计数器值为空（Undefined）。</p>
-<p>此内存区域是唯一一个在Java虚拟机中没有规定任何OutOfMemoryError情况的区域。</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jmv-pcr.png" alt=""></p>
-<h3 id="u865A_u62DF_u673A_u6808"><a href="#u865A_u62DF_u673A_u6808" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h3><p>与程序计数器一样，<strong>Java虚拟机栈（Java Virtual Machine Stacks）也是线程私有的。它的生命周期与线程相同</strong>。</p>
-<font color="red">虚拟机栈描述的是Java方法执行的内存模型</font>：<strong>每个方法在执行的同时都会创建一个栈帧（Stack Frame）用于存储局部变量表、操作数栈、动态链接、方法出口等信息。每一个方法从调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中的入栈到出栈的过程</strong>。<br><br><font color="red">局部变量表</font>
-
-<ul>
-<li><strong>存放了编译期可知的各种基本数据类型</strong>（boolean、byte、char、short、int、float、long、double）、<strong>对象引用</strong>（reference类型，它不等同于对象本身，可能是一个指向对象起始地址的引用指针，也可能是指向一个代表对象的句柄或其他与此对象相关的位置）和<strong>returnAddress类型</strong>（指向了一条字节码指令的地址）。</li>
-<li>其中64位长度的long和double类型的数据会占用2个局部变量空间（Slot），其余的数据类型只占用一个。</li>
-<li>局部变量表所需的内存空间在编译期间完成分配，当进入一个方法时，这个方法需要在帧中分配多大的局部变量空间是完全确定的，在方法的运行期间不会改变局部变量的大小。</li>
-</ul>
-<p>在Java虚拟机规范中，对这个区域规定2种异常情况：</p>
-<ul>
-<li>如果线程请求的栈深度大于虚拟机允许的深度，将抛出StackOverflowError异常</li>
-<li>如果虚拟机栈可以动态扩展，扩展申请时无法申请到足够的内存，就会抛出OutOfMemoryError异常</li>
-</ul>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-vmstack.png" alt=""></p>
-<h3 id="u672C_u5730_u65B9_u6CD5_u6808"><a href="#u672C_u5730_u65B9_u6CD5_u6808" class="headerlink" title="本地方法栈"></a>本地方法栈</h3><p><font color="red">本地方法栈（Native Method Stack）与虚拟机栈发挥的作用是非常相似的</font>，他们之间的<font color="red">区别</font>：<strong>虚拟机栈为虚拟机执行Java方法（也就是字节码）服务，本地方法栈则为虚拟机使用到的Native方法服务</strong>。</p>
-<p>与虚拟机栈一样，本地方法栈区域也会抛出StackOverflowError和OutOfMemoryError异常。</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-nativestack.png" alt=""></p>
-<h3 id="Java_u5806"><a href="#Java_u5806" class="headerlink" title="Java堆"></a>Java堆</h3><p><font color="red">Java堆是被所有线程共享的一块内存区域，在虚拟机启动时创建。此内存区域的唯一目的就是存放对象实例，几乎所有的对象实例都在这里分配内存</font>。</p>
-<p>Java堆是垃圾收集器管理的主要区域，也被称为『GC堆』。从内存回收的角度看，由于现在收集器基本上都采用<strong>分代收集算法</strong>，所以java堆还可以细分为：<strong>新生代和老年代</strong>；在细致一点的有Eden空间、From Survivor空间、To Survivor空间等。</p>
-<p>根据Java虚拟机规范的规定，<strong>Java堆</strong>可以处于物理上不连续的内存空间中，只要逻辑上的连续即可，就像我们的磁盘空间一样。在实现时，既可以实现成固定大小的，也可以是可扩展的，不过当前主流的虚拟机都是按照<strong>可扩展来</strong>实现的（<strong>通过-Xmx和-Xms控制</strong>）。如果堆中没有内存完成实例分配，并且堆也无法再扩展时，将会抛出OutOfMemoryError异常。</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-heap.png" alt="Heap"></p>
-<h3 id="u65B9_u6CD5_u533A"><a href="#u65B9_u6CD5_u533A" class="headerlink" title="方法区"></a>方法区</h3><p>方法区（Method Area）与Java堆一样，是<strong>各个线程共享</strong>的内存区域，它用于<strong>存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据</strong>。虽然Java虚拟机规范把方法区描述为堆的一个逻辑部分，但是它有一个别名叫Non-Heap（非堆），目的就是与Java堆区分开来。</p>
-<p>对于习惯在HotSpot虚拟机上开发、部署程序的开发者来说，很多人更愿意把方法区成为『永久代』（Permanent Generation)，本质上两者并不等价，仅仅是因为HotSpot虚拟机的设计团队选择把GC分代收集扩展至方法区，或者说使用永久代来实现方法区而已，这样HotSpot的垃圾收集器可以像管理Java堆一样管理这部分内存，能够省去单独为方法区编写内存管理代码的工作。在已经发布的JDK1.7的HotSpot中，已经把原本放在永久代的字符串常量池移出。</p>
-<p>Java虚拟机规范对方法区的限制非常宽松，除了和Java堆一样不需要连续的内存和可以选择固定大小或者可扩展外，还可以选择不实现垃圾收集。相对而言，垃圾收集行为在这个区域是比较少出现的，但并非数据进入了方法区就如永久代的名字一样『永久』存在了。这个区域的内存回收目标主要是针对常量池的回收和对类型的卸载，一般来说，这个区域的内存回收成绩比较难以令人满意，尤其是类型的卸载，条件相当苛刻，但是这部分区域的回收确实是必要的。</p>
-<p>根据Java虚拟机规范的规定，方法区无法满足内存分配需求时，将抛出OutOfMemoryError异常。</p>
-<h4 id="u8FD0_u884C_u65F6_u5E38_u91CF_u6C60"><a href="#u8FD0_u884C_u65F6_u5E38_u91CF_u6C60" class="headerlink" title="运行时常量池"></a>运行时常量池</h4><p><strong>运行时常量池（Runtime Constant Pool）是方法区的一部分</strong>。Class文件中除了有类的版本、字段、接口等描述信息外，有一项信息是常量池（Constant Pool Table），<strong>用于存放编译期生成的各种字面量和符号引用，这部分内容将在类加载进入方法区的运行时常量池中存放</strong>。</p>
-<p>既然运行时常量池是方法区的一部分，那么自然受到方法区内存的限制，当常量池无法再申请到内存时会抛出OutOfMemoryError异常。</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jvm-method-area-1.png" alt=""></p>
-<h3 id="u76F4_u63A5_u5185_u5B58"><a href="#u76F4_u63A5_u5185_u5B58" class="headerlink" title="直接内存"></a>直接内存</h3><p>直接内存（Direct Memory）并不是虚拟机运行时数据区的一部分，也不是Java虚拟机规范中定义的内存区域。但是这部分内存也被频繁的使用，而且也可能导致OutOfMemoryError异常出现。所以我们放到一起讲。</p>
-<p>在Jdk1.4中新加入了NIO（New Input/Output)类，引入了一种基于通道（Channel）与缓存区（Buffer）的I/O方式，他可以使用Native函数库直接分配堆外内存，然后通过一个存储在Java堆中的DirectByteBuffer对象作为这块内存的引用进行操作。这样能在一些场景中显著提高内存，因为避免了Java堆和Native堆中来回复制数据。</p>
-<p>显然，本机直接内存的分配不会受到Java堆大小的限制，但是，既然是内存，肯定还是受到本机总内存（包括RAM以及SWAP区或者分页文件）大小以及处理器寻址空间的限制。服务器管理员在配置虚拟机参数时，会根据实际内存设置-Xmx等参数信息，但是<strong>经常忽略直接内存，使得各个内存区域总和大于物理内存限制（包括物理的和操作系统的限制），从而导致OutOfMemoryError异常</strong>。</p>
-
-
+        
+          <p class="article-more-link">
+            <a href="/2016/12/25/JVM-note-1/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/12/25/JVM-note-1/" data-id="cj152ftzy003j94uqwi4mp74p" class="article-share-link" data-share="baidu" data-title="JVM笔记一：Java内存区域与内存溢出异常——运行时数据区域">分享到</a>
+        <a data-url="http://suqun.github.io/2016/12/25/JVM-note-1/" data-id="cj15t9piy003jkcuq8qssfk1r" class="article-share-link" data-share="baidu" data-title="JVM笔记一：Java内存区域与内存溢出异常——运行时数据区域">分享到</a>
       
 
       
@@ -1128,7 +732,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/11/27/Java-NIO-SocketChannel/" data-id="cj152ftz5002p94uq8cweyl1q" class="article-share-link" data-share="baidu" data-title="Java NIO SocketChannel">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/27/Java-NIO-SocketChannel/" data-id="cj15t9pi6002pkcuqpc5v2h6v" class="article-share-link" data-share="baidu" data-title="Java NIO SocketChannel">分享到</a>
       
 
       
@@ -1207,7 +811,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/11/22/Java-NIO-FileChannel/" data-id="cj152ftzc002x94uqs8lkxyha" class="article-share-link" data-share="baidu" data-title="Java NIO FileChannel">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/22/Java-NIO-FileChannel/" data-id="cj15t9pic002xkcuqhukxinxl" class="article-share-link" data-share="baidu" data-title="Java NIO FileChannel">分享到</a>
       
 
       
@@ -1331,7 +935,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/11/16/Java-NIO-Selector/" data-id="cj152ftz7002r94uq612qzue7" class="article-share-link" data-share="baidu" data-title="Java NIO Selector">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/16/Java-NIO-Selector/" data-id="cj15t9pi7002rkcuq8r2ebepg" class="article-share-link" data-share="baidu" data-title="Java NIO Selector">分享到</a>
       
 
       
@@ -1390,7 +994,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/11/10/Java-NIO-Channel-to-Channel-Transfers/" data-id="cj152ftzf003194uqs81c5zb0" class="article-share-link" data-share="baidu" data-title="Java NIO Channel之间的数据传输">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/10/Java-NIO-Channel-to-Channel-Transfers/" data-id="cj15t9pif0031kcuqlk3g46rj" class="article-share-link" data-share="baidu" data-title="Java NIO Channel之间的数据传输">分享到</a>
       
 
       
@@ -1453,7 +1057,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/11/09/Java-NIO-Scatter-Gather/" data-id="cj152ftz8002t94uq7xolc3c6" class="article-share-link" data-share="baidu" data-title="Java NIO Scatter / Gather">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/09/Java-NIO-Scatter-Gather/" data-id="cj15t9pi9002tkcuqml15xqyc" class="article-share-link" data-share="baidu" data-title="Java NIO Scatter / Gather">分享到</a>
       
 
       
@@ -1532,7 +1136,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/10/18/IntelliJ/" data-id="cj152ftzz003l94uq9w15xu2e" class="article-share-link" data-share="baidu" data-title="IntelliJ 使用说明">分享到</a>
+        <a data-url="http://suqun.github.io/2016/10/18/IntelliJ/" data-id="cj15t9piz003lkcuqth1p8nfo" class="article-share-link" data-share="baidu" data-title="IntelliJ 使用说明">分享到</a>
       
 
       
@@ -1634,7 +1238,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/10/18/gitcommands/" data-id="cj152ftxl000m94uq2nxile6g" class="article-share-link" data-share="baidu" data-title="git 常用命令">分享到</a>
+        <a data-url="http://suqun.github.io/2016/10/18/gitcommands/" data-id="cj15t9pgo000mkcuqe31l79ne" class="article-share-link" data-share="baidu" data-title="git 常用命令">分享到</a>
       
 
       
@@ -1673,43 +1277,21 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     
     <div class="article-entry" itemprop="articleBody">
       
-      <!-- Table of Contents -->
-      
-
-      <h3 id="Jenkins_u5B89_u88C5"><a href="#Jenkins_u5B89_u88C5" class="headerlink" title="Jenkins安装"></a>Jenkins安装</h3><p>1、下载Jenkins war包安装，下载地址 <a href="/jenkins.io">jenkins.io</a>。这里使用的是Jenkins2.24版本</p>
+        <h3 id="Jenkins_u5B89_u88C5"><a href="#Jenkins_u5B89_u88C5" class="headerlink" title="Jenkins安装"></a>Jenkins安装</h3><p>1、下载Jenkins war包安装，下载地址 <a href="/jenkins.io">jenkins.io</a>。这里使用的是Jenkins2.24版本</p>
 <p>2、启动Jenkins</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JENKINS_HOME=~/.jenkins java -jar ~/Downloads/jenkins-<span class="number">2.24</span>.war --httpPort=<span class="number">9090</span></span><br></pre></td></tr></table></figure>
 <p>启动后，日志会提示<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*************************************************************&#10;*************************************************************&#10;*************************************************************&#10; &#10;Jenkins initial setup is required. An admin user has been created and a password generated.&#10;Please use the following password to proceed to installation:&#10; &#10;3521fbc3d40448efa8942f8e464b2dd9&#10; &#10;This may also be found at: /Users/arungupta/.jenkins/secrets/initialAdminPassword&#10; &#10;*************************************************************&#10;*************************************************************&#10;*************************************************************</span><br></pre></td></tr></table></figure></p>
 <p>访问localhost:9090，输入上面提示的密码，然后根据提示，安装推荐的插件，并创建用户</p>
-<h3 id="Jenkins_u63D2_u4EF6_u5B89_u88C5"><a href="#Jenkins_u63D2_u4EF6_u5B89_u88C5" class="headerlink" title="Jenkins插件安装"></a>Jenkins插件安装</h3><p>1、maven配置<br>在 系统管理-&gt;Global Tool Configuration-&gt;Maven 中配置Maven信息<br><img src="http://7xpk5e.com1.z0.glb.clouddn.com/jenkis-maven3.png" alt="maven3"></p>
-<p>2、其他插件安装<br>在 系统管理-&gt;管理插件-&gt;可选插件中搜索 docker pipe ，选择CloudBees Docker Pipeline进行安装，安装后重启Jenkins</p>
-<h3 id="u521B_u5EFAJenkins_u4EFB_u52A1"><a href="#u521B_u5EFAJenkins_u4EFB_u52A1" class="headerlink" title="创建Jenkins任务"></a>创建Jenkins任务</h3><p>新建任务docker-pipeline</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/docker-pipeline.png" alt="docker-pipeline"></p>
-<p>选择Pipeline后，点击Ok后对任务进行配置。配置页中，可以根据自己需要进行设置。都比较简单一看就知道。我这里测试的是代码SCM使用的SVN，再Pipeline项选择Pipeline script from scm进行如下设置</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/pipeline-from-scm.png" alt="pipeline-from-scm"></p>
-<p>其中script path中设置的Jenkinsfile为具体的构建步骤，在项目地址的目录中。</p>
-<p>当然也可以直接选择 Pipeline script，直接在脚本中设置构建步骤</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/pipeline-script.png" alt="pipeline-script"></p>
-<p>脚本中主要的就是构建步骤，从scm检出项目，mvn测试打包，生成docker镜像，将docker镜像上传到镜像仓库，然后登录K8s的master上，部署新的镜像包。</p>
-<p>来看看Jenkinsfile，里面是如何描述上面的步骤的。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node &#123;&#10;    checkout scm&#10;    env.PATH = &#34;$&#123;tool &#39;Maven3&#39;&#125;/bin:$&#123;env.PATH&#125;&#34;&#10;    stage(&#39;Package&#39;) &#123;&#10;        dir(&#39;RpcServerSample&#39;) &#123;&#10;            sh &#39;mvn clean package -DskipTests&#39;&#10;        &#125;&#10;    &#125;&#10;&#10;    stage(&#39;Run Tests&#39;) &#123;&#10;        dir(&#39;RpcServerSample&#39;) &#123;&#10;                sh &#34;mvn test&#34;&#10;        &#125;&#10;    &#125;&#10;&#10;    stage(&#39;Build Image&#39;) &#123;&#10;        dir(&#39;RpcServerSample&#39;) &#123;&#10;            docker.build(&#34;daocloud.io/suqun/docker-jenkins-pipeline:v1&#34;).push()&#10;        &#125;&#10;    &#125;&#10;&#10;    stage(&#39;Deploy&#39;) &#123;&#10;        //&#26367;&#25442;rpcserver.yaml&#30340;&#38236;&#20687;&#29256;&#26412;&#21495;&#65292;&#24453;&#23436;&#25104;&#10;&#10;        dir(&#39;RpcServerSample&#39;) &#123;&#10;            //scp rpcserver.yaml &#21040; k8s&#30340;master&#19978;&#10;            sh &#39;sshpass -p vagrant scp rpcserver.yaml vagrant@192.168.1.10:/home/vagrant/rpcserver.yaml&#39;&#10;&#10;            //&#36828;&#31243;&#30331;&#24405;k8s&#38598;&#32676;master&#20027;&#26426;,&#26356;&#26032;&#38236;&#20687;&#65292;&#36825;&#37324;&#38754;&#35201;&#36827;&#34892;&#21028;&#26029;&#65292;&#31532;&#19968;&#27425;create&#10;            sh &#39;sshpass -p vagrant ssh vagrant@192.168.1.10 &#34;kubectl create -f /home/vagrant/rpcserver.yaml&#34;&#39;&#10;        &#125;&#10;    &#125;&#10;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>docker.build语句通过RpcServerSample路径下的Dockerfile创建镜像</p>
-<p>Dockerfile<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FROM daocloud.io/java:<span class="number">7</span></span><br><span class="line">MAINTAINER <span class="string">"Larry Su &lt;larrys@wicresoft.com&gt;"</span></span><br><span class="line">ADD target/RpcServerSample-<span class="number">1.0</span>-SNAPSHOT-jar-with-dependencies.jar /usr/src/myapp/RpcServerSample.jar</span><br><span class="line">WORKDIR /usr/src/myapp</span><br><span class="line">CMD [<span class="string">"java"</span>,<span class="string">"-jar"</span>, <span class="string">"RpcServerSample.jar"</span>]</span><br></pre></td></tr></table></figure></p>
-<p>rpcserver.yaml是K8s中的Deployment和Service</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1&#10;kind: Service&#10;metadata:&#10;  name: rpcserversample&#10;  labels:&#10;    app: rpcserversample&#10;spec:&#10;  # if your cluster supports it, uncomment the following to automatically create&#10;  # an external load-balanced IP for the frontend service.&#10;  #type: NodePort&#10;  ports:&#10;    # the port that this service should serve on&#10;  - port: 9001&#10;  selector:&#10;    app: rpcserversample&#10;---&#10;apiVersion: extensions/v1beta1&#10;kind: Deployment&#10;metadata:&#10;  name: rpcserversample&#10;  # these labels can be applied automatically&#10;  # from the labels in the pod template if not set&#10;  labels:&#10;    app: rpcserversample&#10;spec:&#10;  # this replicas value is default&#10;  # modify it according to your case&#10;  replicas: 2&#10;  # selector can be applied automatically&#10;  # from the labels in the pod template if not set&#10;  # selector:&#10;  #   matchLabels:&#10;  #     app: guestbook&#10;  #     tier: frontend&#10;  template:&#10;    metadata:&#10;      labels:&#10;        app: rpcserversample&#10;    spec:&#10;      containers:&#10;      - name: rpcserversample&#10;        image: daocloud.io/suqun/rpcserversample:v1&#10;        resources:&#10;          requests:&#10;            cpu: 100m&#10;            memory: 100Mi&#10;        ports:&#10;        - containerPort: 80</span><br></pre></td></tr></table></figure>
-<p>这里有些Jenkins pipeline最佳实践，可以参考:<a href="http://www.weixinla.com/document/41174312.html" target="_blank" rel="external">Jenkins管道最佳实践Top 10</a></p>
-<p>脚本写的比较烂，只是大概的流程，待完善。</p>
-<h3 id="u6784_u5EFA"><a href="#u6784_u5EFA" class="headerlink" title="构建"></a>构建</h3><p>进入任务，点击立即构建后结果如下</p>
-<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/Jenkins-build.png" alt="result"></p>
-<p>然后可以登录K8s集群的master主机，通过<code>kubectl get po,svc</code> 检查是否部署成功。</p>
-<p>参考：<a href="https://dzone.com/articles/deployment-pipeline-using-docker-jenkins-java-and" target="_blank" rel="external">Deployment Pipeline Using Docker, Jenkins, Java, and Couchbase</a></p>
-
-
+        
+          <p class="article-more-link">
+            <a href="/2016/10/17/docker-jenkins/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/10/17/docker-jenkins/" data-id="cj152ftxx001994uqw6qcbzjv" class="article-share-link" data-share="baidu" data-title="java应用结合Jenkins，docker部署到Kubernetes">分享到</a>
+        <a data-url="http://suqun.github.io/2016/10/17/docker-jenkins/" data-id="cj15t9ph20019kcuqkg9tvcp9" class="article-share-link" data-share="baidu" data-title="java应用结合Jenkins，docker部署到Kubernetes">分享到</a>
       
 
       
@@ -1772,7 +1354,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/09/27/dockerjavamicroservice4/" data-id="cj152ftxp000s94uq6kv84mso" class="article-share-link" data-share="baidu" data-title="使用kubeadm在CentOS7上安装Kubernetes集群">分享到</a>
+        <a data-url="http://suqun.github.io/2016/09/27/dockerjavamicroservice4/" data-id="cj15t9pgs000skcuqws4q0a4f" class="article-share-link" data-share="baidu" data-title="使用kubeadm在CentOS7上安装Kubernetes集群">分享到</a>
       
 
       
@@ -1827,7 +1409,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/09/26/dockerjavamicroservice3/" data-id="cj152ftxr000w94uqx9rm9i45" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(三) Kubernetes服务发现之环境变量">分享到</a>
+        <a data-url="http://suqun.github.io/2016/09/26/dockerjavamicroservice3/" data-id="cj15t9pgu000wkcuqz8s0912z" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(三) Kubernetes服务发现之环境变量">分享到</a>
       
 
       
@@ -1958,7 +1540,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/09/07/dockerjavamicroservice2/" data-id="cj152ftxs000z94uqsw1o4nql" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(二) CentOS7部署Kubernetes集群">分享到</a>
+        <a data-url="http://suqun.github.io/2016/09/07/dockerjavamicroservice2/" data-id="cj15t9pgw000zkcuq4nkg3x5y" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(二) CentOS7部署Kubernetes集群">分享到</a>
       
 
       
@@ -2066,7 +1648,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/24/dockerjavamicroservice1/" data-id="cj152ftxv001294uqr04zljl7" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(一) 部署Chris Richardson的转账案例">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/24/dockerjavamicroservice1/" data-id="cj15t9pgy0012kcuq30dznqhq" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(一) 部署Chris Richardson的转账案例">分享到</a>
       
 
       
@@ -2115,7 +1697,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/09/springcloud6/" data-id="cj152ftxh000g94uqjkc1sm85" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（六）服务网关">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/09/springcloud6/" data-id="cj15t9pgl000gkcuq5oohkifo" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（六）服务网关">分享到</a>
       
 
       
@@ -2164,7 +1746,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/09/SpringCloud5/" data-id="cj152fty4001n94uqy2r9prsm" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（五）分布式配置中心">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/09/SpringCloud5/" data-id="cj15t9ph9001nkcuqw4m6tqqd" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（五）分布式配置中心">分享到</a>
       
 
       
@@ -2239,7 +1821,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四）集群/" data-id="cj152fty6001p94uqrlzzgl1x" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（四）集群">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四）集群/" data-id="cj15t9phb001pkcuqpht4ju2l" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（四）集群">分享到</a>
       
 
       
@@ -2288,7 +1870,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/" data-id="cj152fty9001t94uqrytjvhqy" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（三）断路器">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/" data-id="cj15t9phe001tkcuqxtwcamn7" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（三）断路器">分享到</a>
       
 
       
@@ -2337,7 +1919,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（二）服务消费者/" data-id="cj152fty8001r94uq5mnfdryo" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（二）服务消费者">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（二）服务消费者/" data-id="cj15t9phc001rkcuqhv1k55gr" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（二）服务消费者">分享到</a>
       
 
       
@@ -2386,7 +1968,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（一）服务注册与发现/" data-id="cj152ftyc001v94uqktcfurpy" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（一）服务注册与发现">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（一）服务注册与发现/" data-id="cj15t9phf001vkcuq1oduya3d" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（一）服务注册与发现">分享到</a>
       
 
       
@@ -2520,7 +2102,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/28/Java-NIO-Buffer/" data-id="cj152ftzg003394uqvf7vq9n7" class="article-share-link" data-share="baidu" data-title="Java NIO Buffer">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/28/Java-NIO-Buffer/" data-id="cj15t9pih0033kcuqwqunhjqz" class="article-share-link" data-share="baidu" data-title="Java NIO Buffer">分享到</a>
       
 
       
@@ -2587,7 +2169,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/26/Java-NIO-Channel/" data-id="cj152ftze002z94uqimdkb3ft" class="article-share-link" data-share="baidu" data-title="Java NIO Channel">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/26/Java-NIO-Channel/" data-id="cj15t9pid002zkcuqoac2xwjg" class="article-share-link" data-share="baidu" data-title="Java NIO Channel">分享到</a>
       
 
       
@@ -2668,7 +2250,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/" data-id="cj152ftza002v94uqiubmwp50" class="article-share-link" data-share="baidu" data-title="Java NIO 概述">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/" data-id="cj15t9pib002vkcuqqhs9zrls" class="article-share-link" data-share="baidu" data-title="Java NIO 概述">分享到</a>
       
 
       
@@ -2722,7 +2304,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/" data-id="cj152ftz4002m94uqtnomp5hu" class="article-share-link" data-share="baidu" data-title="Java NIO 教程">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/" data-id="cj15t9pi4002mkcuqmh6m7r41" class="article-share-link" data-share="baidu" data-title="Java NIO 教程">分享到</a>
       
 
       
@@ -2797,7 +2379,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/24/JavaReflectionArray/" data-id="cj152ftz1002i94uqtmw9odzb" class="article-share-link" data-share="baidu" data-title="Java反射之数组">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/24/JavaReflectionArray/" data-id="cj15t9pi2002ikcuqmz32fjyb" class="article-share-link" data-share="baidu" data-title="Java反射之数组">分享到</a>
       
 
       
@@ -2860,7 +2442,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/21/JavaReflectionGenerics/" data-id="cj152ftyr002a94uqk1i5j1s6" class="article-share-link" data-share="baidu" data-title="Java反射之泛型">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/21/JavaReflectionGenerics/" data-id="cj15t9phu002akcuqg4l216s9" class="article-share-link" data-share="baidu" data-title="Java反射之泛型">分享到</a>
       
 
       
@@ -2939,7 +2521,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/18/JavaReflectionAnnotations/" data-id="cj152ftz3002k94uqib41hus6" class="article-share-link" data-share="baidu" data-title="Java反射之注解">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/18/JavaReflectionAnnotations/" data-id="cj15t9pi3002kkcuqh7k7aexh" class="article-share-link" data-share="baidu" data-title="Java反射之注解">分享到</a>
       
 
       
@@ -2999,7 +2581,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/" data-id="cj152ftym002594uq627evcf3" class="article-share-link" data-share="baidu" data-title="Java反射之私有变量和私有方法">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/" data-id="cj15t9php0025kcuqqsjgqwjj" class="article-share-link" data-share="baidu" data-title="Java反射之私有变量和私有方法">分享到</a>
       
 
       
@@ -3064,7 +2646,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/13/JavaReflectionMethods/" data-id="cj152ftyp002894uq6hb708sw" class="article-share-link" data-share="baidu" data-title="Java反射之方法">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/13/JavaReflectionMethods/" data-id="cj15t9phs0028kcuqgkutewv5" class="article-share-link" data-share="baidu" data-title="Java反射之方法">分享到</a>
       
 
       
@@ -3120,7 +2702,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/12/JavaReflectionFields/" data-id="cj152ftyt002c94uqfriqfmt0" class="article-share-link" data-share="baidu" data-title="Java反射之变量">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/12/JavaReflectionFields/" data-id="cj15t9phw002ckcuq874kofg3" class="article-share-link" data-share="baidu" data-title="Java反射之变量">分享到</a>
       
 
       
@@ -3176,7 +2758,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/11/JavaReflectionConstructors/" data-id="cj152ftyw002e94uqi03wgija" class="article-share-link" data-share="baidu" data-title="Java反射之构造函数">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/11/JavaReflectionConstructors/" data-id="cj15t9phy002ekcuqqe3mwt8n" class="article-share-link" data-share="baidu" data-title="Java反射之构造函数">分享到</a>
       
 
       
@@ -3250,7 +2832,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/09/JavaReflectionClasses/" data-id="cj152ftyz002g94uqomfc0xrg" class="article-share-link" data-share="baidu" data-title="Java反射之对象">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/09/JavaReflectionClasses/" data-id="cj15t9pi0002gkcuq44qjf1as" class="article-share-link" data-share="baidu" data-title="Java反射之对象">分享到</a>
       
 
       
@@ -3329,7 +2911,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/04/03/使用Spring-Boot-Jquery-Datatables实现管理平台的表格/" data-id="cj152ftxa000694uq7v5ka83l" class="article-share-link" data-share="baidu" data-title="使用Spring Boot Jquery Datatables实现管理平台的表格">分享到</a>
+        <a data-url="http://suqun.github.io/2016/04/03/使用Spring-Boot-Jquery-Datatables实现管理平台的表格/" data-id="cj15t9pgd0006kcuqzj4xk2od" class="article-share-link" data-share="baidu" data-title="使用Spring Boot Jquery Datatables实现管理平台的表格">分享到</a>
       
 
       
@@ -3382,7 +2964,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/02/17/第一个Spring-Boot应用/" data-id="cj152ftx4000394uq1gg6tcix" class="article-share-link" data-share="baidu" data-title="第一个Spring Boot应用">分享到</a>
+        <a data-url="http://suqun.github.io/2016/02/17/第一个Spring-Boot应用/" data-id="cj15t9pg70003kcuqw2rx57c0" class="article-share-link" data-share="baidu" data-title="第一个Spring Boot应用">分享到</a>
       
 
       
@@ -3435,7 +3017,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/02/16/Spring-Boot安装/" data-id="cj152ftye001x94uqk6u4r494" class="article-share-link" data-share="baidu" data-title="Spring Boot安装">分享到</a>
+        <a data-url="http://suqun.github.io/2016/02/16/Spring-Boot安装/" data-id="cj15t9phh001xkcuqdwaxdho9" class="article-share-link" data-share="baidu" data-title="Spring Boot安装">分享到</a>
       
 
       
@@ -3485,7 +3067,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/30/docker容器的操作/" data-id="cj152ftxn000p94uq2udyd5x0" class="article-share-link" data-share="baidu" data-title="docker容器的操作">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/30/docker容器的操作/" data-id="cj15t9pgq000pkcuq4bgcw9y3" class="article-share-link" data-share="baidu" data-title="docker容器的操作">分享到</a>
       
 
       
@@ -3534,7 +3116,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/13/Shell编程之正则表达式/" data-id="cj152ftyg001z94uqq0ixzu1m" class="article-share-link" data-share="baidu" data-title="Shell编程之正则表达式">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/13/Shell编程之正则表达式/" data-id="cj15t9phi001zkcuqv1zwkpmg" class="article-share-link" data-share="baidu" data-title="Shell编程之正则表达式">分享到</a>
       
 
       
@@ -3584,7 +3166,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/09/shell编程之运算符/" data-id="cj152ftxj000j94uq7crtjqzq" class="article-share-link" data-share="baidu" data-title="shell编程之运算符">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/09/shell编程之运算符/" data-id="cj15t9pgn000jkcuqm4j34lf3" class="article-share-link" data-share="baidu" data-title="shell编程之运算符">分享到</a>
       
 
       
@@ -3650,7 +3232,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/04/Shell编程之变量/" data-id="cj152ftyi002194uq5cytgd7t" class="article-share-link" data-share="baidu" data-title="Shell编程之变量">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/04/Shell编程之变量/" data-id="cj15t9phl0021kcuq8zo3zuav" class="article-share-link" data-share="baidu" data-title="Shell编程之变量">分享到</a>
       
 
       
@@ -3701,7 +3283,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/02/Shell基础/" data-id="cj152ftyk002394uqfsewonc0" class="article-share-link" data-share="baidu" data-title="Shell基础">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/02/Shell基础/" data-id="cj15t9pho0023kcuqx6lvao7q" class="article-share-link" data-share="baidu" data-title="Shell基础">分享到</a>
       
 
       
@@ -3754,7 +3336,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/01/01/What-is-Docker/" data-id="cj152fty3001l94uqvag89b1c" class="article-share-link" data-share="baidu" data-title="What is Docker?">分享到</a>
+        <a data-url="http://suqun.github.io/2016/01/01/What-is-Docker/" data-id="cj15t9ph8001lkcuq1qu26aw6" class="article-share-link" data-share="baidu" data-title="What is Docker?">分享到</a>
       
 
       

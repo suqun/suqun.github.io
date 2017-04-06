@@ -16,7 +16,7 @@
 引用计数法引用计数法（Reference Counting）：给对象中添加一个引用计数器，每当有一个地方引用它时，计数器就加1；当引用失效时，计数器就减1；任何时刻计数器为0的对象是不可能被使用的。主流的Java虚拟机里没有使用引">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com//jvm-reachabilityAnalysis.png">
 <meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com//jvm-reference.png">
-<meta property="og:updated_time" content="2017-02-18T13:13:31.000Z">
+<meta property="og:updated_time" content="2017-04-06T02:55:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM笔记四：垃圾收集器与内存分配策略——对象">
 <meta name="twitter:description" content="在堆里存放着Java世界中几乎所有的对象实例，垃圾收集器在对堆进行回收前，第一件事情就是要确定这些对象之中哪些还存活着，哪些已经死去（即不可能再被任何途径使用的对象）。
@@ -113,6 +113,7 @@
 <p>运行结果：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[<span class="function">Full <span class="title">GC</span> <span class="params">(System)</span> [CMS: 0K-&gt;423<span class="title">K</span><span class="params">(<span class="number">63872</span>K)</span>, 0.0099285 secs] **6167K-&gt;423K**<span class="params">(<span class="number">83008</span>K)</span>, [CMS Perm : 4749K-&gt;4747<span class="title">K</span><span class="params">(<span class="number">21248</span>K)</span>], 0.0107293 secs] [Times: user</span>=<span class="number">0.01</span> sys=<span class="number">0.00</span>, real=<span class="number">0.01</span> secs] </span><br><span class="line">Heap</span><br><span class="line"> par <span class="keyword">new</span> generation   total <span class="number">19136</span>K, used <span class="number">1021</span>K [<span class="number">7f</span>3000000, <span class="number">7f</span>44c0000, <span class="number">7f</span>44c0000)</span><br><span class="line">  eden space <span class="number">17024</span>K,   <span class="number">6</span>% used [<span class="number">7f</span>3000000, <span class="number">7f</span>30ff670, <span class="number">7f</span>40a0000)</span><br><span class="line">  from space <span class="number">2112</span>K,   <span class="number">0</span>% used [<span class="number">7f</span>40a0000, <span class="number">7f</span>40a0000, <span class="number">7f</span>42b0000)</span><br><span class="line">  to   space <span class="number">2112</span>K,   <span class="number">0</span>% used [<span class="number">7f</span>42b0000, <span class="number">7f</span>42b0000, <span class="number">7f</span>44c0000)</span><br><span class="line"> concurrent mark-sweep generation total <span class="number">63872</span>K, used <span class="number">423</span>K [<span class="number">7f</span>44c0000, <span class="number">7f</span>8320000, <span class="number">7f</span>ae00000)</span><br><span class="line"> concurrent-mark-sweep perm gen total <span class="number">21248</span>K, used <span class="number">4880</span>K [<span class="number">7f</span>ae00000, <span class="number">7f</span>c2c0000, <span class="number">800000000</span>)</span><br></pre></td></tr></table></figure>
 <p><strong>6167K-&gt;423K(83008K)</strong>意味着虚拟机并没有因为这两个对象并相互引用就不回收他们，也从侧面说明虚拟机并不是通过引用计数法来判断对象是否存活的。</p>
+<a id="more"></a>
 <h3 id="u53EF_u8FBE_u6027_u5206_u6790_u7B97_u6CD5"><a href="#u53EF_u8FBE_u6027_u5206_u6790_u7B97_u6CD5" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h3><p><img src="http://7xpk5e.com1.z0.glb.clouddn.com//jvm-reachabilityAnalysis.png" alt="可达性分析算法"></p>
 <h3 id="u518D_u8C08_u5F15_u7528"><a href="#u518D_u8C08_u5F15_u7528" class="headerlink" title="再谈引用"></a>再谈引用</h3><p>在JDK1.2之后，Java对引用的概念进行了扩充，分为强引用（Strong Reference）、软引用（Soft Reference）、弱引用（Weak Reference）、虚引用（Phantom Reference）4种，这4种引用强度依次逐渐减弱</p>
 <p><img src="http://7xpk5e.com1.z0.glb.clouddn.com//jvm-reference.png" alt="reference"></p>
@@ -122,7 +123,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-4/" data-id="cj152ftzu003d94uqf6mjhzdg" class="article-share-link" data-share="baidu" data-title="JVM笔记四：垃圾收集器与内存分配策略——对象">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-4/" data-id="cj15t9piu003dkcuqnehmitxw" class="article-share-link" data-share="baidu" data-title="JVM笔记四：垃圾收集器与内存分配策略——对象">分享到</a>
       
 
       
