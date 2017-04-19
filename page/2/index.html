@@ -73,6 +73,226 @@
     <div class="outer">
       <section id="main">
   
+    <article id="post-shell编程之运算符" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/09/shell编程之运算符/" class="article-date">
+  <time datetime="2016-01-09T04:14:05.000Z" itemprop="datePublished">2016-01-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/09/shell编程之运算符/">shell编程之运算符</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="u58F0_u660E_u53D8_u91CF_u7C7B_u578Bdeclare"><a href="#u58F0_u660E_u53D8_u91CF_u7C7B_u578Bdeclare" class="headerlink" title="声明变量类型declare"></a>声明变量类型declare</h3><p>declare语法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">declare</span> [-afiprx] 变量名</span><br><span class="line">参数说明： </span><br><span class="line">-   ：设置属性</span><br><span class="line">+   ：取消属性</span><br><span class="line"><span class="operator">-a</span>  ：定义为数组 array </span><br><span class="line"><span class="operator">-f</span>  ：定义为函数 <span class="keyword">function</span>  </span><br><span class="line">-i  ：定义为整数 <span class="built_in">integer</span> </span><br><span class="line">-p  ：显示变量被声明的类型</span><br><span class="line">-r  ：定义为『只读』 </span><br><span class="line">-x  ：定义为环境变量 </span><br><span class="line"></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -i a=<span class="number">47</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -i b=<span class="number">53</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -i c=<span class="variable">$a</span>+<span class="variable">$b</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$c</span></span><br><span class="line"><span class="number">100</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -p c</span><br><span class="line"><span class="built_in">declare</span> -i c=<span class="string">"100"</span></span><br><span class="line"></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> <span class="operator">-a</span> arr[<span class="number">0</span>]=<span class="number">11</span>  &lt;==定义数组</span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -p arr</span><br><span class="line"><span class="built_in">declare</span> <span class="operator">-a</span> arr=<span class="string">'([0]="11")'</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> <span class="operator">-a</span> arr[<span class="number">1</span>]=<span class="number">22</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">declare</span> -p arr</span><br><span class="line"><span class="built_in">declare</span> <span class="operator">-a</span> arr=<span class="string">'([0]="11" [1]="22")'</span></span><br><span class="line">bash-<span class="number">3.2</span>$</span><br><span class="line"></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$&#123;arr&#125;</span>       &lt;==查看数组方法</span><br><span class="line"><span class="number">11</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$&#123;arr[1]&#125;</span></span><br><span class="line"><span class="number">22</span></span><br><span class="line">bash-<span class="number">3.2</span>$ <span class="built_in">echo</span> <span class="variable">$&#123;arr[*]&#125;</span></span><br><span class="line"><span class="number">11</span> <span class="number">22</span></span><br><span class="line">bash-<span class="number">3.2</span>$</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2016/01/09/shell编程之运算符/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://suqun.github.io/2016/01/09/shell编程之运算符/" data-id="cj1p2nd98000iyzuqn3p2k6em" class="article-share-link" data-share="baidu" data-title="shell编程之运算符">分享到</a>
+      
+
+      
+        <a href="http://suqun.github.io/2016/01/09/shell编程之运算符/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Shell编程之变量" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/04/Shell编程之变量/" class="article-date">
+  <time datetime="2016-01-04T14:34:27.000Z" itemprop="datePublished">2016-01-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/04/Shell编程之变量/">Shell编程之变量</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="u53D8_u91CF"><a href="#u53D8_u91CF" class="headerlink" title="变量"></a>变量</h3><p>变量的配置守则</p>
+<ol>
+<li><code>变量与变量内容以一个等号『=』来连结</code>，如下所示：<br> 『myname=VBird』</li>
+<li><code>等号两边不能直接接空格符</code>，如下所示为错误：<br> 『myname = VBird』或『myname=VBird Tsai』</li>
+<li>变量名称只能是英文字母与数字，但是<code>开头字符不能是数字</code>，如下为错误：<br> 『2myname=VBird』</li>
+<li>变量内容若有空格符可使用双引号『\”』或单引号『\’』将变量内容结合起来，但<ul>
+<li><code>双引号内的特殊字符如 $ 等，可以保有原本的特性</code>，如下所示：<br>  『var=”lang is $LANG”』则『echo $var』可得『lang is en_US』</li>
+<li><code>单引号内的特殊字符则仅为一般字符 (纯文本)</code>，如下所示：<br>  『var=’lang is $LANG’』则『echo $var』可得『lang is $LANG』</li>
+</ul>
+</li>
+<li>可用<code>转义字符『 \ 』</code>将特殊符号(如 [Enter], $, \, 空格符, `等)变成一般字符；</li>
+<li>在一串命令中，还需要藉由其他的命令提供的信息，可以<code>使用反单引号『</code>命令<code>』或 『$(命令)』</code>。特别注意，那个 ` 是键盘上方的数字键 1 左边那个按键，而不是单引号！ 例如想要取得核心版本的配置：<br> 『version=$(uname -r)』再『echo $version』可得『2.6.18-128.el5』</li>
+<li>若该变量为扩增变量内容时，则可用 “$变量名称” 或 ${变量} 累加内容，如下所示：<br> 『PATH=”$PATH”:/home/bin』</li>
+<li>若该变量需要在其他子程序运行，则<code>需要以 export 来使变量变成环境变量</code>：<br> 『export PATH』</li>
+<li>通常大写字符为系统默认变量，自行配置变量可以使用小写字符，方便判断 (纯粹依照使用者兴趣与嗜好) ；</li>
+<li><code>取消变量的方法为使用 unset</code> ：『unset 变量名称』例如取消 myname 的配置：<br>『unset myname』</li>
+<li><code>在Bash中，变量的默认类型是字符串型</code></li>
+</ol>
+        
+          <p class="article-more-link">
+            <a href="/2016/01/04/Shell编程之变量/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://suqun.github.io/2016/01/04/Shell编程之变量/" data-id="cj1p2ndai0024yzuqn8gt2xva" class="article-share-link" data-share="baidu" data-title="Shell编程之变量">分享到</a>
+      
+
+      
+        <a href="http://suqun.github.io/2016/01/04/Shell编程之变量/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Shell基础" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/02/Shell基础/" class="article-date">
+  <time datetime="2016-01-02T12:40:52.000Z" itemprop="datePublished">2016-01-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/02/Shell基础/">Shell基础</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Shell__u6982_u8FF0"><a href="#Shell__u6982_u8FF0" class="headerlink" title="Shell 概述"></a>Shell 概述</h2><p><a href="http://www.imooc.com/learn/175">imooc shell课程</a></p>
+<p>Shell是一个命令行解释器，它为用户提供了一个向Linux内核发送请求以便运行程序的界面系统级程序，用可以用Shell来启动，挂起，停止甚至是编写一些程序。</p>
+<p>Shell还是一个功能强大的编程语言，易编写易调试，灵活性较强。Shell是解释执行的脚本语言，在Shell中可以直接调用Linux系统命令。</p>
+        
+          <p class="article-more-link">
+            <a href="/2016/01/02/Shell基础/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://suqun.github.io/2016/01/02/Shell基础/" data-id="cj1p2ndaj0026yzuqjz5vy1ih" class="article-share-link" data-share="baidu" data-title="Shell基础">分享到</a>
+      
+
+      
+        <a href="http://suqun.github.io/2016/01/02/Shell基础/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-What-is-Docker" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/01/What-is-Docker/" class="article-date">
+  <time datetime="2016-01-01T11:43:48.000Z" itemprop="datePublished">2016-01-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/01/What-is-Docker/">What is Docker?</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="What_is_Docker"><a href="#What_is_Docker" class="headerlink" title="What is Docker"></a>What is Docker</h2><p>Docker allows you to package an applications with all of its dependencies into a standardized unit for development.</p>
+<p>对于软件开发,Docker允许你用其所有相关的依赖打包应用程序到一个标准化单元中.</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/docker-what_is_layered_filesystems_sm.png" alt="layered_filesystems_sm"></p>
+<p>Docker containers wrap up a piece of software in a complete filesystem that contains everything it needs to run : code,runtime,system tools,system libraries - anything you can install on a sever. This guarantees that it will always run the same,regardless of the environment it is running in.</p>
+<p>Docker容器在一个完整的文件系统中包裹一个软件,这个文件系统包含软件运行所需要的code,runtime,系统工具,系统库等任何你所能在服务器上安装的.这保证了软件总是运行在相同的环境.(这句翻译的烂,欢迎指正)</p>
+        
+          <p class="article-more-link">
+            <a href="/2016/01/01/What-is-Docker/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://suqun.github.io/2016/01/01/What-is-Docker/" data-id="cj1p2nda1001oyzuqdq992uzn" class="article-share-link" data-share="baidu" data-title="What is Docker?">分享到</a>
+      
+
+      
+        <a href="http://suqun.github.io/2016/01/01/What-is-Docker/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/">Docker</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-2015" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/12/31/2015/" class="article-date">
@@ -107,7 +327,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/31/2015/" data-id="cj1kw8j6v003paluqeov5l6ju" class="article-share-link" data-share="baidu" data-title="2015">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/31/2015/" data-id="cj1p2ndc6003yyzuq8razj8xw" class="article-share-link" data-share="baidu" data-title="2015">分享到</a>
       
 
       
@@ -166,7 +386,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/30/Why-Docker/" data-id="cj1kw8j57001kaluq8nhgktj3" class="article-share-link" data-share="baidu" data-title="Why Docker?">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/30/Why-Docker/" data-id="cj1p2nd9z001myzuqfjz9hwrm" class="article-share-link" data-share="baidu" data-title="Why Docker?">分享到</a>
       
 
       
@@ -240,7 +460,7 @@ connect host:port
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/28/zookeeper客户端命令/" data-id="cj1kw8j4k000daluqvri1dyrb" class="article-share-link" data-share="baidu" data-title="zookeeper客户端命令">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/28/zookeeper客户端命令/" data-id="cj1p2nd95000dyzuqtq9prcfl" class="article-share-link" data-share="baidu" data-title="zookeeper客户端命令">分享到</a>
       
 
       
@@ -298,7 +518,7 @@ connect host:port
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/28/zookeeper环境搭建/" data-id="cj1kw8j4i0008aluq0duct96m" class="article-share-link" data-share="baidu" data-title="zookeeper环境搭建">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/28/zookeeper环境搭建/" data-id="cj1p2nd910008yzuq2v8j7595" class="article-share-link" data-share="baidu" data-title="zookeeper环境搭建">分享到</a>
       
 
       
@@ -348,7 +568,7 @@ connect host:port
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2015/12/27/zookeeper概述/" data-id="cj1kw8j4j000baluq45gvf15t" class="article-share-link" data-share="baidu" data-title="zookeeper概述">分享到</a>
+        <a data-url="http://suqun.github.io/2015/12/27/zookeeper概述/" data-id="cj1p2nd93000byzuqiphhfkvx" class="article-share-link" data-share="baidu" data-title="zookeeper概述">分享到</a>
       
 
       
@@ -380,7 +600,7 @@ connect host:port
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algorithm/">Algorithm</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CQRS/">CQRS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event-Sourcing/">Event-Sourcing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IntelliJ/">IntelliJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-NIO/">Java NIO</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-SE/">Java SE</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/K8s/">K8s</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algorithm/">Algorithm</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CQRS/">CQRS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event-Sourcing/">Event-Sourcing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IntelliJ/">IntelliJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-NIO/">Java NIO</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-SE/">Java SE</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java多线程/">Java多线程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/K8s/">K8s</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -389,7 +609,7 @@ connect host:port
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Algorithm/" style="font-size: 11.67px;">Algorithm</a> <a href="/tags/CQRS/" style="font-size: 10px;">CQRS</a> <a href="/tags/Docker/" style="font-size: 18.33px;">Docker</a> <a href="/tags/Event-Sourcing/" style="font-size: 10px;">Event-Sourcing</a> <a href="/tags/IntelliJ/" style="font-size: 10px;">IntelliJ</a> <a href="/tags/JVM/" style="font-size: 16.67px;">JVM</a> <a href="/tags/Java-NIO/" style="font-size: 20px;">Java NIO</a> <a href="/tags/Java-SE/" style="font-size: 18.33px;">Java SE</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/K8s/" style="font-size: 13.33px;">K8s</a> <a href="/tags/SpringBoot/" style="font-size: 13.33px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 15px;">SpringCloud</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/shell/" style="font-size: 13.33px;">shell</a> <a href="/tags/zookeeper/" style="font-size: 11.67px;">zookeeper</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+      <a href="/tags/Algorithm/" style="font-size: 13.33px;">Algorithm</a> <a href="/tags/CQRS/" style="font-size: 10px;">CQRS</a> <a href="/tags/Docker/" style="font-size: 18.33px;">Docker</a> <a href="/tags/Event-Sourcing/" style="font-size: 10px;">Event-Sourcing</a> <a href="/tags/IntelliJ/" style="font-size: 10px;">IntelliJ</a> <a href="/tags/JVM/" style="font-size: 16.67px;">JVM</a> <a href="/tags/Java-NIO/" style="font-size: 20px;">Java NIO</a> <a href="/tags/Java-SE/" style="font-size: 18.33px;">Java SE</a> <a href="/tags/Java多线程/" style="font-size: 11.67px;">Java多线程</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/K8s/" style="font-size: 13.33px;">K8s</a> <a href="/tags/SpringBoot/" style="font-size: 13.33px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 15px;">SpringCloud</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/shell/" style="font-size: 13.33px;">shell</a> <a href="/tags/zookeeper/" style="font-size: 11.67px;">zookeeper</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
     </div>
   </div>
 
@@ -398,7 +618,7 @@ connect host:port
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -410,23 +630,23 @@ connect host:port
       <ul>
         
           <li>
+            <a href="/2017/04/19/MultiThread-3/">ThreadLocal的使用</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/19/MultiThread-2/">等待通知机制</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/19/MultiThread-1/">安全的终止线程</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/17/algorithm-4/">算法之查找</a>
+          </li>
+        
+          <li>
             <a href="/2017/04/17/algorithm-3/">算法之数据结构——树</a>
-          </li>
-        
-          <li>
-            <a href="/2017/04/03/algorithm-2/">算法之链表</a>
-          </li>
-        
-          <li>
-            <a href="/2017/03/22/algorithm-1/">算法之数据结构——数组</a>
-          </li>
-        
-          <li>
-            <a href="/2017/03/08/JVM-note-8/">JVM笔记八：Sun JDK监控和故障处理工具</a>
-          </li>
-        
-          <li>
-            <a href="/2017/02/21/JVM-note-7/">JVM笔记七：垃圾收集器与内存分配策略——内存分配与回收策略</a>
           </li>
         
       </ul>
