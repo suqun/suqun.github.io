@@ -4,18 +4,45 @@
 <head>
   <meta charset="utf-8">
   
-  <title>算法之查找 | 入耳箸心</title>
+  <title>算法之排序-选择排序 | 入耳箸心</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
+  <meta name="description" content="算法描述
+首先，找到数组中最小的元素
+其次，将它和数组的第一个元素交换位置（如果第一个是最小的，就和自己交换）
+再次，在剩下的元素中找到最小的元素，将它与第二个元素交换位置。
+如此往复，直到将整个数组排序
+
+命题A对于长度为N的数组，选择排序需要大约N²/2次比较和N次交换
+特点
+运行时间和输入无关。
+ 为了找出最小的元素而扫描一遍数组并不能为下一遍扫描提供什么信息。这种性质在某些情况下是缺点，一">
 <meta property="og:type" content="article">
-<meta property="og:title" content="算法之查找">
+<meta property="og:title" content="算法之排序-选择排序">
 <meta property="og:url" content="http://suqun.github.io/2017/04/17/algorithm-4/index.html">
 <meta property="og:site_name" content="入耳箸心">
-<meta property="og:description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
-<meta property="og:updated_time" content="2017-04-17T13:42:45.000Z">
+<meta property="og:description" content="算法描述
+首先，找到数组中最小的元素
+其次，将它和数组的第一个元素交换位置（如果第一个是最小的，就和自己交换）
+再次，在剩下的元素中找到最小的元素，将它与第二个元素交换位置。
+如此往复，直到将整个数组排序
+
+命题A对于长度为N的数组，选择排序需要大约N²/2次比较和N次交换
+特点
+运行时间和输入无关。
+ 为了找出最小的元素而扫描一遍数组并不能为下一遍扫描提供什么信息。这种性质在某些情况下是缺点，一">
+<meta property="og:updated_time" content="2017-04-19T15:05:09.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="算法之查找">
-<meta name="twitter:description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
+<meta name="twitter:title" content="算法之排序-选择排序">
+<meta name="twitter:description" content="算法描述
+首先，找到数组中最小的元素
+其次，将它和数组的第一个元素交换位置（如果第一个是最小的，就和自己交换）
+再次，在剩下的元素中找到最小的元素，将它与第二个元素交换位置。
+如此往复，直到将整个数组排序
+
+命题A对于长度为N的数组，选择排序需要大约N²/2次比较和N次交换
+特点
+运行时间和输入无关。
+ 为了找出最小的元素而扫描一遍数组并不能为下一遍扫描提供什么信息。这种性质在某些情况下是缺点，一">
   
     <link rel="alternative" href="/atom.xml" title="入耳箸心" type="application/atom+xml">
   
@@ -86,7 +113,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      算法之查找
+      算法之排序-选择排序
     </h1>
   
 
@@ -98,17 +125,32 @@
       
       <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u7B97_u6CD5_u63CF_u8FF0"><span class="toc-number">1.</span> <span class="toc-text">算法描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u547D_u9898A"><span class="toc-number">2.</span> <span class="toc-text">命题A</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u7279_u70B9"><span class="toc-number">3.</span> <span class="toc-text">特点</span></a></li></ol>
       </div>
       
 
-      
+      <h2 id="u7B97_u6CD5_u63CF_u8FF0"><a href="#u7B97_u6CD5_u63CF_u8FF0" class="headerlink" title="算法描述"></a>算法描述</h2><ol>
+<li>首先，找到数组中最小的元素</li>
+<li>其次，将它和数组的第一个元素交换位置（如果第一个是最小的，就和自己交换）</li>
+<li>再次，在剩下的元素中找到最小的元素，将它与第二个元素交换位置。</li>
+<li>如此往复，直到将整个数组排序</li>
+</ol>
+<h2 id="u547D_u9898A"><a href="#u547D_u9898A" class="headerlink" title="命题A"></a>命题A</h2><p><strong>对于长度为N的数组，选择排序需要大约N²/2次比较和N次交换</strong></p>
+<h2 id="u7279_u70B9"><a href="#u7279_u70B9" class="headerlink" title="特点"></a>特点</h2><ol>
+<li><p><strong>运行时间和输入无关。</strong></p>
+<p> 为了找出最小的元素而扫描一遍数组并不能为下一遍扫描提供什么信息。这种性质在某些情况下是缺点，一个已经有序的数组或者主键全部相等的数组和一个元素随机排列的数组所用的排序时间一样长！</p>
+</li>
+<li><p><strong>数据移动是最少的。</strong></p>
+<p> 每次交换都会改变两个元素的位置的值，因此选择排序用了N次交换——交换次数和数组的大小是线性关系。其他任何算法都不具备这个特征（大部分的增长数量级都是线性对数或者平方级别）</p>
+</li>
+</ol>
+
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/17/algorithm-4/" data-id="cj1p2nd9s001dyzuqc54g731p" class="article-share-link" data-share="baidu" data-title="算法之查找">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/17/algorithm-4/" data-id="cj1qin8v3001dbduq2vufpcge" class="article-share-link" data-share="baidu" data-title="算法之排序-选择排序">分享到</a>
       
 
       
@@ -146,7 +188,7 @@
 
 
   <section id="comments">
-    <div id="ds-thread" class="ds-thread" data-thread-key="2017/04/17/algorithm-4/" data-title="算法之查找" data-url="http://suqun.github.io/2017/04/17/algorithm-4/"></div>
+    <div id="ds-thread" class="ds-thread" data-thread-key="2017/04/17/algorithm-4/" data-title="算法之排序-选择排序" data-url="http://suqun.github.io/2017/04/17/algorithm-4/"></div>
   </section>
 </section>
       
@@ -200,7 +242,7 @@
           </li>
         
           <li>
-            <a href="/2017/04/17/algorithm-4/">算法之查找</a>
+            <a href="/2017/04/17/algorithm-4/">算法之排序-选择排序</a>
           </li>
         
           <li>
