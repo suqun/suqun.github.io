@@ -73,6 +73,229 @@
     <div class="outer">
       <section id="main">
   
+    <article id="post-algorithm-8" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/01/algorithm-8/" class="article-date">
+  <time datetime="2017-05-01T07:50:10.000Z" itemprop="datePublished">2017-05-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/01/algorithm-8/">算法之排序-归并排序</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      <!-- Table of Contents -->
+      
+
+      
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://suqun.github.io/2017/05/01/algorithm-8/" data-id="cj26adtxp001d2suqtxey43d7" class="article-share-link" data-share="baidu" data-title="算法之排序-归并排序">分享到</a>
+      
+
+      
+        <a href="http://suqun.github.io/2017/05/01/algorithm-8/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algorithm/">Algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-algorithm-7" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/04/30/algorithm-7/" class="article-date">
+  <time datetime="2017-04-30T07:10:57.000Z" itemprop="datePublished">2017-04-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/04/30/algorithm-7/">算法之排序-希尔排序</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      <!-- Table of Contents -->
+      
+
+      <h2 id="u7B97_u6CD5_u63CF_u8FF0"><a href="#u7B97_u6CD5_u63CF_u8FF0" class="headerlink" title="算法描述"></a>算法描述</h2><p>希尔排序为了加快速度简单的改进了插入排序，交换不相邻的元素以对数组的局部进行排序，并最终用插入排序将局部有序的数组排序。</p>
+<p>希尔排序的思想是使数组中任意间隔为h的元素都是有序的。这样的数组成为<code>h有序数组</code>。在进行排序时，如果h很大，就能将元素移动到很远的地方，为实现更小的h有序创造方便。</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/algorithm-h-sort.png" alt=""></p>
+<h2 id="u7279_u70B9"><a href="#u7279_u70B9" class="headerlink" title="特点"></a>特点</h2><p>希尔排序更高效的原因是它权衡了子数组的规模和有序性。排序之初各个子数组都很短，排序之后的子数组都是部分有序的，这两种情况都很适合插入排序。子数组的部分有序取决于递增序列的选择。</p>
+<p>对于中等大小的数组它的运行时间是可以接受的。他的代码量小，不需要额外的内存空间。后面我们会看到更加高效的算法，但是对于很大的N，它们可能只比希尔排序快2倍（可能还达不到），而且更复杂。可以考虑先用希尔排序，然后在考虑是否值得将它替换为更加复杂的排序算法。</p>
+<h2 id="u4EE3_u7801"><a href="#u4EE3_u7801" class="headerlink" title="代码"></a>代码</h2><p>使用序列1/2(3的k次方 - 1)，从N/3开始递减至1。这个序列成为递增序列。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Shell</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//将a按升序排列</span></span><br><span class="line">        <span class="keyword">int</span> N = a.length;</span><br><span class="line">        <span class="keyword">int</span> h = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (h &lt; N / <span class="number">3</span>) h = h * <span class="number">3</span> + <span class="number">1</span>;<span class="comment">//1,3,13,40,121,364,1093...</span></span><br><span class="line">        <span class="keyword">while</span> (h &gt;= <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++) &#123;</span><br><span class="line">                <span class="comment">//将a[i]插入到a[i-1],a[i-2],a[i-3]...之中</span></span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &gt; <span class="number">0</span>; j--) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (less(a[j], a[j - <span class="number">1</span>])) &#123;</span><br><span class="line">                        exchange(a, j, j - <span class="number">1</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            h = h/<span class="number">3</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Character[] a = &#123;<span class="string">'S'</span>,<span class="string">'H'</span>,<span class="string">'E'</span>,<span class="string">'L'</span>,<span class="string">'L'</span>,<span class="string">'S'</span>, <span class="string">'O'</span>, <span class="string">'R'</span>, <span class="string">'T'</span>, <span class="string">'E'</span>, <span class="string">'X'</span>, <span class="string">'A'</span>, <span class="string">'M'</span>, <span class="string">'P'</span>, <span class="string">'L'</span>, <span class="string">'E'</span>&#125;;</span><br><span class="line">        sort(a);</span><br><span class="line">        <span class="keyword">if</span> (isSorted(a)) &#123;</span><br><span class="line">            show(a);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="u6BD4_u8F83"><a href="#u6BD4_u8F83" class="headerlink" title="比较"></a>比较</h2><p>和选择排序和插入排序形成鲜明对比的是，希尔排序也可以用于大型数组。它对任意排序（不一定是随机的）的数组表现也很好。</p>
+<p>通过SortCompare可以看到，希尔排序比插入排序要快的多，并且数组越大，优势越大。</p>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://suqun.github.io/2017/04/30/algorithm-7/" data-id="cj26adtxr001g2suqz2hgpkbf" class="article-share-link" data-share="baidu" data-title="算法之排序-希尔排序">分享到</a>
+      
+
+      
+        <a href="http://suqun.github.io/2017/04/30/algorithm-7/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algorithm/">Algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-algorithm-6" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/04/30/algorithm-6/" class="article-date">
+  <time datetime="2017-04-30T02:32:10.000Z" itemprop="datePublished">2017-04-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/04/30/algorithm-6/">算法之排序-选择排序与插入排序的比较</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      <!-- Table of Contents -->
+      
+
+      <p>我们将通过以下步骤比较两个算法：</p>
+<ul>
+<li>实现并调试他们</li>
+<li>分析他们的基本性质</li>
+<li>对他们的相对性做出猜想</li>
+<li>用实验证明我们的猜想</li>
+</ul>
+<p>前面两节的算法已经实现了第一步，命题A，命题B，命题C组成了第二步，下面的性质D是第三步，之后的比较两种排序算法的SortCompare类将会完成第四步。</p>
+<h2 id="u6027_u8D28D"><a href="#u6027_u8D28D" class="headerlink" title="性质D"></a>性质D</h2><p>对于随机排序的无重复主键的数组，插入排序和选择排序的运行时间是平方级别的，两者之比应该是一个较小的常数。</p>
+<h2 id="u6BD4_u8F83_u4E24_u79CD_u7B97_u6CD5"><a href="#u6BD4_u8F83_u4E24_u79CD_u7B97_u6CD5" class="headerlink" title="比较两种算法"></a>比较两种算法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SortCompare</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 对排序算法进行计时</span><br><span class="line">     * <span class="doctag">@param</span> alg 排序算法</span><br><span class="line">     * <span class="doctag">@param</span> a 数组</span><br><span class="line">     * <span class="doctag">@return</span></span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">double</span> <span class="title">time</span><span class="params">(String alg, Double[] a)</span> </span>&#123;</span><br><span class="line">        Profiler.begin();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (alg.equals(<span class="string">"Insertion"</span>)) &#123;</span><br><span class="line">            Insertion.sort(a);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (alg.equals(<span class="string">"Selection"</span>)) &#123;</span><br><span class="line">            Selection.sort(a);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Profiler.end();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 使用算法alg将T个长度为N的数组排序</span><br><span class="line">     * <span class="doctag">@param</span> alg 算法</span><br><span class="line">     * <span class="doctag">@param</span> N 数组长度</span><br><span class="line">     * <span class="doctag">@param</span> T T个数组</span><br><span class="line">     * <span class="doctag">@return</span></span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">double</span> <span class="title">timeRandomInput</span><span class="params">(String alg,<span class="keyword">int</span> N, <span class="keyword">int</span> T)</span></span>&#123;</span><br><span class="line">        <span class="keyword">double</span> total = <span class="number">0.0</span>;</span><br><span class="line">        Double[] a = <span class="keyword">new</span> Double[N];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> t = <span class="number">0</span>; t &lt; T; t++) &#123;</span><br><span class="line">            <span class="comment">//进行一次测试，生成一个数组并排序</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++) &#123;</span><br><span class="line">                a[i] = uniform();</span><br><span class="line">            &#125;</span><br><span class="line">           total += time(alg,a);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> total;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String alg1 = args[<span class="number">0</span>];</span><br><span class="line">        String alg2 = args[<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">int</span> N = Integer.parseInt(args[<span class="number">2</span>]);</span><br><span class="line">        <span class="keyword">int</span> T = Integer.parseInt(args[<span class="number">3</span>]);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">double</span> t1 = timeRandomInput(alg1,N,T);<span class="comment">//算法1的总时间</span></span><br><span class="line">        <span class="keyword">double</span> t2 = timeRandomInput(alg2,N,T);<span class="comment">//算法2的总时间</span></span><br><span class="line"></span><br><span class="line">        System.out.printf(<span class="string">"For %d random Doubles\n %s is "</span>,N,alg1);</span><br><span class="line">        System.out.printf(<span class="string">"%.1f times faster than %s\n "</span>,t2/t1,alg2);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * Returns a random real number uniformly in [0, 1).</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@return</span> a random real number uniformly in [0, 1)</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">double</span> <span class="title">uniform</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Random().nextDouble();</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//程序参数为 Insertion Selection 1000 100 ,运行结果：</span></span><br><span class="line"><span class="comment">//    For 1000 random Doubles</span></span><br><span class="line"><span class="comment">//    Insertion is 1.8 times faster than Selection</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://suqun.github.io/2017/04/30/algorithm-6/" data-id="cj26adtxs001i2suqajfyx8mf" class="article-share-link" data-share="baidu" data-title="算法之排序-选择排序与插入排序的比较">分享到</a>
+      
+
+      
+        <a href="http://suqun.github.io/2017/04/30/algorithm-6/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algorithm/">Algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-MultiThread-5" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/04/29/MultiThread-5/" class="article-date">
+  <time datetime="2017-04-29T13:34:44.000Z" itemprop="datePublished">2017-04-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/04/29/MultiThread-5/">等待超时模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      <!-- Table of Contents -->
+      
+
+      <p>经常遇到这样的场景：调用一个方法时等待一段时间，如果该方法能够在给定的时间段内得到结果，那么结果立刻返回，反之，超时返回默认结果。</p>
+<p>前面介绍了等待/通知的经典范式，即加锁、条件循环和处理逻辑3个步骤，而这种范式无法做到超时等待。超时等待的加入，只需要对经典范式做出小改动，改动如下：</p>
+<p>假设超时时间是T，那么可以推断出在当前世界now+T之后就会超时。</p>
+<p>定义如下变量</p>
+<ul>
+<li>等待持续时间：<em>remaining = T</em></li>
+<li>超时时间： <em>future = now + T</em></li>
+</ul>
+<p>这时只需要<code>wait(remaining)</code>即可，在<code>wait(remaining)</code>返回之后将执行：<em>remaining = future - now</em>。如果remining小于等于0，表示已经超时，直接退出，否则继续执行<code>wait(remaining)</code></p>
+<p>伪代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//对当前对象加锁</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> Object <span class="title">get</span><span class="params">(<span class="keyword">long</span> mills)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> future = System.currentTimeMillis() + mills;</span><br><span class="line">    <span class="keyword">long</span> remaining = mills;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//当超时大于0并且result返回值不满足要求</span></span><br><span class="line">    <span class="keyword">while</span> ((result == <span class="keyword">null</span>) &amp;&amp; remaining &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        wait(remaining);</span><br><span class="line">        remaining = future - System.currentTimeMillis();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>超时模式就是在等待/通知模式上添加了超时控制，这使得该模式比原有的范式更具有灵活性，因为即使方法执行时间过长，也不会『永久』阻塞调用者，而是会按照调用者的要求『按时』返回。</p>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://suqun.github.io/2017/04/29/MultiThread-5/" data-id="cj26adtym002g2suqnq40dw8z" class="article-share-link" data-share="baidu" data-title="等待超时模式">分享到</a>
+      
+
+      
+        <a href="http://suqun.github.io/2017/04/29/MultiThread-5/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java多线程/">Java多线程</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-MultiThread-4" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/04/29/MultiThread-4/" class="article-date">
@@ -111,7 +334,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/29/MultiThread-4/" data-id="cj23b1d71002ayduq31ui4pqj" class="article-share-link" data-share="baidu" data-title="Thread.join()的使用">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/29/MultiThread-4/" data-id="cj26adtyo002j2suqi94k1ms3" class="article-share-link" data-share="baidu" data-title="Thread.join()的使用">分享到</a>
       
 
       
@@ -153,13 +376,25 @@
       <!-- Table of Contents -->
       
 
-      <h2 id="u7B97_u6CD5_u63CF_u8FF0"><a href="#u7B97_u6CD5_u63CF_u8FF0" class="headerlink" title="算法描述"></a>算法描述</h2><h2 id="u547D_u9898"><a href="#u547D_u9898" class="headerlink" title="命题"></a>命题</h2><h2 id="u7279_u70B9"><a href="#u7279_u70B9" class="headerlink" title="特点"></a>特点</h2><h2 id="u4EE3_u7801"><a href="#u4EE3_u7801" class="headerlink" title="代码"></a>代码</h2>
+      <h2 id="u7B97_u6CD5_u63CF_u8FF0"><a href="#u7B97_u6CD5_u63CF_u8FF0" class="headerlink" title="算法描述"></a>算法描述</h2><p>通常人们整理桥牌的方法是一张一张的来，将每一张插入到其他已经有序额牌中的适当位置。在计算机实现中，为了给要插入的元素腾出空间，我们需要将其余所有元素在插入之前都向右移动一位。这种算法叫做插入排序。</p>
+<p>与选择排序一样，当前索引左边的所有元素都是有序的，但他们的最终位置还不确定，为了给更小的元素腾出空间，他们可能会被移动。但是当索引到达数组的右端时，数组排序就完成了。</p>
+<p>和选择排序不同的是，插入排序所需要的时间取决于输入中元素的初始顺序。例如，对一个很大且其中的元素已经有序（或者接近有序）的数组进行排序将会比随机顺序的数组或是逆序数组进行排序要快的多。</p>
+<h2 id="u547D_u9898B"><a href="#u547D_u9898B" class="headerlink" title="命题B"></a>命题B</h2><p><strong>对于随机排列长度为N且主键不重复的数组，平均情况下插入排序需要 ~ N²/4 次比较以及 ~ N²/4 次交换。最坏情况下需要 ~ N²/2 次比较和 ~ N²/2 次交换，最好情况下需要 N-1次比较和0次交换。</strong></p>
+<h2 id="u547D_u9898C"><a href="#u547D_u9898C" class="headerlink" title="命题C"></a>命题C</h2><p><strong>插入排序需要的交换操作和数组中倒置的数量相同，需要的比较次数大于等于倒置的数量，小于等于倒置的数量加上数组的大小再减一。</strong></p>
+<h2 id="u7279_u70B9"><a href="#u7279_u70B9" class="headerlink" title="特点"></a>特点</h2><p>插入排序对于部分有序的数组十分高效，也适合小规模数组。</p>
+<p>几种典型的部分有序数组：</p>
+<ul>
+<li>数组中每个元素距离它的最终位置都不远</li>
+<li>一个有序的大数组接一个小数组</li>
+<li>数组中只有几个元素的位置不正确</li>
+</ul>
+<h2 id="u4EE3_u7801"><a href="#u4EE3_u7801" class="headerlink" title="代码"></a>代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Insertion</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//将a按升序排列</span></span><br><span class="line">        <span class="keyword">int</span> N = a.length;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++) &#123;</span><br><span class="line">            <span class="comment">//将a[i]插入到a[i-1],a[i-2],a[i-3]...之中</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &gt; <span class="number">0</span>; j--) &#123;</span><br><span class="line">                <span class="keyword">if</span> (less(a[j], a[j - <span class="number">1</span>])) &#123;</span><br><span class="line">                    exchange(a, j, j - <span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Character[] a = &#123;<span class="string">'S'</span>, <span class="string">'O'</span>, <span class="string">'R'</span>, <span class="string">'T'</span>, <span class="string">'E'</span>, <span class="string">'X'</span>, <span class="string">'A'</span>, <span class="string">'M'</span>, <span class="string">'P'</span>, <span class="string">'L'</span>, <span class="string">'E'</span>&#125;;</span><br><span class="line">        sort(a);</span><br><span class="line">        <span class="keyword">if</span> (isSorted(a)) &#123;</span><br><span class="line">            show(a);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// A E E L M O P R S T X </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/20/algorithm-5/" data-id="cj23b1d69001dyduqtp78qdk5" class="article-share-link" data-share="baidu" data-title="算法之排序-插入排序">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/20/algorithm-5/" data-id="cj26adtxt001k2suq9uj20lnx" class="article-share-link" data-share="baidu" data-title="算法之排序-插入排序">分享到</a>
       
 
       
@@ -212,7 +447,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/19/MultiThread-3/" data-id="cj23b1d73002dyduqc1w13kly" class="article-share-link" data-share="baidu" data-title="ThreadLocal的使用">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/19/MultiThread-3/" data-id="cj26adtyp002l2suqvlsp4ssx" class="article-share-link" data-share="baidu" data-title="ThreadLocal的使用">分享到</a>
       
 
       
@@ -277,7 +512,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/19/MultiThread-2/" data-id="cj23b1d75002fyduqllof1fa1" class="article-share-link" data-share="baidu" data-title="等待通知机制">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/19/MultiThread-2/" data-id="cj26adtys002n2suqrmcc8gbv" class="article-share-link" data-share="baidu" data-title="等待通知机制">分享到</a>
       
 
       
@@ -328,7 +563,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/19/MultiThread-1/" data-id="cj23b1d77002hyduqhd2jz2sq" class="article-share-link" data-share="baidu" data-title="安全的终止线程">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/19/MultiThread-1/" data-id="cj26adtyt002p2suqzzttoh4s" class="article-share-link" data-share="baidu" data-title="安全的终止线程">分享到</a>
       
 
       
@@ -412,7 +647,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/18/MultiThread-0/" data-id="cj23b1d79002jyduqz60zxvq5" class="article-share-link" data-share="baidu" data-title="线程的状态">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/18/MultiThread-0/" data-id="cj26adtyv002r2suqumuoriiv" class="article-share-link" data-share="baidu" data-title="线程的状态">分享到</a>
       
 
       
@@ -469,9 +704,7 @@
 <p> 每次交换都会改变两个元素的位置的值，因此选择排序用了N次交换——交换次数和数组的大小是线性关系。其他任何算法都不具备这个特征（大部分的增长数量级都是线性对数或者平方级别）</p>
 </li>
 </ol>
-<h2 id="u4EE3_u7801"><a href="#u4EE3_u7801" class="headerlink" title="代码"></a>代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//将a按升序排列</span></span><br><span class="line">    <span class="keyword">int</span> N = a.length;<span class="comment">//数组长度</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++) &#123;</span><br><span class="line">        <span class="comment">//将a[i]和a[n+1...N]最小的元素交换</span></span><br><span class="line">        <span class="keyword">int</span> min = i;<span class="comment">//最小元素的索引</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; N; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (less(a[j],a[min])) &#123;</span><br><span class="line">                min = j;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        exchange(a,i,min);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>测试代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Character[] a = &#123;<span class="string">'S'</span>,<span class="string">'O'</span>,<span class="string">'R'</span>,<span class="string">'T'</span>,<span class="string">'E'</span>,<span class="string">'X'</span>,<span class="string">'A'</span>,<span class="string">'M'</span>,<span class="string">'P'</span>,<span class="string">'L'</span>,<span class="string">'E'</span>&#125;;</span><br><span class="line">    sort(a);</span><br><span class="line">    <span class="keyword">if</span> (isSorted(a)) &#123;</span><br><span class="line">        show(a);</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//结果输出</span></span><br><span class="line">A E E L M O P R S T X</span><br></pre></td></tr></table></figure>
+<h2 id="u4EE3_u7801"><a href="#u4EE3_u7801" class="headerlink" title="代码"></a>代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Selection</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//将a按升序排列</span></span><br><span class="line">        <span class="keyword">int</span> N = a.length;<span class="comment">//数组长度</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++) &#123;</span><br><span class="line">            <span class="comment">//将a[i]和a[n+1...N]最小的元素交换</span></span><br><span class="line">            <span class="keyword">int</span> min = i;<span class="comment">//最小元素的索引</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; N; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (less(a[j],a[min])) &#123;</span><br><span class="line">                    min = j;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            exchange(a,i,min);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Character[] a = &#123;<span class="string">'S'</span>,<span class="string">'O'</span>,<span class="string">'R'</span>,<span class="string">'T'</span>,<span class="string">'E'</span>,<span class="string">'X'</span>,<span class="string">'A'</span>,<span class="string">'M'</span>,<span class="string">'P'</span>,<span class="string">'L'</span>,<span class="string">'E'</span>&#125;;</span><br><span class="line">        sort(a);</span><br><span class="line">        <span class="keyword">if</span> (isSorted(a)) &#123;</span><br><span class="line">            show(a);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//A E E L M O P R S T X </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>其中less方法和exchange方法在工具类中，如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SortUtils</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 比较两个对象大小</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> v</span><br><span class="line">     * <span class="doctag">@param</span> w</span><br><span class="line">     * <span class="doctag">@return</span></span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">less</span><span class="params">(Comparable v, Comparable w)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> v.compareTo(w) &lt; <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 交换数组元素位置</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> a</span><br><span class="line">     * <span class="doctag">@param</span> i</span><br><span class="line">     * <span class="doctag">@param</span> j</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">exchange</span><span class="params">(Comparable[] a, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">        Comparable t = a[i];</span><br><span class="line">        a[i] = a[j];</span><br><span class="line">        a[j] = t;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 打印数组元素</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> a</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">(Comparable[] a)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">            System.out.print(a[i] + <span class="string">" "</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 判断数组元素是否有序</span><br><span class="line">     * <span class="doctag">@param</span> a</span><br><span class="line">     * <span class="doctag">@return</span></span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isSorted</span><span class="params">(Comparable[] a)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (less(a[i], a[i - <span class="number">1</span>])) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -479,7 +712,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/17/algorithm-4/" data-id="cj23b1d6c001gyduq5e9hor37" class="article-share-link" data-share="baidu" data-title="算法之排序-选择排序">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/17/algorithm-4/" data-id="cj26adtxv001m2suqfvycxy2o" class="article-share-link" data-share="baidu" data-title="算法之排序-选择排序">分享到</a>
       
 
       
@@ -527,7 +760,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/17/algorithm-3/" data-id="cj23b1d6e001iyduqh0jxwesx" class="article-share-link" data-share="baidu" data-title="算法之数据结构——树">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/17/algorithm-3/" data-id="cj26adtxw001o2suqazhdwwjt" class="article-share-link" data-share="baidu" data-title="算法之数据结构——树">分享到</a>
       
 
       
@@ -576,7 +809,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/03/algorithm-2/" data-id="cj23b1d6g001kyduquqeziku9" class="article-share-link" data-share="baidu" data-title="算法之数据结构——链表">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/03/algorithm-2/" data-id="cj26adtxy001q2suqsm8akf17" class="article-share-link" data-share="baidu" data-title="算法之数据结构——链表">分享到</a>
       
 
       
@@ -630,7 +863,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/03/22/algorithm-1/" data-id="cj23b1d6i001myduqab256ptu" class="article-share-link" data-share="baidu" data-title="算法之数据结构——数组">分享到</a>
+        <a data-url="http://suqun.github.io/2017/03/22/algorithm-1/" data-id="cj26adtxz001s2suq0eto5kai" class="article-share-link" data-share="baidu" data-title="算法之数据结构——数组">分享到</a>
       
 
       
@@ -713,7 +946,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/03/08/JVM-note-8/" data-id="cj23b1d84003lyduq29ngya3j" class="article-share-link" data-share="baidu" data-title="JVM笔记八：Sun JDK监控和故障处理工具">分享到</a>
+        <a data-url="http://suqun.github.io/2017/03/08/JVM-note-8/" data-id="cj26adtzq003t2suqmcvsirto" class="article-share-link" data-share="baidu" data-title="JVM笔记八：Sun JDK监控和故障处理工具">分享到</a>
       
 
       
@@ -763,7 +996,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/21/JVM-note-7/" data-id="cj23b1d86003oyduqbxr2ptde" class="article-share-link" data-share="baidu" data-title="JVM笔记七：垃圾收集器与内存分配策略——内存分配与回收策略">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/21/JVM-note-7/" data-id="cj26adtzr003w2suq9bm93yv4" class="article-share-link" data-share="baidu" data-title="JVM笔记七：垃圾收集器与内存分配策略——内存分配与回收策略">分享到</a>
       
 
       
@@ -824,7 +1057,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/19/JVM-note-6/" data-id="cj23b1d88003qyduqc7ca82bw" class="article-share-link" data-share="baidu" data-title="JVM笔记六：垃圾收集器与内存分配策略——垃圾收集器">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/19/JVM-note-6/" data-id="cj26adtzs003y2suqkoncifj5" class="article-share-link" data-share="baidu" data-title="JVM笔记六：垃圾收集器与内存分配策略——垃圾收集器">分享到</a>
       
 
       
@@ -876,7 +1109,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-5/" data-id="cj23b1d89003syduq7xujjfl7" class="article-share-link" data-share="baidu" data-title="JVM笔记五：垃圾收集器与内存分配策略——垃圾收集算法">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-5/" data-id="cj26adtzt00402suq0muhxukd" class="article-share-link" data-share="baidu" data-title="JVM笔记五：垃圾收集器与内存分配策略——垃圾收集算法">分享到</a>
       
 
       
@@ -928,7 +1161,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-4/" data-id="cj23b1d8a003tyduqk9sp10h0" class="article-share-link" data-share="baidu" data-title="JVM笔记四：垃圾收集器与内存分配策略——对象">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-4/" data-id="cj26adtzu00412suqnfblkuhd" class="article-share-link" data-share="baidu" data-title="JVM笔记四：垃圾收集器与内存分配策略——对象">分享到</a>
       
 
       
@@ -981,7 +1214,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/16/JVM-note-3/" data-id="cj23b1d8b003vyduqttx0el2e" class="article-share-link" data-share="baidu" data-title="JVM笔记三：Java内存区域与内存溢出异常——OutOfMemoryError异常">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/16/JVM-note-3/" data-id="cj26adtzv00432suqnnuyyvlm" class="article-share-link" data-share="baidu" data-title="JVM笔记三：Java内存区域与内存溢出异常——OutOfMemoryError异常">分享到</a>
       
 
       
@@ -1041,7 +1274,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/14/JVM-note-2/" data-id="cj23b1d8c003xyduqklow8wxn" class="article-share-link" data-share="baidu" data-title="JVM笔记二：Java内存区域与内存溢出异常——HotSpot虚拟机对象探秘">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/14/JVM-note-2/" data-id="cj26adtzx00452suqwm0d2r54" class="article-share-link" data-share="baidu" data-title="JVM笔记二：Java内存区域与内存溢出异常——HotSpot虚拟机对象探秘">分享到</a>
       
 
       
@@ -1091,7 +1324,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/12/25/JVM-note-1/" data-id="cj23b1d8e003zyduqdw4qtwfv" class="article-share-link" data-share="baidu" data-title="JVM笔记一：Java内存区域与内存溢出异常——运行时数据区域">分享到</a>
+        <a data-url="http://suqun.github.io/2016/12/25/JVM-note-1/" data-id="cj26adtzy00472suqs59chcyv" class="article-share-link" data-share="baidu" data-title="JVM笔记一：Java内存区域与内存溢出异常——运行时数据区域">分享到</a>
       
 
       
@@ -1140,7 +1373,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/11/27/Java-NIO-SocketChannel/" data-id="cj23b1d7n0035yduqdihi1jh6" class="article-share-link" data-share="baidu" data-title="Java NIO SocketChannel">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/27/Java-NIO-SocketChannel/" data-id="cj26adtzf003d2suq541kaxcp" class="article-share-link" data-share="baidu" data-title="Java NIO SocketChannel">分享到</a>
       
 
       
@@ -1219,7 +1452,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/11/22/Java-NIO-FileChannel/" data-id="cj23b1d7z003dyduqza6gqxi3" class="article-share-link" data-share="baidu" data-title="Java NIO FileChannel">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/22/Java-NIO-FileChannel/" data-id="cj26adtzk003l2suqdyoj9yyc" class="article-share-link" data-share="baidu" data-title="Java NIO FileChannel">分享到</a>
       
 
       
@@ -1343,7 +1576,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/11/16/Java-NIO-Selector/" data-id="cj23b1d7w0037yduqtuem3hle" class="article-share-link" data-share="baidu" data-title="Java NIO Selector">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/16/Java-NIO-Selector/" data-id="cj26adtzg003f2suq9rxn74jk" class="article-share-link" data-share="baidu" data-title="Java NIO Selector">分享到</a>
       
 
       
@@ -1402,7 +1635,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/11/10/Java-NIO-Channel-to-Channel-Transfers/" data-id="cj23b1d82003hyduqwmapr9m8" class="article-share-link" data-share="baidu" data-title="Java NIO Channel之间的数据传输">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/10/Java-NIO-Channel-to-Channel-Transfers/" data-id="cj26adtzn003p2suqo46cvmuh" class="article-share-link" data-share="baidu" data-title="Java NIO Channel之间的数据传输">分享到</a>
       
 
       
@@ -1465,7 +1698,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/11/09/Java-NIO-Scatter-Gather/" data-id="cj23b1d7x0039yduqxuo51zg5" class="article-share-link" data-share="baidu" data-title="Java NIO Scatter / Gather">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/09/Java-NIO-Scatter-Gather/" data-id="cj26adtzh003h2suqcjcwi5a9" class="article-share-link" data-share="baidu" data-title="Java NIO Scatter / Gather">分享到</a>
       
 
       
@@ -1544,7 +1777,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/10/18/IntelliJ/" data-id="cj23b1d8f0041yduqhibgvrrq" class="article-share-link" data-share="baidu" data-title="IntelliJ 使用说明">分享到</a>
+        <a data-url="http://suqun.github.io/2016/10/18/IntelliJ/" data-id="cj26adu0000492suqga292mea" class="article-share-link" data-share="baidu" data-title="IntelliJ 使用说明">分享到</a>
       
 
       
@@ -1646,7 +1879,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/10/18/gitcommands/" data-id="cj23b1d5u000lyduqinrxoxum" class="article-share-link" data-share="baidu" data-title="git 常用命令">分享到</a>
+        <a data-url="http://suqun.github.io/2016/10/18/gitcommands/" data-id="cj26adtx9000l2suqb8wi8nuu" class="article-share-link" data-share="baidu" data-title="git 常用命令">分享到</a>
       
 
       
@@ -1699,7 +1932,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/10/17/docker-jenkins/" data-id="cj23b1d670018yduqivk7uctg" class="article-share-link" data-share="baidu" data-title="java应用结合Jenkins，docker部署到Kubernetes">分享到</a>
+        <a data-url="http://suqun.github.io/2016/10/17/docker-jenkins/" data-id="cj26adtxm00182suqcixoejaf" class="article-share-link" data-share="baidu" data-title="java应用结合Jenkins，docker部署到Kubernetes">分享到</a>
       
 
       
@@ -1762,7 +1995,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/09/27/dockerjavamicroservice4/" data-id="cj23b1d5x000ryduqlx5kothr" class="article-share-link" data-share="baidu" data-title="使用kubeadm在CentOS7上安装Kubernetes集群">分享到</a>
+        <a data-url="http://suqun.github.io/2016/09/27/dockerjavamicroservice4/" data-id="cj26adtxd000r2suqb0ujxet7" class="article-share-link" data-share="baidu" data-title="使用kubeadm在CentOS7上安装Kubernetes集群">分享到</a>
       
 
       
@@ -1817,7 +2050,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/09/26/dockerjavamicroservice3/" data-id="cj23b1d5z000vyduqp3ze64oj" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(三) Kubernetes服务发现之环境变量">分享到</a>
+        <a data-url="http://suqun.github.io/2016/09/26/dockerjavamicroservice3/" data-id="cj26adtxf000v2suqd23t81z9" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(三) Kubernetes服务发现之环境变量">分享到</a>
       
 
       
@@ -1948,7 +2181,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/09/07/dockerjavamicroservice2/" data-id="cj23b1d61000yyduq21j55hhg" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(二) CentOS7部署Kubernetes集群">分享到</a>
+        <a data-url="http://suqun.github.io/2016/09/07/dockerjavamicroservice2/" data-id="cj26adtxh000y2suqw460io50" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(二) CentOS7部署Kubernetes集群">分享到</a>
       
 
       
@@ -2056,7 +2289,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/24/dockerjavamicroservice1/" data-id="cj23b1d630011yduq8y36zpow" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(一) 部署Chris Richardson的转账案例">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/24/dockerjavamicroservice1/" data-id="cj26adtxj00112suq2reity56" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(一) 部署Chris Richardson的转账案例">分享到</a>
       
 
       
@@ -2105,7 +2338,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/09/springcloud6/" data-id="cj23b1d5q000fyduqm24dvvo2" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（六）服务网关">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/09/springcloud6/" data-id="cj26adtx5000f2suq9pp54ly6" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（六）服务网关">分享到</a>
       
 
       
@@ -2154,7 +2387,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/09/SpringCloud5/" data-id="cj23b1d6m001syduq76sfakz0" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（五）分布式配置中心">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/09/SpringCloud5/" data-id="cj26adty3001y2suq8dv6eqkt" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（五）分布式配置中心">分享到</a>
       
 
       
@@ -2229,7 +2462,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四）集群/" data-id="cj23b1d6o001uyduqmtz4cqtu" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（四）集群">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四）集群/" data-id="cj26adty400202suqjj8ng1zm" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（四）集群">分享到</a>
       
 
       
@@ -2278,7 +2511,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/" data-id="cj23b1d6q001yyduqxx5bg597" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（三）断路器">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/" data-id="cj26adty900242suqodc3oef6" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（三）断路器">分享到</a>
       
 
       
@@ -2327,7 +2560,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（二）服务消费者/" data-id="cj23b1d6p001wyduqjdl7rivt" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（二）服务消费者">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（二）服务消费者/" data-id="cj26adty700222suqvkwek689" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（二）服务消费者">分享到</a>
       
 
       
@@ -2376,7 +2609,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（一）服务注册与发现/" data-id="cj23b1d6r0020yduqet8hhut6" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（一）服务注册与发现">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（一）服务注册与发现/" data-id="cj26adtyc00262suq951jtd2g" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（一）服务注册与发现">分享到</a>
       
 
       
@@ -2510,7 +2743,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/28/Java-NIO-Buffer/" data-id="cj23b1d83003jyduqtqjsg74b" class="article-share-link" data-share="baidu" data-title="Java NIO Buffer">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/28/Java-NIO-Buffer/" data-id="cj26adtzo003r2suqxrfl4qn2" class="article-share-link" data-share="baidu" data-title="Java NIO Buffer">分享到</a>
       
 
       
@@ -2577,7 +2810,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/26/Java-NIO-Channel/" data-id="cj23b1d80003fyduqklg0zc2o" class="article-share-link" data-share="baidu" data-title="Java NIO Channel">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/26/Java-NIO-Channel/" data-id="cj26adtzl003n2suqwj95dizf" class="article-share-link" data-share="baidu" data-title="Java NIO Channel">分享到</a>
       
 
       
@@ -2658,7 +2891,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/" data-id="cj23b1d7y003byduqj2r77jlk" class="article-share-link" data-share="baidu" data-title="Java NIO 概述">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/" data-id="cj26adtzi003j2suq0kvuotlm" class="article-share-link" data-share="baidu" data-title="Java NIO 概述">分享到</a>
       
 
       
@@ -2712,7 +2945,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/" data-id="cj23b1d7m0032yduq8vn5u47m" class="article-share-link" data-share="baidu" data-title="Java NIO 教程">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/" data-id="cj26adtzd003a2suq79r2kel9" class="article-share-link" data-share="baidu" data-title="Java NIO 教程">分享到</a>
       
 
       
@@ -2787,7 +3020,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/24/JavaReflectionArray/" data-id="cj23b1d7j002yyduq78815li2" class="article-share-link" data-share="baidu" data-title="Java反射之数组">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/24/JavaReflectionArray/" data-id="cj26adtza00362suqdn7mq4v2" class="article-share-link" data-share="baidu" data-title="Java反射之数组">分享到</a>
       
 
       
@@ -2850,7 +3083,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/21/JavaReflectionGenerics/" data-id="cj23b1d7e002qyduqv22yt875" class="article-share-link" data-share="baidu" data-title="Java反射之泛型">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/21/JavaReflectionGenerics/" data-id="cj26adtyz002y2suq6io1jwbv" class="article-share-link" data-share="baidu" data-title="Java反射之泛型">分享到</a>
       
 
       
@@ -2929,7 +3162,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/18/JavaReflectionAnnotations/" data-id="cj23b1d7l0030yduqbmvkac07" class="article-share-link" data-share="baidu" data-title="Java反射之注解">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/18/JavaReflectionAnnotations/" data-id="cj26adtzb00382suqgt8w8y39" class="article-share-link" data-share="baidu" data-title="Java反射之注解">分享到</a>
       
 
       
@@ -2989,7 +3222,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/" data-id="cj23b1d7b002lyduq3gbkieon" class="article-share-link" data-share="baidu" data-title="Java反射之私有变量和私有方法">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/" data-id="cj26adtyw002t2suquyiwaf5q" class="article-share-link" data-share="baidu" data-title="Java反射之私有变量和私有方法">分享到</a>
       
 
       
@@ -3054,7 +3287,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/13/JavaReflectionMethods/" data-id="cj23b1d7c002oyduqv6d2fi20" class="article-share-link" data-share="baidu" data-title="Java反射之方法">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/13/JavaReflectionMethods/" data-id="cj26adtyy002w2suqgc3liv62" class="article-share-link" data-share="baidu" data-title="Java反射之方法">分享到</a>
       
 
       
@@ -3110,7 +3343,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/12/JavaReflectionFields/" data-id="cj23b1d7f002syduq3769gd0o" class="article-share-link" data-share="baidu" data-title="Java反射之变量">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/12/JavaReflectionFields/" data-id="cj26adtz000302suqorqd1mk7" class="article-share-link" data-share="baidu" data-title="Java反射之变量">分享到</a>
       
 
       
@@ -3119,268 +3352,6 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
 
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-SE/">Java SE</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-JavaReflectionConstructors" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/05/11/JavaReflectionConstructors/" class="article-date">
-  <time datetime="2016-05-10T16:52:55.000Z" itemprop="datePublished">2016-05-11</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/11/JavaReflectionConstructors/">Java反射之构造函数</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      <!-- Table of Contents -->
-      
-
-      <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/constructors.html" target="_blank" rel="external">Java Reflection Constructors</a></p>
-<h4 id="u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61"><a href="#u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61" class="headerlink" title="获取构造函数的对象"></a>获取构造函数的对象</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Constructor[] constructors = orderClass.getConstructors();</span><br></pre></td></tr></table></figure>
-<p>可以通过构造函数的具体参数类型直接获取单独的构造函数，而不用获取全部的Constructors</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Constructor constructor = orderClass.getConstructor(<span class="keyword">new</span> Class[]&#123;String.class&#125;);</span><br><span class="line">    System.out.println(constructor.getName());<span class="comment">//com.larry.bean.Order</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;<span class="comment">//没有找到匹配的构造函数会抛出NoSuchMethodException</span></span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="u6784_u9020_u51FD_u6570_u7684_u53C2_u6570_u7C7B_u578B"><a href="#u6784_u9020_u51FD_u6570_u7684_u53C2_u6570_u7C7B_u578B" class="headerlink" title="构造函数的参数类型"></a>构造函数的参数类型</h4><p>可以像下面这样获取构造函数的参数</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class[] parameterTypes = constructor.getParameterTypes();</span><br><span class="line">parameterTypes[<span class="number">0</span>].getName();<span class="comment">//java.lang.String</span></span><br></pre></td></tr></table></figure>
-<h4 id="u7528_u6784_u9020_u51FD_u6570_u5BF9_u8C61_u5B9E_u4F8B_u5316_u4E00_u4E2A_u7C7B"><a href="#u7528_u6784_u9020_u51FD_u6570_u5BF9_u8C61_u5B9E_u4F8B_u5316_u4E00_u4E2A_u7C7B" class="headerlink" title="用构造函数对象实例化一个类"></a>用构造函数对象实例化一个类</h4><p>constructor.newInstance()方法的方法参数是一个可变参数列表，但是当你调用构造方法的时候你必须提供精确的参数，即形参与实参必须一一对应。在这个例子中构造方法需要一个String类型的参数，那我们在调用newInstance方法的时候就必须传入一个String类型的参数</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Constructor constructor = Order.class.getConstructor(String.class);</span><br><span class="line">    Order order = (Order) constructor.newInstance(<span class="string">"2016050901"</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (InstantiationException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://suqun.github.io/2016/05/11/JavaReflectionConstructors/" data-id="cj23b1d7h002uyduqxpry2k20" class="article-share-link" data-share="baidu" data-title="Java反射之构造函数">分享到</a>
-      
-
-      
-        <a href="http://suqun.github.io/2016/05/11/JavaReflectionConstructors/#ds-thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-SE/">Java SE</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-JavaReflectionClasses" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/05/09/JavaReflectionClasses/" class="article-date">
-  <time datetime="2016-05-08T16:52:55.000Z" itemprop="datePublished">2016-05-09</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/09/JavaReflectionClasses/">Java反射之对象</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      <!-- Table of Contents -->
-      
-
-      <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/classes.html" target="_blank" rel="external">Java Reflection Classes</a></p>
-<h5 id="u83B7_u53D6class_u5BF9_u8C61"><a href="#u83B7_u53D6class_u5BF9_u8C61" class="headerlink" title="获取class对象"></a>获取class对象</h5><p>Java中的所有类型包括基本类型(int, long, float等等)，即使是数组都有与之关联的Class类的对象。<br>如果你在编译期知道一个类的名字的话，那么你可以使用如下的方式获取一个类的Class对象</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class orderClass = Order.class;</span><br></pre></td></tr></table></figure>
-<p>如果你在编译期不知道类的名字，但是你可以在运行期获得到类名的字符串,那么你则可以这么做来获取Class对象</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String className = ... ;<span class="comment">//在运行期获取的类名字符串</span></span><br><span class="line">Class <span class="class"><span class="keyword">class</span> </span>= Class.forName(className);</span><br></pre></td></tr></table></figure>
-<p>在使用Class.forName()方法时，你必须提供一个类的全名，这个全名包括类所在的包的名字</p>
-<h5 id="Class_Name__u7C7B_u540D"><a href="#Class_Name__u7C7B_u540D" class="headerlink" title="Class Name 类名"></a>Class Name 类名</h5><p>通过<code>getName()</code> 方法返回类的全限定类名,不包含包名使用<code>getSimpleName()</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">orderClass.getName();<span class="comment">//com.larry.bean.Order</span></span><br><span class="line">orderClass.getSimpleName();</span><br></pre></td></tr></table></figure>
-<h5 id="Modifiers__u4FEE_u9970_u7B26"><a href="#Modifiers__u4FEE_u9970_u7B26" class="headerlink" title="Modifiers 修饰符"></a>Modifiers 修饰符</h5><p>通过Class对象来访问一个类的修饰符，即public,private,static等的关键字;</p>
-<p>修饰符都被包装成一个int类型的数字，这样每个修饰符都是一个位标识(flag bit)，这个位标识可以设置和清除修饰符的类型;</p>
-<p>使用java.lang.reflect.Modifier类中的方法来检查修饰符的类型。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> modifiers = orderClass.getModifiers();</span><br><span class="line"></span><br><span class="line">Modifier.isAbstract(modifiers);</span><br><span class="line">Modifier.isFinal(modifiers);</span><br><span class="line">Modifier.isInterface(modifiers);</span><br><span class="line">Modifier.isNative(modifiers);</span><br><span class="line">Modifier.isPrivate(modifiers);</span><br><span class="line">Modifier.isProtected(modifiers);</span><br><span class="line">Modifier.isPublic(modifiers);<span class="comment">//true</span></span><br><span class="line">Modifier.isStatic(modifiers);</span><br><span class="line">Modifier.isStrict(modifiers);</span><br><span class="line">Modifier.isSynchronized(modifiers);</span><br><span class="line">Modifier.isTransient(modifiers);</span><br><span class="line">Modifier.isVolatile(modifiers);</span><br></pre></td></tr></table></figure>
-<h5 id="Package_Info__u5305"><a href="#Package_Info__u5305" class="headerlink" title="Package Info 包"></a>Package Info 包</h5><p>Package对象你可以获取包的相关信息，比如包名</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Package packages = orderClass.getPackage();</span><br><span class="line">packages.getName();<span class="comment">//com.larry.bean</span></span><br></pre></td></tr></table></figure>
-<h5 id="Superclass__u7236_u7C7B"><a href="#Superclass__u7236_u7C7B" class="headerlink" title="Superclass 父类"></a>Superclass 父类</h5><p>superclass对象其实就是一个Class类的实例，所以你可以继续在这个对象上进行反射操作</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class superClass = orderClass.getSuperclass();</span><br><span class="line">superClass.getName();<span class="comment">//java.lang.Object</span></span><br></pre></td></tr></table></figure>
-<h5 id="Implemented_Interfaces__u5B9E_u73B0_u7684_u63A5_u53E3"><a href="#Implemented_Interfaces__u5B9E_u73B0_u7684_u63A5_u53E3" class="headerlink" title="Implemented Interfaces 实现的接口"></a>Implemented Interfaces 实现的接口</h5><p>获取指定类所实现的接口集合</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class[] interfaces = orderClass.getInterfaces();</span><br></pre></td></tr></table></figure>
-<p>getInterfaces()方法仅仅只返回当前类所实现的接口。当前类的父类如果实现了接口，这些接口是不会在返回的Class集合中的，尽管实际上当前类其实已经实现了父类接口</p>
-<h5 id="Constructors__u6784_u9020_u51FD_u6570"><a href="#Constructors__u6784_u9020_u51FD_u6570" class="headerlink" title="Constructors 构造函数"></a>Constructors 构造函数</h5><h6 id="u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61"><a href="#u83B7_u53D6_u6784_u9020_u51FD_u6570_u7684_u5BF9_u8C61" class="headerlink" title="获取构造函数的对象"></a>获取构造函数的对象</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Constructor[] constructors = orderClass.getConstructors();</span><br></pre></td></tr></table></figure>
-<h5 id="Method__u65B9_u6CD5"><a href="#Method__u65B9_u6CD5" class="headerlink" title="Method 方法"></a>Method 方法</h5><p>获取类的方法，Method[]数组里面只包含类中public修饰的方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Method[] methods = orderClass.getMethods();</span><br></pre></td></tr></table></figure>
-<h5 id="Field__u53D8_u91CF"><a href="#Field__u53D8_u91CF" class="headerlink" title="Field 变量"></a>Field 变量</h5><p>获取成员变量</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Field[] fields = orderClass.getFields();</span><br></pre></td></tr></table></figure>
-<h5 id="Annotations__u6CE8_u89E3"><a href="#Annotations__u6CE8_u89E3" class="headerlink" title="Annotations 注解"></a>Annotations 注解</h5><p>获取类的注解</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Annotation[] annotations = orderClass.getAnnotations();</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://suqun.github.io/2016/05/09/JavaReflectionClasses/" data-id="cj23b1d7i002wyduqq3khfezm" class="article-share-link" data-share="baidu" data-title="Java反射之对象">分享到</a>
-      
-
-      
-        <a href="http://suqun.github.io/2016/05/09/JavaReflectionClasses/#ds-thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-SE/">Java SE</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-使用Spring-Boot-Jquery-Datatables实现管理平台的表格" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/04/03/使用Spring-Boot-Jquery-Datatables实现管理平台的表格/" class="article-date">
-  <time datetime="2016-04-03T06:21:46.000Z" itemprop="datePublished">2016-04-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/04/03/使用Spring-Boot-Jquery-Datatables实现管理平台的表格/">使用Spring Boot Jquery Datatables实现管理平台的表格</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      <!-- Table of Contents -->
-      
-
-      <p>最近在公司做一个运营平台,增删改查的那种,需要一个多功能的表格,网上看到Jquery的DataTables功能很丰富,查询,排序,翻页等等功能完善,<br>但是<a href="http://www.datatables.net/" target="_blank" rel="external">DataTables官网</a>上的例子,表格数据都没有从服务端获取,生产上使用还得自己摸索下.另外,公司使用<br>Spring boot这个框架,配置简单,下面我们一起做一个整合的例子</p>
-<h3 id="u65B0_u5EFASpring_boot_u7684_u5E94_u7528"><a href="#u65B0_u5EFASpring_boot_u7684_u5E94_u7528" class="headerlink" title="新建Spring boot的应用"></a>新建Spring boot的应用</h3><p>新建个项目springboot-datatables-demo,我使用的是intellij idea,创建个maven项目,在pom里面引用包后,创建main方法即可主要代码如下:<br>(详细讲解可以参考我的上一篇日志<a href="http://suqun.github.io/2016/02/17/%E7%AC%AC%E4%B8%80%E4%B8%AASpring-Boot%E5%BA%94%E7%94%A8/">第一个Spring Boot应用</a>)</p>
-<p>####pom.xml<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="pi">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">project</span> <span class="attribute">xmlns</span>=<span class="value">"http://maven.apache.org/POM/4.0.0"</span></span><br><span class="line">         <span class="attribute">xmlns:xsi</span>=<span class="value">"http://www.w3.org/2001/XMLSchema-instance"</span></span><br><span class="line">         <span class="attribute">xsi:schemaLocation</span>=<span class="value">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="title">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>com.larry<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>springboot-datatables-demo<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="title">parent</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.2.5.RELEASE<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">parent</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="title">properties</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="title">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="title">java.version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="title">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-starter-thymeleaf<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-starter-data-jpa<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>c3p0<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>c3p0<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">version</span>&gt;</span>0.9.1.2<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>net.sourceforge.nekohtml<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>nekohtml<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.9.21<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.16.4<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">version</span>&gt;</span>4.12<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.mockito<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>mockito-core<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.10.19<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="title">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>net.coobird<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>thumbnailator<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">version</span>&gt;</span>0.4.8<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>fastjson<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.2.8<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="title">build</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">plugins</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">plugin</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="title">plugin</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">plugins</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">build</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="title">repositories</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">repository</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">id</span>&gt;</span>spring-releases<span class="tag">&lt;/<span class="title">id</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">name</span>&gt;</span>Spring Releases<span class="tag">&lt;/<span class="title">name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">url</span>&gt;</span>https://repo.spring.io/libs-release<span class="tag">&lt;/<span class="title">url</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">repository</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">repositories</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">pluginRepositories</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">pluginRepository</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">id</span>&gt;</span>spring-releases<span class="tag">&lt;/<span class="title">id</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">name</span>&gt;</span>Spring Releases<span class="tag">&lt;/<span class="title">name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">url</span>&gt;</span>https://repo.spring.io/libs-release<span class="tag">&lt;/<span class="title">url</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">pluginRepository</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">pluginRepositories</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">project</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<h4 id="SddApplication-java"><a href="#SddApplication-java" class="headerlink" title="SddApplication.java"></a>SddApplication.java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.larry;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"></span><br><span class="line"><span class="annotation">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SddApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(SddApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>ok,添加完上面两个主要的内容maven引入相关包以后,就可以运行啦,在SDDApplication上右击run一下…..额,是不是报错了,貌似把数据库给忘啦.<br>我们使用mysql数据库,需要添加数据库配置类config.java,添加配置文件application.properties</p>
-<h4 id="u5EFA_u8868"><a href="#u5EFA_u8868" class="headerlink" title="建表"></a>建表</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">SET NAMES utf8;</span><br><span class="line">SET FOREIGN_KEY_CHECKS = <span class="number">0</span>;</span><br><span class="line">DROP TABLE IF EXISTS `app`;</span><br><span class="line">CREATE TABLE `app` (</span><br><span class="line">  `id` bigint(<span class="number">20</span>) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `create_time` datetime DEFAULT NULL,</span><br><span class="line">  `description` text,</span><br><span class="line">  `hot` int(<span class="number">8</span>) DEFAULT <span class="string">'0'</span>,</span><br><span class="line">  `keywords` text,</span><br><span class="line">  `url` varchar(<span class="number">255</span>) NOT NULL,</span><br><span class="line">  `disabled` int(<span class="number">2</span>) NOT NULL DEFAULT <span class="string">'0'</span>,</span><br><span class="line">  `name` varchar(<span class="number">50</span>) DEFAULT NULL,</span><br><span class="line">  `update_time` datetime DEFAULT NULL,</span><br><span class="line">  `is_delete` bit(<span class="number">1</span>) DEFAULT NULL COMMENT <span class="string">'是否删除，0：删除'</span>,</span><br><span class="line">  PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=<span class="number">1</span> DEFAULT CHARSET=utf8;</span><br></pre></td></tr></table></figure>
-<p>####application.properties添加数据库配置信息</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">spring.thymeleaf.mode=LEGACYHTML5</span><br><span class="line">spring.thymeleaf.encoding=UTF-<span class="number">8</span></span><br><span class="line">spring.thymeleaf.cache=<span class="literal">false</span></span><br><span class="line"></span><br><span class="line">spring.datasource.c3p0.driver-class-name=com.mchange.v2.c3p0.ComboPooledDataSource</span><br><span class="line">spring.datasource.c3p0.jdbc-url=jdbc:mysql://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">3306</span>/<span class="built_in">test</span>?useUnicode=yes&amp;characterEncoding=UTF-<span class="number">8</span></span><br><span class="line">spring.datasource.c3p0.username=root</span><br><span class="line">spring.datasource.c3p0.password=</span><br><span class="line">spring.datasource.c3p0.min-evictable-idle-time-millis=<span class="number">30000</span></span><br><span class="line">spring.jpa.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect</span><br><span class="line">spring.jpa.hibernate.ddl-auto=update</span><br><span class="line">spring.jpa.show-sql=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>由于我使用的是thymeleaf模板引擎,需要在resource下面添加文件夹templates,再添加个html, 随便建个html叫index.html,在body里面写个 hello world！ 好了。</p>
-<p>然后,我们run一下试试<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2016</span>-<span class="number">04</span>-<span class="number">03</span> <span class="number">15</span>:<span class="number">29</span>:<span class="number">27.850</span>  INFO <span class="number">1847</span> --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): <span class="number">8080</span> (http)</span><br><span class="line"><span class="number">2016</span>-<span class="number">04</span>-<span class="number">03</span> <span class="number">15</span>:<span class="number">29</span>:<span class="number">27.852</span>  INFO <span class="number">1847</span> --- [           main] com.larry.SddApplication                 : Started SddApplication <span class="keyword">in</span> <span class="number">4.522</span> seconds ...</span><br></pre></td></tr></table></figure></p>
-<p>当我们发现这两句话时,说明我们项目已经启动成功了.不过输入<a href="http://localhost:8080/浏览器仍然会报错,我们配置下路由让/路径默认跳转到index模板上" target="_blank" rel="external">http://localhost:8080/浏览器仍然会报错,我们配置下路由让/路径默认跳转到index模板上</a>.</p>
-<p>###MvcConfig</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.larry.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.ViewControllerRegistry;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;</span><br><span class="line"></span><br><span class="line"><span class="annotation">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MvcConfig</span> <span class="keyword">extends</span> <span class="title">WebMvcConfigurerAdapter</span> </span>&#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addViewControllers</span><span class="params">(ViewControllerRegistry registry)</span> </span>&#123;</span><br><span class="line">        registry.addViewController(<span class="string">""</span>).setViewName(<span class="string">"index"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>重启后,浏览器中输入<a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a> 哈哈，是不是看到熟悉的 hello world！ 啦。</p>
-<h3 id="datatables"><a href="#datatables" class="headerlink" title="datatables"></a>datatables</h3><p>啰嗦了半天终于进入主题了。。。。我在github上发现有个哥们已经封装了一套<a href="https://github.com/darrachequesne/spring-data-jpa-datatables" target="_blank" rel="external">spring data jpa + jquery datatables</a>的项目，直接pom里面引用下，就ok拉，下面看看具体怎么是用</p>
-<h4 id="Maven__u4F9D_u8D56"><a href="#Maven__u4F9D_u8D56" class="headerlink" title="Maven 依赖"></a>Maven 依赖</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>com.github.darrachequesne<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-data-jpa-datatables<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">version</span>&gt;</span>2.0<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>注意这哥们使用的hibernate包是4.3.10.Final，这个和spring-boot用的hibernate要一致，否则启动的时候就会报错，所以我选择了1.2.5.RELEASE的版本的spring boot。</p>
-<h4 id="u542F_u7528DataTablesRepository_u5DE5_u5382"><a href="#u542F_u7528DataTablesRepository_u5DE5_u5382" class="headerlink" title="启用DataTablesRepository工厂"></a>启用DataTablesRepository工厂</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@SpringBootApplication</span></span><br><span class="line"><span class="annotation">@EnableJpaRepositories</span>(repositoryFactoryBeanClass = DataTablesRepositoryFactoryBean.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SddApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(SddApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="u6269_u5C55DataTablesRepository_u63A5_u53E3"><a href="#u6269_u5C55DataTablesRepository_u63A5_u53E3" class="headerlink" title="扩展DataTablesRepository接口"></a>扩展DataTablesRepository接口</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AppRepository</span> <span class="keyword">extends</span> <span class="title">DataTablesRepository</span>&lt;<span class="title">App</span>, <span class="title">Long</span>&gt; </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="u8BBE_u7F6Emodel_u5C5E_u6027"><a href="#u8BBE_u7F6Emodel_u5C5E_u6027" class="headerlink" title="设置model属性"></a>设置model属性</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">App</span> </span>&#123;</span><br><span class="line">    <span class="annotation">@Id</span></span><br><span class="line">    <span class="annotation">@GeneratedValue</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> id;</span><br><span class="line">    <span class="annotation">@Column</span>(nullable = <span class="keyword">false</span>)</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="annotation">@Column</span>(nullable = <span class="keyword">false</span>)</span><br><span class="line">    <span class="annotation">@URL</span></span><br><span class="line">    <span class="keyword">private</span> String url;</span><br><span class="line">    <span class="keyword">private</span> String description;</span><br><span class="line">    <span class="keyword">private</span> String keywords;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> disabled;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> hot;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@CreationTimestamp</span></span><br><span class="line">    <span class="keyword">private</span> Date createTime;</span><br><span class="line">    <span class="annotation">@UpdateTimestamp</span></span><br><span class="line">    <span class="keyword">private</span> Date updateTime;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> isDelete;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="u5305_u542Bjquery-spring-friendly-js"><a href="#u5305_u542Bjquery-spring-friendly-js" class="headerlink" title="包含jquery.spring-friendly.js"></a>包含jquery.spring-friendly.js</h4><p>It overrides jQuery data serialization to allow Spring MVC to correctly map input parameters (by changing column[0][data] to column[0].data in request payload)</p>
-<h4 id="index-html"><a href="#index-html" class="headerlink" title="index.html"></a>index.html</h4><p>index.html<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="doctype">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">html</span> <span class="attribute">lang</span>=<span class="value">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Title<span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--&lt;link rel="stylesheet" href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css"&gt;--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"/dataTables.bootstrap.css"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"box"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"box-header with-border"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">button</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">class</span>=<span class="value">"btn btn-info"</span> &gt;</span>增加12条数据<span class="tag">&lt;/<span class="title">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">div</span>&gt;</span><span class="comment">&lt;!-- /.box-header --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"box-body"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">table</span> <span class="attribute">id</span>=<span class="value">"appTable"</span> <span class="attribute">class</span>=<span class="value">"table table-bordered table-striped"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">thead</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">tr</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">th</span>&gt;</span><span class="tag">&lt;/<span class="title">th</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">th</span>&gt;</span>操作<span class="tag">&lt;/<span class="title">th</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">th</span>&gt;</span>名称<span class="tag">&lt;/<span class="title">th</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">th</span>&gt;</span>地址<span class="tag">&lt;/<span class="title">th</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">th</span>&gt;</span>关键字<span class="tag">&lt;/<span class="title">th</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">th</span>&gt;</span>描述<span class="tag">&lt;/<span class="title">th</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">th</span>&gt;</span>热度<span class="tag">&lt;/<span class="title">th</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">th</span>&gt;</span>添加日期<span class="tag">&lt;/<span class="title">th</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">th</span>&gt;</span>更新时间<span class="tag">&lt;/<span class="title">th</span>&gt;</span> <span class="comment">&lt;!--日期格式在application.properties添加：spring.jackson.date-format=yyyy-MM-dd HH:mm:ss--&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">th</span>&gt;</span>状态<span class="tag">&lt;/<span class="title">th</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="title">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="title">thead</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">table</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">div</span>&gt;</span><span class="comment">&lt;!-- /.box-body --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"/jQuery-2.1.4.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"/jquery.dataTables.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"/dataTables.bootstrap.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"/jquery.spring-friendly.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript"></span><br><span class="line">    $().ready(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        $(<span class="string">'#appTable'</span>).DataTable(&#123;</span><br><span class="line">            ajax: <span class="string">'/all'</span>,</span><br><span class="line">            serverSide: <span class="literal">true</span>,</span><br><span class="line">            order: [</span><br><span class="line">                [<span class="number">8</span>, <span class="string">'desc'</span>]<span class="comment">//更新时间倒序</span></span><br><span class="line">            ],</span><br><span class="line">            columns: [&#123;</span><br><span class="line">                data: <span class="literal">null</span>,</span><br><span class="line">                orderable: <span class="literal">false</span>,</span><br><span class="line">                searchable: <span class="literal">false</span>,</span><br><span class="line">                render: <span class="function"><span class="keyword">function</span> (<span class="params">data, type, row</span>) </span>&#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="string">"&lt;td&gt;&lt;input type='checkbox' name='allocated' value='"</span> + row.id + <span class="string">"'&gt;&lt;/td&gt;"</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;, &#123;</span><br><span class="line">                data: <span class="string">''</span>,</span><br><span class="line">                orderable: <span class="literal">false</span>,</span><br><span class="line">                searchable: <span class="literal">false</span>,</span><br><span class="line">                render: <span class="function"><span class="keyword">function</span> (<span class="params">data, type, row</span>) </span>&#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="string">"&lt;td&gt;&lt;button type='button' class='btn btn-primary btn-sm' onclick='editApp("</span> + row.id + <span class="string">")'&gt;编辑&lt;/button&gt; &amp;nbsp;"</span> +</span><br><span class="line"><span class="comment">//                            "&lt;button type='button' class='btn btn-info btn-sm' onclick='detail("+row.id+")'&gt;详情&lt;/button&gt;" +</span></span><br><span class="line">                            <span class="string">"&amp;nbsp;&lt;button type='button' class='btn btn-warning btn-sm' onclick='deleteSingle("</span>+row.id+<span class="string">")'&gt;删除&lt;/button&gt;"</span> +</span><br><span class="line">                            <span class="string">"&lt;/td&gt;"</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;, &#123;</span><br><span class="line">                data: <span class="string">'name'</span></span><br><span class="line">            &#125;, &#123;</span><br><span class="line">                data: <span class="string">'url'</span>,</span><br><span class="line">                render: <span class="function"><span class="keyword">function</span> (<span class="params">data, type, row</span>) </span>&#123;</span><br><span class="line">                    <span class="keyword">var</span> shortUrl;</span><br><span class="line">                    <span class="keyword">if</span>(data.length&lt;<span class="number">30</span>)&#123;</span><br><span class="line">                        shortUrl = data ;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        shortUrl = data.substring(<span class="number">0</span>,<span class="number">30</span>)+<span class="string">"..."</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">return</span> <span class="string">"&lt;a href='"</span> + data + <span class="string">"' target='_blank'&gt;"</span>+shortUrl+<span class="string">"&lt;/a&gt;"</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;, &#123;</span><br><span class="line">                data: <span class="string">'keywords'</span></span><br><span class="line">            &#125;, &#123;</span><br><span class="line">                data: <span class="string">'description'</span></span><br><span class="line">            &#125;, &#123;</span><br><span class="line">                data: <span class="string">'hot'</span></span><br><span class="line">            &#125;, &#123;</span><br><span class="line">                data: <span class="string">'createTime'</span></span><br><span class="line">            &#125;, &#123;</span><br><span class="line">                data: <span class="string">'updateTime'</span></span><br><span class="line">            &#125;, &#123;</span><br><span class="line">                data: <span class="string">'disabled'</span>,</span><br><span class="line">                render: <span class="function"><span class="keyword">function</span> (<span class="params">data, type, row</span>) </span>&#123;</span><br><span class="line">                    <span class="keyword">if</span> (row.disabled) &#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="string">"&lt;input type='checkbox' name='state-checkbox' value='"</span> + row.id + <span class="string">"'&gt;"</span>;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="string">"&lt;input type='checkbox' name='state-checkbox' value='"</span> + row.id + <span class="string">"' checked&gt;"</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;]</span><br><span class="line"><span class="comment">//            initComplete: function () &#123;</span></span><br><span class="line"><span class="comment">//                $("input[name='state-checkbox']").bootstrapSwitch();</span></span><br><span class="line"><span class="comment">//            &#125;,</span></span><br><span class="line"><span class="comment">//            drawCallback: function() &#123;//Function that is called every time DataTables performs a draw.</span></span><br><span class="line"><span class="comment">//                $("input[name='state-checkbox']").bootstrapSwitch();</span></span><br><span class="line"><span class="comment">//            &#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    $(<span class="string">"button"</span>).on(<span class="string">"click"</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        $.get(<span class="string">"init"</span>)</span><br><span class="line">                .success(<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">                    <span class="built_in">window</span>.location=<span class="string">"/"</span>;</span><br><span class="line">                &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<h4 id="AppController"><a href="#AppController" class="headerlink" title="AppController"></a>AppController</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@ResponseBody</span></span><br><span class="line"><span class="annotation">@RequestMapping</span>(value = <span class="string">"all"</span>, method = RequestMethod.GET)</span><br><span class="line"><span class="function"><span class="keyword">public</span> DataTablesOutput&lt;App&gt; <span class="title">messages</span><span class="params">(@Valid DataTablesInput input)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> appRepository.findAll(input);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>启动后，添加数据后，显示效果如下，已经可以分页搜索排序了。<br><img src="http://7xpk5e.com1.z0.glb.clouddn.com/datatables.png" alt="表格"><br>到这里就可以看到，我们的基本目标已经完成了。不过仍然有个问题，现在的这个查询用的是<code>findAll(input)</code>,如果我们要添加过滤条件进行查询呢。其实<a href="https://github.com/darrachequesne" target="_blank" rel="external">darrachequesne</a>这个哥们已经封装了。’DataTablesOutput<t> findAll(DataTablesInput var1, Specification<t> var2);’调用这个就可以，下面我们来看看具体怎么用</t></t></p>
-<h3 id="u4F7F_u7528_u8FC7_u6EE4_u6761_u4EF6_u67E5_u8BE2"><a href="#u4F7F_u7528_u8FC7_u6EE4_u6761_u4EF6_u67E5_u8BE2" class="headerlink" title="使用过滤条件查询"></a>使用过滤条件查询</h3><p>过滤查询使用到了<a href="https://spring.io/blog/2011/04/26/advanced-spring-data-jpa-specifications-and-querydsl/" target="_blank" rel="external">Spring Data JPA - Specifications</a>,自己要去熟悉了解下这个。</p>
-<p>我们创建个Specification条件，然后调用’DataTablesOutput<t> findAll(DataTablesInput var1, Specification<t> var2);’<br>假设我们要查询所有删除状态为false的记录</t></t></p>
-<h4 id="AppSpec"><a href="#AppSpec" class="headerlink" title="AppSpec"></a>AppSpec</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppSpec</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Specification&lt;App&gt; <span class="title">isNotDelete</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (root, criteriaQuery, criteriaBuilder) -&gt; criteriaBuilder.isFalse(root.get(<span class="string">"isDelete"</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>注意：使用了lambda表达式，其实就是创建了内部类</p>
-<h4 id="u4FEE_u6539AppController"><a href="#u4FEE_u6539AppController" class="headerlink" title="修改AppController"></a>修改AppController</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@RequestMapping</span>(value = <span class="string">"all"</span>, method = RequestMethod.GET)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> DataTablesOutput&lt;App&gt; <span class="title">messages</span><span class="params">(@Valid DataTablesInput input)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> appRepository.findAll(input, AppSpec.isNotDelete());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>重启，添加12条数据，设置6条记录删除状态为true，看看效果<br><img src="http://7xpk5e.com1.z0.glb.clouddn.com/datatables-delete.png" alt="过滤删除记录"><br>表格下面显示：<br>Showing 1 to 6 of 6 entries (filtered from 12 total entries)<br>说明我们过滤成功了！</p>
-<p>打完收工！<br>详细代码，欢迎从我的github上获取：<a href="/">spring-data-jpa-jquery-datatables</a></p>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://suqun.github.io/2016/04/03/使用Spring-Boot-Jquery-Datatables实现管理平台的表格/" data-id="cj23b1d5k0006yduqxhwjti4b" class="article-share-link" data-share="baidu" data-title="使用Spring Boot Jquery Datatables实现管理平台的表格">分享到</a>
-      
-
-      
-        <a href="http://suqun.github.io/2016/04/03/使用Spring-Boot-Jquery-Datatables实现管理平台的表格/#ds-thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-第一个Spring-Boot应用" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/02/17/第一个Spring-Boot应用/" class="article-date">
-  <time datetime="2016-02-17T14:32:06.000Z" itemprop="datePublished">2016-02-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/17/第一个Spring-Boot应用/">第一个Spring Boot应用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>原文地址：<a href="http://course.tianmaying.com/spring-boot-reference/lesson/lesson-11#0">天码营-SpringBoot参考指南</a> 本文只是学习笔记</p>
-<h3 id="u51C6_u5907"><a href="#u51C6_u5907" class="headerlink" title="准备"></a>准备</h3><p>让我们使用Java开发一个简单的”Hello World!” web应用，来强调下Spring Boot的一些关键特性。我们将使用Maven构建该项目，因为大多数IDEs都支持它。</p>
-<p>注：<a href="/spring.io">spring.io</a>网站包含很多使用Spring Boot的”入门”指南。如果你正在找特定问题的解决方案，可以先去那瞅瞅。</p>
-<p>在开始前，你需要打开一个终端，检查是否安装可用的Java版本和Maven：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ java -version</span><br><span class="line">java version <span class="string">"1.8.0_65"</span></span><br><span class="line">Java(TM) SE Runtime Environment (build <span class="number">1.8</span>.<span class="number">0</span>_65-b17)</span><br><span class="line">Java HotSpot(TM) <span class="number">64</span>-Bit Server VM (build <span class="number">25.65</span>-b01, mixed mode)</span><br><span class="line">➜  ~ mvn -v</span><br><span class="line">Apache Maven <span class="number">3.3</span>.<span class="number">9</span> (bb52d8502b132ec0a5a3f4c09453c07478323dc5; <span class="number">2015</span>-<span class="number">11</span>-<span class="number">11</span>T00:<span class="number">41</span>:<span class="number">47</span>+<span class="number">08</span>:<span class="number">00</span>)</span><br><span class="line">Maven home: /usr/<span class="built_in">local</span>/Cellar/maven/<span class="number">3.3</span>.<span class="number">9</span>/libexec</span><br><span class="line">Java version: <span class="number">1.8</span>.<span class="number">0</span>_65, vendor: Oracle Corporation</span><br><span class="line">Java home: /Library/Java/JavaVirtualMachines/jdk1.<span class="number">8.0</span>_65.jdk/Contents/Home/jre</span><br><span class="line">Default locale: zh_CN, platform encoding: UTF-<span class="number">8</span></span><br><span class="line">OS name: <span class="string">"mac os x"</span>, version: <span class="string">"10.11"</span>, arch: <span class="string">"x86_64"</span>, family: <span class="string">"mac"</span></span><br></pre></td></tr></table></figure>
-        
-          <p class="article-more-link">
-            <a href="/2016/02/17/第一个Spring-Boot应用/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://suqun.github.io/2016/02/17/第一个Spring-Boot应用/" data-id="cj23b1d5e0003yduqnukjkxyy" class="article-share-link" data-share="baidu" data-title="第一个Spring Boot应用">分享到</a>
-      
-
-      
-        <a href="http://suqun.github.io/2016/02/17/第一个Spring-Boot应用/#ds-thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li></ul>
 
     </footer>
   </div>
@@ -3404,7 +3375,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algorithm/">Algorithm</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CQRS/">CQRS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event-Sourcing/">Event-Sourcing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IntelliJ/">IntelliJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-NIO/">Java NIO</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-SE/">Java SE</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java多线程/">Java多线程</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/K8s/">K8s</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algorithm/">Algorithm</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CQRS/">CQRS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event-Sourcing/">Event-Sourcing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IntelliJ/">IntelliJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-NIO/">Java NIO</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-SE/">Java SE</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java多线程/">Java多线程</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/K8s/">K8s</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -3413,7 +3384,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Algorithm/" style="font-size: 14.29px;">Algorithm</a> <a href="/tags/CQRS/" style="font-size: 10px;">CQRS</a> <a href="/tags/Docker/" style="font-size: 18.57px;">Docker</a> <a href="/tags/Event-Sourcing/" style="font-size: 10px;">Event-Sourcing</a> <a href="/tags/IntelliJ/" style="font-size: 10px;">IntelliJ</a> <a href="/tags/JVM/" style="font-size: 17.14px;">JVM</a> <a href="/tags/Java-NIO/" style="font-size: 20px;">Java NIO</a> <a href="/tags/Java-SE/" style="font-size: 18.57px;">Java SE</a> <a href="/tags/Java多线程/" style="font-size: 14.29px;">Java多线程</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/K8s/" style="font-size: 12.86px;">K8s</a> <a href="/tags/SpringBoot/" style="font-size: 12.86px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 15.71px;">SpringCloud</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/shell/" style="font-size: 12.86px;">shell</a> <a href="/tags/zookeeper/" style="font-size: 11.43px;">zookeeper</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+      <a href="/tags/Algorithm/" style="font-size: 18.33px;">Algorithm</a> <a href="/tags/CQRS/" style="font-size: 10px;">CQRS</a> <a href="/tags/Docker/" style="font-size: 18.33px;">Docker</a> <a href="/tags/Event-Sourcing/" style="font-size: 10px;">Event-Sourcing</a> <a href="/tags/IntelliJ/" style="font-size: 10px;">IntelliJ</a> <a href="/tags/JVM/" style="font-size: 16.67px;">JVM</a> <a href="/tags/Java-NIO/" style="font-size: 20px;">Java NIO</a> <a href="/tags/Java-SE/" style="font-size: 18.33px;">Java SE</a> <a href="/tags/Java多线程/" style="font-size: 15px;">Java多线程</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/K8s/" style="font-size: 13.33px;">K8s</a> <a href="/tags/SpringBoot/" style="font-size: 13.33px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 15px;">SpringCloud</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/shell/" style="font-size: 13.33px;">shell</a> <a href="/tags/zookeeper/" style="font-size: 11.67px;">zookeeper</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
     </div>
   </div>
 
@@ -3422,7 +3393,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -3434,23 +3405,23 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
       <ul>
         
           <li>
+            <a href="/2017/05/01/algorithm-8/">算法之排序-归并排序</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/30/algorithm-7/">算法之排序-希尔排序</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/30/algorithm-6/">算法之排序-选择排序与插入排序的比较</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/29/MultiThread-5/">等待超时模式</a>
+          </li>
+        
+          <li>
             <a href="/2017/04/29/MultiThread-4/">Thread.join()的使用</a>
-          </li>
-        
-          <li>
-            <a href="/2017/04/20/algorithm-5/">算法之排序-插入排序</a>
-          </li>
-        
-          <li>
-            <a href="/2017/04/19/MultiThread-3/">ThreadLocal的使用</a>
-          </li>
-        
-          <li>
-            <a href="/2017/04/19/MultiThread-2/">等待通知机制</a>
-          </li>
-        
-          <li>
-            <a href="/2017/04/19/MultiThread-1/">安全的终止线程</a>
           </li>
         
       </ul>

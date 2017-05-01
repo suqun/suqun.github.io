@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>算法之排序-希尔排序 | 入耳箸心</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="算法描述希尔排序为了加快速度简单的改进了插入排序，交换不相邻的元素以对数组的局部进行排序，并最终用插入排序将局部有序的数组排序。
+希尔排序的思想是使数组中任意间隔为h的元素都是有序的。这样的数组成为h有序数组。在进行排序时，如果h很大，就能将元素移动到很远的地方，为实现更小的h有序创造方便。
+
+特点希尔排序更高效的原因是它权衡了子数组的规模和有序性。排序之初各个子数组都很短，排序之后的子数组都是部">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法之排序-希尔排序">
+<meta property="og:url" content="http://suqun.github.io/2017/04/30/algorithm-7/index.html">
+<meta property="og:site_name" content="入耳箸心">
+<meta property="og:description" content="算法描述希尔排序为了加快速度简单的改进了插入排序，交换不相邻的元素以对数组的局部进行排序，并最终用插入排序将局部有序的数组排序。
+希尔排序的思想是使数组中任意间隔为h的元素都是有序的。这样的数组成为h有序数组。在进行排序时，如果h很大，就能将元素移动到很远的地方，为实现更小的h有序创造方便。
+
+特点希尔排序更高效的原因是它权衡了子数组的规模和有序性。排序之初各个子数组都很短，排序之后的子数组都是部">
+<meta property="og:image" content="http://7xpk5e.com1.z0.glb.clouddn.com/algorithm-h-sort.png">
+<meta property="og:updated_time" content="2017-05-01T08:16:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="算法之排序-希尔排序">
+<meta name="twitter:description" content="算法描述希尔排序为了加快速度简单的改进了插入排序，交换不相邻的元素以对数组的局部进行排序，并最终用插入排序将局部有序的数组排序。
+希尔排序的思想是使数组中任意间隔为h的元素都是有序的。这样的数组成为h有序数组。在进行排序时，如果h很大，就能将元素移动到很远的地方，为实现更小的h有序创造方便。
+
+特点希尔排序更高效的原因是它权衡了子数组的规模和有序性。排序之初各个子数组都很短，排序之后的子数组都是部">
+  
+    <link rel="alternative" href="/atom.xml" title="入耳箸心" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+</head>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">入耳箸心</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">成长路上的点滴记录</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">所有文章</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search">
+          <input type="submit" value="" class="search-form-submit">
+          <input name=tn type=hidden value="bds">
+          <input name=cl type=hidden value="3">
+          <input name=ct type=hidden value="2097152">
+          <input type="hidden" name="si" value="suqun.github.io">
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="outer">
+      <section id="main"><article id="post-algorithm-7" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/04/30/algorithm-7/" class="article-date">
+  <time datetime="2017-04-30T07:10:57.000Z" itemprop="datePublished">2017-04-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      算法之排序-希尔排序
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u7B97_u6CD5_u63CF_u8FF0"><span class="toc-number">1.</span> <span class="toc-text">算法描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u7279_u70B9"><span class="toc-number">2.</span> <span class="toc-text">特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4EE3_u7801"><span class="toc-number">3.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6BD4_u8F83"><span class="toc-number">4.</span> <span class="toc-text">比较</span></a></li></ol>
+      </div>
+      
+
+      <h2 id="u7B97_u6CD5_u63CF_u8FF0"><a href="#u7B97_u6CD5_u63CF_u8FF0" class="headerlink" title="算法描述"></a>算法描述</h2><p>希尔排序为了加快速度简单的改进了插入排序，交换不相邻的元素以对数组的局部进行排序，并最终用插入排序将局部有序的数组排序。</p>
+<p>希尔排序的思想是使数组中任意间隔为h的元素都是有序的。这样的数组成为<code>h有序数组</code>。在进行排序时，如果h很大，就能将元素移动到很远的地方，为实现更小的h有序创造方便。</p>
+<p><img src="http://7xpk5e.com1.z0.glb.clouddn.com/algorithm-h-sort.png" alt=""></p>
+<h2 id="u7279_u70B9"><a href="#u7279_u70B9" class="headerlink" title="特点"></a>特点</h2><p>希尔排序更高效的原因是它权衡了子数组的规模和有序性。排序之初各个子数组都很短，排序之后的子数组都是部分有序的，这两种情况都很适合插入排序。子数组的部分有序取决于递增序列的选择。</p>
+<p>对于中等大小的数组它的运行时间是可以接受的。他的代码量小，不需要额外的内存空间。后面我们会看到更加高效的算法，但是对于很大的N，它们可能只比希尔排序快2倍（可能还达不到），而且更复杂。可以考虑先用希尔排序，然后在考虑是否值得将它替换为更加复杂的排序算法。</p>
+<h2 id="u4EE3_u7801"><a href="#u4EE3_u7801" class="headerlink" title="代码"></a>代码</h2><p>使用序列1/2(3的k次方 - 1)，从N/3开始递减至1。这个序列成为递增序列。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Shell</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//将a按升序排列</span></span><br><span class="line">        <span class="keyword">int</span> N = a.length;</span><br><span class="line">        <span class="keyword">int</span> h = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (h &lt; N / <span class="number">3</span>) h = h * <span class="number">3</span> + <span class="number">1</span>;<span class="comment">//1,3,13,40,121,364,1093...</span></span><br><span class="line">        <span class="keyword">while</span> (h &gt;= <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++) &#123;</span><br><span class="line">                <span class="comment">//将a[i]插入到a[i-1],a[i-2],a[i-3]...之中</span></span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &gt; <span class="number">0</span>; j--) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (less(a[j], a[j - <span class="number">1</span>])) &#123;</span><br><span class="line">                        exchange(a, j, j - <span class="number">1</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            h = h/<span class="number">3</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Character[] a = &#123;<span class="string">'S'</span>,<span class="string">'H'</span>,<span class="string">'E'</span>,<span class="string">'L'</span>,<span class="string">'L'</span>,<span class="string">'S'</span>, <span class="string">'O'</span>, <span class="string">'R'</span>, <span class="string">'T'</span>, <span class="string">'E'</span>, <span class="string">'X'</span>, <span class="string">'A'</span>, <span class="string">'M'</span>, <span class="string">'P'</span>, <span class="string">'L'</span>, <span class="string">'E'</span>&#125;;</span><br><span class="line">        sort(a);</span><br><span class="line">        <span class="keyword">if</span> (isSorted(a)) &#123;</span><br><span class="line">            show(a);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="u6BD4_u8F83"><a href="#u6BD4_u8F83" class="headerlink" title="比较"></a>比较</h2><p>和选择排序和插入排序形成鲜明对比的是，希尔排序也可以用于大型数组。它对任意排序（不一定是随机的）的数组表现也很好。</p>
+<p>通过SortCompare可以看到，希尔排序比插入排序要快的多，并且数组越大，优势越大。</p>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://suqun.github.io/2017/04/30/algorithm-7/" data-id="cj26adtxr001g2suqz2hgpkbf" class="article-share-link" data-share="baidu" data-title="算法之排序-希尔排序">分享到</a>
+      
+
+      
+        <a href="http://suqun.github.io/2017/04/30/algorithm-7/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algorithm/">Algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/05/01/algorithm-8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          算法之排序-归并排序
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/04/30/algorithm-6/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">算法之排序-选择排序与插入排序的比较</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="2017/04/30/algorithm-7/" data-title="算法之排序-希尔排序" data-url="http://suqun.github.io/2017/04/30/algorithm-7/"></div>
+  </section>
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algorithm/">Algorithm</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CQRS/">CQRS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event-Sourcing/">Event-Sourcing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IntelliJ/">IntelliJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-NIO/">Java NIO</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-SE/">Java SE</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java多线程/">Java多线程</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/K8s/">K8s</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Algorithm/" style="font-size: 18.33px;">Algorithm</a> <a href="/tags/CQRS/" style="font-size: 10px;">CQRS</a> <a href="/tags/Docker/" style="font-size: 18.33px;">Docker</a> <a href="/tags/Event-Sourcing/" style="font-size: 10px;">Event-Sourcing</a> <a href="/tags/IntelliJ/" style="font-size: 10px;">IntelliJ</a> <a href="/tags/JVM/" style="font-size: 16.67px;">JVM</a> <a href="/tags/Java-NIO/" style="font-size: 20px;">Java NIO</a> <a href="/tags/Java-SE/" style="font-size: 18.33px;">Java SE</a> <a href="/tags/Java多线程/" style="font-size: 15px;">Java多线程</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/K8s/" style="font-size: 13.33px;">K8s</a> <a href="/tags/SpringBoot/" style="font-size: 13.33px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 15px;">SpringCloud</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/shell/" style="font-size: 13.33px;">shell</a> <a href="/tags/zookeeper/" style="font-size: 11.67px;">zookeeper</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">近期文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/05/01/algorithm-8/">算法之排序-归并排序</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/30/algorithm-7/">算法之排序-希尔排序</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/30/algorithm-6/">算法之排序-选择排序与插入排序的比较</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/29/MultiThread-5/">等待超时模式</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/29/MultiThread-4/">Thread.join()的使用</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="" target="_blank">程序猿DD</a>
+          </li>
+        
+          <li>
+            <a href="" target="_blank">并发编程网</a>
+          </li>
+        
+          <li>
+            <a href="" target="_blank">鸟窝</a>
+          </li>
+        
+          <li>
+            <a href="" target="_blank">极客学院</a>
+          </li>
+        
+          <li>
+            <a href="" target="_blank">慕课网</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Larry<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">所有文章</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+<!-- 多说公共js代码 start -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"suqun"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共js代码 end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
+<script>
+  function SetShareData(cmd, config) {
+    if (shareDataTitle && shareDataUrl) {
+      config.bdText = shareDataTitle;
+      config.bdUrl = shareDataUrl;
+    }
+    return config;
+  }
+  window._bd_share_config={
+    "common":{onBeforeClick: SetShareData},
+    "share":{"bdCustomStyle":"/css/bdshare.css"}
+  };
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+</div>
+</body>
+</html>
