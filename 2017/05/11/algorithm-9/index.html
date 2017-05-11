@@ -4,17 +4,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: CQRS | 入耳箸心</title>
+  <title>算法之排序-快速排序 | 入耳箸心</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="入耳箸心">
-<meta property="og:url" content="http://suqun.github.io/tags/CQRS/index.html">
+  <meta name="description" content="算法描述快速排序是一种分治的排序算法。它将一个数组分成两个子数组，将两部分独立的排序。
+快速排序和归并排序是互补的：归并排序将数组分成两个子数组分别排序，并将有序的子数组归并以将整个数组排序；而快速排序将数组排序的方式则是当两个子数组都有序时整个数组也就自然有序了。在归并排序中，一个数组被等分为两半；在快速排序中，切分（partition）的位置取决于数组的内容。
+特点它是原地排序（只需要一个很小">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法之排序-快速排序">
+<meta property="og:url" content="http://suqun.github.io/2017/05/11/algorithm-9/index.html">
 <meta property="og:site_name" content="入耳箸心">
-<meta property="og:description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
+<meta property="og:description" content="算法描述快速排序是一种分治的排序算法。它将一个数组分成两个子数组，将两部分独立的排序。
+快速排序和归并排序是互补的：归并排序将数组分成两个子数组分别排序，并将有序的子数组归并以将整个数组排序；而快速排序将数组排序的方式则是当两个子数组都有序时整个数组也就自然有序了。在归并排序中，一个数组被等分为两半；在快速排序中，切分（partition）的位置取决于数组的内容。
+特点它是原地排序（只需要一个很小">
+<meta property="og:updated_time" content="2017-05-11T13:49:50.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="入耳箸心">
-<meta name="twitter:description" content="吾生也有涯而知也无涯，以有涯随无涯，殆已。">
+<meta name="twitter:title" content="算法之排序-快速排序">
+<meta name="twitter:description" content="算法描述快速排序是一种分治的排序算法。它将一个数组分成两个子数组，将两部分独立的排序。
+快速排序和归并排序是互补的：归并排序将数组分成两个子数组分别排序，并将有序的子数组归并以将整个数组排序；而快速排序将数组排序的方式则是当两个子数组都有序时整个数组也就自然有序了。在归并排序中，一个数组被等分为两半；在快速排序中，切分（partition）的位置取决于数组的内容。
+特点它是原地排序（只需要一个很小">
   
     <link rel="alternative" href="/atom.xml" title="入耳箸心" type="application/atom+xml">
   
@@ -71,39 +78,87 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/08/24/dockerjavamicroservice1/" class="archive-article-date">
-  <time datetime="2016-08-24T11:23:15.000Z" itemprop="datePublished">8月 24</time>
+      <section id="main"><article id="post-algorithm-9" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/11/algorithm-9/" class="article-date">
+  <time datetime="2017-05-11T13:33:59.000Z" itemprop="datePublished">2017-05-11</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/08/24/dockerjavamicroservice1/">基于Docker的java微服务(一) 部署Chris Richardson的转账案例</a>
+    <h1 class="article-title" itemprop="name">
+      算法之排序-快速排序
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u7B97_u6CD5_u63CF_u8FF0"><span class="toc-number">1.</span> <span class="toc-text">算法描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u7279_u70B9"><span class="toc-number">2.</span> <span class="toc-text">特点</span></a></li></ol>
+      </div>
+      
+
+      <h2 id="u7B97_u6CD5_u63CF_u8FF0"><a href="#u7B97_u6CD5_u63CF_u8FF0" class="headerlink" title="算法描述"></a>算法描述</h2><p>快速排序是一种分治的排序算法。它将一个数组分成两个子数组，将两部分独立的排序。</p>
+<p>快速排序和归并排序是互补的：归并排序将数组分成两个子数组分别排序，并将有序的子数组归并以将整个数组排序；而快速排序将数组排序的方式则是当两个子数组都有序时整个数组也就自然有序了。在归并排序中，一个数组被等分为两半；在快速排序中，切分（partition）的位置取决于数组的内容。</p>
+<h2 id="u7279_u70B9"><a href="#u7279_u70B9" class="headerlink" title="特点"></a>特点</h2><p>它是原地排序（只需要一个很小的辅助栈），且将长度N的数组排序的所需的时间和NlogN成正比。其他排序算法都无法将这两个优点结合起来。</p>
+<p>快速排序的内循环比大多数的排序算法都要短小，意味着无论是理论上还是实际上都要更快。</p>
+<p>缺点是非常脆弱，实现时要非常小心以避免低劣的性能。</p>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://suqun.github.io/2017/05/11/algorithm-9/" data-id="cj2kh5y4x001d74uqj26qb86o" class="article-share-link" data-share="baidu" data-title="算法之排序-快速排序">分享到</a>
+      
+
+      
+        <a href="http://suqun.github.io/2017/05/11/algorithm-9/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algorithm/">Algorithm</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/05/11/algorithm-10/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          算法之排序-堆排序
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/05/01/algorithm-8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">算法之排序-归并排序</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="2017/05/11/algorithm-9/" data-title="算法之排序-快速排序" data-url="http://suqun.github.io/2017/05/11/algorithm-9/"></div>
+  </section>
 </section>
       
       <aside id="sidebar">

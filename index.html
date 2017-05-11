@@ -73,6 +73,107 @@
     <div class="outer">
       <section id="main">
   
+    <article id="post-algorithm-10" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/11/algorithm-10/" class="article-date">
+  <time datetime="2017-05-11T13:51:26.000Z" itemprop="datePublished">2017-05-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/11/algorithm-10/">算法之排序-堆排序</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      <!-- Table of Contents -->
+      
+
+      
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://suqun.github.io/2017/05/11/algorithm-10/" data-id="cj2kh5y59001u74uqhfxao6oi" class="article-share-link" data-share="baidu" data-title="算法之排序-堆排序">分享到</a>
+      
+
+      
+        <a href="http://suqun.github.io/2017/05/11/algorithm-10/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algorithm/">Algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-algorithm-9" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/11/algorithm-9/" class="article-date">
+  <time datetime="2017-05-11T13:33:59.000Z" itemprop="datePublished">2017-05-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/11/algorithm-9/">算法之排序-快速排序</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      <!-- Table of Contents -->
+      
+
+      <h2 id="u7B97_u6CD5_u63CF_u8FF0"><a href="#u7B97_u6CD5_u63CF_u8FF0" class="headerlink" title="算法描述"></a>算法描述</h2><p>快速排序是一种分治的排序算法。它将一个数组分成两个子数组，将两部分独立的排序。</p>
+<p>快速排序和归并排序是互补的：归并排序将数组分成两个子数组分别排序，并将有序的子数组归并以将整个数组排序；而快速排序将数组排序的方式则是当两个子数组都有序时整个数组也就自然有序了。在归并排序中，一个数组被等分为两半；在快速排序中，切分（partition）的位置取决于数组的内容。</p>
+<h2 id="u7279_u70B9"><a href="#u7279_u70B9" class="headerlink" title="特点"></a>特点</h2><p>它是原地排序（只需要一个很小的辅助栈），且将长度N的数组排序的所需的时间和NlogN成正比。其他排序算法都无法将这两个优点结合起来。</p>
+<p>快速排序的内循环比大多数的排序算法都要短小，意味着无论是理论上还是实际上都要更快。</p>
+<p>缺点是非常脆弱，实现时要非常小心以避免低劣的性能。</p>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://suqun.github.io/2017/05/11/algorithm-9/" data-id="cj2kh5y4x001d74uqj26qb86o" class="article-share-link" data-share="baidu" data-title="算法之排序-快速排序">分享到</a>
+      
+
+      
+        <a href="http://suqun.github.io/2017/05/11/algorithm-9/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algorithm/">Algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-algorithm-8" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/05/01/algorithm-8/" class="article-date">
@@ -98,13 +199,15 @@
       <!-- Table of Contents -->
       
 
-      
+      <h2 id="u7B97_u6CD5_u63CF_u8FF0"><a href="#u7B97_u6CD5_u63CF_u8FF0" class="headerlink" title="算法描述"></a>算法描述</h2><p>将两个有序的数组归并成一个更大的有序数组。要将一个数组排序，可以先（递归的）将他们分成两半分别排序，然后将结果归并起来。</p>
+<h2 id="u7279_u70B9"><a href="#u7279_u70B9" class="headerlink" title="特点"></a>特点</h2><p>能够保证将任意长度N的数组排序所需要的时间和NlogN成正比；主要缺点：所需要额外的空间和N成正比。</p>
+
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/05/01/algorithm-8/" data-id="cj26adtxp001d2suqtxey43d7" class="article-share-link" data-share="baidu" data-title="算法之排序-归并排序">分享到</a>
+        <a data-url="http://suqun.github.io/2017/05/01/algorithm-8/" data-id="cj2kh5y4z001g74uq4amoc9mg" class="article-share-link" data-share="baidu" data-title="算法之排序-归并排序">分享到</a>
       
 
       
@@ -161,7 +264,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/30/algorithm-7/" data-id="cj26adtxr001g2suqz2hgpkbf" class="article-share-link" data-share="baidu" data-title="算法之排序-希尔排序">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/30/algorithm-7/" data-id="cj2kh5y51001i74uqu0j3czxk" class="article-share-link" data-share="baidu" data-title="算法之排序-希尔排序">分享到</a>
       
 
       
@@ -219,7 +322,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/30/algorithm-6/" data-id="cj26adtxs001i2suqajfyx8mf" class="article-share-link" data-share="baidu" data-title="算法之排序-选择排序与插入排序的比较">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/30/algorithm-6/" data-id="cj2kh5y52001k74uq8p412iim" class="article-share-link" data-share="baidu" data-title="算法之排序-选择排序与插入排序的比较">分享到</a>
       
 
       
@@ -279,7 +382,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/29/MultiThread-5/" data-id="cj26adtym002g2suqnq40dw8z" class="article-share-link" data-share="baidu" data-title="等待超时模式">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/29/MultiThread-5/" data-id="cj2kh5y61002k74uq44ulvjk0" class="article-share-link" data-share="baidu" data-title="等待超时模式">分享到</a>
       
 
       
@@ -334,7 +437,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/29/MultiThread-4/" data-id="cj26adtyo002j2suqi94k1ms3" class="article-share-link" data-share="baidu" data-title="Thread.join()的使用">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/29/MultiThread-4/" data-id="cj2kh5y63002n74uqnjctglyt" class="article-share-link" data-share="baidu" data-title="Thread.join()的使用">分享到</a>
       
 
       
@@ -394,7 +497,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/20/algorithm-5/" data-id="cj26adtxt001k2suq9uj20lnx" class="article-share-link" data-share="baidu" data-title="算法之排序-插入排序">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/20/algorithm-5/" data-id="cj2kh5y54001m74uqg8dbuor1" class="article-share-link" data-share="baidu" data-title="算法之排序-插入排序">分享到</a>
       
 
       
@@ -447,7 +550,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/19/MultiThread-3/" data-id="cj26adtyp002l2suqvlsp4ssx" class="article-share-link" data-share="baidu" data-title="ThreadLocal的使用">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/19/MultiThread-3/" data-id="cj2kh5y65002p74uqej5b18dg" class="article-share-link" data-share="baidu" data-title="ThreadLocal的使用">分享到</a>
       
 
       
@@ -512,7 +615,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/19/MultiThread-2/" data-id="cj26adtys002n2suqrmcc8gbv" class="article-share-link" data-share="baidu" data-title="等待通知机制">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/19/MultiThread-2/" data-id="cj2kh5y66002r74uq65roebzy" class="article-share-link" data-share="baidu" data-title="等待通知机制">分享到</a>
       
 
       
@@ -563,7 +666,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/19/MultiThread-1/" data-id="cj26adtyt002p2suqzzttoh4s" class="article-share-link" data-share="baidu" data-title="安全的终止线程">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/19/MultiThread-1/" data-id="cj2kh5y68002t74uq038fvjxp" class="article-share-link" data-share="baidu" data-title="安全的终止线程">分享到</a>
       
 
       
@@ -647,7 +750,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/18/MultiThread-0/" data-id="cj26adtyv002r2suqumuoriiv" class="article-share-link" data-share="baidu" data-title="线程的状态">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/18/MultiThread-0/" data-id="cj2kh5y6a002v74uqfq2764nl" class="article-share-link" data-share="baidu" data-title="线程的状态">分享到</a>
       
 
       
@@ -712,7 +815,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/17/algorithm-4/" data-id="cj26adtxv001m2suqfvycxy2o" class="article-share-link" data-share="baidu" data-title="算法之排序-选择排序">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/17/algorithm-4/" data-id="cj2kh5y55001o74uq3qv66zfc" class="article-share-link" data-share="baidu" data-title="算法之排序-选择排序">分享到</a>
       
 
       
@@ -743,7 +846,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/17/algorithm-3/">算法之数据结构——树</a>
+      <a class="article-title" href="/2017/04/17/algorithm-3/">算法练习——树</a>
     </h1>
   
 
@@ -760,7 +863,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/17/algorithm-3/" data-id="cj26adtxw001o2suqazhdwwjt" class="article-share-link" data-share="baidu" data-title="算法之数据结构——树">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/17/algorithm-3/" data-id="cj2kh5y56001q74uqy249rzvh" class="article-share-link" data-share="baidu" data-title="算法练习——树">分享到</a>
       
 
       
@@ -791,7 +894,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/03/algorithm-2/">算法之数据结构——链表</a>
+      <a class="article-title" href="/2017/04/03/algorithm-2/">算法练习——链表</a>
     </h1>
   
 
@@ -809,7 +912,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/04/03/algorithm-2/" data-id="cj26adtxy001q2suqsm8akf17" class="article-share-link" data-share="baidu" data-title="算法之数据结构——链表">分享到</a>
+        <a data-url="http://suqun.github.io/2017/04/03/algorithm-2/" data-id="cj2kh5y58001s74uqke720mnu" class="article-share-link" data-share="baidu" data-title="算法练习——链表">分享到</a>
       
 
       
@@ -840,7 +943,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/22/algorithm-1/">算法之数据结构——数组</a>
+      <a class="article-title" href="/2017/03/22/algorithm-1/">算法练习——数组</a>
     </h1>
   
 
@@ -863,7 +966,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/03/22/algorithm-1/" data-id="cj26adtxz001s2suq0eto5kai" class="article-share-link" data-share="baidu" data-title="算法之数据结构——数组">分享到</a>
+        <a data-url="http://suqun.github.io/2017/03/22/algorithm-1/" data-id="cj2kh5y5b001w74uqbnjhrh2k" class="article-share-link" data-share="baidu" data-title="算法练习——数组">分享到</a>
       
 
       
@@ -946,7 +1049,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/03/08/JVM-note-8/" data-id="cj26adtzq003t2suqmcvsirto" class="article-share-link" data-share="baidu" data-title="JVM笔记八：Sun JDK监控和故障处理工具">分享到</a>
+        <a data-url="http://suqun.github.io/2017/03/08/JVM-note-8/" data-id="cj2kh5y74003x74uqkg0sp0vi" class="article-share-link" data-share="baidu" data-title="JVM笔记八：Sun JDK监控和故障处理工具">分享到</a>
       
 
       
@@ -996,7 +1099,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/21/JVM-note-7/" data-id="cj26adtzr003w2suq9bm93yv4" class="article-share-link" data-share="baidu" data-title="JVM笔记七：垃圾收集器与内存分配策略——内存分配与回收策略">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/21/JVM-note-7/" data-id="cj2kh5y75004074uq30y5p69q" class="article-share-link" data-share="baidu" data-title="JVM笔记七：垃圾收集器与内存分配策略——内存分配与回收策略">分享到</a>
       
 
       
@@ -1057,7 +1160,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/19/JVM-note-6/" data-id="cj26adtzs003y2suqkoncifj5" class="article-share-link" data-share="baidu" data-title="JVM笔记六：垃圾收集器与内存分配策略——垃圾收集器">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/19/JVM-note-6/" data-id="cj2kh5y76004274uqmk99d0uu" class="article-share-link" data-share="baidu" data-title="JVM笔记六：垃圾收集器与内存分配策略——垃圾收集器">分享到</a>
       
 
       
@@ -1109,7 +1212,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-5/" data-id="cj26adtzt00402suq0muhxukd" class="article-share-link" data-share="baidu" data-title="JVM笔记五：垃圾收集器与内存分配策略——垃圾收集算法">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-5/" data-id="cj2kh5y78004474uqvki15i17" class="article-share-link" data-share="baidu" data-title="JVM笔记五：垃圾收集器与内存分配策略——垃圾收集算法">分享到</a>
       
 
       
@@ -1161,7 +1264,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-4/" data-id="cj26adtzu00412suqnfblkuhd" class="article-share-link" data-share="baidu" data-title="JVM笔记四：垃圾收集器与内存分配策略——对象">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/18/JVM-note-4/" data-id="cj2kh5y79004574uq93bjhie2" class="article-share-link" data-share="baidu" data-title="JVM笔记四：垃圾收集器与内存分配策略——对象">分享到</a>
       
 
       
@@ -1214,7 +1317,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/16/JVM-note-3/" data-id="cj26adtzv00432suqnnuyyvlm" class="article-share-link" data-share="baidu" data-title="JVM笔记三：Java内存区域与内存溢出异常——OutOfMemoryError异常">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/16/JVM-note-3/" data-id="cj2kh5y7a004774uqyz1ut7m2" class="article-share-link" data-share="baidu" data-title="JVM笔记三：Java内存区域与内存溢出异常——OutOfMemoryError异常">分享到</a>
       
 
       
@@ -1274,7 +1377,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2017/02/14/JVM-note-2/" data-id="cj26adtzx00452suqwm0d2r54" class="article-share-link" data-share="baidu" data-title="JVM笔记二：Java内存区域与内存溢出异常——HotSpot虚拟机对象探秘">分享到</a>
+        <a data-url="http://suqun.github.io/2017/02/14/JVM-note-2/" data-id="cj2kh5y7c004974uqknnszo7p" class="article-share-link" data-share="baidu" data-title="JVM笔记二：Java内存区域与内存溢出异常——HotSpot虚拟机对象探秘">分享到</a>
       
 
       
@@ -1324,7 +1427,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/12/25/JVM-note-1/" data-id="cj26adtzy00472suqs59chcyv" class="article-share-link" data-share="baidu" data-title="JVM笔记一：Java内存区域与内存溢出异常——运行时数据区域">分享到</a>
+        <a data-url="http://suqun.github.io/2016/12/25/JVM-note-1/" data-id="cj2kh5y7d004b74uqmv77avy4" class="article-share-link" data-share="baidu" data-title="JVM笔记一：Java内存区域与内存溢出异常——运行时数据区域">分享到</a>
       
 
       
@@ -1373,7 +1476,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/11/27/Java-NIO-SocketChannel/" data-id="cj26adtzf003d2suq541kaxcp" class="article-share-link" data-share="baidu" data-title="Java NIO SocketChannel">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/27/Java-NIO-SocketChannel/" data-id="cj2kh5y6u003h74uq9ka4p92p" class="article-share-link" data-share="baidu" data-title="Java NIO SocketChannel">分享到</a>
       
 
       
@@ -1452,7 +1555,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/11/22/Java-NIO-FileChannel/" data-id="cj26adtzk003l2suqdyoj9yyc" class="article-share-link" data-share="baidu" data-title="Java NIO FileChannel">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/22/Java-NIO-FileChannel/" data-id="cj2kh5y6z003p74uqkfijjlcs" class="article-share-link" data-share="baidu" data-title="Java NIO FileChannel">分享到</a>
       
 
       
@@ -1576,7 +1679,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/11/16/Java-NIO-Selector/" data-id="cj26adtzg003f2suq9rxn74jk" class="article-share-link" data-share="baidu" data-title="Java NIO Selector">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/16/Java-NIO-Selector/" data-id="cj2kh5y6v003j74uqb9nc6thc" class="article-share-link" data-share="baidu" data-title="Java NIO Selector">分享到</a>
       
 
       
@@ -1635,7 +1738,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/11/10/Java-NIO-Channel-to-Channel-Transfers/" data-id="cj26adtzn003p2suqo46cvmuh" class="article-share-link" data-share="baidu" data-title="Java NIO Channel之间的数据传输">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/10/Java-NIO-Channel-to-Channel-Transfers/" data-id="cj2kh5y72003t74uqym58dmyt" class="article-share-link" data-share="baidu" data-title="Java NIO Channel之间的数据传输">分享到</a>
       
 
       
@@ -1698,7 +1801,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/11/09/Java-NIO-Scatter-Gather/" data-id="cj26adtzh003h2suqcjcwi5a9" class="article-share-link" data-share="baidu" data-title="Java NIO Scatter / Gather">分享到</a>
+        <a data-url="http://suqun.github.io/2016/11/09/Java-NIO-Scatter-Gather/" data-id="cj2kh5y6w003l74uqz9ca43kl" class="article-share-link" data-share="baidu" data-title="Java NIO Scatter / Gather">分享到</a>
       
 
       
@@ -1777,7 +1880,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/10/18/IntelliJ/" data-id="cj26adu0000492suqga292mea" class="article-share-link" data-share="baidu" data-title="IntelliJ 使用说明">分享到</a>
+        <a data-url="http://suqun.github.io/2016/10/18/IntelliJ/" data-id="cj2kh5y7f004d74uqg1yhpql4" class="article-share-link" data-share="baidu" data-title="IntelliJ 使用说明">分享到</a>
       
 
       
@@ -1879,7 +1982,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/10/18/gitcommands/" data-id="cj26adtx9000l2suqb8wi8nuu" class="article-share-link" data-share="baidu" data-title="git 常用命令">分享到</a>
+        <a data-url="http://suqun.github.io/2016/10/18/gitcommands/" data-id="cj2kh5y4i000l74uqc34cnady" class="article-share-link" data-share="baidu" data-title="git 常用命令">分享到</a>
       
 
       
@@ -1932,7 +2035,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/10/17/docker-jenkins/" data-id="cj26adtxm00182suqcixoejaf" class="article-share-link" data-share="baidu" data-title="java应用结合Jenkins，docker部署到Kubernetes">分享到</a>
+        <a data-url="http://suqun.github.io/2016/10/17/docker-jenkins/" data-id="cj2kh5y4v001874uqx8dh404o" class="article-share-link" data-share="baidu" data-title="java应用结合Jenkins，docker部署到Kubernetes">分享到</a>
       
 
       
@@ -1995,7 +2098,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/09/27/dockerjavamicroservice4/" data-id="cj26adtxd000r2suqb0ujxet7" class="article-share-link" data-share="baidu" data-title="使用kubeadm在CentOS7上安装Kubernetes集群">分享到</a>
+        <a data-url="http://suqun.github.io/2016/09/27/dockerjavamicroservice4/" data-id="cj2kh5y4m000r74uq0j68n3s9" class="article-share-link" data-share="baidu" data-title="使用kubeadm在CentOS7上安装Kubernetes集群">分享到</a>
       
 
       
@@ -2050,7 +2153,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/09/26/dockerjavamicroservice3/" data-id="cj26adtxf000v2suqd23t81z9" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(三) Kubernetes服务发现之环境变量">分享到</a>
+        <a data-url="http://suqun.github.io/2016/09/26/dockerjavamicroservice3/" data-id="cj2kh5y4o000v74uqludn4saw" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(三) Kubernetes服务发现之环境变量">分享到</a>
       
 
       
@@ -2181,7 +2284,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/09/07/dockerjavamicroservice2/" data-id="cj26adtxh000y2suqw460io50" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(二) CentOS7部署Kubernetes集群">分享到</a>
+        <a data-url="http://suqun.github.io/2016/09/07/dockerjavamicroservice2/" data-id="cj2kh5y4q000y74uq2greydx9" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(二) CentOS7部署Kubernetes集群">分享到</a>
       
 
       
@@ -2289,7 +2392,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/24/dockerjavamicroservice1/" data-id="cj26adtxj00112suq2reity56" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(一) 部署Chris Richardson的转账案例">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/24/dockerjavamicroservice1/" data-id="cj2kh5y4s001174uqo9hsvg6n" class="article-share-link" data-share="baidu" data-title="基于Docker的java微服务(一) 部署Chris Richardson的转账案例">分享到</a>
       
 
       
@@ -2338,7 +2441,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/09/springcloud6/" data-id="cj26adtx5000f2suq9pp54ly6" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（六）服务网关">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/09/springcloud6/" data-id="cj2kh5y4f000f74uq65vsxxhb" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（六）服务网关">分享到</a>
       
 
       
@@ -2387,7 +2490,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/09/SpringCloud5/" data-id="cj26adty3001y2suq8dv6eqkt" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（五）分布式配置中心">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/09/SpringCloud5/" data-id="cj2kh5y5h002274uq9gxt2397" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（五）分布式配置中心">分享到</a>
       
 
       
@@ -2462,7 +2565,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四）集群/" data-id="cj26adty400202suqjj8ng1zm" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（四）集群">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（四）集群/" data-id="cj2kh5y5k002474uqx7yvg4ub" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（四）集群">分享到</a>
       
 
       
@@ -2511,7 +2614,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/" data-id="cj26adty900242suqodc3oef6" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（三）断路器">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（三）断路器/" data-id="cj2kh5y5o002874uqv9zxu6yj" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（三）断路器">分享到</a>
       
 
       
@@ -2560,7 +2663,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（二）服务消费者/" data-id="cj26adty700222suqvkwek689" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（二）服务消费者">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（二）服务消费者/" data-id="cj2kh5y5l002674uqlv6a4wyj" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（二）服务消费者">分享到</a>
       
 
       
@@ -2609,7 +2712,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（一）服务注册与发现/" data-id="cj26adtyc00262suq951jtd2g" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（一）服务注册与发现">分享到</a>
+        <a data-url="http://suqun.github.io/2016/08/05/Spring-Cloud构建微服务架构（一）服务注册与发现/" data-id="cj2kh5y5q002a74uq3eq7f71v" class="article-share-link" data-share="baidu" data-title="Spring Cloud构建微服务架构（一）服务注册与发现">分享到</a>
       
 
       
@@ -2743,7 +2846,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/28/Java-NIO-Buffer/" data-id="cj26adtzo003r2suqxrfl4qn2" class="article-share-link" data-share="baidu" data-title="Java NIO Buffer">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/28/Java-NIO-Buffer/" data-id="cj2kh5y73003v74uqhdpmtsl5" class="article-share-link" data-share="baidu" data-title="Java NIO Buffer">分享到</a>
       
 
       
@@ -2810,7 +2913,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/26/Java-NIO-Channel/" data-id="cj26adtzl003n2suqwj95dizf" class="article-share-link" data-share="baidu" data-title="Java NIO Channel">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/26/Java-NIO-Channel/" data-id="cj2kh5y70003r74uqmtcfky49" class="article-share-link" data-share="baidu" data-title="Java NIO Channel">分享到</a>
       
 
       
@@ -2891,7 +2994,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/" data-id="cj26adtzi003j2suq0kvuotlm" class="article-share-link" data-share="baidu" data-title="Java NIO 概述">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Overview/" data-id="cj2kh5y6y003n74uqa06sy92m" class="article-share-link" data-share="baidu" data-title="Java NIO 概述">分享到</a>
       
 
       
@@ -2945,7 +3048,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/" data-id="cj26adtzd003a2suq79r2kel9" class="article-share-link" data-share="baidu" data-title="Java NIO 教程">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/25/Java-NIO-Tutorial/" data-id="cj2kh5y6s003e74uq9kb3tq03" class="article-share-link" data-share="baidu" data-title="Java NIO 教程">分享到</a>
       
 
       
@@ -3020,7 +3123,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/06/24/JavaReflectionArray/" data-id="cj26adtza00362suqdn7mq4v2" class="article-share-link" data-share="baidu" data-title="Java反射之数组">分享到</a>
+        <a data-url="http://suqun.github.io/2016/06/24/JavaReflectionArray/" data-id="cj2kh5y6p003a74uqkh0udnjg" class="article-share-link" data-share="baidu" data-title="Java反射之数组">分享到</a>
       
 
       
@@ -3083,7 +3186,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/21/JavaReflectionGenerics/" data-id="cj26adtyz002y2suq6io1jwbv" class="article-share-link" data-share="baidu" data-title="Java反射之泛型">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/21/JavaReflectionGenerics/" data-id="cj2kh5y6e003274uqko8ex4pb" class="article-share-link" data-share="baidu" data-title="Java反射之泛型">分享到</a>
       
 
       
@@ -3162,7 +3265,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/18/JavaReflectionAnnotations/" data-id="cj26adtzb00382suqgt8w8y39" class="article-share-link" data-share="baidu" data-title="Java反射之注解">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/18/JavaReflectionAnnotations/" data-id="cj2kh5y6q003c74uqtd543jn5" class="article-share-link" data-share="baidu" data-title="Java反射之注解">分享到</a>
       
 
       
@@ -3222,132 +3325,11 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/" data-id="cj26adtyw002t2suquyiwaf5q" class="article-share-link" data-share="baidu" data-title="Java反射之私有变量和私有方法">分享到</a>
+        <a data-url="http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/" data-id="cj2kh5y6b002x74uq0q88ubbc" class="article-share-link" data-share="baidu" data-title="Java反射之私有变量和私有方法">分享到</a>
       
 
       
         <a href="http://suqun.github.io/2016/05/14/JavaReflectionPrivateFieldsAndMethods/#ds-thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-SE/">Java SE</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-JavaReflectionMethods" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/05/13/JavaReflectionMethods/" class="article-date">
-  <time datetime="2016-05-12T16:52:55.000Z" itemprop="datePublished">2016-05-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/13/JavaReflectionMethods/">Java反射之方法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      <!-- Table of Contents -->
-      
-
-      <p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/methods.html" target="_blank" rel="external">Java Reflection Methods</a></p>
-<h5 id="Obtaining_Method_Objects"><a href="#Obtaining_Method_Objects" class="headerlink" title="Obtaining Method Objects"></a>Obtaining Method Objects</h5><p>获取类的方法，Method[]数组里面只包含类中public修饰的方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Method[] methods = orderClass.getMethods();</span><br></pre></td></tr></table></figure>
-<p>也可以使用具体的方法名及参数类型直接获取,以Order类中的getState()，setState()方法为例:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Method methodHaveNoParameter = orderClass.getMethod(<span class="string">"getState"</span>,<span class="keyword">null</span>);<span class="comment">//该方法没有参数,null省略也可以</span></span><br><span class="line">    System.out.println(methodHaveNoParameter.getName());<span class="comment">//getState</span></span><br><span class="line">    </span><br><span class="line">    Method methodHaveParameter = orderClass.getMethod(<span class="string">"setState"</span>,<span class="keyword">new</span> Class[]&#123;String.class&#125;);<span class="comment">//该方有String类型参数</span></span><br><span class="line">    System.out.println(methodHaveParameter.getName());<span class="comment">//setState</span></span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="Method_Parameters_and_Return_Types"><a href="#Method_Parameters_and_Return_Types" class="headerlink" title="Method Parameters and Return Types"></a>Method Parameters and Return Types</h4><p>获取方法的参数类型及返回类型</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Class[] parameters = methodHaveParameter.getParameterTypes();</span><br><span class="line">System.out.println(parameters[<span class="number">0</span>].getName());<span class="comment">//class java.lang.String</span></span><br><span class="line"></span><br><span class="line">Class returnType = methodHaveParameter.getReturnType();</span><br><span class="line">System.out.println(returnType);<span class="comment">//void</span></span><br></pre></td></tr></table></figure>
-<h4 id="Invoking_Methods_using_Method_Object"><a href="#Invoking_Methods_using_Method_Object" class="headerlink" title="Invoking Methods using Method Object"></a>Invoking Methods using Method Object</h4><p>使用<code>invoke</code>调用方法,以Order类中的pay()方法为例，该方法直接返回一个字符串</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Method methodPay = orderClass.getMethod(<span class="string">"pay"</span>,<span class="keyword">new</span> Class[]&#123;String.class&#125;);</span><br><span class="line">    Order order = <span class="keyword">new</span> Order();</span><br><span class="line">    Object returnValue = methodPay.invoke(order,<span class="string">"2016050902"</span>);</span><br><span class="line">    System.out.println(returnValue);<span class="comment">//2016050902 pay success</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如果方法是static的，那么在调用invoke时，第一个参数（类的实例）可以传null(传入类的实例也是可以的)。</p>
-<h5 id="u83B7_u53D6getter/setter_u65B9_u6CD5"><a href="#u83B7_u53D6getter/setter_u65B9_u6CD5" class="headerlink" title="获取getter/setter方法"></a>获取getter/setter方法</h5><p>使用反射时，如果需要获取类的getter和setter方法，需要获取所有methods，并根据getter/setter的特点找到他们。</p>
-<ul>
-<li>Getter<br>  getter方法以「get」开头，没有参数，有返回值</li>
-<li>Setter<br>  setter方法以「set」开头，有一个参数，返回值可能有可能没有</li>
-</ul>
-<p>下面是从类中找到get/set方法的例子</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printGettersSetters</span><span class="params">(Class aClass)</span></span>&#123;</span><br><span class="line">  Method[] methods = aClass.getMethods();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span>(Method method : methods)&#123;</span><br><span class="line">    <span class="keyword">if</span>(isGetter(method)) System.out.println(<span class="string">"getter: "</span> + method);</span><br><span class="line">    <span class="keyword">if</span>(isSetter(method)) System.out.println(<span class="string">"setter: "</span> + method);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isGetter</span><span class="params">(Method method)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!method.getName().startsWith(<span class="string">"get"</span>))      <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">if</span>(method.getParameterTypes().length != <span class="number">0</span>)   <span class="keyword">return</span> <span class="keyword">false</span>;  </span><br><span class="line">  <span class="keyword">if</span>(<span class="keyword">void</span>.class.equals(method.getReturnType()) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isSetter</span><span class="params">(Method method)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!method.getName().startsWith(<span class="string">"set"</span>)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">if</span>(method.getParameterTypes().length != <span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://suqun.github.io/2016/05/13/JavaReflectionMethods/" data-id="cj26adtyy002w2suqgc3liv62" class="article-share-link" data-share="baidu" data-title="Java反射之方法">分享到</a>
-      
-
-      
-        <a href="http://suqun.github.io/2016/05/13/JavaReflectionMethods/#ds-thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-SE/">Java SE</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-JavaReflectionFields" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/05/12/JavaReflectionFields/" class="article-date">
-  <time datetime="2016-05-11T16:52:55.000Z" itemprop="datePublished">2016-05-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/12/JavaReflectionFields/">Java反射之变量</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      <!-- Table of Contents -->
-      
-
-      <h3 id="Java_Reflection_Fields"><a href="#Java_Reflection_Fields" class="headerlink" title="Java Reflection Fields"></a>Java Reflection Fields</h3><p>原文地址<a href="http://tutorials.jenkov.com/java-reflection/fields.html" target="_blank" rel="external">Java Reflection Fields</a></p>
-<h4 id="Obtaining_Field_Objects"><a href="#Obtaining_Field_Objects" class="headerlink" title="Obtaining Field Objects"></a>Obtaining Field Objects</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Field[] fields = orderClass.getFields();</span><br></pre></td></tr></table></figure>
-<p>Field[]数组里面只包含类中public修饰的成员变量</p>
-<p>如果知道类的成员变量名称，可以直接通过getField()方法获取到，成员变量的访问权限同样需要是public的</p>
-<h4 id="Field_Name_and_Type"><a href="#Field_Name_and_Type" class="headerlink" title="Field Name and Type"></a>Field Name and Type</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Field field = orderClass.getField(<span class="string">"description"</span>);</span><br><span class="line">    System.out.println(field.getName());<span class="comment">//成员变量名称description</span></span><br><span class="line">    System.out.println(field.getType());<span class="comment">//成员变量类型class java.lang.String</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;<span class="comment">//如果不存在description的变量，会抛出NoSuchFieldException</span></span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="Getting_and_Setting_Field_Values"><a href="#Getting_and_Setting_Field_Values" class="headerlink" title="Getting and Setting Field Values"></a>Getting and Setting Field Values</h4><p>获得了field的引用，就可以通过get()，set()方法，获取和设置成员变量的值</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Field field = orderClass.getField(<span class="string">"description"</span>);</span><br><span class="line">    Order order = <span class="keyword">new</span> Order();</span><br><span class="line">    Object value = field.get(order);</span><br><span class="line">    field.set(order, value);</span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>传入Field.get()/Field.set()方法的参数order是Order类的实例。<br>如果变量是静态变量的话(public static)那么在调用Field.get()/Field.set()方法的时候传入null做为参数而不用传递拥有该变量的类的实例(传入类的实例也是可以的)。</p>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://suqun.github.io/2016/05/12/JavaReflectionFields/" data-id="cj26adtz000302suqorqd1mk7" class="article-share-link" data-share="baidu" data-title="Java反射之变量">分享到</a>
-      
-
-      
-        <a href="http://suqun.github.io/2016/05/12/JavaReflectionFields/#ds-thread" class="article-comment-link">评论</a>
       
 
       
@@ -3375,7 +3357,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algorithm/">Algorithm</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CQRS/">CQRS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event-Sourcing/">Event-Sourcing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IntelliJ/">IntelliJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-NIO/">Java NIO</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-SE/">Java SE</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java多线程/">Java多线程</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/K8s/">K8s</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algorithm/">Algorithm</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CQRS/">CQRS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event-Sourcing/">Event-Sourcing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IntelliJ/">IntelliJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-NIO/">Java NIO</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-SE/">Java SE</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java多线程/">Java多线程</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/K8s/">K8s</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -3384,7 +3366,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Algorithm/" style="font-size: 18.33px;">Algorithm</a> <a href="/tags/CQRS/" style="font-size: 10px;">CQRS</a> <a href="/tags/Docker/" style="font-size: 18.33px;">Docker</a> <a href="/tags/Event-Sourcing/" style="font-size: 10px;">Event-Sourcing</a> <a href="/tags/IntelliJ/" style="font-size: 10px;">IntelliJ</a> <a href="/tags/JVM/" style="font-size: 16.67px;">JVM</a> <a href="/tags/Java-NIO/" style="font-size: 20px;">Java NIO</a> <a href="/tags/Java-SE/" style="font-size: 18.33px;">Java SE</a> <a href="/tags/Java多线程/" style="font-size: 15px;">Java多线程</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/K8s/" style="font-size: 13.33px;">K8s</a> <a href="/tags/SpringBoot/" style="font-size: 13.33px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 15px;">SpringCloud</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/shell/" style="font-size: 13.33px;">shell</a> <a href="/tags/zookeeper/" style="font-size: 11.67px;">zookeeper</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+      <a href="/tags/Algorithm/" style="font-size: 20px;">Algorithm</a> <a href="/tags/CQRS/" style="font-size: 10px;">CQRS</a> <a href="/tags/Docker/" style="font-size: 17.14px;">Docker</a> <a href="/tags/Event-Sourcing/" style="font-size: 10px;">Event-Sourcing</a> <a href="/tags/IntelliJ/" style="font-size: 10px;">IntelliJ</a> <a href="/tags/JVM/" style="font-size: 15.71px;">JVM</a> <a href="/tags/Java-NIO/" style="font-size: 18.57px;">Java NIO</a> <a href="/tags/Java-SE/" style="font-size: 17.14px;">Java SE</a> <a href="/tags/Java多线程/" style="font-size: 14.29px;">Java多线程</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/K8s/" style="font-size: 12.86px;">K8s</a> <a href="/tags/SpringBoot/" style="font-size: 12.86px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 14.29px;">SpringCloud</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/shell/" style="font-size: 12.86px;">shell</a> <a href="/tags/zookeeper/" style="font-size: 11.43px;">zookeeper</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
     </div>
   </div>
 
@@ -3393,7 +3375,7 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -3405,6 +3387,14 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
       <ul>
         
           <li>
+            <a href="/2017/05/11/algorithm-10/">算法之排序-堆排序</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/11/algorithm-9/">算法之排序-快速排序</a>
+          </li>
+        
+          <li>
             <a href="/2017/05/01/algorithm-8/">算法之排序-归并排序</a>
           </li>
         
@@ -3414,14 +3404,6 @@ Java NIO: A Thread uses a Selector to handle 3 Channel&#39;s"></p>
         
           <li>
             <a href="/2017/04/30/algorithm-6/">算法之排序-选择排序与插入排序的比较</a>
-          </li>
-        
-          <li>
-            <a href="/2017/04/29/MultiThread-5/">等待超时模式</a>
-          </li>
-        
-          <li>
-            <a href="/2017/04/29/MultiThread-4/">Thread.join()的使用</a>
           </li>
         
       </ul>
